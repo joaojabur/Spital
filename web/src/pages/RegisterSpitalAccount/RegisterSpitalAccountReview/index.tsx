@@ -1,10 +1,10 @@
 import { Fragment } from "react";
-import "./styles.css";
+import "../styles.css";
 
-import Header from "../../components/Header";
-import Names from "../../components/Form/Steps/Names";
+import Header from "../../../components/Header";
+import Review from "../../../components/Form/Steps/Review";
 
-const RegisterSpitalAccount = () => {
+const RegisterSpitalAccountReview = () => {
   return (
     <div className="register-spital-container">
       <Fragment>
@@ -13,10 +13,10 @@ const RegisterSpitalAccount = () => {
           returnTo="registrar-paciente"
         />
 
-        <Names />
+        <Review />
       </Fragment>
     </div>
   );
 };
 
-export default RegisterSpitalAccount;
+export default RegisterSpitalAccountReview;

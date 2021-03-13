@@ -2,8 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import "./styles.css";
 import { Link } from "react-router-dom";
 
-import InputText from "../../components/InputText";
-
+import TextField from "@material-ui/core/TextField";
 import returnIcon from "../../assets/images/icons/return.svg";
 import logo from "../../assets/images/logo.svg";
 import Loader from "react-loader-spinner";
@@ -49,9 +48,9 @@ const LoginSpitalAccount = () => {
                 <div className="gray-line"></div>
 
                 <div className="login-spital-account-form-inputs">
-                  <InputText label="E-mail" placeHolder="Digite seu e-mail" />
+                  <TextField label="E-mail" placeholder="Digite seu e-mail" />
 
-                  <InputText label="Senha" placeHolder="Digite sua senha" />
+                  <TextField label="Senha" placeholder="Digite sua senha" />
                 </div>
 
                 <div className="gray-line" id="gray-line-2"></div>

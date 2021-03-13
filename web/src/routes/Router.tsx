@@ -8,6 +8,9 @@ import LoginPacient from "../pages/LoginPatient";
 import LoginSpitalAccount from "../pages/LoginSpitalAccount";
 import RegisterPacient from "../pages/RegisterPacient";
 import RegisterSpitalAccount from "../pages/RegisterSpitalAccount";
+import RegisterSpitalAccountCredentials from "../pages/RegisterSpitalAccount/RegisterSpitalAccountCredentials";
+import RegisterSpitalAccountPhone from "../pages/RegisterSpitalAccount/RegisterSpitalAccountPhone";
+import RegisterSpitalAccountReview from "../pages/RegisterSpitalAccount/RegisterSpitalAccountReview";
 
 function Router() {
   return (
@@ -23,15 +26,23 @@ function Router() {
       />
       <Route path="/registrar-paciente" component={RegisterPacient} />
       <Route path="/entrar-paciente" component={LoginPacient} />
+      <Route path="/login-spital-paciente" component={LoginSpitalAccount} />
 
       <Route
         path="/registrar-spital-paciente"
         component={RegisterSpitalAccount}
       />
-
       <Route
-        path="/login-spital-paciente"
-        component={LoginSpitalAccount}
+        path="/registrar-spital-paciente-1"
+        component={RegisterSpitalAccountCredentials}
+      />
+      <Route
+        path="/registrar-spital-paciente-2"
+        component={RegisterSpitalAccountPhone}
+      />
+      <Route
+        path="/registrar-spital-paciente-3"
+        component={RegisterSpitalAccountReview}
       />
     </BrowserRouter>
   );

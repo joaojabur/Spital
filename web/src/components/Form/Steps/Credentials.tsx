@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import { useState, useContext } from "react";
 import "./styles.css";
 
 import TextField from "@material-ui/core/TextField";
 import { IconButton } from "@material-ui/core";
+import DataContext from "../../../context/DataContext";
+import { Link } from "react-router-dom";
 
-const Credentials = ({ formData, setForm, navigation, checkErrors }) => {
+const Credentials = () => {
+  const { setUser, user } = useContext(DataContext);
+
   const [showPassword, setShowPassword] = useState(false);
-
-  const { email, password, confirmPassword } = formData;
-  const { next, previous } = navigation;
 
   function handleShowPassword() {
     setShowPassword(!showPassword);
@@ -30,55 +31,50 @@ const Credentials = ({ formData, setForm, navigation, checkErrors }) => {
       </div>
       <div className="line"></div>
       <TextField
+        value={user.email}
         name="email"
         label={<span style={{ fontSize: "1.5rem" }}>E-mail</span>}
         variant="outlined"
         fullWidth
-        value={email}
-        onChange={setForm}
         autoComplete="off"
         type="email"
-        onBlur={checkErrors}
+        onChange={(e) => {
+          setUser({ ...user, email: e.target.value });
+        }}
       />
 
       <TextField
+        value={user.password}
         name="password"
         label={<span style={{ fontSize: "1.5rem" }}>Senha</span>}
         variant="outlined"
         fullWidth
-        value={password}
-        onChange={setForm}
         autoComplete="off"
         style={{ marginTop: "2rem" }}
         type={showPassword ? "text" : "password"}
+        onChange={(e) => {
+          setUser({ ...user, password: e.target.value });
+        }}
       />
 
       <TextField
+        value={user.confirmPassword}
         name="confirmPassword"
         label={<span style={{ fontSize: "1.5rem" }}>Confirmar Senha</span>}
         variant="outlined"
         fullWidth
-        value={confirmPassword}
-        onChange={setForm}
         style={{ marginTop: "2rem" }}
         type={showPassword ? "text" : "password"}
+        onChange={(e) => {
+          setUser({ ...user, confirmPassword: e.target.value });
+        }}
       />
-      <button
-        className="secondary"
-        onClick={() => {
-          previous();
-        }}
-      >
-        Anterior
-      </button>
-      <button
-        className="primary"
-        onClick={() => {
-          next();
-        }}
-      >
-        Próximo
-      </button>
+      <Link to="/registrar-spital-paciente">
+        <button className="secondary">Anterior</button>
+      </Link>
+      <Link to="/registrar-spital-paciente-2">
+        <button className="primary">Próximo</button>
+      </Link>
     </div>
   );
 };
