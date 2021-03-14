@@ -5,11 +5,14 @@ import TextField from "@material-ui/core/TextField";
 import { IconButton } from "@material-ui/core";
 import DataContext from "../../../context/DataContext";
 import { Link } from "react-router-dom";
+import validateInfo from "../../../utils/validateInfo";
 
 const Credentials = () => {
   const { setUser, user } = useContext(DataContext);
 
   const [showPassword, setShowPassword] = useState(false);
+
+  const errors = validateInfo(user);
 
   function handleShowPassword() {
     setShowPassword(!showPassword);
@@ -41,6 +44,8 @@ const Credentials = () => {
         onChange={(e) => {
           setUser({ ...user, email: e.target.value });
         }}
+        error={errors.email ? true : false}
+        helperText={<span style={{ fontSize: "1rem" }}>{errors.email}</span>}
       />
 
       <TextField
@@ -55,6 +60,8 @@ const Credentials = () => {
         onChange={(e) => {
           setUser({ ...user, password: e.target.value });
         }}
+        error={errors.password ? true : false}
+        helperText={<span style={{ fontSize: "1rem" }}>{errors.password}</span>}
       />
 
       <TextField
@@ -68,6 +75,10 @@ const Credentials = () => {
         onChange={(e) => {
           setUser({ ...user, confirmPassword: e.target.value });
         }}
+        error={errors.confirmPassword ? true : false}
+        helperText={
+          <span style={{ fontSize: "1rem" }}>{errors.confirmPassword}</span>
+        }
       />
       <Link to="/registrar-spital-paciente">
         <button className="secondary">Anterior</button>

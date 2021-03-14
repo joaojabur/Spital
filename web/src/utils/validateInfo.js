@@ -31,5 +31,11 @@ export default function validateInfo(credentials) {
     errors.confirmPassword = "As senhas não combinam";
   }
 
+  if (isNaN(credentials.phoneNumber)) {
+    errors.phoneNumber = "Número de telefone inválido";
+  } else if (credentials.phoneNumber.length < 8) {
+    errors.phoneNumber = "O número de caracteres precisa ser 8 ou mais";
+  }
+
   return errors;
 }

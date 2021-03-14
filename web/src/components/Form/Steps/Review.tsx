@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./styles.css";
 
 import Accordion from "@material-ui/core/Accordion";
@@ -10,9 +10,19 @@ import { IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import DataContext from "../../../context/DataContext";
 import { Link } from "react-router-dom";
+import getPasswordAsterisk from "../../../utils/HashPassword";
+import validateInfo from "../../../utils/validateInfo";
 
 const Review = () => {
-  const { user } = useContext(DataContext);
+  const { user, setGlobalErrors, globalErrors } = useContext(DataContext);
+  const hashedPassword = getPasswordAsterisk(user.password);
+
+  const errors = validateInfo(user);
+
+  useEffect(() => {
+    setGlobalErrors(errors);
+    console.log(globalErrors);
+  }, []);
 
   return (
     <div className="form-container">
@@ -21,21 +31,23 @@ const Review = () => {
       <RenderAccordion
         summary="Nome"
         userInfo={[
-          { type: "E-mail", info: user.email },
-          { type: "E-mail", info: user.email },
+          { type: "Nome", info: user.firstName },
+          { type: "Sobrenome", info: user.lastName },
         ]}
+        goTo="registrar-spital-paciente"
       />
       <RenderAccordion
         summary="Credenciais"
         userInfo={[
           { type: "E-mail", info: user.email },
-          { type: "E-mail", info: user.email },
-          { type: "E-mail", info: user.email },
+          { type: "Senha", info: hashedPassword },
         ]}
+        goTo="registrar-spital-paciente-1"
       />
       <RenderAccordion
         summary="Telefone"
-        userInfo={[{ type: "E-mail", info: user.email }]}
+        userInfo={[{ type: "Telefone celular", info: user.phoneNumber }]}
+        goTo="registrar-spital-paciente-2"
       />
 
       <Link to="/registrar-spital-paciente-2">
@@ -54,11 +66,13 @@ interface RenderAccorditionProps {
     type: string;
     info: string;
   }>;
+  goTo: string;
 }
 
 export const RenderAccordion: React.FC<RenderAccorditionProps> = ({
   summary,
   userInfo,
+  goTo,
 }) => {
   return (
     <Accordion>
@@ -70,17 +84,24 @@ export const RenderAccordion: React.FC<RenderAccorditionProps> = ({
           <ListItemText>
             {userInfo.map((data, index) => {
               return (
-                <span className="dados">
-                  <span style={{ fontWeight: "bold" }}>{data.type}</span>
+                <span
+                  style={{ display: "block", fontWeight: "normal" }}
+                  key={index}
+                  className="dados"
+                >
+                  <span style={{ fontWeight: "bold", marginRight: "1rem" }}>
+                    {data.type}:
+                  </span>
                   {data.info}
                 </span>
               );
             })}
           </ListItemText>
-
-          <IconButton component="span" color="primary">
-            <EditIcon className="editar-icone" />
-          </IconButton>
+          <Link to={`/${goTo}`}>
+            <IconButton component="span" color="primary">
+              <EditIcon className="editar-icone" />
+            </IconButton>
+          </Link>
         </div>
       </AccordionDetails>
     </Accordion>

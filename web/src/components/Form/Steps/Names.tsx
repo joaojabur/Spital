@@ -3,9 +3,14 @@ import TextField from "@material-ui/core/TextField";
 import "./styles.css";
 import DataContext from "../../../context/DataContext";
 import { Link } from "react-router-dom";
+import validateInfo from "../../../utils/validateInfo";
 
 const Names = () => {
   const { setUser, user } = useContext(DataContext);
+
+  validateInfo(user);
+
+  const errors = validateInfo(user);
 
   return (
     <form className="form-container">
@@ -22,6 +27,10 @@ const Names = () => {
         }}
         autoComplete="off"
         required
+        error={errors.firstName ? true : false}
+        helperText={
+          <span style={{ fontSize: "1rem" }}>{errors.firstName}</span>
+        }
       />
 
       <TextField
@@ -35,6 +44,8 @@ const Names = () => {
         }}
         style={{ marginTop: "2rem" }}
         required
+        error={errors.lastName ? true : false}
+        helperText={<span style={{ fontSize: "1rem" }}>{errors.lastName}</span>}
       />
       <Link to="/registrar-spital-paciente-1">
         <button className="primary" type="submit">

@@ -15,6 +15,15 @@ const DataProvider = (props) => {
     image: "",
   });
 
+  const [globalErrors, setGlobalErrors] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    phoneNumber: "",
+  });
+
   useEffect(() => {
     setUsers(usersCredentials);
   }, []);
@@ -24,7 +33,9 @@ const DataProvider = (props) => {
       value={{
         users: users,
         user: user,
-        setUser: setUser
+        setUser: setUser,
+        globalErrors: globalErrors,
+        setGlobalErrors: setGlobalErrors,
       }}
     >
       {props.children}
