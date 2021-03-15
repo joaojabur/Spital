@@ -3,8 +3,6 @@ export default function validateInfo(credentials) {
 
   if (credentials.firstName.length === 0) {
     errors.firstName = "Campo de nome é necessário";
-  } else {
-    errors.firstName = "";
   }
 
   if (!credentials.lastName.trim()) {
@@ -33,7 +31,10 @@ export default function validateInfo(credentials) {
 
   if (isNaN(credentials.phoneNumber)) {
     errors.phoneNumber = "Número de telefone inválido";
-  } else if (credentials.phoneNumber.length < 8) {
+  } else if (
+    credentials.phoneNumber.length < 8 &&
+    credentials.phoneNumber >= 1
+  ) {
     errors.phoneNumber = "O número de caracteres precisa ser 8 ou mais";
   }
 

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import "./styles.css";
 
 import Accordion from "@material-ui/core/Accordion";
@@ -14,15 +14,25 @@ import getPasswordAsterisk from "../../../utils/HashPassword";
 import validateInfo from "../../../utils/validateInfo";
 
 const Review = () => {
-  const { user, setGlobalErrors, globalErrors } = useContext(DataContext);
+  const { user } = useContext(DataContext);
+
+  const [hasError, setHasError] = useState(false);
+
   const hashedPassword = getPasswordAsterisk(user.password);
 
   const errors = validateInfo(user);
 
-  useEffect(() => {
-    setGlobalErrors(errors);
-    console.log(globalErrors);
-  }, []);
+  function handleSubmitForm(e: any) {
+    e.preventDefault();
+    const loopedErrors = Object.values(errors);
+    if (loopedErrors.length > 0) {
+      console.log("There's an error");
+      setHasError(true);
+    } else {
+      console.log(user);
+      setHasError(false);
+    }
+  }
 
   return (
     <div className="form-container">
@@ -50,10 +60,18 @@ const Review = () => {
         goTo="registrar-spital-paciente-2"
       />
 
+      <p>
+        {hasError ? (
+          <span style={{ color: "red" }}>O formulário possui erros...</span>
+        ) : (
+          <span></span>
+        )}
+      </p>
+
       <Link to="/registrar-spital-paciente-2">
         <button className="secondary">Anterior</button>
       </Link>
-      <Link to="/registrar-spital-paciente-4">
+      <Link to="/registrar-spital-paciente-3" onClick={handleSubmitForm}>
         <button className="primary">Cadastrar</button>
       </Link>
     </div>
