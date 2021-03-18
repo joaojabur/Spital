@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { usersCredentials } from "./data";
+import api from "../services/api";
 
 import DataContext from "./DataContext";
 
