@@ -1,31 +1,31 @@
 exports.up = function (knex) {
   return knex.schema.createTable("medics", (table) => {
     table.increments("id");
-    table.text("first_name").unique().notNullable();
-    table.text("last_name").unique().notNullable();
-    table.text("email").unique().notNullable();
-    table.text("password").unique().notNullable();
-    table.text("phoneNumber").unique().notNullable();
+    table.text("first_name").notNullable();
+    table.text("last_name").notNullable();
+    table.text("email").notNullable();
+    table.text("password").notNullable();
+    table.text("phoneNumber").notNullable();
 
     table.timestamp("created_at").defaultTo(knex.fn.now());
 
-    table.text("area").unique().notNullable();
-    table.text("graduation").unique().notNullable();
-    table.text("master_degree").unique().notNullable();
-    table.text("doctorate_degree").unique().notNullable();
+    table.text("area").notNullable();
+    table.text("graduation").notNullable();
+    table.text("master_degree");
+    table.text("doctorate_degree");
 
-    table.text("cpf").unique().notNullable();
-    table.text("rg").unique().notNullable();
-    table.text("birth_date").unique().notNullable();
+    table.text("cpf").notNullable();
+    table.text("rg").notNullable();
+    table.text("birth_date").notNullable();
 
-    table.text("card_name").unique().notNullable();
-    table.text("card_number").unique().notNullable();
-    table.text("card_expiration_date").unique().notNullable();
-    table.text("card_verification_number").unique().notNullable();
+    table.text("card_name").notNullable();
+    table.text("card_number").notNullable();
+    table.text("card_expiration_date").notNullable();
+    table.text("card_verification_number").notNullable();
 
-    table.integer("week_day").unique().notNullable();
-    table.integer("from").unique().notNullable();
-    table.integer("to").unique().notNullable();
+    table.integer("week_day").notNullable();
+    table.integer("from").notNullable();
+    table.integer("to").notNullable();
   });
 };
 

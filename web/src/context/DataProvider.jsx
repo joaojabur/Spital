@@ -1,11 +1,20 @@
 import { useState, useEffect } from "react";
-import { usersCredentials } from "./data";
 import api from "../services/api";
 
 import DataContext from "./DataContext";
 
 const DataProvider = (props) => {
+  const [loggedUser, setLoggedUser] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    phoneNumber: "",
+    image: "",
+  });
+
   const [users, setUsers] = useState([]);
+
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -16,17 +25,49 @@ const DataProvider = (props) => {
     image: "",
   });
 
-  const [globalErrors, setGlobalErrors] = useState({
+  const [loggedMedic, setLoggedMedic] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    phoneNumber: "",
+    area: "",
+    graduation: "",
+    masterDegree: "",
+    doctorateDegree: "",
+    cpf: "",
+    rg: "",
+    birthDate: "",
+    cardName: "",
+    cardNumber: "",
+    expiresInDate: "",
+    cvv: "",
+  });
+
+  const [medic, setMedic] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
     phoneNumber: "",
+    area: "",
+    graduation: "",
+    masterDegree: "",
+    doctorateDegree: "",
+    cpf: "",
+    rg: "",
+    birthDate: "",
+    cardName: "",
+    cardNumber: "",
+    expiresInDate: "",
+    cvv: "",
   });
 
   useEffect(() => {
-    setUsers(usersCredentials);
+    api.get("clients").then((response) => {
+      setUsers(response.data);
+    });
   }, []);
 
   return (
@@ -35,8 +76,12 @@ const DataProvider = (props) => {
         users: users,
         user: user,
         setUser: setUser,
-        globalErrors: globalErrors,
-        setGlobalErrors: setGlobalErrors,
+        loggedUser: loggedUser,
+        setLoggedUser: setLoggedUser,
+        medic: medic,
+        setMedic: setMedic,
+        loggedMedic: loggedMedic,
+        setLoggedMedic: setLoggedMedic,
       }}
     >
       {props.children}

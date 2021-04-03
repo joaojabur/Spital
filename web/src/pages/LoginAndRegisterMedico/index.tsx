@@ -23,7 +23,7 @@ const LoginAndRegisterMedico = () => {
           </div>
         </Link>
 
-        <Link to="/">
+        <Link to="/registrar-spital-medico">
           <div className="button secondary">
             <h1>Gostaria de me cadastar!</h1>
             <img src={registerIcon} alt="Registrar" />

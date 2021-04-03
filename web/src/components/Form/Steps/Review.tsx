@@ -1,5 +1,7 @@
 import React, { useContext, useState } from "react";
 import "./styles.css";
+import api from "../../../services/api";
+import { useHistory } from "react-router-dom";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -15,6 +17,20 @@ import validateInfo from "../../../utils/validateInfo";
 
 const Review = () => {
   const { user } = useContext(DataContext);
+  const history = useHistory();
+
+  async function handleSubmitClient() {
+    await api.post("clients", {
+      first_name: user.firstName,
+      last_name: user.lastName,
+      email: user.email,
+      password: user.password,
+      phoneNumber: user.phoneNumber,
+    });
+    setTimeout(() => {
+      history.push('/login-spital-paciente')
+    }, 3000);
+  }
 
   const [hasError, setHasError] = useState(false);
 
@@ -29,7 +45,7 @@ const Review = () => {
       console.log("There's an error");
       setHasError(true);
     } else {
-      console.log(user);
+      handleSubmitClient();
       setHasError(false);
     }
   }

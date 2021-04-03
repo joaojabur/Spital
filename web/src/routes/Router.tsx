@@ -6,11 +6,16 @@ import LoginAndRegisterMedico from "../pages/LoginAndRegisterMedico";
 import LoginAndRegisterPaciente from "../pages/LoginAndRegisterPaciente";
 import LoginPacient from "../pages/LoginPatient";
 import LoginSpitalAccount from "../pages/LoginSpitalAccount";
+import RegisterMedicalSpitalAcademic from "../pages/RegisterMedicalSpitalAccount/RegisterMedicalSpitalAcademic";
+import RegisterMedicalSpitalCredentials from "../pages/RegisterMedicalSpitalAccount/RegisterMedicalSpitalCredentials";
+import RegisterMedicalSpitalNames from "../pages/RegisterMedicalSpitalAccount/RegisterMedicalSpitalNames";
+import RegisterMedicalSpitalPersonalData from "../pages/RegisterMedicalSpitalAccount/RegisterMedicalSpitalPersonalData";
 import RegisterPacient from "../pages/RegisterPacient";
 import RegisterSpitalAccount from "../pages/RegisterSpitalAccount";
 import RegisterSpitalAccountCredentials from "../pages/RegisterSpitalAccount/RegisterSpitalAccountCredentials";
 import RegisterSpitalAccountPhone from "../pages/RegisterSpitalAccount/RegisterSpitalAccountPhone";
 import RegisterSpitalAccountReview from "../pages/RegisterSpitalAccount/RegisterSpitalAccountReview";
+import TestLogin from "../pages/TestLogin";
 
 function Router() {
   return (
@@ -44,6 +49,28 @@ function Router() {
         path="/registrar-spital-paciente-3"
         component={RegisterSpitalAccountReview}
       />
+
+      <Route
+        path="/registrar-spital-medico"
+        component={RegisterMedicalSpitalNames}
+      />
+
+      <Route
+        path="/registrar-spital-medico-1"
+        component={RegisterMedicalSpitalCredentials}
+      />
+
+      <Route
+        path="/registrar-spital-medico-2"
+        component={RegisterMedicalSpitalAcademic}
+      />
+
+      <Route
+        path="/registrar-spital-medico-3"
+        component={RegisterMedicalSpitalPersonalData}
+      />
+
+      <Route path="/test" component={TestLogin} />
     </BrowserRouter>
   );
 }

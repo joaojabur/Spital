@@ -55,7 +55,7 @@ const Credentials = () => {
         variant="outlined"
         fullWidth
         autoComplete="off"
-        style={{ marginTop: "2rem" }}
+        style={{ marginTop: "1rem" }}
         type={showPassword ? "text" : "password"}
         onChange={(e) => {
           setUser({ ...user, password: e.target.value });
@@ -70,7 +70,7 @@ const Credentials = () => {
         label={<span style={{ fontSize: "1.5rem" }}>Confirmar Senha</span>}
         variant="outlined"
         fullWidth
-        style={{ marginTop: "2rem" }}
+        style={{ marginTop: "1rem" }}
         type={showPassword ? "text" : "password"}
         onChange={(e) => {
           setUser({ ...user, confirmPassword: e.target.value });

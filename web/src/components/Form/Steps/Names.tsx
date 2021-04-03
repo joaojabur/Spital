@@ -42,7 +42,7 @@ const Names = () => {
         onChange={(e) => {
           setUser({ ...user, lastName: e.target.value });
         }}
-        style={{ marginTop: "2rem" }}
+        style={{ marginTop: "1rem" }}
         required
         error={errors.lastName ? true : false}
         helperText={<span style={{ fontSize: "1rem" }}>{errors.lastName}</span>}
