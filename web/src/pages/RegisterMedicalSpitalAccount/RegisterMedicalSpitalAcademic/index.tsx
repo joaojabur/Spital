@@ -10,7 +10,7 @@ const RegisterMedicalSpitalAcademic = () => {
       <Fragment>
         <Header
           title="Insira suas informações para que a gente consiga realizar seu cadastro"
-          returnTo="registrar-paciente"
+          returnTo="entrar-registrar-medico"
         />
 
         <AcademicData />

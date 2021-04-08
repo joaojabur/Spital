@@ -26,6 +26,13 @@ const Review = () => {
       email: medic.email,
       password: medic.password,
       phoneNumber: medic.phoneNumber,
+      area: medic.area,
+      graduation: medic.area,
+      master_degree: medic.masterDegree,
+      doctorate_degree: medic.doctorateDegree,
+      cpf: medic.cpf,
+      rg: medic.rg,
+      birth_date: medic.birthDate,
     });
     setTimeout(() => {
       history.push("/login-spital-medico");
@@ -37,6 +44,8 @@ const Review = () => {
   const hashedPassword = getPasswordAsterisk(medic.password);
 
   const errors = validateMedicInfo(medic);
+
+  const formatedBirthDate = medic.birthDate.replace(/[-]/g, "/");
 
   function handleSubmitForm(e: any) {
     e.preventDefault();
@@ -55,12 +64,13 @@ const Review = () => {
       <h2>Revise seus dados</h2>
       <div className="line"></div>
       <RenderAccordion
-        summary="Nome"
+        summary="Nome e telefone"
         medicInfo={[
           { type: "Nome", info: medic.firstName },
           { type: "Sobrenome", info: medic.lastName },
+          { type: "Telefone", info: medic.phoneNumber },
         ]}
-        goTo="registrar-spital-paciente"
+        goTo="registrar-spital-medico"
       />
       <RenderAccordion
         summary="Credenciais"
@@ -68,12 +78,26 @@ const Review = () => {
           { type: "E-mail", info: medic.email },
           { type: "Senha", info: hashedPassword },
         ]}
-        goTo="registrar-spital-paciente-1"
+        goTo="registrar-spital-medico-1"
       />
       <RenderAccordion
-        summary="Telefone"
-        medicInfo={[{ type: "Telefone celular", info: medic.phoneNumber }]}
-        goTo="registrar-spital-paciente-2"
+        summary="Dados acadêmicos"
+        medicInfo={[
+          { type: "Área médica", info: medic.area },
+          { type: "Graduação", info: medic.graduation },
+          { type: "Mestrado", info: medic.masterDegree },
+          { type: "Doutorado", info: medic.doctorateDegree },
+        ]}
+        goTo="registrar-spital-medico-2"
+      />
+      <RenderAccordion
+        summary="Dados acadêmicos"
+        medicInfo={[
+          { type: "CPF", info: medic.cpf },
+          { type: "RG", info: medic.rg },
+          { type: "Data de nascimento", info: formatedBirthDate },
+        ]}
+        goTo="registrar-spital-medico-3"
       />
 
       <p>
@@ -84,10 +108,10 @@ const Review = () => {
         )}
       </p>
 
-      <Link to="/registrar-spital-paciente-2">
+      <Link to="/registrar-spital-medico-4">
         <button className="secondary">Anterior</button>
       </Link>
-      <Link to="/registrar-spital-paciente-3" onClick={handleSubmitForm}>
+      <Link to="/registrar-spital-medico-6" onClick={handleSubmitForm}>
         <button className="primary">Cadastrar</button>
       </Link>
     </div>

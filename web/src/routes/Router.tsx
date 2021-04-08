@@ -10,6 +10,8 @@ import RegisterMedicalSpitalAcademic from "../pages/RegisterMedicalSpitalAccount
 import RegisterMedicalSpitalCredentials from "../pages/RegisterMedicalSpitalAccount/RegisterMedicalSpitalCredentials";
 import RegisterMedicalSpitalNames from "../pages/RegisterMedicalSpitalAccount/RegisterMedicalSpitalNames";
 import RegisterMedicalSpitalPersonalData from "../pages/RegisterMedicalSpitalAccount/RegisterMedicalSpitalPersonalData";
+import RegisterMedicalSpitalAccountReview from "../pages/RegisterMedicalSpitalAccount/RegisterMedicalSpitalReview";
+import RegisterMedicalSpitalSchedule from "../pages/RegisterMedicalSpitalAccount/RegisterMedicalSpitalSchedule";
 import RegisterPacient from "../pages/RegisterPacient";
 import RegisterSpitalAccount from "../pages/RegisterSpitalAccount";
 import RegisterSpitalAccountCredentials from "../pages/RegisterSpitalAccount/RegisterSpitalAccountCredentials";
@@ -68,6 +70,16 @@ function Router() {
       <Route
         path="/registrar-spital-medico-3"
         component={RegisterMedicalSpitalPersonalData}
+      />
+
+      <Route
+        path="/registrar-spital-medico-4"
+        component={RegisterMedicalSpitalSchedule}
+      />
+
+      <Route
+        path="/registrar-spital-medico-5"
+        component={RegisterMedicalSpitalAccountReview}
       />
 
       <Route path="/test" component={TestLogin} />

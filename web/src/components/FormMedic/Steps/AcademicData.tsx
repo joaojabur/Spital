@@ -114,8 +114,6 @@ const AcademicData = () => {
 
   const { medic, setMedic } = useContext(DataContext);
 
-  console.log(medic.area);
-
   const errors = validateMedicInfo(medic);
 
   return (

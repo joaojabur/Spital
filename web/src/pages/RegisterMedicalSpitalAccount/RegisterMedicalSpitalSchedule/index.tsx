@@ -2,9 +2,9 @@ import { Fragment } from "react";
 import "./styles.css";
 
 import Header from "../../../components/Header";
-import PersonalData from "../../../components/FormMedic/Steps/PersonalData";
+import Schedule from "../../../components/FormMedic/Steps/Schedule";
 
-const RegisterMedicalSpitalPersonalData = () => {
+const RegisterMedicalSpitalSchedule = () => {
   return (
     <div className="register-spital-container">
       <Fragment>
@@ -13,10 +13,10 @@ const RegisterMedicalSpitalPersonalData = () => {
           returnTo="entrar-registrar-medico"
         />
 
-        <PersonalData />
+        <Schedule />
       </Fragment>
     </div>
   );
 };
 
-export default RegisterMedicalSpitalPersonalData;
+export default RegisterMedicalSpitalSchedule;

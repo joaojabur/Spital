@@ -62,7 +62,10 @@ const DataProvider = (props) => {
     cardNumber: "",
     expiresInDate: "",
     cvv: "",
+    schedule: [],
   });
+
+  console.log(medic);
 
   useEffect(() => {
     api.get("clients").then((response) => {
