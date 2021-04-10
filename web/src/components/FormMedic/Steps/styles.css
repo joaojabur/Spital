@@ -163,9 +163,54 @@ input[type="date"] {
   right: 0;
 }
 
-#form-container-schedule {
-  overflow-y: auto;
-  margin-top: 4rem;
+.add-button {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--color-main);
+  cursor: pointer;
+}
+
+.schedule-item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 2rem;
+}
+
+.schedule-item-label {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #9c98a6;
+  margin-bottom: 1rem;
+}
+
+.schedule-item-horizontal {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.schedule-item-horizontal .schedule-item-input {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 48%;
+}
+
+.schedule-item-horizontal .schedule-item-input input {
+  width: 100%;
+  padding: 0.8rem;
+  outline: 0;
+  border-radius: 0.5rem;
+  border: 1px solid hsl(0, 0%, 80%);
+  transition: all ease-in-out 0.2s;
+}
+
+.schedule-item-horizontal .schedule-item-input input:hover {
+  border: 1px solid hsl(0, 0%, 61%);
 }
 
 @media (max-width: 800px) {

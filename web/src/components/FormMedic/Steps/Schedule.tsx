@@ -2,11 +2,41 @@ import { useContext, useState } from "react";
 import "./styles.css";
 import DataContext from "../../../context/DataContext";
 import { Link } from "react-router-dom";
-import Select from "react-select";
-import { TextField } from "@material-ui/core";
+import Select from "../../Select";
 
 const Schedule = () => {
   const { medic, setMedic } = useContext(DataContext);
+
+  const weekDays = [
+    {
+      value: "0",
+      label: "Domingo",
+    },
+    {
+      value: "1",
+      label: "Segunda-feira",
+    },
+    {
+      value: "2",
+      label: "Terça-feira",
+    },
+    {
+      value: "3",
+      label: "Quarta-feira",
+    },
+    {
+      value: "4",
+      label: "Quinta-feira",
+    },
+    {
+      value: "5",
+      label: "Sexta-feira",
+    },
+    {
+      value: "6",
+      label: "Sábado",
+    },
+  ];
 
   const [scheduleItems, setScheduleItems] = useState([
     {
@@ -14,75 +44,95 @@ const Schedule = () => {
       from: "",
       to: "",
     },
-    {
-      week_day: 1,
-      from: "",
-      to: "",
-    },
-    {
-      week_day: 2,
-      from: "",
-      to: "",
-    },
-    {
-      week_day: 3,
-      from: "",
-      to: "",
-    },
-    {
-      week_day: 4,
-      from: "",
-      to: "",
-    },
-    {
-      week_day: 5,
-      from: "",
-      to: "",
-    },
-    {
-      week_day: 6,
-      from: "",
-      to: "",
-    },
   ]);
 
+  function handleAddSchedules() {
+    setMedic({ ...medic, schedule: scheduleItems });
+  }
+
+  console.log(scheduleItems);
+
+  function addNewScheduleItem() {
+    if (scheduleItems.length >= 7) {
+      console.log(
+        "Are you living on Earth? Here we have only seven days in a week!"
+      );
+    } else {
+      setScheduleItems([
+        ...scheduleItems,
+        {
+          week_day: scheduleItems.length,
+          from: "",
+          to: "",
+        },
+      ]);
+    }
+  }
+
+  function setScheduleItemValue(
+    position: number,
+    field: string,
+    value: string
+  ) {
+    const newScheduleItems = scheduleItems.map((scheduleItem, index) => {
+      if (index === position) {
+        return { ...scheduleItem, [field]: value };
+      }
+
+      return scheduleItem;
+    });
+
+    setScheduleItems(newScheduleItems);
+  }
+
   return (
-    <form className="form-container" id="form-container-schedule">
+    <form className="form-container">
       <div className="form-container-flex">
         <h2>Horários disponíveis</h2>
+
+        <div className="add-button" onClick={addNewScheduleItem}>
+          + Novo horário
+        </div>
       </div>
+
       <div className="line"></div>
 
-      {scheduleItems.map((data) => {
+      {scheduleItems.map((scheduleItem, index) => {
         return (
-          <div key={data.week_day} className="medic-schedule">
-            <div className="medic-schedule-input-group">
-              <h1>
-                {data.week_day === 0
-                  ? "Domingo"
-                  : data.week_day === 1
-                  ? "Segunda-feira"
-                  : data.week_day === 2
-                  ? "Terça-feira"
-                  : data.week_day === 3
-                  ? "Quarta-feira"
-                  : data.week_day === 4
-                  ? "Quinta-feira"
-                  : data.week_day === 5
-                  ? "Sexta-feira"
-                  : "Sábado"}
-              </h1>
-            </div>
+          <div key={scheduleItem.week_day} className="schedule-item">
+            <span className="schedule-item-label">Dia da semana</span>
+            <Select
+              name="week_day"
+              onChange={(e: any) =>
+                setScheduleItemValue(index, "week_day", e.target.value)
+              }
+              value={scheduleItem.week_day}
+              options={weekDays}
+            />
 
-            <div className="medic-schedule-input-group-flex">
-              <div className="input-flex">
-                <span className="label">Das</span>
-                <TextField name="from" type="time" fullWidth />
+            <div className="schedule-item-horizontal">
+              <div className="schedule-item-input">
+                <span className="schedule-item-label">Das</span>
+                <input
+                  value={scheduleItem.from}
+                  name="from"
+                  type="time"
+                  onChange={(e: any) => {
+                    setScheduleItemValue(index, "from", e.target.value);
+                  }}
+                />
               </div>
 
-              <div className="input-flex">
-                <span className="label">Até</span>
-                <TextField name="from" type="time" fullWidth />
+              <div className="schedule-item-input">
+                <span className="schedule-item-label">Até</span>
+                <input
+                  value={scheduleItem.to}
+                  name="to"
+                  type="time"
+                  onChange={(e: any) => {
+                    setScheduleItemValue(index, "to", e.target.value);
+                  }}
+                />
               </div>
             </div>
 
@@ -93,13 +143,13 @@ const Schedule = () => {
         );
       })}
 
-      <Link to="/registrar-spital-medico-3">
+      <Link onClick={handleAddSchedules} to="/registrar-spital-medico-3">
         <button className="secondary" type="submit">
           Anterior
         </button>
       </Link>
 
-      <Link to="/registrar-spital-medico-5">
+      <Link onClick={handleAddSchedules} to="/registrar-spital-medico-5">
         <button className="primary" type="submit">
           Próximo
         </button>
