@@ -30,9 +30,6 @@ module.exports = {
       card_number,
       card_expiration_date,
       card_verification_number,
-      week_day,
-      from,
-      to,
     } = req.body;
 
     try {
@@ -54,9 +51,6 @@ module.exports = {
         card_number,
         card_expiration_date,
         card_verification_number,
-        week_day,
-        from,
-        to,
       });
 
       res.status(201).send();

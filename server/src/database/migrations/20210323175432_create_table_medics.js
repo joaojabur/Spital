@@ -18,17 +18,13 @@ exports.up = function (knex) {
     table.text("rg").notNullable();
     table.text("birth_date").notNullable();
 
-    table.text("card_name").notNullable();
-    table.text("card_number").notNullable();
-    table.text("card_expiration_date").notNullable();
-    table.text("card_verification_number").notNullable();
-
-    table.integer("week_day").notNullable();
-    table.integer("from").notNullable();
-    table.integer("to").notNullable();
+    table.text("card_name");
+    table.text("card_number");
+    table.text("card_expiration_date");
+    table.text("card_verification_number");
   });
 };
 
 exports.down = function (knex) {
-  return knex.schema.createTable("medics");
+  return knex.schema.dropTable("medics");
 };

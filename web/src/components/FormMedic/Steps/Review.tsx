@@ -34,7 +34,12 @@ const Review = () => {
       rg: medic.rg,
       birth_date: medic.birthDate,
     });
-    setTimeout(() => {
+
+    await api.post(`medic_schedule`, {
+      schedule: medic.schedule,
+    });
+
+    await setTimeout(() => {
       history.push("/login-spital-medico");
     }, 3000);
   }
