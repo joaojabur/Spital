@@ -33,9 +33,6 @@ const Review = () => {
       cpf: medic.cpf,
       rg: medic.rg,
       birth_date: medic.birthDate,
-    });
-
-    await api.post(`medic_schedule`, {
       schedule: medic.schedule,
     });
 

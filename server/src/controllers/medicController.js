@@ -1,4 +1,5 @@
 const knex = require("../database");
+const convertHourToMinutes = require("../utils/convertHoursToMinutes");
 
 module.exports = {
   async index(req, res, next) {
@@ -30,10 +31,11 @@ module.exports = {
       card_number,
       card_expiration_date,
       card_verification_number,
+      schedule,
     } = req.body;
 
     try {
-      await knex("medics").insert({
+      const insertedMedicsId = await knex("medics").returning("id").insert({
         first_name,
         last_name,
         email,
@@ -52,6 +54,20 @@ module.exports = {
         card_expiration_date,
         card_verification_number,
       });
+
+      const medic_id = Number(insertedMedicsId[0]);
+      const numberMedic_id = new Number(medic_id);
+
+      const medicSchedule = schedule.map((scheduleItem) => {
+        return {
+          medic_id: numberMedic_id,
+          week_day: scheduleItem.week_day,
+          from: convertHourToMinutes(scheduleItem.from),
+          to: convertHourToMinutes(scheduleItem.to),
+        };
+      });
+
+      await knex("medic_schedule").insert(medicSchedule);
 
       res.status(201).send();
     } catch (error) {
@@ -78,9 +94,6 @@ module.exports = {
       card_number,
       card_expiration_date,
       card_verification_number,
-      week_day,
-      from,
-      to,
     } = req.body;
 
     const { id } = req.params;
@@ -105,9 +118,6 @@ module.exports = {
           card_number,
           card_expiration_date,
           card_verification_number,
-          week_day,
-          from,
-          to,
         })
         .where({ id });
 
