@@ -29,14 +29,14 @@ export default function validateMedicInfo(credentials) {
     errors.confirmPassword = "As senhas não combinam";
   }
 
-  const phoneNumbers = credentials.phoneNumber.replace(/\s/g, "");
+  const phoneNumbers = credentials.phoneNumber.replace(/[-.() ]/g, "");
 
   if (isNaN(phoneNumbers)) {
     errors.phoneNumber = "Número de telefone inválido";
+  } else if (phoneNumbers.length !== 11) {
+    errors.phoneNumber = "Número de telefone inválido";
   } else if (phoneNumbers.length === 0) {
     errors.phoneNumber = "Campo de telefone é necessário";
-  } else if (phoneNumbers.length <= 8) {
-    errors.phoneNumber = "O número de caracteres precisa ser 8 ou mais";
   }
 
   if (credentials.area.length === 0) {

@@ -50,8 +50,6 @@ const Schedule = () => {
     setMedic({ ...medic, schedule: scheduleItems });
   }
 
-  console.log(scheduleItems);
-
   function addNewScheduleItem() {
     if (scheduleItems.length >= 7) {
       console.log(
@@ -85,6 +83,14 @@ const Schedule = () => {
     setScheduleItems(newScheduleItems);
   }
 
+  function deleteScheduleItem(position: number) {
+    let newScheduleItems = [...scheduleItems];
+    const index = newScheduleItems.findIndex((item: any) => item === position);
+
+    newScheduleItems.splice(index, 1);
+
+    setScheduleItems(newScheduleItems);
+  }
   return (
     <form className="form-container">
       <div className="form-container-flex">
@@ -136,7 +142,12 @@ const Schedule = () => {
               </div>
             </div>
 
-            <div className="line-gray">
+            <div
+              onClick={(e: any) => {
+                deleteScheduleItem(index);
+              }}
+              className="line-gray"
+            >
               <span>Excluir horário</span>
             </div>
           </div>

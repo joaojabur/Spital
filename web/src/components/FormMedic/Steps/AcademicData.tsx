@@ -3,7 +3,7 @@ import { useContext } from "react";
 import DataContext from "../../../context/DataContext";
 
 import TextField from "@material-ui/core/TextField";
-import Select from "react-select";
+import Select from "../../Select";
 import "./styles.css";
 import { Link } from "react-router-dom";
 import validateMedicInfo from "../../../utils/validateMedicInfo";
@@ -118,28 +118,17 @@ const AcademicData = () => {
 
   return (
     <div className="form-container">
-      <h2>Seus dados</h2>
+      <h2>Dados Acadêmicos</h2>
       <div className="line"></div>
       <Select
+        name="week_day"
+        onChange={(e: any) => setMedic({ ...medic, area: e.target.value })}
+        value={medic.area}
         options={areaOptions}
-        label={
-          <span style={{ fontSize: "1.5rem" }}>
-            Selecione a sua área médica
-          </span>
-        }
-        className="area-select"
-        variant="outlined"
-        fullWidth
-        onChange={(e) => {
-          setMedic({ ...medic, area: e?.value });
-        }}
-        autoComplete="off"
-        name="area"
-        error={errors.area ? true : false}
-        helperText={<span style={{ fontSize: "1rem" }}>{errors.area}</span>}
       />
 
       <TextField
+        placeholder="Universidade de São Paulo"
         value={medic.graduation}
         label={<span style={{ fontSize: "1.5rem" }}>Graduação</span>}
         style={{ marginTop: "1rem" }}
@@ -158,6 +147,7 @@ const AcademicData = () => {
 
       <TextField
         value={medic.masterDegree}
+        placeholder="Universidade de Campinas"
         label={<span style={{ fontSize: "1.5rem" }}>Mestrado (opcional)</span>}
         style={{ marginTop: "1rem" }}
         variant="outlined"
@@ -175,6 +165,7 @@ const AcademicData = () => {
 
       <TextField
         value={medic.doctorateDegree}
+        placeholder="Universidade Estadual Paulista"
         label={<span style={{ fontSize: "1.5rem" }}>Doutorado (opcional)</span>}
         style={{ marginTop: "1rem" }}
         variant="outlined"

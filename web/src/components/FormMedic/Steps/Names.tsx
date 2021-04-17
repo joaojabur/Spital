@@ -4,6 +4,8 @@ import "./styles.css";
 import DataContext from "../../../context/DataContext";
 import { Link } from "react-router-dom";
 import validateMedicInfo from "../../../utils/validateMedicInfo";
+import mask from "../../../utils/mask";
+
 
 const MedicNames = () => {
   const { setMedic, medic } = useContext(DataContext);
@@ -12,7 +14,7 @@ const MedicNames = () => {
 
   return (
     <form className="form-container">
-      <h2>Seus dados</h2>
+      <h2>Nome e telefone</h2>
       <div className="line"></div>
       <TextField
         placeholder="João"
@@ -56,7 +58,7 @@ const MedicNames = () => {
         variant="outlined"
         fullWidth
         onChange={(e) => {
-          setMedic({ ...medic, phoneNumber: e.target.value });
+          setMedic({ ...medic, phoneNumber: mask(e.target.value, "(##) # ####-####") });
         }}
         style={{ marginTop: "1rem" }}
         required

@@ -21,7 +21,7 @@ const MedicCredentials = () => {
   return (
     <div className="form-container">
       <div className="form-container-flex">
-        <h2>Seus dados</h2>
+        <h2>Credenciais</h2>
         <IconButton
           onClick={() => {
             handleShowPassword();

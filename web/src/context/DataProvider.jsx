@@ -65,8 +65,6 @@ const DataProvider = (props) => {
     schedule: [],
   });
 
-  console.log(medic);
-
   useEffect(() => {
     api.get("clients").then((response) => {
       setUsers(response.data);

@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useContext } from "react";
+import { Fragment, useState, useEffect, useContext } from "react";
 import "./styles.css";
 import { Link, useHistory } from "react-router-dom";
 import DataContext from "../../context/DataContext";

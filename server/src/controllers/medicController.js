@@ -35,41 +35,53 @@ module.exports = {
     } = req.body;
 
     try {
-      const insertedMedicsId = await knex("medics").returning("id").insert({
-        first_name,
-        last_name,
-        email,
-        password,
-        phoneNumber,
-        created_at,
-        area,
-        graduation,
-        master_degree,
-        doctorate_degree,
+      const isTheEmailAlreadyRegistered = await knex("medics").where({ email });
+      const isTheCPFOrRGAlreadyRegistered = await knex("medics").where({
         cpf,
         rg,
-        birth_date,
-        card_name,
-        card_number,
-        card_expiration_date,
-        card_verification_number,
       });
 
-      const medic_id = Number(insertedMedicsId[0]);
-      const numberMedic_id = new Number(medic_id);
+      if (isTheEmailAlreadyRegistered.length > 0) {
+        res.status(400).send({ error: "E-mail já registrado" });
+      } else if (isTheCPFOrRGAlreadyRegistered.length > 0) {
+        res.status(400).send({ error: "Dados pessoais já registrados" });
+      } else {
+        const insertedMedicsId = await knex("medics").returning("id").insert({
+          first_name,
+          last_name,
+          email,
+          password,
+          phoneNumber,
+          created_at,
+          area,
+          graduation,
+          master_degree,
+          doctorate_degree,
+          cpf,
+          rg,
+          birth_date,
+          card_name,
+          card_number,
+          card_expiration_date,
+          card_verification_number,
+        });
 
-      const medicSchedule = schedule.map((scheduleItem) => {
-        return {
-          medic_id: numberMedic_id,
-          week_day: scheduleItem.week_day,
-          from: convertHourToMinutes(scheduleItem.from),
-          to: convertHourToMinutes(scheduleItem.to),
-        };
-      });
+        const medic_id = Number(insertedMedicsId[0]);
+        const numberMedic_id = new Number(medic_id);
 
-      await knex("medic_schedule").insert(medicSchedule);
+        const medicSchedule = schedule.map((scheduleItem) => {
+          return {
+            medic_id: numberMedic_id,
+            week_day: scheduleItem.week_day,
+            from: convertHourToMinutes(scheduleItem.from),
+            to: convertHourToMinutes(scheduleItem.to),
+          };
+        });
 
-      res.status(201).send();
+        await knex("medic_schedule").insert(medicSchedule);
+
+        res.status(201).send();
+      }
     } catch (error) {
       next(error);
     }

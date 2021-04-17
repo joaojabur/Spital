@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import "./styles.css";
 import { Link } from "react-router-dom";
 import validateInfo from "../../../utils/validateInfo";
+import mask from "../../../utils/mask";
 
 const Phone = () => {
   const { user, setUser } = useContext(DataContext);
@@ -18,15 +19,14 @@ const Phone = () => {
       <div className="line"></div>
       <TextField
         value={user.phoneNumber}
-        label={
-          <span style={{ fontSize: "1.5rem" }}>
-            Telefone celular (opcional)
-          </span>
-        }
+        label={<span style={{ fontSize: "1.5rem" }}>Telefone celular</span>}
         variant="outlined"
         fullWidth
         onChange={(e) => {
-          setUser({ ...user, phoneNumber: e.target.value });
+          setUser({
+            ...user,
+            phoneNumber: mask(e.target.value, "(##) # ####-####"),
+          });
         }}
         autoComplete="off"
         name="phone"

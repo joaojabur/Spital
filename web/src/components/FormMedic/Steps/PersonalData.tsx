@@ -4,6 +4,7 @@ import "./styles.css";
 import DataContext from "../../../context/DataContext";
 import { Link } from "react-router-dom";
 import validateMedicInfo from "../../../utils/validateMedicInfo";
+import mask from "../../../utils/mask";
 
 const PersonalData = () => {
   const { setMedic, medic } = useContext(DataContext);
@@ -12,16 +13,17 @@ const PersonalData = () => {
 
   return (
     <form className="form-container">
-      <h2>Seus dados</h2>
+      <h2>Dados pessoais</h2>
       <div className="line"></div>
       <TextField
         value={medic.cpf}
+        placeholder="123.456.789-10"
         name="firstName"
         label={<span style={{ fontSize: "1.5rem" }}>CPF</span>}
         variant="outlined"
         fullWidth
         onChange={(e) => {
-          setMedic({ ...medic, cpf: e.target.value });
+          setMedic({ ...medic, cpf: mask(e.target.value, "###.###.###-##") });
         }}
         autoComplete="off"
         required
@@ -31,12 +33,13 @@ const PersonalData = () => {
 
       <TextField
         value={medic.rg}
+        placeholder="12.345.678-9"
         name="lastName"
         label={<span style={{ fontSize: "1.5rem" }}>RG</span>}
         variant="outlined"
         fullWidth
         onChange={(e) => {
-          setMedic({ ...medic, rg: e.target.value });
+          setMedic({ ...medic, rg: mask(e.target.value, "##.###.###-#") });
         }}
         style={{ marginTop: "1rem" }}
         required
@@ -54,6 +57,18 @@ const PersonalData = () => {
         autoComplete="off"
         name="phone"
       />
+
+      <p
+        style={{
+          color: "#f44336",
+          fontSize: "1rem",
+          marginLeft: "1.5rem",
+          fontWeight: "bold",
+          marginTop: "0.5rem",
+        }}
+      >
+        {errors.birthDate}
+      </p>
 
       <Link to="/registrar-spital-medico-2">
         <button className="secondary" type="submit">

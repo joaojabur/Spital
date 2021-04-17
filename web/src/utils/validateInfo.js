@@ -29,13 +29,14 @@ export default function validateInfo(credentials) {
     errors.confirmPassword = "As senhas não combinam";
   }
 
-  if (isNaN(credentials.phoneNumber)) {
+  const phoneNumbers = credentials.phoneNumber.replace(/[-.() ]/g, "");
+
+  if (isNaN(phoneNumbers)) {
     errors.phoneNumber = "Número de telefone inválido";
-  } else if (
-    credentials.phoneNumber.length < 8 &&
-    credentials.phoneNumber >= 1
-  ) {
-    errors.phoneNumber = "O número de caracteres precisa ser 8 ou mais";
+  } else if (phoneNumbers.length !== 11) {
+    errors.phoneNumber = "Número de telefone inválido";
+  } else if (phoneNumbers.length === 0) {
+    errors.phoneNumber = "Campo de telefone é necessário";
   }
 
   return errors;
