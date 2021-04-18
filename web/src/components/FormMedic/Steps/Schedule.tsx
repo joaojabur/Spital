@@ -41,8 +41,8 @@ const Schedule = () => {
   const [scheduleItems, setScheduleItems] = useState([
     {
       week_day: 0,
-      from: "",
-      to: "",
+      from: "08:30",
+      to: "17:00",
     },
   ]);
 
@@ -60,8 +60,8 @@ const Schedule = () => {
         ...scheduleItems,
         {
           week_day: scheduleItems.length,
-          from: "",
-          to: "",
+          from: "08:30",
+          to: "17:00",
         },
       ]);
     }

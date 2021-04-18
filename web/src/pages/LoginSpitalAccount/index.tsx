@@ -1,7 +1,7 @@
 import { Fragment, useState, useEffect, useContext } from "react";
 import "./styles.css";
 import { Link, useHistory } from "react-router-dom";
-import DataContext from "../../context/DataContext";
+//import DataContext from "../../context/DataContext";
 
 import TextField from "@material-ui/core/TextField";
 import { IconButton } from "@material-ui/core";
@@ -11,14 +11,14 @@ import Loader from "react-loader-spinner";
 import api from "../../services/api";
 
 const LoginSpitalAccount = () => {
-  const { loggedUser, setLoggedUser } = useContext(DataContext);
+  //const { loggedUser, setLoggedUser } = useContext(DataContext);
 
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
 
-  const history = useHistory();
+  //const history = useHistory();
 
   const [error, setError] = useState("");
 
@@ -26,26 +26,16 @@ const LoginSpitalAccount = () => {
     e.preventDefault();
 
     api
-      .post("/login-client", {
+      .post("/clients/login", {
         email: user.email,
         password: user.password,
       })
       .then((response) => {
-        if (response.data.length === 0) {
-          setError("E-mail e senha não combinam!");
-        } else {
-          console.log(response.data);
-          setLoggedUser({
-            ...loggedUser,
-            email: response.data[0].email,
-            password: response.data[0].password,
-            firstName: response.data[0].first_name,
-            lastName: response.data[0].last_name,
-            phoneNumber: response.data[0].phoneNumber,
-          });
-          setError("");
-          history.push("/test");
-        }
+        console.log(response);
+        setError("");
+      })
+      .catch((err) => {
+        setError(err.response.data.error);
       });
   }
 

@@ -25,6 +25,8 @@ const Review = () => {
   const history = useHistory();
 
   async function handleSubmitClient() {
+    await setIsLoading(true);
+
     await api
       .post("medics", {
         first_name: medic.firstName,
@@ -42,9 +44,19 @@ const Review = () => {
         schedule: medic.schedule,
       })
       .catch((err) => {
-        console.log(err.response.data);
-        setBackEndError(err.response.data);
+        console.log(err.response.data.error);
+        setBackEndError(err.response.data.error);
       });
+
+    if (backendError !== null) {
+      console.log("There's a backend error!");
+      setIsLoading(false);
+    } else {
+      setTimeout(() => {
+        history.push("/login-spital-medico");
+        setIsLoading(false);
+      }, 2000);
+    }
   }
 
   const [hasError, setHasError] = useState(false);
@@ -120,20 +132,20 @@ const Review = () => {
           >
             O formulário possui erros...
           </span>
-        ) : backendError ? (
-          <span
-            style={{
-              color: "red",
-              position: "relative",
-              top: "1rem",
-              left: "1rem",
-            }}
-          >
-            E-mail, cpf ou rg já cadastrados
-          </span>
         ) : (
           <span></span>
         )}
+      </p>
+
+      <p
+        style={{
+          color: "red",
+          position: "relative",
+          top: "1rem",
+          left: "1rem",
+        }}
+      >
+        {backendError}
       </p>
 
       <Link to="/registrar-spital-medico-4">

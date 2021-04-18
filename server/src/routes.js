@@ -6,12 +6,12 @@ const ClientController = require("./controllers/clientController");
 const AppointmentController = require("./controllers/appointmentsController");
 const MedicController = require("./controllers/medicController");
 const MedicScheduleController = require("./controllers/medicScheduleController.js");
-const LoginClientController = require("./controllers/loginClientController");
 
 routes.post("/clients", ClientController.create);
 routes.get("/clients", ClientController.index);
 routes.put("/clients/:id", ClientController.update);
 routes.delete("/clients/:id", ClientController.delete);
+routes.post("/clients/login", ClientController.login);
 
 routes.post("/medics", MedicController.create);
 routes.get("/medics", MedicController.index);
@@ -27,7 +27,5 @@ routes.post("/medic-schedule", MedicScheduleController.create);
 routes.get("/medic-schedule", MedicScheduleController.index);
 routes.put("/medic-schedule/:id", MedicScheduleController.update);
 routes.delete("/medic-schedule/:id", MedicScheduleController.delete);
-
-routes.post("/login-client", LoginClientController.create);
 
 module.exports = routes;

@@ -1,5 +1,6 @@
 const knex = require("../database");
 const convertHourToMinutes = require("../utils/convertHoursToMinutes");
+const bcrypt = require("bcrypt");
 
 module.exports = {
   async index(req, res, next) {
@@ -34,23 +35,34 @@ module.exports = {
       schedule,
     } = req.body;
 
+    const hashPassword = await bcrypt.hash(password, 10);
+
     try {
-      const isTheEmailAlreadyRegistered = await knex("medics").where({ email });
+      const isTheEmailAlreadyRegisteredInMedics = await knex("medics").where({
+        email,
+      });
+      const isTheEmailAlreadyRegisteredInClients = await knex("clients").where({
+        email,
+      });
+
       const isTheCPFOrRGAlreadyRegistered = await knex("medics").where({
         cpf,
         rg,
       });
 
-      if (isTheEmailAlreadyRegistered.length > 0) {
+      if (
+        isTheEmailAlreadyRegisteredInMedics.length > 0 ||
+        isTheEmailAlreadyRegisteredInClients.length > 0
+      ) {
         res.status(400).send({ error: "E-mail já registrado" });
       } else if (isTheCPFOrRGAlreadyRegistered.length > 0) {
-        res.status(400).send({ error: "Dados pessoais já registrados" });
+        res.status(400).send({ error: "CPF e RG já registrados" });
       } else {
         const insertedMedicsId = await knex("medics").returning("id").insert({
           first_name,
           last_name,
           email,
-          password,
+          password: hashPassword,
           phoneNumber,
           created_at,
           area,
