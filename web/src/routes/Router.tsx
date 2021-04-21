@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import { BrowserRouter, Redirect, Route } from "react-router-dom";
-import DataContext from "../context/DataContext";
+import { BrowserRouter, Route } from "react-router-dom";
+import PrivateRoute from "../components/PrivateRoute";
 
 import Landing from "../pages/Landing";
 import LoginAndRegisterMedico from "../pages/LoginAndRegisterMedico";
@@ -21,13 +21,13 @@ import RegisterSpitalAccountReview from "../pages/RegisterSpitalAccount/Register
 import HomeClient from "../platform-pages/HomeClient";
 
 function Router() {
-  const { redirect } = useContext(DataContext);
-
   return (
     <BrowserRouter>
-      
-
-      <Route path="/" component={Landing} exact />
+      <Route 
+        path="/" 
+        component={Landing} 
+        exact 
+      />
       <Route
         path="/entrar-registrar-paciente"
         component={LoginAndRegisterPaciente}
@@ -36,9 +36,18 @@ function Router() {
         path="/entrar-registrar-medico"
         component={LoginAndRegisterMedico}
       />
-      <Route path="/registrar-paciente" component={RegisterPacient} />
-      <Route path="/entrar-paciente" component={LoginPacient} />
-      <Route path="/login-spital-paciente" component={LoginSpitalAccount} />
+      <Route 
+        path="/registrar-paciente" 
+        component={RegisterPacient} 
+      />
+      <Route 
+        path="/entrar-paciente" 
+        component={LoginPacient} 
+      />
+      <Route 
+        path="/login-spital-paciente" 
+        component={LoginSpitalAccount} 
+      />
 
       <Route
         path="/registrar-spital-paciente"
@@ -87,7 +96,7 @@ function Router() {
         component={RegisterMedicalSpitalAccountReview}
       />
 
-      <Route path="/home-cliente" component={HomeClient} />
+      <PrivateRoute path="/home-cliente" component={HomeClient} />
     </BrowserRouter>
   );
 }
