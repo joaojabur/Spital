@@ -49,7 +49,6 @@ const Review = () => {
       });
 
     if (backendError !== null) {
-      console.log("There's a backend error!");
       setIsLoading(false);
     } else {
       setTimeout(() => {

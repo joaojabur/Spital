@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import "./styles.css";
 import { Link } from "react-router-dom";
 
-import Cookies from "js-cookie";
 import Loader from "react-loader-spinner";
 import logo from "../../assets/images/logo.svg";
 import medics from "../../assets/images/medics.svg";
@@ -10,6 +9,7 @@ import { FaCommentMedical, FaClinicMedical } from "react-icons/fa";
 
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     setIsLoading(true);
     setTimeout(() => {

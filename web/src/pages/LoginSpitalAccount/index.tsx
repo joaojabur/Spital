@@ -1,7 +1,6 @@
 import { Fragment, useState, useEffect } from "react";
 import "./styles.css";
 import { Link } from "react-router-dom";
-//import DataContext from "../../context/DataContext";
 
 import TextField from "@material-ui/core/TextField";
 import { IconButton } from "@material-ui/core";
@@ -17,7 +16,12 @@ const LoginSpitalAccount = () => {
     password: "",
   });
 
-  //const history = useHistory();
+  useEffect(() => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+  }, []);
 
   const [error, setError] = useState("");
 
@@ -33,6 +37,7 @@ const LoginSpitalAccount = () => {
         Cookies.set("access-token", response.data.token, {
           expires: 7,
         });
+
         setError("");
       })
       .catch((err) => {
@@ -48,12 +53,6 @@ const LoginSpitalAccount = () => {
     setShowPassword(!showPassword);
   }
 
-  useEffect(() => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 500);
-  }, []);
   return (
     <Fragment>
       {isLoading ? (

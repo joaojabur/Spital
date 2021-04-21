@@ -7,15 +7,17 @@ const AppointmentController = require("./controllers/appointmentsController");
 const MedicController = require("./controllers/medicController");
 const MedicScheduleController = require("./controllers/medicScheduleController.js");
 const isAuth = require("./middlewares/isAuth");
+const clientController = require("./controllers/clientController");
 
 routes.post("/clients", ClientController.create);
 routes.get("/clients", ClientController.index);
 routes.put("/clients/:id", ClientController.update);
 routes.delete("/clients/:id", ClientController.delete);
 routes.post("/clients/login", ClientController.login);
+routes.get("/clients/auth", isAuth, clientController.auth);
 
 routes.post("/medics", MedicController.create);
-routes.get("/medics", isAuth, MedicController.index);
+routes.get("/medics", MedicController.index);
 routes.put("/medics/:id", MedicController.update);
 routes.delete("/medics/:id", MedicController.delete);
 

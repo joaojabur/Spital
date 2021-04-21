@@ -1,5 +1,6 @@
-import React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import React, { useContext } from "react";
+import { BrowserRouter, Redirect, Route } from "react-router-dom";
+import DataContext from "../context/DataContext";
 
 import Landing from "../pages/Landing";
 import LoginAndRegisterMedico from "../pages/LoginAndRegisterMedico";
@@ -17,11 +18,15 @@ import RegisterSpitalAccount from "../pages/RegisterSpitalAccount";
 import RegisterSpitalAccountCredentials from "../pages/RegisterSpitalAccount/RegisterSpitalAccountCredentials";
 import RegisterSpitalAccountPhone from "../pages/RegisterSpitalAccount/RegisterSpitalAccountPhone";
 import RegisterSpitalAccountReview from "../pages/RegisterSpitalAccount/RegisterSpitalAccountReview";
-import TestLogin from "../pages/TestLogin";
+import HomeClient from "../platform-pages/HomeClient";
 
 function Router() {
+  const { redirect } = useContext(DataContext);
+
   return (
     <BrowserRouter>
+      {redirect && <Redirect to="/home-paciente" />}
+
       <Route path="/" component={Landing} exact />
       <Route
         path="/entrar-registrar-paciente"
@@ -82,7 +87,7 @@ function Router() {
         component={RegisterMedicalSpitalAccountReview}
       />
 
-      <Route path="/test" component={TestLogin} />
+      <Route path="/home-cliente" component={HomeClient} />
     </BrowserRouter>
   );
 }

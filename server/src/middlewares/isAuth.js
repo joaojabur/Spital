@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
         res.status(401).send({ error: "Erro na verificação do token" });
       }
 
-      req.user_id = decoded.id;
+      res.locals.post = decoded.id 
     });
   } catch (error) {
     res.status(401).send({ error });

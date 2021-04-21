@@ -7,9 +7,17 @@ const validateTokens = require("../configs/jwt");
 module.exports = {
   async index(req, res, next) {
     try {
-      const results = await knex("clients");
+      const { id } = req.query;
 
-      return res.json(results);
+      if (!id) {
+        const results = await knex("clients");
+
+        return res.status(200).json(results);
+      } else {
+        const results = await knex("clients").where({ id });
+
+        return res.status(200).json(results);
+      }
     } catch (error) {
       next(error);
     }
@@ -116,5 +124,12 @@ module.exports = {
     } catch (error) {
       next(error);
     }
+  },
+
+  async auth(req, res, next) {
+    const { post } = res.locals;
+    res
+      .status(200)
+      .send({ auth: true, success: "Logado com sucesso!", user_id: post });
   },
 };
