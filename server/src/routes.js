@@ -6,6 +6,7 @@ const ClientController = require("./controllers/clientController");
 const AppointmentController = require("./controllers/appointmentsController");
 const MedicController = require("./controllers/medicController");
 const MedicScheduleController = require("./controllers/medicScheduleController.js");
+const isAuth = require("./middlewares/isAuth");
 
 routes.post("/clients", ClientController.create);
 routes.get("/clients", ClientController.index);
@@ -14,7 +15,7 @@ routes.delete("/clients/:id", ClientController.delete);
 routes.post("/clients/login", ClientController.login);
 
 routes.post("/medics", MedicController.create);
-routes.get("/medics", MedicController.index);
+routes.get("/medics", isAuth, MedicController.index);
 routes.put("/medics/:id", MedicController.update);
 routes.delete("/medics/:id", MedicController.delete);
 

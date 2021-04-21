@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../services/api";
+import Cookies from "js-cookie";
 
 import DataContext from "./DataContext";
 
@@ -69,6 +70,19 @@ const DataProvider = (props) => {
     api.get("clients").then((response) => {
       setUsers(response.data);
     });
+
+    const token = Cookies.get("access-token");
+    if (token === null) {
+      console.log("token is null!");
+    } else {
+      api
+        .get("medics", {
+          headers: { "Authorization": token },
+        })
+        .then((response) => {
+          console.log(response.data);
+        });
+    }
   }, []);
 
   return (

@@ -98,12 +98,16 @@ module.exports = {
           expiresIn: 604800,
         });
 
-        res.cookie("access-token", token, {
-          maxAge: 60 * 60 * 24 * 7 * 1000,
-        }),
+        res.cookie(
+          "access-token",
+          token,
+          {
+            maxAge: 60 * 60 * 24 * 7 * 1000,
+          },
           {
             httpOnly: true,
-          };
+          }
+        );
 
         res.status(201).send({ user, token });
       } else {

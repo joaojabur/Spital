@@ -1,6 +1,6 @@
-import { Fragment, useState, useEffect, useContext } from "react";
+import { Fragment, useState, useEffect } from "react";
 import "./styles.css";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 //import DataContext from "../../context/DataContext";
 
 import TextField from "@material-ui/core/TextField";
@@ -9,10 +9,9 @@ import returnIcon from "../../assets/images/icons/return.svg";
 import logo from "../../assets/images/logo.svg";
 import Loader from "react-loader-spinner";
 import api from "../../services/api";
+import Cookies from "js-cookie";
 
 const LoginSpitalAccount = () => {
-  //const { loggedUser, setLoggedUser } = useContext(DataContext);
-
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -31,7 +30,9 @@ const LoginSpitalAccount = () => {
         password: user.password,
       })
       .then((response) => {
-        console.log(response);
+        Cookies.set("access-token", response.data.token, {
+          expires: 7,
+        });
         setError("");
       })
       .catch((err) => {
