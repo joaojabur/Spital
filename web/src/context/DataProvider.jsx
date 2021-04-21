@@ -107,11 +107,7 @@ const DataProvider = (props) => {
           }
         });
     }
-  }, []);
-
-  //if (redirect) {
-  //return <Redirect to="/home-cliente" />;
-  //}
+  }, [loggedUser]);
 
   return (
     <DataContext.Provider

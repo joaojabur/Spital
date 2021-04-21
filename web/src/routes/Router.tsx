@@ -25,7 +25,7 @@ function Router() {
 
   return (
     <BrowserRouter>
-      {redirect && <Redirect to="/home-paciente" />}
+      
 
       <Route path="/" component={Landing} exact />
       <Route
