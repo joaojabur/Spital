@@ -1,13 +1,16 @@
 import { useContext } from "react";
 import "./styles.css";
 import { Link } from "react-router-dom";
-import { IoLocationOutline, IoCaretDownOutline } from "react-icons/io5";
+import {
+  IoLocationOutline,
+  IoCaretDownOutline,
+  IoReorderFourOutline,
+} from "react-icons/io5";
 import logo from "../../assets/images/logo.svg";
 import DataContext from "../../context/DataContext";
 
 const HeaderPlatform = () => {
   const { loggedUser } = useContext(DataContext);
-  console.log(loggedUser);
 
   const links = [
     {
@@ -35,9 +38,16 @@ const HeaderPlatform = () => {
   return (
     <div className="header-platform">
       <div className="header-platform-flex">
+        <button className="header-button-nav" type="button">
+          <IoReorderFourOutline size={30} color="#fff" />
+        </button>
         <ul className="header-platform-nav">
-          {links.map((link: any) => {
-            return <Link to={link.goTo}>{link.label}</Link>;
+          {links.map((link: any, index: number) => {
+            return (
+              <Link key={index} to={link.goTo}>
+                {link.label}
+              </Link>
+            );
           })}
         </ul>
 

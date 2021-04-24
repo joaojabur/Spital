@@ -75,3 +75,27 @@
   position: relative;
   left: 20%;
 }
+
+/*Mobile*/
+
+.header-button-nav {
+  display: none;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+@media (max-width: 900px) {
+  .header-platform-nav {
+    display: none;
+  }
+  .header-button-nav {
+    display: flex;
+  }
+}
+
+@media (max-width: 400px) {
+  .header-logo {
+    max-width: 70px;
+  }
+}

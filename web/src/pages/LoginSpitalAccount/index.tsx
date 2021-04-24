@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect, useContext } from "react";
+import { Fragment, useState, useEffect } from "react";
 import "./styles.css";
 import { Link } from "react-router-dom";
 
@@ -9,13 +9,8 @@ import logo from "../../assets/images/logo.svg";
 import Loader from "react-loader-spinner";
 import api from "../../services/api";
 import Cookies from "js-cookie";
-import DataContext from "../../context/DataContext";
 
 const LoginSpitalAccount = () => {
-  const { loggedUser, setLoggedUser } = useContext(DataContext);
-
-  console.log(loggedUser);
-
   const [user, setUser] = useState({
     email: "",
     password: "",

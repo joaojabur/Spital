@@ -1,14 +1,14 @@
-import { useContext } from "react";
+import Categories from "../../components/Categories";
 import HeaderPlatform from "../../components/HeaderPlatform";
-import DataContext from "../../context/DataContext";
 import "./styles.css";
 
 const HomeClient = () => {
-  const { loggedUser } = useContext(DataContext);
-
   return (
     <div className="client-platform">
       <HeaderPlatform />
+      <div className="container">
+        <Categories />
+      </div>
     </div>
   );
 };

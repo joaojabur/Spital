@@ -90,8 +90,6 @@ const DataProvider = (props) => {
             .get(`clients?id=${user_id}`)
             .then((response) => {
               if (responseData.length > 0) {
-                console.log(responseData[0].first_name);
-                console.log(responseData[0].id);
                 setLoggedUser({
                   ...loggedUser,
                   id: responseData[0].id,
