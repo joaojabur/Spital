@@ -30,7 +30,7 @@ const Landing = () => {
       ) : (
         <div id="page-landing-container" className="container">
           <div className="logo-container">
-            <img src={logo} alt="Proffy" />
+            <img src={logo} alt="Spital" />
             <h2>Sua plataforma para cuidar da saúde e do bolso</h2>
           </div>
 

@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
-import { BrowserRouter, Redirect, Route } from "react-router-dom";
-import DataContext from "../context/DataContext";
+import React from "react";
+import { BrowserRouter, Route } from "react-router-dom";
 
 import Landing from "../pages/Landing";
 import LoginAndRegisterMedico from "../pages/LoginAndRegisterMedico";
@@ -20,13 +19,12 @@ import RegisterSpitalAccountPhone from "../pages/RegisterSpitalAccount/RegisterS
 import RegisterSpitalAccountReview from "../pages/RegisterSpitalAccount/RegisterSpitalAccountReview";
 import HomeClient from "../platform-pages/HomeClient";
 
-function Router() {
-  const { redirect } = useContext(DataContext);
+//import PrivateRoute from "../components/PrivateRoute";
 
+function Router() {
   return (
     <BrowserRouter>
-      
-
+      <Route path="/home-cliente" component={HomeClient} />
       <Route path="/" component={Landing} exact />
       <Route
         path="/entrar-registrar-paciente"
@@ -39,7 +37,6 @@ function Router() {
       <Route path="/registrar-paciente" component={RegisterPacient} />
       <Route path="/entrar-paciente" component={LoginPacient} />
       <Route path="/login-spital-paciente" component={LoginSpitalAccount} />
-
       <Route
         path="/registrar-spital-paciente"
         component={RegisterSpitalAccount}
@@ -56,38 +53,30 @@ function Router() {
         path="/registrar-spital-paciente-3"
         component={RegisterSpitalAccountReview}
       />
-
       <Route
         path="/registrar-spital-medico"
         component={RegisterMedicalSpitalNames}
       />
-
       <Route
         path="/registrar-spital-medico-1"
         component={RegisterMedicalSpitalCredentials}
       />
-
       <Route
         path="/registrar-spital-medico-2"
         component={RegisterMedicalSpitalAcademic}
       />
-
       <Route
         path="/registrar-spital-medico-3"
         component={RegisterMedicalSpitalPersonalData}
       />
-
       <Route
         path="/registrar-spital-medico-4"
         component={RegisterMedicalSpitalSchedule}
       />
-
       <Route
         path="/registrar-spital-medico-5"
         component={RegisterMedicalSpitalAccountReview}
       />
-
-      <Route path="/home-cliente" component={HomeClient} />
     </BrowserRouter>
   );
 }

@@ -12,7 +12,9 @@ import Cookies from "js-cookie";
 import DataContext from "../../context/DataContext";
 
 const LoginSpitalAccount = () => {
-  const { loggedUser } = useContext(DataContext);
+  const { loggedUser, setLoggedUser } = useContext(DataContext);
+
+  console.log(loggedUser);
 
   const [user, setUser] = useState({
     email: "",
@@ -28,10 +30,10 @@ const LoginSpitalAccount = () => {
 
   const [error, setError] = useState("");
 
-  function handleSubmitLogin(e: any) {
+  async function handleSubmitLogin(e: any) {
     e.preventDefault();
 
-    api
+    await api
       .post("/clients/login", {
         email: user.email,
         password: user.password,
@@ -40,8 +42,6 @@ const LoginSpitalAccount = () => {
         Cookies.set("access-token", response.data.token, {
           expires: 7,
         });
-
-        console.log(loggedUser);
 
         setError("");
       })
