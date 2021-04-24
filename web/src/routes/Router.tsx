@@ -37,6 +37,7 @@ function Router() {
       <Route path="/registrar-paciente" component={RegisterPacient} />
       <Route path="/entrar-paciente" component={LoginPacient} />
       <Route path="/login-spital-paciente" component={LoginSpitalAccount} />
+
       <Route
         path="/registrar-spital-paciente"
         component={RegisterSpitalAccount}
