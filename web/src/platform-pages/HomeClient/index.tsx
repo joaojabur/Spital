@@ -1,4 +1,5 @@
 import Categories from "../../components/Categories";
+import DoctorList from "../../components/DoctorList";
 import HeaderPlatform from "../../components/HeaderPlatform";
 import "./styles.css";
 
@@ -8,6 +9,7 @@ const HomeClient = () => {
       <HeaderPlatform />
       <div className="container">
         <Categories />
+        <DoctorList />
       </div>
     </div>
   );
