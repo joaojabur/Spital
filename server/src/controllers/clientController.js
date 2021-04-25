@@ -29,30 +29,31 @@ module.exports = {
 
       const hashPassword = await bcrypt.hash(password, 10);
 
-      const isTheEmailAlreadyRegisteredInClients = await knex("clients").where({
-        email,
-      });
-      const isTheEmailAlreadyRegisteredInMedics = await knex("medics").where({
+      const isTheEmailAlreadyRegistered= await knex("user").where({
         email,
       });
 
-      if (
-        isTheEmailAlreadyRegisteredInMedics.length > 0 ||
-        isTheEmailAlreadyRegisteredInClients.length > 0
-      ) {
+      if (isTheEmailAlreadyRegistered.length) {
         res.status(400).send({ error: "E-mail já registrado" });
       } else {
-        await knex("clients").insert({
+        const userID = await knex("user").returning('id').insert({
           first_name,
           last_name,
           email,
           password: hashPassword,
-          phoneNumber,
+        });
+
+        console.log(userID);
+        
+        await knex('clients').insert({
+          phoneNumber: String(phoneNumber),
+          userID: parseInt(userID)
         });
 
         return res.status(201).send();
       }
     } catch (error) {
+      console.log(error);
       next(error);
     }
   },
@@ -93,16 +94,16 @@ module.exports = {
     try {
       const { email, password } = req.body;
 
-      const user = await knex("clients")
+      const [ user ] = await knex("user")
         .where({ email })
-        .select("password", "id", "first_name", "last_name", "phoneNumber");
+        .select("password", "id", "first_name", "last_name");
 
-      if (user.length === 0) {
+      if (user === undefined) {
         return res.status(401).send({ error: "Usuário não encontrado" });
       }
 
-      if (await bcrypt.compare(password, user[0].password)) {
-        const token = jwt.sign({ id: user[0].id }, authConfig.secret, {
+      if (await bcrypt.compare(password, user.password)) {
+        const token = jwt.sign({ id: user.id }, authConfig.secret, {
           expiresIn: 604800,
         });
 
@@ -116,7 +117,9 @@ module.exports = {
             httpOnly: true,
           }
         );
-
+        
+        console.log(user);
+        
         res.status(201).send({ user, token });
       } else {
         return res.status(401).send({ error: "Senha ou e-mail inválido(s)" });
