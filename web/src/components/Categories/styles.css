@@ -64,8 +64,6 @@
 }
 
 .categories-card-unique h2 {
-  display: flex;
-  flex-wrap: wrap;
   font-size: 1.5rem;
   color: #000000;
   font-weight: bold;

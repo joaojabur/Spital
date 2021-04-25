@@ -45,7 +45,7 @@ const Categories = () => {
     <div className="categories">
       <div className="categories-text">
         <h1>Categorias</h1>
-        <Link to="/buscas">Veja tudo</Link>
+        <Link to="/busca">Veja tudo</Link>
       </div>
       <div className="categories-card">
         {categories.map((categorie, index) => {

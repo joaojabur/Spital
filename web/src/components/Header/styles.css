@@ -4,6 +4,7 @@
   background-color: var(--color-main);
   align-items: center;
   justify-content: center;
+  flex-direction: row !important;
 }
 
 .return-link {
@@ -19,7 +20,7 @@
 .header-context {
   display: flex;
   position: relative;
-  flex-direction: row;
+  flex-direction: row !important;
   align-items: flex-start;
   justify-content: space-between;
   margin: 0 auto 0 auto;

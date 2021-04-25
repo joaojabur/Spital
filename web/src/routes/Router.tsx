@@ -18,13 +18,16 @@ import RegisterSpitalAccountCredentials from "../pages/RegisterSpitalAccount/Reg
 import RegisterSpitalAccountPhone from "../pages/RegisterSpitalAccount/RegisterSpitalAccountPhone";
 import RegisterSpitalAccountReview from "../pages/RegisterSpitalAccount/RegisterSpitalAccountReview";
 import HomeClient from "../platform-pages/HomeClient";
+import SearchClient from "../platform-pages/SearchClient";
 
 //import PrivateRoute from "../components/PrivateRoute";
 
 function Router() {
   return (
     <BrowserRouter>
-      <Route path="/home-cliente" component={HomeClient} />
+      <Route path="/principal" component={HomeClient} />
+      <Route path="/busca" exact component={SearchClient} />
+      
       <Route path="/" component={Landing} exact />
       <Route
         path="/entrar-registrar-paciente"

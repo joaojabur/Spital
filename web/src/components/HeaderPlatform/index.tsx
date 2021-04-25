@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import "./styles.css";
 import { Link } from "react-router-dom";
 import {
@@ -9,7 +9,11 @@ import {
 import logo from "../../assets/images/logo.svg";
 import DataContext from "../../context/DataContext";
 
-const HeaderPlatform = () => {
+interface HeaderPlatformProps {
+  title?: string;
+}
+
+const HeaderPlatform: React.FC<HeaderPlatformProps> = ({ title }) => {
   const { loggedUser } = useContext(DataContext);
 
   const links = [
@@ -69,10 +73,14 @@ const HeaderPlatform = () => {
 
         <img className="header-logo" src={logo} alt="Spital" />
       </div>
-      <h1 className="header-hello-message">
-        Olá
-        <span>{loggedUser.firstName}</span>
-      </h1>
+      {title ? (
+        <h1 className="header-platform-title">{title}</h1>
+      ) : (
+        <h1 className="header-hello-message">
+          Olá
+          <span>{loggedUser.firstName}</span>
+        </h1>
+      )}
     </div>
   );
 };
