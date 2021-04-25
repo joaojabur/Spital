@@ -1,0 +1,27 @@
+.doctor-list {
+  width: 100%;
+  padding: 1rem;
+  margin-top: 3rem;
+}
+
+.doctors-list-text {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.doctors-list-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.doctors-list-unique {
+  width: 49%;
+  cursor: pointer;
+  margin: 0.2rem 0 1rem 0;
+}

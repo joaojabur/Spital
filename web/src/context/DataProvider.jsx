@@ -5,6 +5,8 @@ import Cookies from "js-cookie";
 import DataContext from "./DataContext";
 
 const DataProvider = (props) => {
+  const [responseData, setResponseData] = useState({});
+
   const [redirect, setRedirect] = useState(false);
 
   const [loggedUser, setLoggedUser] = useState({
@@ -87,14 +89,26 @@ const DataProvider = (props) => {
           api
             .get(`clients?id=${user_id}`)
             .then((response) => {
-              setLoggedUser({
-                ...loggedUser,
-                id: response.data[0].id,
-                firstName: response.data[0].first_name,
-                lastName: response.data[0].last_name,
-                email: response.data[0].email,
-                phoneNumber: response.data[0].phoneNumber,
-              });
+              if (responseData.length > 0) {
+                setLoggedUser({
+                  ...loggedUser,
+                  id: responseData[0].id,
+                  firstName: responseData[0].first_name,
+                  lastName: responseData[0].last_name,
+                  email: responseData[0].email,
+                  phoneNumber: responseData[0].phoneNumber,
+                });
+              } else {
+                setResponseData(response.data);
+                setLoggedUser({
+                  ...loggedUser,
+                  id: responseData[0].id,
+                  firstName: responseData[0].first_name,
+                  lastName: responseData[0].last_name,
+                  email: responseData[0].email,
+                  phoneNumber: responseData[0].phoneNumber,
+                });
+              }
             })
             .catch((err) => {
               if (err) {
@@ -107,7 +121,9 @@ const DataProvider = (props) => {
           }
         });
     }
-  }, [loggedUser]);
+  }, [responseData]);
+
+  //console.log(redirect);
 
   return (
     <DataContext.Provider

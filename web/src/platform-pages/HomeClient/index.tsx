@@ -1,10 +1,18 @@
-import React, { useContext } from "react";
-import DataContext from "../../context/DataContext";
+import Categories from "../../components/Categories";
+import DoctorList from "../../components/DoctorList";
+import HeaderPlatform from "../../components/HeaderPlatform";
+import "./styles.css";
 
 const HomeClient = () => {
-  const { loggedUser } = useContext(DataContext);
-
-  return <div>{loggedUser.firstName}</div>;
+  return (
+    <div className="client-platform">
+      <HeaderPlatform />
+      <div className="container">
+        <Categories />
+        <DoctorList />
+      </div>
+    </div>
+  );
 };
 
 export default HomeClient;
