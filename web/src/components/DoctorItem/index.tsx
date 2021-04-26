@@ -1,9 +1,10 @@
 import "./styles.css";
 import { IoStar, IoTimeOutline } from "react-icons/io5";
+import { Link } from 'react-router-dom'
 
 const DoctorItem = () => {
   return (
-    <div className="doctor-item">
+    <Link to={`/medicos/${'id'}`} className="doctor-item">
       <div className="doctor-item-first">
         <div className="doctor-item-image"></div>
         <div className="doctor-item-data">
@@ -22,7 +23,7 @@ const DoctorItem = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

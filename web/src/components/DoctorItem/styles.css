@@ -8,15 +8,21 @@
   padding: 1rem;
   border-radius: 1.8rem;
   transition: all ease-in-out 0.2s;
+  text-decoration: none !important;
 }
 .doctor-item:hover {
   background-color: #81c4bb;
+  color: #333;
 }
 .doctor-item:hover .doctor-item-data span {
   color: #fff;
 }
 .doctor-item:hover .doctor-item-data-distance {
   color: #fff;
+}
+
+.doctor-item {
+  color: #333;
 }
 
 .doctor-item-first {
