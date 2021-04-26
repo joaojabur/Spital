@@ -1,29 +1,29 @@
-import { useContext } from "react";
+import React from "react";
 import TextField from "@material-ui/core/TextField";
 import "./styles.css";
-import DataContext from "../../../context/DataContext";
 import { Link } from "react-router-dom";
 import validateInfo from "../../../utils/validateInfo";
+import { useShareClientForm } from "../../../context/ShareClientFormProvider";
 
 const Names = () => {
-  const { setUser, user } = useContext(DataContext);
+  const { setUserData, userData } = useShareClientForm();
 
-  validateInfo(user);
+  validateInfo(userData);
 
-  const errors = validateInfo(user);
+  const errors = validateInfo(userData);
 
   return (
     <form className="form-container">
       <h2>Seus dados</h2>
       <div className="line"></div>
       <TextField
-        value={user.firstName}
+        value={userData.firstName}
         name="firstName"
         label={<span style={{ fontSize: "1.5rem" }}>Nome</span>}
         variant="outlined"
         fullWidth
         onChange={(e) => {
-          setUser({ ...user, firstName: e.target.value });
+          setUserData({ ...userData, firstName: e.target.value });
         }}
         autoComplete="off"
         required
@@ -34,13 +34,13 @@ const Names = () => {
       />
 
       <TextField
-        value={user.lastName}
+        value={userData.lastName}
         name="lastName"
         label={<span style={{ fontSize: "1.5rem" }}>Sobrenome</span>}
         variant="outlined"
         fullWidth
         onChange={(e) => {
-          setUser({ ...user, lastName: e.target.value });
+          setUserData({ ...userData, lastName: e.target.value });
         }}
         style={{ marginTop: "1rem" }}
         required

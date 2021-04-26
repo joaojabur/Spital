@@ -1,30 +1,29 @@
-import { useContext } from "react";
-
-import DataContext from "../../../context/DataContext";
+import React from "react";
 
 import TextField from "@material-ui/core/TextField";
 import "./styles.css";
 import { Link } from "react-router-dom";
 import validateInfo from "../../../utils/validateInfo";
 import mask from "../../../utils/mask";
+import { useShareClientForm } from "../../../context/ShareClientFormProvider";
 
 const Phone = () => {
-  const { user, setUser } = useContext(DataContext);
+  const { userData, setUserData } = useShareClientForm();
 
-  const errors = validateInfo(user);
+  const errors = validateInfo(userData);
 
   return (
     <div className="form-container">
       <h2>Seus dados</h2>
       <div className="line"></div>
       <TextField
-        value={user.phoneNumber}
+        value={userData.phoneNumber}
         label={<span style={{ fontSize: "1.5rem" }}>Telefone celular</span>}
         variant="outlined"
         fullWidth
         onChange={(e) => {
-          setUser({
-            ...user,
+          setUserData({
+            ...userData,
             phoneNumber: mask(e.target.value, "(##) # ####-####"),
           });
         }}

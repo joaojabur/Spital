@@ -1,14 +1,14 @@
 import React from "react";
 import Router from "./routes/Router";
 
-import DataProvider from "./context/DataProvider";
+import AuthProvider from "./context/AuthProvider";
 import "./assets/styles/global.css";
 
 function App() {
   return (
-    <DataProvider>
+    <AuthProvider>
       <Router />
-    </DataProvider>
+    </AuthProvider>
   );
 }
 

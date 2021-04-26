@@ -3,12 +3,11 @@ import "./styles.css";
 
 import TextField from "@material-ui/core/TextField";
 import { IconButton } from "@material-ui/core";
-import DataContext from "../../../context/DataContext";
 import { Link } from "react-router-dom";
 import validateMedicInfo from "../../../utils/validateMedicInfo";
 
 const MedicCredentials = () => {
-  const { setMedic, medic } = useContext(DataContext);
+  const [ medic, setMedic] = useState<any>({});;
 
   const [showPassword, setShowPassword] = useState(false);
 

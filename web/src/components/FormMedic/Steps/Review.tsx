@@ -11,7 +11,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
-import DataContext from "../../../context/DataContext";
 import { Link } from "react-router-dom";
 import getPasswordAsterisk from "../../../utils/HashPassword";
 import validateMedicInfo from "../../../utils/validateMedicInfo";
@@ -21,7 +20,7 @@ const Review = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const { medic } = useContext(DataContext);
+  const [ medic, setMedic] = useState<any>({});
   const history = useHistory();
 
   async function handleSubmitClient() {

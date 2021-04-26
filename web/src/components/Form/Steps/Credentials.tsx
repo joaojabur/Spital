@@ -1,18 +1,18 @@
-import { useState, useContext } from "react";
+import React, { useState } from "react";
 import "./styles.css";
 
 import TextField from "@material-ui/core/TextField";
 import { IconButton } from "@material-ui/core";
-import DataContext from "../../../context/DataContext";
+import { useShareClientForm } from "../../../context/ShareClientFormProvider";
 import { Link } from "react-router-dom";
 import validateInfo from "../../../utils/validateInfo";
 
 const Credentials = () => {
-  const { setUser, user } = useContext(DataContext);
+  const { setUserData, userData } = useShareClientForm();
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const errors = validateInfo(user);
+  const errors = validateInfo(userData);
 
   function handleShowPassword() {
     setShowPassword(!showPassword);
@@ -34,7 +34,7 @@ const Credentials = () => {
       </div>
       <div className="line"></div>
       <TextField
-        value={user.email}
+        value={userData.email}
         name="email"
         label={<span style={{ fontSize: "1.5rem" }}>E-mail</span>}
         variant="outlined"
@@ -42,14 +42,14 @@ const Credentials = () => {
         autoComplete="off"
         type="email"
         onChange={(e) => {
-          setUser({ ...user, email: e.target.value });
+          setUserData({ ...userData, email: e.target.value });
         }}
         error={errors.email ? true : false}
         helperText={<span style={{ fontSize: "1rem" }}>{errors.email}</span>}
       />
 
       <TextField
-        value={user.password}
+        value={userData.password}
         name="password"
         label={<span style={{ fontSize: "1.5rem" }}>Senha</span>}
         variant="outlined"
@@ -58,14 +58,14 @@ const Credentials = () => {
         style={{ marginTop: "1rem" }}
         type={showPassword ? "text" : "password"}
         onChange={(e) => {
-          setUser({ ...user, password: e.target.value });
+          setUserData({ ...userData, password: e.target.value });
         }}
         error={errors.password ? true : false}
         helperText={<span style={{ fontSize: "1rem" }}>{errors.password}</span>}
       />
 
       <TextField
-        value={user.confirmPassword}
+        value={userData.confirmPassword}
         name="confirmPassword"
         label={<span style={{ fontSize: "1.5rem" }}>Confirmar Senha</span>}
         variant="outlined"
@@ -73,7 +73,7 @@ const Credentials = () => {
         style={{ marginTop: "1rem" }}
         type={showPassword ? "text" : "password"}
         onChange={(e) => {
-          setUser({ ...user, confirmPassword: e.target.value });
+          setUserData({ ...userData, confirmPassword: e.target.value });
         }}
         error={errors.confirmPassword ? true : false}
         helperText={

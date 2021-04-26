@@ -1,14 +1,13 @@
-import { useContext } from "react";
+import { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import "./styles.css";
-import DataContext from "../../../context/DataContext";
 import { Link } from "react-router-dom";
 import validateMedicInfo from "../../../utils/validateMedicInfo";
 import mask from "../../../utils/mask";
 
 
 const MedicNames = () => {
-  const { setMedic, medic } = useContext(DataContext);
+  const [ medic, setMedic] = useState<any>({});
 
   const errors = validateMedicInfo(medic);
 

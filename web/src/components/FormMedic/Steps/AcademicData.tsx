@@ -1,6 +1,5 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
-import DataContext from "../../../context/DataContext";
 
 import TextField from "@material-ui/core/TextField";
 import Select from "../../Select";
@@ -112,7 +111,7 @@ const AcademicData = () => {
     },
   ];
 
-  const { medic, setMedic } = useContext(DataContext);
+  const [ medic, setMedic] = useState<any>({});;
 
   const errors = validateMedicInfo(medic);
 

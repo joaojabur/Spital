@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import "./styles.css";
 import api from "../../../services/api";
 import { useHistory } from "react-router-dom";
@@ -10,22 +10,22 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
-import DataContext from "../../../context/DataContext";
 import { Link } from "react-router-dom";
 import getPasswordAsterisk from "../../../utils/HashPassword";
 import validateInfo from "../../../utils/validateInfo";
+import { useShareClientForm } from "../../../context/ShareClientFormProvider";
 
 const Review = () => {
-  const { user } = useContext(DataContext);
+  const { userData, setUserData } = useShareClientForm();
   const history = useHistory();
 
   async function handleSubmitClient() {
     await api.post("clients", {
-      first_name: user.firstName,
-      last_name: user.lastName,
-      email: user.email,
-      password: user.password,
-      phoneNumber: user.phoneNumber,
+      first_name: userData.firstName,
+      last_name: userData.lastName,
+      email: userData.email,
+      password: userData.password,
+      phoneNumber: userData.phoneNumber,
     });
     setTimeout(() => {
       history.push('/login-spital-paciente')
@@ -34,9 +34,9 @@ const Review = () => {
 
   const [hasError, setHasError] = useState(false);
 
-  const hashedPassword = getPasswordAsterisk(user.password);
+  const hashedPassword = getPasswordAsterisk(userData.password);
 
-  const errors = validateInfo(user);
+  const errors = validateInfo(userData);
 
   function handleSubmitForm(e: any) {
     e.preventDefault();
@@ -57,22 +57,22 @@ const Review = () => {
       <RenderAccordion
         summary="Nome"
         userInfo={[
-          { type: "Nome", info: user.firstName },
-          { type: "Sobrenome", info: user.lastName },
+          { type: "Nome", info: userData.firstName },
+          { type: "Sobrenome", info: userData.lastName },
         ]}
         goTo="registrar-spital-paciente"
       />
       <RenderAccordion
         summary="Credenciais"
         userInfo={[
-          { type: "E-mail", info: user.email },
+          { type: "E-mail", info: userData.email },
           { type: "Senha", info: hashedPassword },
         ]}
         goTo="registrar-spital-paciente-1"
       />
       <RenderAccordion
         summary="Telefone"
-        userInfo={[{ type: "Telefone celular", info: user.phoneNumber }]}
+        userInfo={[{ type: "Telefone celular", info: userData.phoneNumber }]}
         goTo="registrar-spital-paciente-2"
       />
 

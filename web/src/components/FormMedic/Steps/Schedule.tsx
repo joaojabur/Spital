@@ -1,11 +1,17 @@
-import { useContext, useState } from "react";
+import React, { useState } from "react";
 import "./styles.css";
-import DataContext from "../../../context/DataContext";
+
 import { Link } from "react-router-dom";
 import Select from "../../Select";
 
+interface ISchedule {
+  week_day: number;
+  from: string;
+  to: string;
+}
+
 const Schedule = () => {
-  const { medic, setMedic } = useContext(DataContext);
+  const [ medic, setMedic ] = useState({});
 
   const weekDays = [
     {
@@ -44,7 +50,7 @@ const Schedule = () => {
       from: "08:30",
       to: "17:00",
     },
-  ]);
+  ] as Array<ISchedule>);
 
   function handleAddSchedules() {
     setMedic({ ...medic, schedule: scheduleItems });
