@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React from "react";
 import "./styles.css";
 import { Link } from "react-router-dom";
 import {
@@ -7,10 +7,10 @@ import {
   IoReorderFourOutline,
 } from "react-icons/io5";
 import logo from "../../assets/images/logo.svg";
-import DataContext from "../../context/DataContext";
+import { useAuth } from "../../context/AuthProvider";
 
 const HeaderPlatform = () => {
-  const { loggedUser } = useContext(DataContext);
+  const { user } = useAuth();
 
   const links = [
     {
@@ -71,7 +71,7 @@ const HeaderPlatform = () => {
       </div>
       <h1 className="header-hello-message">
         Olá
-        <span>{loggedUser.firstName}</span>
+        <span>{user.firstName}</span>
       </h1>
     </div>
   );

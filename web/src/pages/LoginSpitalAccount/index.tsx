@@ -7,10 +7,10 @@ import { IconButton } from "@material-ui/core";
 import returnIcon from "../../assets/images/icons/return.svg";
 import logo from "../../assets/images/logo.svg";
 import Loader from "react-loader-spinner";
-import api from "../../services/api";
-import Cookies from "js-cookie";
+import { useAuth } from "../../context/AuthProvider";
 
 const LoginSpitalAccount = () => {
+  const { login } = useAuth();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -28,21 +28,7 @@ const LoginSpitalAccount = () => {
   async function handleSubmitLogin(e: any) {
     e.preventDefault();
 
-    await api
-      .post("/clients/login", {
-        email: user.email,
-        password: user.password,
-      })
-      .then((response) => {
-        Cookies.set("access-token", response.data.token, {
-          expires: 7,
-        });
-
-        setError("");
-      })
-      .catch((err) => {
-        setError(err.response.data.error);
-      });
+    login(user.email, user.password);
   }
 
   const [isLoading, setIsLoading] = useState(false);
