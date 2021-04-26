@@ -17,8 +17,10 @@ import RegisterSpitalAccount from "../pages/RegisterSpitalAccount";
 import RegisterSpitalAccountCredentials from "../pages/RegisterSpitalAccount/RegisterSpitalAccountCredentials";
 import RegisterSpitalAccountPhone from "../pages/RegisterSpitalAccount/RegisterSpitalAccountPhone";
 import RegisterSpitalAccountReview from "../pages/RegisterSpitalAccount/RegisterSpitalAccountReview";
+import AppointmentsClient from "../platform-pages/AppointmentsClient";
 import HomeClient from "../platform-pages/HomeClient";
 import PrivateRoute from "./PrivateRoute";
+import SearchClient from "../platform-pages/SearchClient";
 
 //import PrivateRoute from "../components/PrivateRoute";
 

@@ -62,9 +62,12 @@
   text-align: left;
   flex-direction: column;
   justify-content: flex-start;
+  font-size: 4rem;
+  color: #333333;
+  font-weight: bold;
 }
 
-.header-hello-message {
+.header-platform-title {
   font-size: 4rem;
   color: #333333;
   font-weight: bold;
