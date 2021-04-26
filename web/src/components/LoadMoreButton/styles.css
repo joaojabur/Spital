@@ -1,8 +1,8 @@
-button {
+.load-more-button {
   width: 100%;
-  padding: 2rem;
+  padding: 1rem;
   background-color: var(--color-main);
-  font-size: 4rem;
+  font-size: 3rem;
   font-weight: bold;
   color: #fff;
   margin-bottom: 3rem;
@@ -14,6 +14,6 @@ button {
   outline: none !important;
 }
 
-button:hover {
+.load-more-button:hover {
   transform: scale(1);
 }

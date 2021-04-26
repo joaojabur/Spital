@@ -17,6 +17,7 @@ import RegisterSpitalAccount from "../pages/RegisterSpitalAccount";
 import RegisterSpitalAccountCredentials from "../pages/RegisterSpitalAccount/RegisterSpitalAccountCredentials";
 import RegisterSpitalAccountPhone from "../pages/RegisterSpitalAccount/RegisterSpitalAccountPhone";
 import RegisterSpitalAccountReview from "../pages/RegisterSpitalAccount/RegisterSpitalAccountReview";
+import AppointmentsClient from "../platform-pages/AppointmentsClient";
 import HomeClient from "../platform-pages/HomeClient";
 import SearchClient from "../platform-pages/SearchClient";
 
@@ -27,7 +28,8 @@ function Router() {
     <BrowserRouter>
       <Route path="/principal" component={HomeClient} />
       <Route path="/busca" exact component={SearchClient} />
-      
+      <Route path="/consultas" component={AppointmentsClient} />
+
       <Route path="/" component={Landing} exact />
       <Route
         path="/entrar-registrar-paciente"

@@ -11,6 +11,20 @@ import brainIcon from "../../assets/images/icons/hospital/svg/026-brain.svg";
 import sickIcon from "../../assets/images/icons/hospital/svg/015-sick.svg";
 import kidneyIcon from "../../assets/images/icons/hospital/svg/052-kidney.svg";
 import urologyIcon from "../../assets/images/icons/hospital/svg/053-urology.svg";
+import bloodIcon from "../../assets/images/icons/hospital/svg/044-blood bag.svg";
+import virusIcon from "../../assets/images/icons/hospital/svg/005-virus.svg";
+import colonIcon from "../../assets/images/icons/hospital/svg/054-colon.svg";
+import dermisIcon from "../../assets/images/icons/hospital/svg/055-dermis.svg";
+import endocrinologyIcon from "../../assets/images/icons/hospital/svg/056-endocrinology.svg";
+import stomachIcon from "../../assets/images/icons/hospital/svg/057-stomach.svg";
+import gynecologyIcon from "../../assets/images/icons/hospital/svg/058-gynecology.svg";
+import bacteriaIcon from "../../assets/images/icons/hospital/svg/059-bacteria.svg";
+import nutrologyIcon from "../../assets/images/icons/hospital/svg/060-nutrology.svg";
+import obstetricsIcon from "../../assets/images/icons/hospital/svg/061-obstetrics.svg";
+import pediatricsIcon from "../../assets/images/icons/hospital/svg/062-pediatrician.svg";
+import radiologyIcon from "../../assets/images/icons/hospital/svg/025-x ray.svg";
+import radiotherapyIcon from "../../assets/images/icons/hospital/svg/063-radiotherapy.svg";
+import muscleIcon from "../../assets/images/icons/hospital/svg/064-muscle.svg";
 
 const ListMedicAreas = () => {
   const categories = [
@@ -61,13 +75,83 @@ const ListMedicAreas = () => {
     },
     {
       img: kidneyIcon,
-      label: "Nefrologia",
+      label: "Nefrologista",
       gotTo: "/busca/nefrologistas",
     },
     {
       img: urologyIcon,
-      label: "Nefrologia",
+      label: "Urologista",
       gotTo: "/busca/urologistas",
+    },
+    {
+      img: bloodIcon,
+      label: "Hematologista",
+      gotTo: "/busca/hematologistas",
+    },
+    {
+      img: bacteriaIcon,
+      label: "Alergista e Imunologista",
+      gotTo: "/busca/alergistas-e-imunologistas",
+    },
+    {
+      img: colonIcon,
+      label: "Coloproctologista",
+      gotTo: "/busca/coloproctologistas",
+    },
+    {
+      img: dermisIcon,
+      label: "Demartologista",
+      gotTo: "/busca/dermatologistas",
+    },
+    {
+      img: endocrinologyIcon,
+      label: "Endocrinologista",
+      gotTo: "/busca/endocrinologistas",
+    },
+    {
+      img: stomachIcon,
+      label: "Gastroenterologista",
+      gotTo: "/busca/gastroenterologistas",
+    },
+    {
+      img: gynecologyIcon,
+      label: "Ginecologista",
+      gotTo: "/busca/ginecologistas",
+    },
+    {
+      img: virusIcon,
+      label: "Infectologista",
+      gotTo: "/busca/infectologistas",
+    },
+    {
+      img: nutrologyIcon,
+      label: "Nutrologista",
+      gotTo: "/busca/nutrologistas",
+    },
+    {
+      img: obstetricsIcon,
+      label: "Obstetricista",
+      gotTo: "/busca/obstetricistas",
+    },
+    {
+      img: pediatricsIcon,
+      label: "Pediatra",
+      gotTo: "/busca/pediatra",
+    },
+    {
+      img: radiologyIcon,
+      label: "Radiologista",
+      gotTo: "/busca/radiologistas",
+    },
+    {
+      img: radiotherapyIcon,
+      label: "Radioterapista",
+      gotTo: "/busca/radioterapistas",
+    },
+    {
+      img: muscleIcon,
+      label: "Remautologista",
+      gotTo: "/busca/remautologistas",
     },
   ];
 
