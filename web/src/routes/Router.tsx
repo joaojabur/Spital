@@ -13,16 +13,11 @@ import RegisterMedicalSpitalPersonalData from "../pages/RegisterMedicalSpitalAcc
 import RegisterMedicalSpitalAccountReview from "../pages/RegisterMedicalSpitalAccount/RegisterMedicalSpitalReview";
 import RegisterMedicalSpitalSchedule from "../pages/RegisterMedicalSpitalAccount/RegisterMedicalSpitalSchedule";
 import RegisterPacient from "../pages/RegisterPacient";
-import RegisterSpitalAccount from "../pages/RegisterSpitalAccount";
-import RegisterSpitalAccountCredentials from "../pages/RegisterSpitalAccount/RegisterSpitalAccountCredentials";
-import RegisterSpitalAccountPhone from "../pages/RegisterSpitalAccount/RegisterSpitalAccountPhone";
-import RegisterSpitalAccountReview from "../pages/RegisterSpitalAccount/RegisterSpitalAccountReview";
+import RegisterPatientSpitalAccount from "../pages/RegisterSpitalAccount";
 import AppointmentsClient from "../platform-pages/AppointmentsClient";
 import HomeClient from "../platform-pages/HomeClient";
 import PrivateRoute from "./PrivateRoute";
 import SearchClient from "../platform-pages/SearchClient";
-
-//import PrivateRoute from "../components/PrivateRoute";
 
 function Router() {
   return (
@@ -44,19 +39,7 @@ function Router() {
 
         <Route
           path="/registrar-spital-paciente"
-          component={RegisterSpitalAccount}
-        />
-        <Route
-          path="/registrar-spital-paciente-1"
-          component={RegisterSpitalAccountCredentials}
-        />
-        <Route
-          path="/registrar-spital-paciente-2"
-          component={RegisterSpitalAccountPhone}
-        />
-        <Route
-          path="/registrar-spital-paciente-3"
-          component={RegisterSpitalAccountReview}
+          component={RegisterPatientSpitalAccount}
         />
         <Route
           path="/registrar-spital-medico"
