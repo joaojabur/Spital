@@ -19,54 +19,55 @@ import HomeClient from "../platform-pages/HomeClient";
 import PrivateRoute from "./PrivateRoute";
 import MyProfile from "../platform-pages/MyProfile";
 import SearchClient from "../platform-pages/SearchClient";
+import PublicRoute from "./PublicRoute";
 
 function Router() {
   return (
     <BrowserRouter>
       <Switch>
-        <PrivateRoute path="/home-cliente" component={HomeClient} />
-        <Route path="/" component={Landing} exact />
-        <Route
+        <PublicRoute path="/" component={Landing} exact />
+        <PublicRoute
           path="/entrar-registrar-paciente"
           component={LoginAndRegisterPaciente}
         />
-        <Route
+        <PublicRoute
           path="/entrar-registrar-medico"
           component={LoginAndRegisterMedico}
         />
-        <Route path="/registrar-paciente" component={RegisterPacient} />
-        <Route path="/entrar-paciente" component={LoginPacient} />
-        <Route path="/login-spital-paciente" component={LoginSpitalAccount} />
-      <Route path="/principal" component={HomeClient} />
-      <Route path="/busca" exact component={SearchClient} />
-      <Route path="/consultas" exact component={AppointmentsClient} />
-      <Route path="/perfil" exact component={MyProfile} />
+        <PublicRoute path="/registrar-paciente" component={RegisterPacient} />
+        <PublicRoute path="/entrar-paciente" component={LoginPacient} />
+        <PublicRoute path="/login-spital-paciente" component={LoginSpitalAccount} />
 
-        <Route
+        <PrivateRoute path="/principal" component={HomeClient} />
+        <PrivateRoute path="/busca" exact component={SearchClient} />
+        <PrivateRoute path="/consultas" exact component={AppointmentsClient} />
+        <PrivateRoute path="/perfil" exact component={MyProfile} />
+
+        <PublicRoute
           path="/registrar-spital-paciente"
           component={RegisterPatientSpitalAccount}
         />
-        <Route
+        <PublicRoute
           path="/registrar-spital-medico"
           component={RegisterMedicalSpitalNames}
         />
-        <Route
+        <PublicRoute
           path="/registrar-spital-medico-1"
           component={RegisterMedicalSpitalCredentials}
         />
-        <Route
+        <PublicRoute
           path="/registrar-spital-medico-2"
           component={RegisterMedicalSpitalAcademic}
         />
-        <Route
+        <PublicRoute
           path="/registrar-spital-medico-3"
           component={RegisterMedicalSpitalPersonalData}
         />
-        <Route
+        <PublicRoute
           path="/registrar-spital-medico-4"
           component={RegisterMedicalSpitalSchedule}
         />
-        <Route
+        <PublicRoute
           path="/registrar-spital-medico-5"
           component={RegisterMedicalSpitalAccountReview}
         />
