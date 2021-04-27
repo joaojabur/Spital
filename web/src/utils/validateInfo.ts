@@ -9,19 +9,18 @@ interface User {
 }
 
 export default function validateInfo(credentials: User) {
-  console.log(credentials);
   let errors = {} as User;
 
-  if (credentials !== undefined){
-    if (credentials.firstName.length ?? 0) {
+  if (credentials !== null){
+    if (!credentials.firstName.length ?? 0) {
       errors.firstName = "Campo de nome é necessário";
     }
   
-    if (!credentials.lastName.trim()) {
+    if (!credentials?.lastName?.trim()) {
       errors.lastName = "Campo de sobrenome é necessário";
     }
   
-    if (!credentials.email) {
+    if (!credentials?.email) {
       errors.email = "Campo de e-mail é necessário";
     } else if (
       !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(credentials.email)
@@ -29,25 +28,25 @@ export default function validateInfo(credentials: User) {
       errors.email = "E-mail inválido";
     }
   
-    if (!credentials.password) {
+    if (!credentials?.password) {
       errors.password = "Campo de senha é necessário";
-    } else if (credentials.password.length < 6) {
+    } else if (credentials?.password.length < 6) {
       errors.password = "A senha precisa de 6 ou mais caracteres";
     }
   
-    if (!credentials.confirmPassword) {
+    if (!credentials?.confirmPassword) {
       errors.confirmPassword = "Campo de confirmação de senha é necessário";
     } else if (credentials.confirmPassword !== credentials.password) {
       errors.confirmPassword = "As senhas não combinam";
     }
   
-    const phoneNumbers = credentials.phoneNumber.replace(/[-.() ]/g, "");
-  
+    const phoneNumbers = credentials?.phoneNumber?.replace(/[-.() ]/g, "");
+    
     if (isNaN(parseInt(phoneNumbers))) {
       errors.phoneNumber = "Número de telefone inválido";
     } else if (phoneNumbers.length !== 11) {
       errors.phoneNumber = "Número de telefone inválido";
-    } else if (phoneNumbers?.length ?? 0) {
+    } else if (!phoneNumbers.length ?? 0) {
       errors.phoneNumber = "Campo de telefone é necessário";
     }
   }
