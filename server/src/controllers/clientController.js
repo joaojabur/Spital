@@ -10,13 +10,18 @@ module.exports = {
       const { id } = req.query;
 
       if (!id) {
-        const results = await knex("clients");
+        const results = await knex("user");
 
         return res.status(200).json(results);
       } else {
-        const results = await knex("clients").where({ id });
+        const [ result ] = await knex("user").where({ id });
+        
 
-        return res.status(200).json(results);
+        return res.status(200).json({
+          email: result.email,
+          firstName: result.first_name,
+          lastName: result.last_name,
+        });
       }
     } catch (error) {
       next(error);
@@ -93,7 +98,7 @@ module.exports = {
 
       const [ user ] = await knex("user")
         .where({ email })
-        .select("password", "id", "first_name", "last_name");
+        .select("password", "id");
 
       if (user === undefined) {
         return res.status(401).send({ error: "Usuário não encontrado" });
@@ -115,9 +120,10 @@ module.exports = {
           }
         );
         
-        console.log(user);
-        
-        res.status(201).send({ user, token });
+        res.status(201).send({ 
+          id: user.id,
+          token
+        });
       } else {
         return res.status(401).send({ error: "Senha ou e-mail inválido(s)" });
       }
@@ -128,8 +134,9 @@ module.exports = {
 
   async auth(req, res, next) {
     const { post } = res.locals;
+    
     res
       .status(200)
-      .send({ auth: true, success: "Logado com sucesso!", user_id: post });
+      .send({ auth: true, success: "Logado com sucesso!", userID: post });
   },
 };
