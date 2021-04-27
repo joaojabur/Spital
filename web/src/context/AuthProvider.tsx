@@ -25,34 +25,52 @@ const AuthContext = createContext({} as AuthContextData);
 
 export default function AuthProvider({ children }: AuthProviderProps){
   const [ user, setUser ] = useState<User | null>(null);
+  const [ userID, setUserID ] = useState<number | null>(null);
+
+  async function getUserData(id: number){
+    let response = await api.get(`clients?id=${id}`);
+    
+    setUser({
+      ...response.data
+    });
+  }
 
   async function login(email: string, password: string){
-    // Login
     let response = await api
       .post("/clients/login", {
         email: email,
         password: password,
-      })
-      .then((response) => {
-        Cookies.set("access-token", response.data.token, {
-          expires: 7,
-        });
-        loginWithToken();
     });
+
+
+    let { token, id } = response.data;
+    
+    Cookies.set('access-token', token);
+
+    setUserID(id);
+
+    getUserData(id);
 
     return response;
   }
 
   async function loginWithToken(){
-    let response = await api.get('client/auth', {
-      data: {
+    let response = await api.get('clients/auth', {
+      headers: {
         Authorization: Cookies.get('access-token')
       }
     });
 
-    console.log(response);
 
+    let {
+      auth,
+      userID
+    } = response.data;
 
+    if (auth){
+      setUserID(userID);
+      getUserData(userID);
+    }
   }
 
   async function signup(user: User){
@@ -74,7 +92,8 @@ export default function AuthProvider({ children }: AuthProviderProps){
   let value = {
     user,
     authenticated: user !== null,
-    signup
+    signup,
+    login
   } as AuthContextData;
 
   return (
