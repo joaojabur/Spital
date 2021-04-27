@@ -1,5 +1,6 @@
 import HeaderPlatform from "../../components/HeaderPlatform";
 import MyProfileInfo from "../../components/MyProfileInfo";
+import MyProfileSettings from "../../components/MyProfileSettings";
 import "./styles.css";
 
 const MyProfile = () => {
@@ -9,6 +10,7 @@ const MyProfile = () => {
       <div className="container">
         <div className="container-perfil">
           <MyProfileInfo />
+          <MyProfileSettings />
         </div>
       </div>
     </div>

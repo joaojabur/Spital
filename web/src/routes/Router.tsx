@@ -19,11 +19,8 @@ import RegisterSpitalAccountPhone from "../pages/RegisterSpitalAccount/RegisterS
 import RegisterSpitalAccountReview from "../pages/RegisterSpitalAccount/RegisterSpitalAccountReview";
 import AppointmentsClient from "../platform-pages/AppointmentsClient";
 import HomeClient from "../platform-pages/HomeClient";
-<<<<<<< Updated upstream
 import PrivateRoute from "./PrivateRoute";
-=======
 import MyProfile from "../platform-pages/MyProfile";
->>>>>>> Stashed changes
 import SearchClient from "../platform-pages/SearchClient";
 
 //import PrivateRoute from "../components/PrivateRoute";
@@ -31,7 +28,6 @@ import SearchClient from "../platform-pages/SearchClient";
 function Router() {
   return (
     <BrowserRouter>
-<<<<<<< Updated upstream
       <Switch>
         <PrivateRoute path="/home-cliente" component={HomeClient} />
         <Route path="/" component={Landing} exact />
@@ -46,12 +42,10 @@ function Router() {
         <Route path="/registrar-paciente" component={RegisterPacient} />
         <Route path="/entrar-paciente" component={LoginPacient} />
         <Route path="/login-spital-paciente" component={LoginSpitalAccount} />
-=======
       <Route path="/principal" component={HomeClient} />
       <Route path="/busca" exact component={SearchClient} />
       <Route path="/consultas" exact component={AppointmentsClient} />
       <Route path="/perfil" exact component={MyProfile} />
->>>>>>> Stashed changes
 
         <Route
           path="/registrar-spital-paciente"
