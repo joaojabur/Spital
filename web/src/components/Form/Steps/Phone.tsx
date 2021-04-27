@@ -1,16 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import TextField from "@material-ui/core/TextField";
 import "./styles.css";
-import { Link } from "react-router-dom";
 import validateInfo from "../../../utils/validateInfo";
 import mask from "../../../utils/mask";
 import { useShareClientForm } from "../../../context/ShareClientFormProvider";
 
-const Phone = () => {
+interface PhoneProps {
+  nextPage: () => void;
+  previousPage: () => void;
+}
+
+const Phone = ({ nextPage, previousPage }: PhoneProps) => {
   const { userData, setUserData } = useShareClientForm();
 
-  const errors = validateInfo(userData);
+  const [errors, setErrors] = useState(validateInfo(userData))
+
+  useEffect(() => {
+    setErrors(validateInfo(userData));
+  }, [ userData ])
 
   return (
     <div className="form-container">
@@ -34,12 +42,12 @@ const Phone = () => {
           <span style={{ fontSize: "1rem" }}>{errors.phoneNumber}</span>
         }
       />
-      <Link to="/registrar-spital-paciente-1">
-        <button className="secondary">Anterior</button>
-      </Link>
-      <Link to="/registrar-spital-paciente-3">
-        <button className="primary">Próximo</button>
-      </Link>
+      <button
+        className="secondary"
+        onClick={(e) => previousPage()}>Anterior</button>
+      <button 
+        className="primary"
+        onClick={(e) => nextPage()}>Próximo</button>
     </div>
   );
 };

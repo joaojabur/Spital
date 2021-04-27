@@ -1,22 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./styles.css";
 
 import TextField from "@material-ui/core/TextField";
 import { IconButton } from "@material-ui/core";
 import { useShareClientForm } from "../../../context/ShareClientFormProvider";
-import { Link } from "react-router-dom";
 import validateInfo from "../../../utils/validateInfo";
+interface CredentialsProps {
+  nextPage: () => void;
+  previousPage: () => void;
+}
 
-const Credentials = () => {
+
+const Credentials = ({ nextPage, previousPage}: CredentialsProps) => {
   const { setUserData, userData } = useShareClientForm();
 
   const [showPassword, setShowPassword] = useState(false);
-
-  const errors = validateInfo(userData);
+  const [errors, setErrors] = useState(validateInfo(userData))
 
   function handleShowPassword() {
     setShowPassword(!showPassword);
   }
+  
+  useEffect(() => {
+    setErrors(validateInfo(userData));
+  }, [ userData ])
 
   return (
     <div className="form-container">
@@ -34,7 +41,7 @@ const Credentials = () => {
       </div>
       <div className="line"></div>
       <TextField
-        value={userData.email}
+        value={userData?.email}
         name="email"
         label={<span style={{ fontSize: "1.5rem" }}>E-mail</span>}
         variant="outlined"
@@ -49,7 +56,7 @@ const Credentials = () => {
       />
 
       <TextField
-        value={userData.password}
+        value={userData?.password}
         name="password"
         label={<span style={{ fontSize: "1.5rem" }}>Senha</span>}
         variant="outlined"
@@ -65,7 +72,7 @@ const Credentials = () => {
       />
 
       <TextField
-        value={userData.confirmPassword}
+        value={userData?.confirmPassword}
         name="confirmPassword"
         label={<span style={{ fontSize: "1.5rem" }}>Confirmar Senha</span>}
         variant="outlined"
@@ -80,12 +87,12 @@ const Credentials = () => {
           <span style={{ fontSize: "1rem" }}>{errors.confirmPassword}</span>
         }
       />
-      <Link to="/registrar-spital-paciente">
-        <button className="secondary">Anterior</button>
-      </Link>
-      <Link to="/registrar-spital-paciente-2">
-        <button className="primary">Próximo</button>
-      </Link>
+      <button 
+        className="secondary"
+        onClick={(e) => previousPage()}>Anterior</button>
+      <button 
+        className="primary"
+        onClick={(e) => nextPage()}>Próximo</button>
     </div>
   );
 };

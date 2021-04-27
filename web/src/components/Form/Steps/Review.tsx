@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./styles.css";
 import api from "../../../services/api";
 import { useHistory } from "react-router-dom";
@@ -10,33 +10,35 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
-import { Link } from "react-router-dom";
 import getPasswordAsterisk from "../../../utils/HashPassword";
 import validateInfo from "../../../utils/validateInfo";
 import { useShareClientForm } from "../../../context/ShareClientFormProvider";
+import { useAuth } from "../../../context/AuthProvider";
 
-const Review = () => {
+interface ReviewProps {
+  previousPage: () => void;
+  changePage: (index: number) => void;
+}
+
+const Review = ({ previousPage, changePage }: ReviewProps) => {
+  const { signup } = useAuth();
   const { userData, setUserData } = useShareClientForm();
-  const history = useHistory();
 
   async function handleSubmitClient() {
-    await api.post("clients", {
-      first_name: userData.firstName,
-      last_name: userData.lastName,
-      email: userData.email,
-      password: userData.password,
-      phoneNumber: userData.phoneNumber,
-    });
-    setTimeout(() => {
-      history.push('/login-spital-paciente')
-    }, 3000);
+    let response = await signup({ ...userData });
+
+    console.log(response);
   }
 
   const [hasError, setHasError] = useState(false);
 
   const hashedPassword = getPasswordAsterisk(userData.password);
 
-  const errors = validateInfo(userData);
+  const [errors, setErrors] = useState(validateInfo(userData))
+
+  useEffect(() => {
+    setErrors(validateInfo(userData));
+  }, [ userData ]);
 
   function handleSubmitForm(e: any) {
     e.preventDefault();
@@ -60,20 +62,23 @@ const Review = () => {
           { type: "Nome", info: userData.firstName },
           { type: "Sobrenome", info: userData.lastName },
         ]}
-        goTo="registrar-spital-paciente"
-      />
+        index={0}      
+        changePage={changePage}
+        />
       <RenderAccordion
         summary="Credenciais"
         userInfo={[
           { type: "E-mail", info: userData.email },
           { type: "Senha", info: hashedPassword },
         ]}
-        goTo="registrar-spital-paciente-1"
+        index={1}
+        changePage={changePage}
       />
       <RenderAccordion
         summary="Telefone"
         userInfo={[{ type: "Telefone celular", info: userData.phoneNumber }]}
-        goTo="registrar-spital-paciente-2"
+        index={2}
+        changePage={changePage}
       />
 
       <p>
@@ -84,12 +89,15 @@ const Review = () => {
         )}
       </p>
 
-      <Link to="/registrar-spital-paciente-2">
-        <button className="secondary">Anterior</button>
-      </Link>
-      <Link to="/registrar-spital-paciente-3" onClick={handleSubmitForm}>
-        <button className="primary">Cadastrar</button>
-      </Link>
+      <button
+        className="secondary"
+        onClick={(e) => previousPage()}>Anterior</button>
+
+      <button 
+        className="primary" 
+        onClick={handleSubmitForm}>
+          Cadastrar
+      </button>
     </div>
   );
 };
@@ -100,13 +108,15 @@ interface RenderAccorditionProps {
     type: string;
     info: string;
   }>;
-  goTo: string;
+  index: number;
+  changePage: (index: number) => void;
 }
 
 export const RenderAccordion: React.FC<RenderAccorditionProps> = ({
   summary,
   userInfo,
-  goTo,
+  index,
+  changePage
 }) => {
   return (
     <Accordion>
@@ -131,11 +141,11 @@ export const RenderAccordion: React.FC<RenderAccorditionProps> = ({
               );
             })}
           </ListItemText>
-          <Link to={`/${goTo}`}>
+          <button onClick={(e) => changePage(index)}>
             <IconButton component="span" color="primary">
               <EditIcon className="editar-icone" />
             </IconButton>
-          </Link>
+          </button>
         </div>
       </AccordionDetails>
     </Accordion>
