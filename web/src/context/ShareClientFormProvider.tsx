@@ -22,7 +22,7 @@ interface ShareClientFormProviderProps {
 export const ShareClientFormContext = createContext({} as ShareClientFormContextData)
 
 export default function ShareClientFormProvider({ children }: ShareClientFormProviderProps) {
-    const [ userData, setUserData ] = useState<UserData>({} as UserData);
+    const [ userData, setUserData ] = useState<UserData | null>(null);
     
     let value = {
         userData,
