@@ -15,6 +15,7 @@
 .return {
   max-width: 5rem;
   filter: invert(1);
+  cursor: pointer;
 }
 
 .header-context {
