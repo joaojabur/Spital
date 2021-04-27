@@ -25,7 +25,7 @@ module.exports = {
 
   async create(req, res, next) {
     try {
-      const { first_name, last_name, email, password, phoneNumber } = req.body;
+      const { firstName, lastName, email, password, phoneNumber } = req.body;
 
       const hashPassword = await bcrypt.hash(password, 10);
 
@@ -37,13 +37,11 @@ module.exports = {
         res.status(400).send({ error: "E-mail já registrado" });
       } else {
         const userID = await knex("user").returning('id').insert({
-          first_name,
-          last_name,
+          first_name: firstName,
+          last_name: lastName,
           email,
           password: hashPassword,
         });
-
-        console.log(userID);
         
         await knex('clients').insert({
           phoneNumber: String(phoneNumber),
@@ -53,7 +51,6 @@ module.exports = {
         return res.status(201).send();
       }
     } catch (error) {
-      console.log(error);
       next(error);
     }
   },
