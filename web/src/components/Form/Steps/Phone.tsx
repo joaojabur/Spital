@@ -25,7 +25,7 @@ const Phone = ({ nextPage, previousPage }: PhoneProps) => {
       <h2>Seus dados</h2>
       <div className="line"></div>
       <TextField
-        value={userData.phoneNumber}
+        value={userData?.phoneNumber}
         label={<span style={{ fontSize: "1.5rem" }}>Telefone celular</span>}
         variant="outlined"
         fullWidth

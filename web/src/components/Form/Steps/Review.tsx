@@ -32,7 +32,7 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
 
   const [hasError, setHasError] = useState(false);
 
-  const hashedPassword = getPasswordAsterisk(userData.password);
+  const hashedPassword = getPasswordAsterisk(userData?.password ?? '');
 
   const [errors, setErrors] = useState(validateInfo(userData))
 
@@ -59,8 +59,8 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
       <RenderAccordion
         summary="Nome"
         userInfo={[
-          { type: "Nome", info: userData.firstName },
-          { type: "Sobrenome", info: userData.lastName },
+          { type: "Nome", info: userData?.firstName },
+          { type: "Sobrenome", info: userData?.lastName },
         ]}
         index={0}      
         changePage={changePage}
@@ -68,7 +68,7 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
       <RenderAccordion
         summary="Credenciais"
         userInfo={[
-          { type: "E-mail", info: userData.email },
+          { type: "E-mail", info: userData?.email },
           { type: "Senha", info: hashedPassword },
         ]}
         index={1}
@@ -76,7 +76,7 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
       />
       <RenderAccordion
         summary="Telefone"
-        userInfo={[{ type: "Telefone celular", info: userData.phoneNumber }]}
+        userInfo={[{ type: "Telefone celular", info: userData?.phoneNumber }]}
         index={2}
         changePage={changePage}
       />
