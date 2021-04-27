@@ -15,7 +15,6 @@ interface HeaderPlatformProps {
 
 const HeaderPlatform: React.FC<HeaderPlatformProps> = ({ title }) => {
   const { user } = useAuth();
-  console.log(user);
 
   const links = [
     {
@@ -80,7 +79,7 @@ const HeaderPlatform: React.FC<HeaderPlatformProps> = ({ title }) => {
       ) : (
         <h1 className="header-hello-message">
           Olá
-          <span>Marcelo</span>
+          <span>{ user.firstName }</span>
         </h1>
       )}
     </div>
