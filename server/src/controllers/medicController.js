@@ -5,9 +5,21 @@ const bcrypt = require("bcrypt");
 module.exports = {
   async index(req, res, next) {
     try {
-      const results = await knex("medics");
+      const { id } = req.query;
 
-      res.status(201).json(results);
+      if (!id) {
+        const results = await knex("medics");
+
+        res.status(201).json(results);
+      } else {
+        const [result] = await knex("user").where({ id });
+
+        return res.status(200).json({
+          email: result.email,
+          firstName: result.first_name,
+          lastName: result.last_name,
+        });
+      }
     } catch (error) {
       next(error);
     }
@@ -15,12 +27,11 @@ module.exports = {
 
   async create(req, res, next) {
     const {
-      first_name,
-      last_name,
+      firstName,
+      lastName,
       email,
       password,
       phoneNumber,
-      created_at,
       area,
       graduation,
       master_degree,
@@ -28,20 +39,14 @@ module.exports = {
       cpf,
       rg,
       birth_date,
-      card_name,
-      card_number,
-      card_expiration_date,
-      card_verification_number,
       schedule,
     } = req.body;
 
-    const hashPassword = await bcrypt.hash(password, 10);
+    const hashPassword = bcrypt.hash(password, 10);
+    console.log(hashPassword);
 
     try {
-      const isTheEmailAlreadyRegisteredInMedics = await knex("medics").where({
-        email,
-      });
-      const isTheEmailAlreadyRegisteredInClients = await knex("clients").where({
+      const isTheEmailAlreadyRegisteredInMedics = await knex("user").where({
         email,
       });
 
@@ -50,40 +55,35 @@ module.exports = {
         rg,
       });
 
-      if (
-        isTheEmailAlreadyRegisteredInMedics.length > 0 ||
-        isTheEmailAlreadyRegisteredInClients.length > 0
-      ) {
+      if (isTheEmailAlreadyRegisteredInMedics.length > 0) {
         res.status(400).send({ error: "E-mail já registrado" });
       } else if (isTheCPFOrRGAlreadyRegistered.length > 0) {
         res.status(400).send({ error: "CPF e RG já registrados" });
       } else {
-        const insertedMedicsId = await knex("medics").returning("id").insert({
-          first_name,
-          last_name,
+        const userID = await knex("user").returning("id").insert({
+          first_name: firstName,
+          last_name: lastName,
           email,
           password: hashPassword,
-          phoneNumber,
-          created_at,
-          area,
-          graduation,
-          master_degree,
-          doctorate_degree,
-          cpf,
-          rg,
-          birth_date,
-          card_name,
-          card_number,
-          card_expiration_date,
-          card_verification_number,
         });
 
-        const medic_id = Number(insertedMedicsId[0]);
-        const numberMedic_id = new Number(medic_id);
+        const medicID = await knex("medics")
+          .returning("userID")
+          .insert({
+            userID: parseInt(userID),
+            phoneNumber: String(phoneNumber),
+            area,
+            graduation,
+            master_degree,
+            doctorate_degree,
+            cpf,
+            rg,
+            birth_date,
+          });
 
         const medicSchedule = schedule.map((scheduleItem) => {
           return {
-            medic_id: numberMedic_id,
+            medic_id: parseInt(medicID),
             week_day: scheduleItem.week_day,
             from: convertHourToMinutes(scheduleItem.from),
             to: convertHourToMinutes(scheduleItem.to),

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./styles.css";
 import api from "../../../services/api";
-import { useHistory } from "react-router-dom";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -14,6 +13,7 @@ import getPasswordAsterisk from "../../../utils/HashPassword";
 import validateInfo from "../../../utils/validateInfo";
 import { useShareClientForm } from "../../../context/ShareClientFormProvider";
 import { useAuth } from "../../../context/AuthProvider";
+import { useHistory } from "react-router-dom";
 
 interface ReviewProps {
   previousPage: () => void;
@@ -24,6 +24,8 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
   const { signup } = useAuth();
   const { userData, setUserData } = useShareClientForm();
 
+  const history = useHistory();
+
   async function handleSubmitClient() {
     let response = await signup({ ...userData });
 
@@ -32,13 +34,13 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
 
   const [hasError, setHasError] = useState(false);
 
-  const hashedPassword = getPasswordAsterisk(userData?.password ?? '');
+  const hashedPassword = getPasswordAsterisk(userData?.password ?? "");
 
-  const [errors, setErrors] = useState(validateInfo(userData))
+  const [errors, setErrors] = useState(validateInfo(userData));
 
   useEffect(() => {
     setErrors(validateInfo(userData));
-  }, [ userData ]);
+  }, [userData]);
 
   function handleSubmitForm(e: any) {
     e.preventDefault();
@@ -49,6 +51,7 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
     } else {
       handleSubmitClient();
       setHasError(false);
+      history.push('/entrar-paciente')
     }
   }
 
@@ -62,9 +65,9 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
           { type: "Nome", info: userData?.firstName },
           { type: "Sobrenome", info: userData?.lastName },
         ]}
-        index={0}      
+        index={0}
         changePage={changePage}
-        />
+      />
       <RenderAccordion
         summary="Credenciais"
         userInfo={[
@@ -89,14 +92,12 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
         )}
       </p>
 
-      <button
-        className="secondary"
-        onClick={(e) => previousPage()}>Anterior</button>
+      <button className="secondary" onClick={(e) => previousPage()}>
+        Anterior
+      </button>
 
-      <button 
-        className="primary" 
-        onClick={handleSubmitForm}>
-          Cadastrar
+      <button className="primary" onClick={handleSubmitForm}>
+        Cadastrar
       </button>
     </div>
   );
@@ -116,7 +117,7 @@ export const RenderAccordion: React.FC<RenderAccorditionProps> = ({
   summary,
   userInfo,
   index,
-  changePage
+  changePage,
 }) => {
   return (
     <Accordion>

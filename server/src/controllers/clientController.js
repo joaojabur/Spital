@@ -14,8 +14,7 @@ module.exports = {
 
         return res.status(200).json(results);
       } else {
-        const [ result ] = await knex("user").where({ id });
-        
+        const [result] = await knex("user").where({ id });
 
         return res.status(200).json({
           email: result.email,
@@ -34,23 +33,23 @@ module.exports = {
 
       const hashPassword = await bcrypt.hash(password, 10);
 
-      const isTheEmailAlreadyRegistered= await knex("user").where({
+      const isTheEmailAlreadyRegistered = await knex("user").where({
         email,
       });
 
-      if (isTheEmailAlreadyRegistered.length) {
+      if (isTheEmailAlreadyRegistered.length > 0) {
         res.status(400).send({ error: "E-mail já registrado" });
       } else {
-        const userID = await knex("user").returning('id').insert({
+        const userID = await knex("user").returning("id").insert({
           first_name: firstName,
           last_name: lastName,
           email,
           password: hashPassword,
         });
-        
-        await knex('clients').insert({
+
+        await knex("clients").insert({
           phoneNumber: String(phoneNumber),
-          userID: parseInt(userID)
+          userID: parseInt(userID),
         });
 
         return res.status(201).send();
@@ -96,7 +95,7 @@ module.exports = {
     try {
       const { email, password } = req.body;
 
-      const [ user ] = await knex("user")
+      const [user] = await knex("user")
         .where({ email })
         .select("password", "id");
 
@@ -119,10 +118,10 @@ module.exports = {
             httpOnly: true,
           }
         );
-        
-        res.status(201).send({ 
+
+        res.status(201).send({
           id: user.id,
-          token
+          token,
         });
       } else {
         return res.status(401).send({ error: "Senha ou e-mail inválido(s)" });
@@ -134,7 +133,7 @@ module.exports = {
 
   async auth(req, res, next) {
     const { post } = res.locals;
-    
+
     res
       .status(200)
       .send({ auth: true, success: "Logado com sucesso!", userID: post });

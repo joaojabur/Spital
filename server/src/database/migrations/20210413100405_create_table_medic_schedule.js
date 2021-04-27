@@ -8,7 +8,7 @@ exports.up = function (knex) {
 
     table
       .integer("medic_id")
-      .references("medics.id")
+      .references("user.id")
       .notNullable()
       .onDelete("CASCADE");
 
