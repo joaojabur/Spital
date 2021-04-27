@@ -37,7 +37,7 @@ const Categories = () => {
     {
       img: boneIcon,
       label: "Ortopedista",
-      gotTo: "/busca/ortopedista",
+      gotTo: "/busca/ortopedistas",
     },
   ];
 

@@ -30,6 +30,7 @@
   padding: 0.5rem 0.8rem 0.8rem 1rem;
   border-bottom: 1px solid #ccc;
   margin: 2rem 2rem 0 2rem;
+  width: 80%;
 }
 
 .my-profile-settings-nav li span {
@@ -38,6 +39,10 @@
 }
 
 .my-profile-settings-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   width: 60%;
   height: 90%;
   background-color: #fff;
