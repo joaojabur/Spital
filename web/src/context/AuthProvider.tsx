@@ -14,6 +14,7 @@ interface AuthContextData {
   user: User;
   authenticated: boolean;
   login: (email: string, password: string) => any;
+  signup: (user: User) => Promise<any>;
 }
 
 interface AuthProviderProps {
@@ -44,7 +45,7 @@ export default function AuthProvider({ children }: AuthProviderProps){
 
   async function loginWithToken(){
     let response = await api.get('client/auth', {
-      headers: {
+      data: {
         Authorization: Cookies.get('access-token')
       }
     });
@@ -53,6 +54,13 @@ export default function AuthProvider({ children }: AuthProviderProps){
 
 
   }
+
+  async function signup(user: User){
+    return await api.post("clients", {
+      ...user
+    });
+  }
+
   useEffect(() => {
     /*
       Verifica se o navegador tem os Cookies,
@@ -65,7 +73,8 @@ export default function AuthProvider({ children }: AuthProviderProps){
   
   let value = {
     user,
-    authenticated: user !== null
+    authenticated: user !== null,
+    signup
   } as AuthContextData;
 
   return (
