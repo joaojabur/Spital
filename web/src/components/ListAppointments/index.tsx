@@ -1,10 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./styles.css";
 
 const ListAppointments = () => {
   return (
     <div className="list-appointments">
-      <div className="list-appointments-unique">
+      <Link to={`/consultas/${"id"}`} className="list-appointments-unique">
         <div className="list-appoints-unique-information">
           <div className="list-appoints-unique-information-flex">
             <div className="list-appoints-unique-information-image"></div>
@@ -22,9 +23,9 @@ const ListAppointments = () => {
           <p style={{ marginLeft: "2rem" }}>3 de Maio</p>
           <p style={{ marginRight: "2rem" }}>2:00 PM</p>
         </footer>
-      </div>
+      </Link>
 
-      <div className="list-appointments-unique">
+      <Link to={`/consultas/${"id"}`} className="list-appointments-unique">
         <div className="list-appoints-unique-information">
           <div className="list-appoints-unique-information-flex">
             <div className="list-appoints-unique-information-image"></div>
@@ -42,9 +43,9 @@ const ListAppointments = () => {
           <p style={{ marginLeft: "2rem" }}>3 de Maio</p>
           <p style={{ marginRight: "2rem" }}>2:00 PM</p>
         </footer>
-      </div>
+      </Link>
 
-      <div className="list-appointments-unique">
+      <Link to={`/consultas/${"id"}`} className="list-appointments-unique">
         <div className="list-appoints-unique-information">
           <div className="list-appoints-unique-information-flex">
             <div className="list-appoints-unique-information-image"></div>
@@ -62,9 +63,9 @@ const ListAppointments = () => {
           <p style={{ marginLeft: "2rem" }}>3 de Maio</p>
           <p style={{ marginRight: "2rem" }}>2:00 PM</p>
         </footer>
-      </div>
+      </Link>
 
-      <div className="list-appointments-unique">
+      <Link to={`/consultas/${"id"}`} className="list-appointments-unique">
         <div className="list-appoints-unique-information">
           <div className="list-appoints-unique-information-flex">
             <div className="list-appoints-unique-information-image"></div>
@@ -82,7 +83,7 @@ const ListAppointments = () => {
           <p style={{ marginLeft: "2rem" }}>3 de Maio</p>
           <p style={{ marginRight: "2rem" }}>2:00 PM</p>
         </footer>
-      </div>
+      </Link>
     </div>
   );
 };

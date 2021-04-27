@@ -9,8 +9,13 @@ import {
 import logo from "../../assets/images/logo.svg";
 import { useAuth } from "../../context/AuthProvider";
 
-const HeaderPlatform = () => {
+interface HeaderPlatformProps {
+  title?: string;
+}
+
+const HeaderPlatform: React.FC<HeaderPlatformProps> = ({ title }) => {
   const { user } = useAuth();
+  console.log(user);
 
   const links = [
     {
@@ -69,10 +74,15 @@ const HeaderPlatform = () => {
 
         <img className="header-logo" src={logo} alt="Spital" />
       </div>
-      <h1 className="header-hello-message">
-        Olá
-        <span>{user.firstName}</span>
-      </h1>
+
+      {title ? (
+        <h1 className="header-platform-title">{title}</h1>
+      ) : (
+        <h1 className="header-hello-message">
+          Olá
+          <span>Marcelo</span>
+        </h1>
+      )}
     </div>
   );
 };

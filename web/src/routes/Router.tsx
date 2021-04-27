@@ -17,6 +17,7 @@ import RegisterPatientSpitalAccount from "../pages/RegisterSpitalAccount";
 import AppointmentsClient from "../platform-pages/AppointmentsClient";
 import HomeClient from "../platform-pages/HomeClient";
 import PrivateRoute from "./PrivateRoute";
+import MyProfile from "../platform-pages/MyProfile";
 import SearchClient from "../platform-pages/SearchClient";
 
 function Router() {
@@ -36,6 +37,10 @@ function Router() {
         <Route path="/registrar-paciente" component={RegisterPacient} />
         <Route path="/entrar-paciente" component={LoginPacient} />
         <Route path="/login-spital-paciente" component={LoginSpitalAccount} />
+      <Route path="/principal" component={HomeClient} />
+      <Route path="/busca" exact component={SearchClient} />
+      <Route path="/consultas" exact component={AppointmentsClient} />
+      <Route path="/perfil" exact component={MyProfile} />
 
         <Route
           path="/registrar-spital-paciente"
