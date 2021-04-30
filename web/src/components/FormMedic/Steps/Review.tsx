@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import "./styles.css";
 import api from "../../../services/api";
 import { useHistory } from "react-router-dom";
@@ -11,36 +11,32 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
-import { Link } from "react-router-dom";
 import getPasswordAsterisk from "../../../utils/HashPassword";
 import validateMedicInfo from "../../../utils/validateMedicInfo";
+import { useShareFormMedic } from "../../../context/ShareMedicFormProvider";
 
-const Review = () => {
+interface MedicReviewProps {
+  changePage: (index: number) => void;
+  previousPage: () => void;
+}
+
+const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
   const [backendError, setBackEndError] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [ medic, setMedic] = useState<any>({});
+  const { medicData, setMedicData }= useShareFormMedic();
+
   const history = useHistory();
 
   async function handleSubmitClient() {
-    await setIsLoading(true);
+    setIsLoading(true);
+
+    console.log(medicData);
 
     await api
       .post("medics", {
-        first_name: medic.firstName,
-        last_name: medic.lastName,
-        email: medic.email,
-        password: medic.password,
-        phoneNumber: medic.phoneNumber,
-        area: medic.area,
-        graduation: medic.area,
-        master_degree: medic.masterDegree,
-        doctorate_degree: medic.doctorateDegree,
-        cpf: medic.cpf,
-        rg: medic.rg,
-        birth_date: medic.birthDate,
-        schedule: medic.schedule,
+        ...medicData
       })
       .catch((err) => {
         console.log(err.response.data.error);
@@ -59,11 +55,11 @@ const Review = () => {
 
   const [hasError, setHasError] = useState(false);
 
-  const hashedPassword = getPasswordAsterisk(medic.password);
+  const hashedPassword = getPasswordAsterisk(medicData.password);
 
-  const errors = validateMedicInfo(medic);
+  const [errors, setErrors] = useState(validateMedicInfo(medicData));
 
-  const formatedBirthDate = medic.birthDate.replace(/[-]/g, "/");
+  const formatedBirthDate = medicData.birthDate.replace(/[-]/g, "/");
 
   async function handleSubmitForm(e: any) {
     e.preventDefault();
@@ -84,38 +80,42 @@ const Review = () => {
       <RenderAccordion
         summary="Nome e telefone"
         medicInfo={[
-          { type: "Nome", info: medic.firstName },
-          { type: "Sobrenome", info: medic.lastName },
-          { type: "Telefone", info: medic.phoneNumber },
+          { type: "Nome", info: medicData.firstName },
+          { type: "Sobrenome", info: medicData.lastName },
+          { type: "Telefone", info: medicData.phoneNumber },
         ]}
-        goTo="registrar-spital-medico"
+        index={0}
+        changePage={changePage}
       />
       <RenderAccordion
         summary="Credenciais"
         medicInfo={[
-          { type: "E-mail", info: medic.email },
+          { type: "E-mail", info: medicData.email },
           { type: "Senha", info: hashedPassword },
         ]}
-        goTo="registrar-spital-medico-1"
+        index={1}
+        changePage={changePage}
       />
       <RenderAccordion
         summary="Dados acadêmicos"
         medicInfo={[
-          { type: "Área médica", info: medic.area },
-          { type: "Graduação", info: medic.graduation },
-          { type: "Mestrado", info: medic.masterDegree },
-          { type: "Doutorado", info: medic.doctorateDegree },
+          { type: "Área médica", info: medicData.area },
+          { type: "Graduação", info: medicData.graduation },
+          { type: "Mestrado", info: medicData.masterDegree },
+          { type: "Doutorado", info: medicData.doctorateDegree },
         ]}
-        goTo="registrar-spital-medico-2"
+        index={2}
+        changePage={changePage}
       />
       <RenderAccordion
         summary="Dados pessoais"
         medicInfo={[
-          { type: "CPF", info: medic.cpf },
-          { type: "RG", info: medic.rg },
+          { type: "CPF", info: medicData.cpf },
+          { type: "RG", info: medicData.rg },
           { type: "Data de nascimento", info: formatedBirthDate },
         ]}
-        goTo="registrar-spital-medico-3"
+        index={3}
+        changePage={changePage}
       />
 
       <p>
@@ -146,9 +146,10 @@ const Review = () => {
         {backendError}
       </p>
 
-      <Link to="/registrar-spital-medico-4">
-        <button className="secondary">Anterior</button>
-      </Link>
+      <button className="secondary" 
+        onClick={(e) => previousPage()}>
+          Anterior
+      </button>
       <button onClick={handleSubmitForm} className="primary">
         {isLoading ? (
           <Loader
@@ -172,13 +173,15 @@ interface RenderAccorditionProps {
     type: string;
     info: string;
   }>;
-  goTo: string;
+  index: number;
+  changePage: (index: number) => void;
 }
 
 export const RenderAccordion: React.FC<RenderAccorditionProps> = ({
   summary,
   medicInfo,
-  goTo,
+  index,
+  changePage
 }) => {
   return (
     <Accordion>
@@ -203,15 +206,15 @@ export const RenderAccordion: React.FC<RenderAccorditionProps> = ({
               );
             })}
           </ListItemText>
-          <Link to={`/${goTo}`}>
+          <button onClick={(e) => changePage(index)}>
             <IconButton component="span" color="primary">
               <EditIcon className="editar-icone" />
             </IconButton>
-          </Link>
+          </button>
         </div>
       </AccordionDetails>
     </Accordion>
   );
 };
 
-export default Review;
+export default MedicReview;

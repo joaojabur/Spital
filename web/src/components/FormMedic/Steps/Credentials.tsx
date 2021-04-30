@@ -1,17 +1,25 @@
-import { useState, useContext } from "react";
+import { useState, useEffect } from "react";
 import "./styles.css";
 
 import TextField from "@material-ui/core/TextField";
 import { IconButton } from "@material-ui/core";
-import { Link } from "react-router-dom";
 import validateMedicInfo from "../../../utils/validateMedicInfo";
+import { useShareFormMedic } from "../../../context/ShareMedicFormProvider";
 
-const MedicCredentials = () => {
-  const [ medic, setMedic] = useState<any>({});;
+interface MedicCredentialsProps {
+  nextPage: () => void;
+  previousPage: () => void;
+}
+
+const MedicCredentials = ({ nextPage, previousPage}: MedicCredentialsProps) => {
 
   const [showPassword, setShowPassword] = useState(false);
+  const { medicData, setMedicData }= useShareFormMedic();
+  const [ errors, setErrors ] = useState(validateMedicInfo(medicData));
 
-  const errors = validateMedicInfo(medic);
+  useEffect(() => {
+    setErrors(validateMedicInfo(medicData));
+  }, [ medicData ])
 
   function handleShowPassword() {
     setShowPassword(!showPassword);
@@ -34,7 +42,7 @@ const MedicCredentials = () => {
       <div className="line"></div>
       <TextField
         placeholder="email90@gmail.com"
-        value={medic.email}
+        value={medicData.email}
         name="email"
         label={<span style={{ fontSize: "1.5rem" }}>E-mail</span>}
         variant="outlined"
@@ -42,15 +50,15 @@ const MedicCredentials = () => {
         autoComplete="off"
         type="email"
         onChange={(e) => {
-          setMedic({ ...medic, email: e.target.value });
+          setMedicData({ ...medicData, email: e.target.value });
         }}
-        error={errors.email ? true : false}
-        helperText={<span style={{ fontSize: "1rem" }}>{errors.email}</span>}
+        error={errors?.email ? true : false}
+        helperText={<span style={{ fontSize: "1rem" }}>{errors?.email}</span>}
       />
 
       <TextField
         placeholder="*********"
-        value={medic.password}
+        value={medicData.password}
         name="password"
         label={<span style={{ fontSize: "1.5rem" }}>Senha</span>}
         variant="outlined"
@@ -59,15 +67,15 @@ const MedicCredentials = () => {
         style={{ marginTop: "1rem" }}
         type={showPassword ? "text" : "password"}
         onChange={(e) => {
-          setMedic({ ...medic, password: e.target.value });
+          setMedicData({ ...medicData, password: e.target.value });
         }}
-        error={errors.password ? true : false}
-        helperText={<span style={{ fontSize: "1rem" }}>{errors.password}</span>}
+        error={errors?.password ? true : false}
+        helperText={<span style={{ fontSize: "1rem" }}>{errors?.password}</span>}
       />
 
       <TextField
         placeholder="*********"
-        value={medic.confirmPassword}
+        value={medicData.confirmPassword}
         name="confirmPassword"
         label={<span style={{ fontSize: "1.5rem" }}>Confirmar Senha</span>}
         variant="outlined"
@@ -75,20 +83,22 @@ const MedicCredentials = () => {
         style={{ marginTop: "1rem" }}
         type={showPassword ? "text" : "password"}
         onChange={(e) => {
-          setMedic({ ...medic, confirmPassword: e.target.value });
+          setMedicData({ ...medicData, confirmPassword: e.target.value });
         }}
-        error={errors.confirmPassword ? true : false}
+        error={errors?.confirmPassword ? true : false}
         helperText={
-          <span style={{ fontSize: "1rem" }}>{errors.confirmPassword}</span>
+          <span style={{ fontSize: "1rem" }}>{errors?.confirmPassword}</span>
         }
       />
 
-      <Link to="/registrar-spital-medico">
-        <button className="secondary">Anterior</button>
-      </Link>
-      <Link to="/registrar-spital-medico-2">
-        <button className="primary">Próximo</button>
-      </Link>
+      <button className="secondary" 
+        onClick={(e) => previousPage()}>
+          Anterior
+      </button>
+      <button className="primary"
+        onClick={(e) => nextPage()}>
+          Próximo
+      </button>
     </div>
   );
 };

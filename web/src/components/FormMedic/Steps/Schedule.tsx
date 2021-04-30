@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./styles.css";
 
-import { Link } from "react-router-dom";
 import Select from "../../Select";
+import { useShareFormMedic } from "../../../context/ShareMedicFormProvider";
 
 interface ISchedule {
   week_day: number;
   from: string;
   to: string;
 }
+interface MedicScheduleProps {
+  nextPage: () => void;
+  previousPage: () => void;
+}
 
-const Schedule = () => {
-  const [ medic, setMedic ] = useState({});
+const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
+  const { medicData, setMedicData } = useShareFormMedic();
 
   const weekDays = [
     {
@@ -52,9 +56,12 @@ const Schedule = () => {
     },
   ] as Array<ISchedule>);
 
-  function handleAddSchedules() {
-    setMedic({ ...medic, schedule: scheduleItems });
-  }
+
+  useEffect(() => {
+    console.log(scheduleItems);
+    setMedicData((previousState) => ({ ...previousState, schedule: scheduleItems}))
+  }, [scheduleItems, setMedicData])
+
 
   function addNewScheduleItem() {
     if (scheduleItems.length >= 7) {
@@ -160,19 +167,16 @@ const Schedule = () => {
         );
       })}
 
-      <Link onClick={handleAddSchedules} to="/registrar-spital-medico-3">
-        <button className="secondary" type="submit">
+      <button className="secondary" 
+        onClick={(e) => previousPage()}>
           Anterior
-        </button>
-      </Link>
-
-      <Link onClick={handleAddSchedules} to="/registrar-spital-medico-5">
-        <button className="primary" type="submit">
+      </button>
+      <button className="primary"
+        onClick={(e) => nextPage()}>
           Próximo
-        </button>
-      </Link>
+      </button>
     </form>
   );
 };
 
-export default Schedule;
+export default MedicSchedule;

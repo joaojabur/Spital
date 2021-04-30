@@ -1,57 +1,65 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import "./styles.css";
-import { Link } from "react-router-dom";
 import validateMedicInfo from "../../../utils/validateMedicInfo";
 import mask from "../../../utils/mask";
+import { useShareFormMedic } from "../../../context/ShareMedicFormProvider";
 
-const PersonalData = () => {
-  const [ medic, setMedic] = useState<any>({});
+interface MedicPersonalData {
+  nextPage: () => void;
+  previousPage: () => void;
+}
 
-  const errors = validateMedicInfo(medic);
+const MedicPersonalData = ({ nextPage, previousPage}: MedicPersonalData) => {
+  const { medicData, setMedicData }= useShareFormMedic();
+  const [ errors, setErrors ] = useState(validateMedicInfo(medicData));
+
+  useEffect(() => {
+    setErrors(validateMedicInfo(medicData));
+  }, [ medicData ])
 
   return (
     <form className="form-container">
       <h2>Dados pessoais</h2>
       <div className="line"></div>
       <TextField
-        value={medic.cpf}
+        value={medicData.cpf}
         placeholder="123.456.789-10"
         name="firstName"
         label={<span style={{ fontSize: "1.5rem" }}>CPF</span>}
         variant="outlined"
         fullWidth
         onChange={(e) => {
-          setMedic({ ...medic, cpf: mask(e.target.value, "###.###.###-##") });
+          setMedicData({ ...medicData, cpf: mask(e.target.value, "###.###.###-##") });
         }}
         autoComplete="off"
         required
-        error={errors.cpf ? true : false}
-        helperText={<span style={{ fontSize: "1rem" }}>{errors.cpf}</span>}
+        error={errors?.cpf ? true : false}
+        helperText={<span style={{ fontSize: "1rem" }}>{errors?.cpf}</span>}
       />
 
       <TextField
-        value={medic.rg}
+        value={medicData.rg}
         placeholder="12.345.678-9"
         name="lastName"
         label={<span style={{ fontSize: "1.5rem" }}>RG</span>}
         variant="outlined"
         fullWidth
         onChange={(e) => {
-          setMedic({ ...medic, rg: mask(e.target.value, "##.###.###-#") });
+          setMedicData({ ...medicData, rg: mask(e.target.value, "##.###.###-#") });
         }}
         style={{ marginTop: "1rem" }}
         required
-        error={errors.rg ? true : false}
-        helperText={<span style={{ fontSize: "1rem" }}>{errors.rg}</span>}
+        error={errors?.rg ? true : false}
+        helperText={<span style={{ fontSize: "1rem" }}>{errors?.rg}</span>}
       />
 
       <input
-        value={medic.birthDate}
+        value={medicData.birthDate}
         type="date"
         style={{ marginTop: "1rem" }}
         onChange={(e) => {
-          setMedic({ ...medic, birthDate: e.target.value });
+          setMedicData({ ...medicData, birthDate: e.target.value });
         }}
         autoComplete="off"
         name="phone"
@@ -66,22 +74,19 @@ const PersonalData = () => {
           marginTop: "0.5rem",
         }}
       >
-        {errors.birthDate}
+        {errors?.birthDate}
       </p>
 
-      <Link to="/registrar-spital-medico-2">
-        <button className="secondary" type="submit">
+      <button className="secondary" 
+        onClick={(e) => previousPage()}>
           Anterior
-        </button>
-      </Link>
-
-      <Link to="/registrar-spital-medico-4">
-        <button className="primary" type="submit">
+      </button>
+      <button className="primary"
+        onClick={(e) => nextPage()}>
           Próximo
-        </button>
-      </Link>
+      </button>
     </form>
   );
 };
 
-export default PersonalData;
+export default MedicPersonalData;

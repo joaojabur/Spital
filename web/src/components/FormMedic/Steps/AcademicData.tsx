@@ -1,13 +1,18 @@
-import { useContext, useState } from "react";
+import { useEffect, useState } from "react";
 
 
 import TextField from "@material-ui/core/TextField";
 import Select from "../../Select";
 import "./styles.css";
-import { Link } from "react-router-dom";
 import validateMedicInfo from "../../../utils/validateMedicInfo";
+import { useShareFormMedic } from "../../../context/ShareMedicFormProvider";
 
-const AcademicData = () => {
+interface MedicNamesProps {
+  nextPage: () => void;
+  previousPage: () => void;
+}
+
+const MedicAcademicData = ({ nextPage, previousPage }: MedicNamesProps) => {
   const areaOptions = [
     {
       label: "Alergia e Imunologia",
@@ -111,9 +116,13 @@ const AcademicData = () => {
     },
   ];
 
-  const [ medic, setMedic] = useState<any>({});;
+  const { medicData, setMedicData }= useShareFormMedic();
+  const [ errors, setErrors ] = useState(validateMedicInfo(medicData));
 
-  const errors = validateMedicInfo(medic);
+
+  useEffect(() => {
+    setErrors(validateMedicInfo(medicData));
+  }, [ medicData ])
 
   return (
     <div className="form-container">
@@ -121,73 +130,75 @@ const AcademicData = () => {
       <div className="line"></div>
       <Select
         name="week_day"
-        onChange={(e: any) => setMedic({ ...medic, area: e.target.value })}
-        value={medic.area}
+        onChange={(e: any) => setMedicData({ ...medicData, area: e.target.value })}
+        value={medicData.area}
         options={areaOptions}
       />
 
       <TextField
         placeholder="Universidade de São Paulo"
-        value={medic.graduation}
+        value={medicData.graduation}
         label={<span style={{ fontSize: "1.5rem" }}>Graduação</span>}
         style={{ marginTop: "1rem" }}
         variant="outlined"
         fullWidth
         onChange={(e) => {
-          setMedic({ ...medic, graduation: e.target.value });
+          setMedicData({ ...medicData, graduation: e.target.value });
         }}
         autoComplete="off"
         name="graduação"
-        error={errors.graduation ? true : false}
+        error={errors?.graduation ? true : false}
         helperText={
-          <span style={{ fontSize: "1rem" }}>{errors.graduation}</span>
+          <span style={{ fontSize: "1rem" }}>{errors?.graduation}</span>
         }
       />
 
       <TextField
-        value={medic.masterDegree}
+        value={medicData.masterDegree}
         placeholder="Universidade de Campinas"
         label={<span style={{ fontSize: "1.5rem" }}>Mestrado (opcional)</span>}
         style={{ marginTop: "1rem" }}
         variant="outlined"
         fullWidth
         onChange={(e) => {
-          setMedic({ ...medic, masterDegree: e.target.value });
+          setMedicData({ ...medicData, masterDegree: e.target.value });
         }}
         autoComplete="off"
         name="mestrado"
-        error={errors.masterDegree ? true : false}
+        error={errors?.masterDegree ? true : false}
         helperText={
-          <span style={{ fontSize: "1rem" }}>{errors.masterDegree}</span>
+          <span style={{ fontSize: "1rem" }}>{errors?.masterDegree}</span>
         }
       />
 
       <TextField
-        value={medic.doctorateDegree}
+        value={medicData.doctorateDegree}
         placeholder="Universidade Estadual Paulista"
         label={<span style={{ fontSize: "1.5rem" }}>Doutorado (opcional)</span>}
         style={{ marginTop: "1rem" }}
         variant="outlined"
         fullWidth
         onChange={(e) => {
-          setMedic({ ...medic, doctorateDegree: e.target.value });
+          setMedicData({ ...medicData, doctorateDegree: e.target.value });
         }}
         autoComplete="off"
         name="phone"
-        error={errors.doctorateDegree ? true : false}
+        error={errors?.doctorateDegree ? true : false}
         helperText={
-          <span style={{ fontSize: "1rem" }}>{errors.doctorateDegree}</span>
+          <span style={{ fontSize: "1rem" }}>{errors?.doctorateDegree}</span>
         }
       />
 
-      <Link to="/registrar-spital-medico-1">
-        <button className="secondary">Anterior</button>
-      </Link>
-      <Link to="/registrar-spital-medico-3">
-        <button className="primary">Próximo</button>
-      </Link>
+      <button className="secondary" 
+        onClick={(e) => previousPage()}>
+          Anterior
+      </button>
+      <button className="primary"
+        onClick={(e) => nextPage()}>
+          Próximo
+      </button>
     </div>
   );
 };
 
-export default AcademicData;
+export default MedicAcademicData;
