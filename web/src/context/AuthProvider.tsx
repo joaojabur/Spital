@@ -3,11 +3,11 @@ import api from "../services/api";
 import Cookies from "js-cookie";
 
 interface User {
-  firstName: string,
-  lastName: string,
-  email: string,
-  phoneNumber: string,
-  image: string,
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  image: string;
 }
 
 interface AuthContextData {
@@ -23,59 +23,57 @@ interface AuthProviderProps {
 
 const AuthContext = createContext({} as AuthContextData);
 
-export default function AuthProvider({ children }: AuthProviderProps){
-  const [ user, setUser ] = useState<User | null>(null);
-  const [ userID, setUserID ] = useState<number | null>(null);
+export default function AuthProvider({ children }: AuthProviderProps) {
+  const [user, setUser] = useState<User | null>(null);
+  const [userID, setUserID] = useState<number | null>(null);
 
-  async function getUserData(id: number){
+  async function getUserData(id: number) {
     let response = await api.get(`clients?id=${id}`);
-    
+
     setUser({
-      ...response.data
+      ...response.data,
     });
   }
 
-  async function login(email: string, password: string){
-    let response = await api
-      .post("/clients/login", {
+  async function login(email: string, password: string) {
+    let response;
+    try {
+      response = await api.post("/clients/login", {
         email: email,
         password: password,
-    });
+      });
+      let { token, id } = response.data;
 
+      Cookies.set("access-token", token);
 
-    let { token, id } = response.data;
-    
-    Cookies.set('access-token', token);
+      setUserID(id);
 
-    setUserID(id);
+      getUserData(id);
 
-    getUserData(id);
-
-    return response;
+      return response;
+    } catch (error) {
+      return error.response.data;
+    }
   }
 
-  async function loginWithToken(){
-    let response = await api.get('clients/auth', {
+  async function loginWithToken() {
+    let response = await api.get("clients/auth", {
       headers: {
-        Authorization: Cookies.get('access-token')
-      }
+        Authorization: Cookies.get("access-token"),
+      },
     });
 
+    let { auth, userID } = response.data;
 
-    let {
-      auth,
-      userID
-    } = response.data;
-
-    if (auth){
+    if (auth) {
       setUserID(userID);
       getUserData(userID);
     }
   }
 
-  async function signup(user: User){
+  async function signup(user: User) {
     return await api.post("clients", {
-      ...user
+      ...user,
     });
   }
 
@@ -84,26 +82,22 @@ export default function AuthProvider({ children }: AuthProviderProps){
       Verifica se o navegador tem os Cookies,
       ou seja já está logado
     */
-    if (Cookies.get('access-token')){
+    if (Cookies.get("access-token")) {
       loginWithToken();
     }
-  }, [])
-  
+  }, []);
+
   let value = {
     user,
     authenticated: user !== null,
     signup,
-    login
+    login,
   } as AuthContextData;
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children }
-    </AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
-export function useAuth(){
+export function useAuth() {
   return useContext(AuthContext);
 }
 // const DataProvider = ({ children }: DataProviderProps) => {
@@ -166,7 +160,7 @@ export function useAuth(){
 //         });
 //       }
 //   }, [responseData]);
-  
+
 //   return (
 //     <DataContext.Provider
 //       value={{

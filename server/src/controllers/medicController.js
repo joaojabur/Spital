@@ -41,14 +41,14 @@ module.exports = {
       birthDate,
       schedule,
     } = req.body;
-    
+
     const hashPassword = await bcrypt.hash(password, 10);
 
     try {
       const isTheEmailAlreadyRegistered = await knex("user").where({
         email,
       });
-      
+
       const isTheCPFOrRGAlreadyRegistered = await knex("medics").where({
         cpf,
         rg,
