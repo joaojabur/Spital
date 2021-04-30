@@ -55,11 +55,11 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
 
   const [hasError, setHasError] = useState(false);
 
-  const hashedPassword = getPasswordAsterisk(medicData.password);
+  const hashedPassword = getPasswordAsterisk(medicData?.password ?? '');
 
   const [errors, setErrors] = useState(validateMedicInfo(medicData));
 
-  const formatedBirthDate = medicData.birthDate.replace(/[-]/g, "/");
+  const formatedBirthDate = medicData?.birthDate?.replace(/[-]/g, "/");
 
   async function handleSubmitForm(e: any) {
     e.preventDefault();
@@ -80,9 +80,9 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
       <RenderAccordion
         summary="Nome e telefone"
         medicInfo={[
-          { type: "Nome", info: medicData.firstName },
-          { type: "Sobrenome", info: medicData.lastName },
-          { type: "Telefone", info: medicData.phoneNumber },
+          { type: "Nome", info: medicData?.firstName },
+          { type: "Sobrenome", info: medicData?.lastName },
+          { type: "Telefone", info: medicData?.phoneNumber },
         ]}
         index={0}
         changePage={changePage}
@@ -90,7 +90,7 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
       <RenderAccordion
         summary="Credenciais"
         medicInfo={[
-          { type: "E-mail", info: medicData.email },
+          { type: "E-mail", info: medicData?.email },
           { type: "Senha", info: hashedPassword },
         ]}
         index={1}
@@ -99,10 +99,10 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
       <RenderAccordion
         summary="Dados acadêmicos"
         medicInfo={[
-          { type: "Área médica", info: medicData.area },
-          { type: "Graduação", info: medicData.graduation },
-          { type: "Mestrado", info: medicData.masterDegree },
-          { type: "Doutorado", info: medicData.doctorateDegree },
+          { type: "Área médica", info: medicData?.area },
+          { type: "Graduação", info: medicData?.graduation },
+          { type: "Mestrado", info: medicData?.masterDegree },
+          { type: "Doutorado", info: medicData?.doctorateDegree },
         ]}
         index={2}
         changePage={changePage}
@@ -110,8 +110,8 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
       <RenderAccordion
         summary="Dados pessoais"
         medicInfo={[
-          { type: "CPF", info: medicData.cpf },
-          { type: "RG", info: medicData.rg },
+          { type: "CPF", info: medicData?.cpf },
+          { type: "RG", info: medicData?.rg },
           { type: "Data de nascimento", info: formatedBirthDate },
         ]}
         index={3}

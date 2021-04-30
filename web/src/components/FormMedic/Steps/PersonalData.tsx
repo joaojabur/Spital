@@ -5,12 +5,12 @@ import validateMedicInfo from "../../../utils/validateMedicInfo";
 import mask from "../../../utils/mask";
 import { useShareFormMedic } from "../../../context/ShareMedicFormProvider";
 
-interface MedicPersonalData {
+interface MedicPersonalDataProps {
   nextPage: () => void;
   previousPage: () => void;
 }
 
-const MedicPersonalData = ({ nextPage, previousPage}: MedicPersonalData) => {
+const MedicPersonalData = ({ nextPage, previousPage}: MedicPersonalDataProps) => {
   const { medicData, setMedicData }= useShareFormMedic();
   const [ errors, setErrors ] = useState(validateMedicInfo(medicData));
 
@@ -23,7 +23,7 @@ const MedicPersonalData = ({ nextPage, previousPage}: MedicPersonalData) => {
       <h2>Dados pessoais</h2>
       <div className="line"></div>
       <TextField
-        value={medicData.cpf}
+        value={medicData?.cpf}
         placeholder="123.456.789-10"
         name="firstName"
         label={<span style={{ fontSize: "1.5rem" }}>CPF</span>}
@@ -39,7 +39,7 @@ const MedicPersonalData = ({ nextPage, previousPage}: MedicPersonalData) => {
       />
 
       <TextField
-        value={medicData.rg}
+        value={medicData?.rg}
         placeholder="12.345.678-9"
         name="lastName"
         label={<span style={{ fontSize: "1.5rem" }}>RG</span>}
@@ -55,7 +55,7 @@ const MedicPersonalData = ({ nextPage, previousPage}: MedicPersonalData) => {
       />
 
       <input
-        value={medicData.birthDate}
+        value={medicData?.birthDate}
         type="date"
         style={{ marginTop: "1rem" }}
         onChange={(e) => {

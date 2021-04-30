@@ -42,7 +42,7 @@ const MedicCredentials = ({ nextPage, previousPage}: MedicCredentialsProps) => {
       <div className="line"></div>
       <TextField
         placeholder="email90@gmail.com"
-        value={medicData.email}
+        value={medicData?.email}
         name="email"
         label={<span style={{ fontSize: "1.5rem" }}>E-mail</span>}
         variant="outlined"
@@ -58,7 +58,7 @@ const MedicCredentials = ({ nextPage, previousPage}: MedicCredentialsProps) => {
 
       <TextField
         placeholder="*********"
-        value={medicData.password}
+        value={medicData?.password}
         name="password"
         label={<span style={{ fontSize: "1.5rem" }}>Senha</span>}
         variant="outlined"
@@ -75,7 +75,7 @@ const MedicCredentials = ({ nextPage, previousPage}: MedicCredentialsProps) => {
 
       <TextField
         placeholder="*********"
-        value={medicData.confirmPassword}
+        value={medicData?.confirmPassword}
         name="confirmPassword"
         label={<span style={{ fontSize: "1.5rem" }}>Confirmar Senha</span>}
         variant="outlined"

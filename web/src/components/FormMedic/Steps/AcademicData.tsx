@@ -131,13 +131,13 @@ const MedicAcademicData = ({ nextPage, previousPage }: MedicNamesProps) => {
       <Select
         name="week_day"
         onChange={(e: any) => setMedicData({ ...medicData, area: e.target.value })}
-        value={medicData.area}
+        value={medicData?.area}
         options={areaOptions}
       />
 
       <TextField
         placeholder="Universidade de São Paulo"
-        value={medicData.graduation}
+        value={medicData?.graduation}
         label={<span style={{ fontSize: "1.5rem" }}>Graduação</span>}
         style={{ marginTop: "1rem" }}
         variant="outlined"
@@ -154,7 +154,7 @@ const MedicAcademicData = ({ nextPage, previousPage }: MedicNamesProps) => {
       />
 
       <TextField
-        value={medicData.masterDegree}
+        value={medicData?.masterDegree}
         placeholder="Universidade de Campinas"
         label={<span style={{ fontSize: "1.5rem" }}>Mestrado (opcional)</span>}
         style={{ marginTop: "1rem" }}
@@ -172,7 +172,7 @@ const MedicAcademicData = ({ nextPage, previousPage }: MedicNamesProps) => {
       />
 
       <TextField
-        value={medicData.doctorateDegree}
+        value={medicData?.doctorateDegree}
         placeholder="Universidade Estadual Paulista"
         label={<span style={{ fontSize: "1.5rem" }}>Doutorado (opcional)</span>}
         style={{ marginTop: "1rem" }}
