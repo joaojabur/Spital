@@ -6,12 +6,6 @@ import LoginAndRegisterMedico from "../pages/LoginAndRegisterMedico";
 import LoginAndRegisterPaciente from "../pages/LoginAndRegisterPaciente";
 import LoginPacient from "../pages/LoginPatient";
 import LoginSpitalAccount from "../pages/LoginSpitalAccount";
-import RegisterMedicalSpitalAcademic from "../pages/RegisterMedicalSpitalAccount/RegisterMedicalSpitalAcademic";
-import RegisterMedicalSpitalCredentials from "../pages/RegisterMedicalSpitalAccount/RegisterMedicalSpitalCredentials";
-import RegisterMedicalSpitalNames from "../pages/RegisterMedicalSpitalAccount/RegisterMedicalSpitalNames";
-import RegisterMedicalSpitalPersonalData from "../pages/RegisterMedicalSpitalAccount/RegisterMedicalSpitalPersonalData";
-import RegisterMedicalSpitalAccountReview from "../pages/RegisterMedicalSpitalAccount/RegisterMedicalSpitalReview";
-import RegisterMedicalSpitalSchedule from "../pages/RegisterMedicalSpitalAccount/RegisterMedicalSpitalSchedule";
 import RegisterPacient from "../pages/RegisterPacient";
 import RegisterPatientSpitalAccount from "../pages/RegisterSpitalAccount";
 import AppointmentsClient from "../platform-pages/AppointmentsClient";
@@ -20,6 +14,7 @@ import PrivateRoute from "./PrivateRoute";
 import MyProfile from "../platform-pages/MyProfile";
 import SearchClient from "../platform-pages/SearchClient";
 import PublicRoute from "./PublicRoute";
+import RegisterMedicSpital from "../pages/RegisterMedicalSpitalAccount";
 
 function Router() {
   return (
@@ -49,27 +44,7 @@ function Router() {
         />
         <PublicRoute
           path="/registrar-spital-medico"
-          component={RegisterMedicalSpitalNames}
-        />
-        <PublicRoute
-          path="/registrar-spital-medico-1"
-          component={RegisterMedicalSpitalCredentials}
-        />
-        <PublicRoute
-          path="/registrar-spital-medico-2"
-          component={RegisterMedicalSpitalAcademic}
-        />
-        <PublicRoute
-          path="/registrar-spital-medico-3"
-          component={RegisterMedicalSpitalPersonalData}
-        />
-        <PublicRoute
-          path="/registrar-spital-medico-4"
-          component={RegisterMedicalSpitalSchedule}
-        />
-        <PublicRoute
-          path="/registrar-spital-medico-5"
-          component={RegisterMedicalSpitalAccountReview}
+          component={RegisterMedicSpital}
         />
       </Switch>
     </BrowserRouter>
