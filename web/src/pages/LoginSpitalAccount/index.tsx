@@ -28,7 +28,8 @@ const LoginSpitalAccount = () => {
   async function handleSubmitLogin(e: any) {
     e.preventDefault();
 
-    login(user.email, user.password);
+    const { error } = await login(user.email, user.password);
+    setError(error);
   }
 
   const [isLoading, setIsLoading] = useState(false);
