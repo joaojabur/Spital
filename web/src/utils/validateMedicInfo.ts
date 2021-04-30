@@ -1,3 +1,5 @@
+import validateCPF from "./validateCpf";
+
 interface Medic {
   firstName: string;
   lastName: string;
@@ -87,12 +89,11 @@ export default function validateMedicInfo(credentials?: Medic) {
 
     if (!cpfNumbers?.length ?? 0) {
       errors.cpf = "Campo de CPF é necessário";
-    } else if (cpfNumbers.length !== 11) {
-      errors.cpf = "CPF inválido";
     } else if (isNaN(parseInt(cpfNumbers))) {
       errors.rg = "Caracteres não aceitos";
+    } else if (validateCPF({cpf: cpfNumbers })) {
+      errors.cpf = "CPF inválido";
     }
-
     const rgNumbers = credentials?.rg?.replace(/[-. ]/g, "") ?? '0';
 
     if (!rgNumbers?.length ?? 0) {
@@ -107,8 +108,6 @@ export default function validateMedicInfo(credentials?: Medic) {
       errors.birthDate = "Campo de data de nascimento é necessário";
     }
   }
-
-  console.log(errors);
 
   return errors;
 }
