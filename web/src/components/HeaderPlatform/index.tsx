@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import "./styles.css";
 import { Link } from "react-router-dom";
 import {
   IoLocationOutline,
   IoCaretDownOutline,
   IoReorderFourOutline,
+  IoCloseCircleOutline,
 } from "react-icons/io5";
 import logo from "../../assets/images/logo.svg";
 import { useAuth } from "../../context/AuthProvider";
@@ -15,6 +16,11 @@ interface HeaderPlatformProps {
 
 const HeaderPlatform: React.FC<HeaderPlatformProps> = ({ title }) => {
   const { user } = useAuth();
+  const [showMobileNav, setShowMobileNav] = useState(false);
+
+  function handleShowMobileNav() {
+    setShowMobileNav(!showMobileNav);
+  }
 
   const links = [
     {
@@ -42,8 +48,17 @@ const HeaderPlatform: React.FC<HeaderPlatformProps> = ({ title }) => {
   return (
     <div className="header-platform">
       <div className="header-platform-flex">
-        <button className="header-button-nav" type="button">
-          <IoReorderFourOutline size={30} color="#fff" />
+        <button
+          style={{ border: "none", outline: "none" }}
+          onClick={handleShowMobileNav}
+          className="header-button-nav"
+          type="button"
+        >
+          {showMobileNav ? (
+            <IoCloseCircleOutline size={30} color="#fff" />
+          ) : (
+            <IoReorderFourOutline size={30} color="#fff" />
+          )}
         </button>
         <ul className="header-platform-nav">
           {links.map((link: any, index: number) => {
@@ -73,13 +88,28 @@ const HeaderPlatform: React.FC<HeaderPlatformProps> = ({ title }) => {
 
         <img className="header-logo" src={logo} alt="Spital" />
       </div>
+      <ul
+        className={
+          showMobileNav
+            ? "header-platform-nav-mobile-show"
+            : "header-platform-nav-mobile"
+        }
+      >
+        {links.map((link: any, index: number) => {
+          return (
+            <Link key={index} to={link.goTo}>
+              {link.label}
+            </Link>
+          );
+        })}
+      </ul>
 
       {title ? (
         <h1 className="header-platform-title">{title}</h1>
       ) : (
         <h1 className="header-hello-message">
           Olá
-          <span>{ user.firstName }</span>
+          <span>{user.firstName}</span>
         </h1>
       )}
     </div>
