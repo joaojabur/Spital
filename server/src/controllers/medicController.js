@@ -38,7 +38,7 @@ module.exports = {
       doctorate_degree,
       cpf,
       rg,
-      birth_date,
+      birthDate,
       schedule,
     } = req.body;
     
@@ -67,7 +67,7 @@ module.exports = {
         });
 
         const medicID = await knex("medics")
-          .returning("userID")
+          .returning("id")
           .insert({
             userID: parseInt(userID),
             phoneNumber: String(phoneNumber),
@@ -77,19 +77,18 @@ module.exports = {
             doctorate_degree,
             cpf,
             rg,
-            birth_date,
+            birth_date: birthDate,
           });
+        
 
-        const medicSchedule = schedule.map((scheduleItem) => {
-          return {
+        for (let sche of schedule){
+          await knex("medic_schedule").insert({
             medic_id: parseInt(medicID),
-            week_day: scheduleItem.week_day,
-            from: convertHourToMinutes(scheduleItem.from),
-            to: convertHourToMinutes(scheduleItem.to),
-          };
-        });
-
-        await knex("medic_schedule").insert(medicSchedule);
+            week_day: sche.week_day,
+            from: convertHourToMinutes(sche.from),
+            to: convertHourToMinutes(sche.to),
+          });
+        }
 
         res.status(201).send();
       }
