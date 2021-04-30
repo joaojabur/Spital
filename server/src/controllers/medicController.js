@@ -41,21 +41,20 @@ module.exports = {
       birth_date,
       schedule,
     } = req.body;
-
-    const hashPassword = bcrypt.hash(password, 10);
-    console.log(hashPassword);
+    
+    const hashPassword = await bcrypt.hash(password, 10);
 
     try {
-      const isTheEmailAlreadyRegisteredInMedics = await knex("user").where({
+      const isTheEmailAlreadyRegistered = await knex("user").where({
         email,
       });
-
+      
       const isTheCPFOrRGAlreadyRegistered = await knex("medics").where({
         cpf,
         rg,
       });
 
-      if (isTheEmailAlreadyRegisteredInMedics.length > 0) {
+      if (isTheEmailAlreadyRegistered.length > 0) {
         res.status(400).send({ error: "E-mail já registrado" });
       } else if (isTheCPFOrRGAlreadyRegistered.length > 0) {
         res.status(400).send({ error: "CPF e RG já registrados" });
