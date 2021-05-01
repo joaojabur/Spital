@@ -12,7 +12,7 @@ export default function validateInfo(credentials: User) {
   let errors = {} as User;
 
   if (credentials !== null){
-    if (!credentials.firstName.length ?? 0) {
+    if (!credentials?.firstName?.length ?? 0) {
       errors.firstName = "Campo de nome é necessário";
     }
   
@@ -23,7 +23,7 @@ export default function validateInfo(credentials: User) {
     if (!credentials?.email) {
       errors.email = "Campo de e-mail é necessário";
     } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(credentials.email)
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(credentials?.email)
     ) {
       errors.email = "E-mail inválido";
     }
