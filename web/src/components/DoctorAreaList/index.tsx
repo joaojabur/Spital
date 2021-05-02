@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from "react";
 import api from "../../services/api";
 import DoctorItem from "../DoctorItem";
-import "./styles.css";
 
-const DoctorList = () => {
+interface DoctorAreaListProps {
+  area: string;
+}
+
+const DoctorAreaList: React.FC<DoctorAreaListProps> = ({ area }) => {
   const [medics, setMedics] = useState([]);
 
+  const capitalizeArea = area.charAt(0).toUpperCase() + area.slice(1);
+
   useEffect(() => {
-    api.get("medics").then((response) => {
+    api.get(`medics/${capitalizeArea}`).then((response) => {
       setMedics(response.data);
     });
-  }, []);
+  }, [capitalizeArea]);
 
   return (
     <div className="doctor-list">
@@ -30,4 +35,4 @@ const DoctorList = () => {
   );
 };
 
-export default DoctorList;
+export default DoctorAreaList;

@@ -79,9 +79,8 @@ module.exports = {
             rg,
             birth_date: birthDate,
           });
-        
 
-        for (let sche of schedule){
+        for (let sche of schedule) {
           await knex("medic_schedule").insert({
             medic_id: parseInt(medicID),
             week_day: sche.week_day,
@@ -156,6 +155,18 @@ module.exports = {
       await knex("medics").where({ id }).del();
 
       res.status(201).send();
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async list(req, res, next) {
+    const { area } = req.params;
+
+    try {
+      const result = await knex("medics").where({ area });
+
+      res.status(200).send(result);
     } catch (error) {
       next(error);
     }

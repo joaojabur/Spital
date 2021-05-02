@@ -3,7 +3,7 @@
   width: 100vw;
   background-color: var(--color-main);
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   flex-direction: row !important;
 }
 

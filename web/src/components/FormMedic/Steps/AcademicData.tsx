@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-
 import TextField from "@material-ui/core/TextField";
 import Select from "../../Select";
 import "./styles.css";
@@ -15,114 +14,113 @@ interface MedicNamesProps {
 const MedicAcademicData = ({ nextPage, previousPage }: MedicNamesProps) => {
   const areaOptions = [
     {
-      label: "Alergia e Imunologia",
-      value: "Alergia e Imunologia",
+      label: "Alergista e Imunologista",
+      value: "Alergista e Imunologista",
     },
     {
-      label: "Angiologia",
-      value: "Angiologia",
+      label: "Angiologista",
+      value: "Angiologista",
     },
     {
-      label: "Cardiologia",
-      value: "Cardiologia",
+      label: "Cardiologista",
+      value: "Cardiologista",
     },
     {
-      label: "Coloproctologia",
-      value: "Coloproctologia",
+      label: "Coloproctologista",
+      value: "Coloproctologista",
     },
     {
-      label: "Dermatologia",
-      value: "Dermatologia",
+      label: "Dermatologista",
+      value: "Dermatologista",
     },
     {
-      label: "Endocrinologia",
-      value: "Endocrinologia",
+      label: "Endocrinologista",
+      value: "Endocrinologista",
     },
     {
-      label: "Endoscopia",
-      value: "Endoscopia",
+      label: "Endoscopista",
+      value: "Endoscopista",
     },
     {
-      label: "Gastroenterologia",
-      value: "Gastroenterologia",
+      label: "Gastroenterologista",
+      value: "Gastroenterologista",
     },
     {
-      label: "Geriatria",
-      value: "Geriatria",
+      label: "Geriatra",
+      value: "Geriatra",
     },
     {
-      label: "Ginecologia",
-      value: "Ginecologia",
+      label: "Ginecologista",
+      value: "Ginecologista",
     },
     {
-      label: "Hematologia",
-      value: "Hematologia",
+      label: "Hematologista",
+      value: "Hematologista",
     },
     {
-      label: "Infectologia",
-      value: "Infectologia",
+      label: "Infectologista",
+      value: "Infectologista",
     },
     {
-      label: "Nefrologia",
-      value: "Nefrologia",
+      label: "Nefrologista",
+      value: "Nefrologista",
     },
     {
-      label: "Neurologia",
-      value: "Neurologia",
+      label: "Neurologista",
+      value: "Neurologista",
     },
     {
-      label: "Nutrologia",
-      value: "Nutrologia",
+      label: "Nutrologo",
+      value: "Nutrologo",
     },
     {
-      label: "Obstetrícia",
-      value: "Obstetrícia",
+      label: "Obstetricista",
+      value: "Obstetricista",
     },
     {
-      label: "Oftalmologia",
-      value: "Oftalmologia",
+      label: "Oftalmologista",
+      value: "Oftalmologista",
     },
     {
-      label: "Ortopedia",
-      value: "Ortopedia",
+      label: "Ortopedista",
+      value: "Ortopedista",
     },
     {
-      label: "Otorrinolaringologia",
-      value: "Otorrinolaringologia",
+      label: "Otorrinolaringologista",
+      value: "Otorrinolaringologista",
     },
     {
-      label: "Pediatria",
-      value: "Pediatria",
+      label: "Pediatra",
+      value: "Pediatra",
     },
     {
-      label: "Pneumologia",
-      value: "Pneumologia",
+      label: "Pneumologista",
+      value: "Pneumologista",
     },
     {
-      label: "Radiologia",
-      value: "Radiologia",
+      label: "Radiologista",
+      value: "Radiologista",
     },
     {
-      label: "Radioterapia",
-      value: "Radioterapia",
+      label: "Radioterapista",
+      value: "Radioterapista",
     },
     {
-      label: "Reumatologia",
-      value: "Reumatologia",
+      label: "Reumatologista",
+      value: "Reumatologista",
     },
     {
-      label: "Urologia",
-      value: "Urologia",
+      label: "Urologista",
+      value: "Urologista",
     },
   ];
 
-  const { medicData, setMedicData }= useShareFormMedic();
-  const [ errors, setErrors ] = useState(validateMedicInfo(medicData));
-
+  const { medicData, setMedicData } = useShareFormMedic();
+  const [errors, setErrors] = useState(validateMedicInfo(medicData));
 
   useEffect(() => {
     setErrors(validateMedicInfo(medicData));
-  }, [ medicData ])
+  }, [medicData]);
 
   return (
     <div className="form-container">
@@ -130,7 +128,9 @@ const MedicAcademicData = ({ nextPage, previousPage }: MedicNamesProps) => {
       <div className="line"></div>
       <Select
         name="week_day"
-        onChange={(e: any) => setMedicData({ ...medicData, area: e.target.value })}
+        onChange={(e: any) =>
+          setMedicData({ ...medicData, area: e.target.value })
+        }
         value={medicData?.area}
         options={areaOptions}
       />
@@ -189,13 +189,11 @@ const MedicAcademicData = ({ nextPage, previousPage }: MedicNamesProps) => {
         }
       />
 
-      <button className="secondary" 
-        onClick={(e) => previousPage()}>
-          Anterior
+      <button className="secondary" onClick={(e) => previousPage()}>
+        Anterior
       </button>
-      <button className="primary"
-        onClick={(e) => nextPage()}>
-          Próximo
+      <button className="primary" onClick={(e) => nextPage()}>
+        Próximo
       </button>
     </div>
   );

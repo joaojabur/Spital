@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useState } from "react";
 
 interface MedicData {
   firstName: string;
@@ -24,31 +24,35 @@ interface Schedule {
 }
 
 interface ShareMedicFormContextData {
-    medicData: MedicData;
-    setMedicData: React.Dispatch<React.SetStateAction<MedicData>>;
+  medicData: MedicData;
+  setMedicData: React.Dispatch<React.SetStateAction<MedicData>>;
 }
 
 interface ShareClientFormProviderProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
-export const ShareMedicFormContext = createContext({} as ShareMedicFormContextData)
+export const ShareMedicFormContext = createContext(
+  {} as ShareMedicFormContextData
+);
 
-export default function ShareClientFormProvider({ children }: ShareClientFormProviderProps) {
-    const [ medicData, setMedicData ] = useState<MedicData | null>(null);
-    
-    let value = {
-        medicData,
-        setMedicData
-    } as ShareMedicFormContextData;
+export default function ShareClientFormProvider({
+  children,
+}: ShareClientFormProviderProps) {
+  const [medicData, setMedicData] = useState<MedicData | null>(null);
 
-    return (
-        <ShareMedicFormContext.Provider value={value}>
-            { children }
-        </ShareMedicFormContext.Provider>
-    )
+  let value = {
+    medicData,
+    setMedicData,
+  } as ShareMedicFormContextData;
+
+  return (
+    <ShareMedicFormContext.Provider value={value}>
+      {children}
+    </ShareMedicFormContext.Provider>
+  );
 }
 
-export function useShareFormMedic(){
-    return useContext(ShareMedicFormContext);
+export function useShareFormMedic() {
+  return useContext(ShareMedicFormContext);
 }
