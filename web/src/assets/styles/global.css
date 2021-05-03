@@ -71,6 +71,12 @@ li {
   overflow-x: hidden;
 }
 
+.line-global {
+  width: 100%;
+  height: 1px;
+  background-color: #e6e6f0;
+}
+
 @media (min-width: 700px) {
   :root {
     font-size: 62.5%;

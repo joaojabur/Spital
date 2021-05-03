@@ -1,15 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./styles.css";
+import { IoStar } from "react-icons/io5";
+import api from "../../services/api";
 
-const MedicProfileBox = () => {
+interface MedicProfileBoxProps {
+  id: string;
+  area: string | undefined;
+}
+
+interface UserProps {
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
+const MedicProfileBox: React.FC<MedicProfileBoxProps> = ({ id, area }) => {
+  const [user, setUser] = useState<UserProps | null>(null);
+
+  const rating = [1, 1, 1, 1, 1];
+
+  useEffect(() => {
+    api.get(`users?id=${id}`).then((response) => {
+      setUser(response.data);
+    });
+  }, []);
+
   return (
     <div className="medic-profile-box">
       <div className="medic-profile-box-name">
         <div className="medic-profile-box-image"></div>
-        <h2>Dr. Jason</h2>
-        <p>Pneumologista</p>
+        <h2>Dr. {user?.firstName}</h2>
+        <p>{area}</p>
+        <div className="medic-profile-box-rating">
+          {rating.map((star, index) => {
+            return <IoStar key={index} color="#FFC107" size={30} />;
+          })}
+        </div>
       </div>
-
       <div className="medic-profile-box-schedule">Agendar consulta</div>
     </div>
   );
