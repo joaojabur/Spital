@@ -5,7 +5,7 @@ exports.up = function (knex) {
     table.string("last_name").notNullable();
     table.string("email").unique().notNullable();
     table.string("password").notNullable();
-
+    table.integer('xp').notNullable();
     table.timestamp("created_at").defaultTo(knex.fn.now());
   });
 };
