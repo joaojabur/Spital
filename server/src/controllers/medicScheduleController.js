@@ -9,9 +9,9 @@ module.exports = {
 
       if (medic_id) {
         query
-          .where("medic_id", medic_id)
-          .join("medics", "medics.id", "=", "medic_schedule.medic_id")
-          .select("medic_schedule.*", "medics.first_name", "medics.last_name");
+          .where({ medic_id })
+          .join("medics", "medics.userID", "=", "medic_schedule.medic_id")
+          .select("medic_schedule.*");
       }
 
       const results = await query;

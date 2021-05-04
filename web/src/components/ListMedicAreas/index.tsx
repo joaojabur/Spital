@@ -1,6 +1,5 @@
 import "./styles.css";
 import { Link } from "react-router-dom";
-import doctorIcon from "../../assets/images/icons/hospital/svg/001-doctor.svg";
 import eyeIcon from "../../assets/images/icons/hospital/svg/012-swollen.svg";
 import heartIcon from "../../assets/images/icons/hospital/svg/016-heart.svg";
 import dentistIcon from "../../assets/images/icons/hospital/svg/051-dentist.svg";
@@ -25,113 +24,109 @@ import pediatricsIcon from "../../assets/images/icons/hospital/svg/062-pediatric
 import radiologyIcon from "../../assets/images/icons/hospital/svg/025-x ray.svg";
 import radiotherapyIcon from "../../assets/images/icons/hospital/svg/063-radiotherapy.svg";
 import muscleIcon from "../../assets/images/icons/hospital/svg/064-muscle.svg";
+import angiologyIcon from "../../assets/images/icons/hospital/svg/065-globulos-vermelhos.svg";
 
 const ListMedicAreas = () => {
   const categories = [
     {
-      img: doctorIcon,
-      label: "Clínico Geral",
-      gotTo: "/busca/clinicos-gerais",
-    },
-    {
       img: eyeIcon,
       label: "Oftalmologista",
-      gotTo: "/busca/oftalmologistas",
+      gotTo: "/busca/oftalmologista",
     },
     {
       img: heartIcon,
       label: "Cardiologista",
-      gotTo: "/busca/cardiologistas",
+      gotTo: "/busca/cardiologista",
     },
     {
       img: dentistIcon,
       label: "Dentista",
-      gotTo: "/busca/dentistas",
+      gotTo: "/busca/dentista",
     },
     {
       img: earIcon,
       label: "Otorrinolaringologista",
-      gotTo: "/busca/otorrinolaringologistas",
+      gotTo: "/busca/otorrinolaringologista",
     },
     {
       img: boneIcon,
       label: "Ortopedista",
-      gotTo: "/busca/ortopedistas",
+      gotTo: "/busca/ortopedista",
     },
     {
       img: lungsIcon,
       label: "Pneumologista",
-      gotTo: "/busca/pneumologistas",
+      gotTo: "/busca/pneumologista",
     },
     {
       img: brainIcon,
       label: "Neurologista",
-      gotTo: "/busca/neurologistas",
+      gotTo: "/busca/neurologista",
     },
     {
       img: sickIcon,
       label: "Geriatra",
-      gotTo: "/busca/geriatras",
+      gotTo: "/busca/geriatra",
     },
     {
       img: kidneyIcon,
       label: "Nefrologista",
-      gotTo: "/busca/nefrologistas",
+      gotTo: "/busca/nefrologista",
     },
     {
       img: urologyIcon,
       label: "Urologista",
-      gotTo: "/busca/urologistas",
+      gotTo: "/busca/urologista",
     },
     {
       img: bloodIcon,
       label: "Hematologista",
-      gotTo: "/busca/hematologistas",
+      gotTo: "/busca/hematologista",
     },
     {
       img: bacteriaIcon,
       label: "Alergista e Imunologista",
-      gotTo: "/busca/alergistas-e-imunologistas",
+      gotTo: "/busca/alergistas-e-imunologista",
     },
     {
       img: colonIcon,
       label: "Coloproctologista",
-      gotTo: "/busca/coloproctologistas",
+      gotTo: "/busca/coloproctologista",
     },
     {
       img: dermisIcon,
       label: "Demartologista",
-      gotTo: "/busca/dermatologistas",
+      gotTo: "/busca/dermatologista",
     },
     {
       img: endocrinologyIcon,
       label: "Endocrinologista",
-      gotTo: "/busca/endocrinologistas",
+      gotTo: "/busca/endocrinologista",
     },
     {
       img: stomachIcon,
       label: "Gastroenterologista",
-      gotTo: "/busca/gastroenterologistas",
+      gotTo: "/busca/gastroenterologista",
     },
     {
       img: gynecologyIcon,
       label: "Ginecologista",
-      gotTo: "/busca/ginecologistas",
+      gotTo: "/busca/ginecologista",
     },
     {
       img: virusIcon,
       label: "Infectologista",
-      gotTo: "/busca/infectologistas",
+      gotTo: "/busca/infectologista",
     },
     {
       img: nutrologyIcon,
       label: "Nutrologista",
-      gotTo: "/busca/nutrologistas",
+      gotTo: "/busca/nutrologista",
     },
     {
       img: obstetricsIcon,
       label: "Obstetricista",
-      gotTo: "/busca/obstetricistas",
+      gotTo: "/busca/obstetricista",
     },
     {
       img: pediatricsIcon,
@@ -141,17 +136,22 @@ const ListMedicAreas = () => {
     {
       img: radiologyIcon,
       label: "Radiologista",
-      gotTo: "/busca/radiologistas",
+      gotTo: "/busca/radiologista",
     },
     {
       img: radiotherapyIcon,
       label: "Radioterapista",
-      gotTo: "/busca/radioterapistas",
+      gotTo: "/busca/radioterapista",
     },
     {
       img: muscleIcon,
       label: "Remautologista",
-      gotTo: "/busca/remautologistas",
+      gotTo: "/busca/remautologista",
+    },
+    {
+      img: angiologyIcon,
+      label: "Angiologista",
+      gotTo: "/busca/angiologista",
     },
   ];
 

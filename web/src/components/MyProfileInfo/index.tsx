@@ -1,11 +1,16 @@
 import React from "react";
 import "./styles.css";
+import { useAuth } from "../../context/AuthProvider";
 
 const MyProfileInfo = () => {
+  const { user } = useAuth();
+
   return (
     <div className="my-profile-info">
       <div className="my-profile-info-image"></div>
-      <h2 className="my-profile-info-name">Marcelo Jabur</h2>
+      <h2 className="my-profile-info-name">
+        {user.firstName} {user.lastName}
+      </h2>
       <div className="my-profile-info-level">
         <h2>Nível</h2>
         <div className="my-profile-info-level-data">

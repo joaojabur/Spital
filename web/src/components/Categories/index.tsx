@@ -1,5 +1,4 @@
 import "./styles.css";
-import doctorIcon from "../../assets/images/icons/hospital/svg/001-doctor.svg";
 import eyeIcon from "../../assets/images/icons/hospital/svg/012-swollen.svg";
 import heartIcon from "../../assets/images/icons/hospital/svg/016-heart.svg";
 import dentistIcon from "../../assets/images/icons/hospital/svg/051-dentist.svg";
@@ -10,34 +9,29 @@ import { Link } from "react-router-dom";
 const Categories = () => {
   const categories = [
     {
-      img: doctorIcon,
-      label: "Clínico Geral",
-      gotTo: "/busca/clinicos-gerais",
-    },
-    {
       img: eyeIcon,
       label: "Oftalmologista",
-      gotTo: "/busca/oftalmologistas",
+      gotTo: "/busca/oftalmologista",
     },
     {
       img: heartIcon,
       label: "Cardiologista",
-      gotTo: "/busca/cardiologistas",
+      gotTo: "/busca/cardiologista",
     },
     {
       img: dentistIcon,
       label: "Dentista",
-      gotTo: "/busca/dentistas",
+      gotTo: "/busca/dentista",
     },
     {
       img: earIcon,
       label: "Otorrinolaringologista",
-      gotTo: "/busca/otorrinolaringologistas",
+      gotTo: "/busca/otorrinolaringologista",
     },
     {
       img: boneIcon,
       label: "Ortopedista",
-      gotTo: "/busca/ortopedistas",
+      gotTo: "/busca/ortopedista",
     },
   ];
 
@@ -50,7 +44,11 @@ const Categories = () => {
       <div className="categories-card">
         {categories.map((categorie, index) => {
           return (
-            <Link key={index} to={categorie.gotTo} className="categories-card-unique">
+            <Link
+              key={index}
+              to={categorie.gotTo}
+              className="categories-card-unique"
+            >
               <img src={categorie.img} alt={categorie.label} />
               <h2>{categorie.label}</h2>
             </Link>

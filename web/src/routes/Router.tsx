@@ -15,6 +15,8 @@ import MyProfile from "../platform-pages/MyProfile";
 import SearchClient from "../platform-pages/SearchClient";
 import PublicRoute from "./PublicRoute";
 import RegisterMedicSpital from "../pages/RegisterMedicalSpitalAccount";
+import MedicArea from "../platform-pages/MedicArea";
+import MedicProfile from "../platform-pages/MedicProfile";
 
 function Router() {
   return (
@@ -31,12 +33,17 @@ function Router() {
         />
         <PublicRoute path="/registrar-paciente" component={RegisterPacient} />
         <PublicRoute path="/entrar-paciente" component={LoginPacient} />
-        <PublicRoute path="/login-spital-paciente" component={LoginSpitalAccount} />
+        <PublicRoute
+          path="/login-spital-paciente"
+          component={LoginSpitalAccount}
+        />
 
         <PrivateRoute path="/principal" component={HomeClient} />
         <PrivateRoute path="/busca" exact component={SearchClient} />
+        <PrivateRoute path="/busca/:area" exact component={MedicArea} />
         <PrivateRoute path="/consultas" exact component={AppointmentsClient} />
         <PrivateRoute path="/perfil" exact component={MyProfile} />
+        <PrivateRoute path="/medicos/:id" exact component={MedicProfile} />
 
         <PublicRoute
           path="/registrar-spital-paciente"

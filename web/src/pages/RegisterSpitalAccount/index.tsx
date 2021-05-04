@@ -11,28 +11,28 @@ import Review from "../../components/Form/Steps/Review";
 
 const RegisterPatientSpitalAccount = () => {
   const history = useHistory();
-  const [ currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
 
   let pages: Array<JSX.Element> = [
-    <Names nextPage={nextPage} previousPage={previousPage}/>,
-    <Credentials nextPage={nextPage} previousPage={previousPage}/>,
-    <Phone nextPage={nextPage} previousPage={previousPage}/>,
-    <Review previousPage={previousPage} changePage={changePage}/>
+    <Names nextPage={nextPage} previousPage={previousPage} />,
+    <Credentials nextPage={nextPage} previousPage={previousPage} />,
+    <Phone nextPage={nextPage} previousPage={previousPage} />,
+    <Review previousPage={previousPage} changePage={changePage} />,
   ];
 
-  function changePage(index: number){
+  function changePage(index: number) {
     setCurrentPage(index);
   }
-  function previousPage(){
-    if (currentPage === 0){
-      history.replace('/registrar-paciente');
+  function previousPage() {
+    if (currentPage === 0) {
+      history.replace("/registrar-paciente");
     }
 
-    setCurrentPage(currentPage - 1)
+    setCurrentPage(currentPage - 1);
   }
 
-  function nextPage(){
-    if (currentPage + 1 < pages.length){
+  function nextPage() {
+    if (currentPage + 1 < pages.length) {
       setCurrentPage(currentPage + 1);
     }
   }
@@ -44,9 +44,7 @@ const RegisterPatientSpitalAccount = () => {
           title="Insira suas informações para que a gente consiga realizar seu cadastro"
           returnFunction={previousPage}
         />
-        {
-          pages[currentPage]
-        }
+        {pages[currentPage]}
       </ShareClientFormProvider>
     </div>
   );

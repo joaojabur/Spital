@@ -5,20 +5,16 @@ const bcrypt = require("bcrypt");
 module.exports = {
   async index(req, res, next) {
     try {
-      const { id } = req.query;
+      const { userID } = req.query;
 
-      if (!id) {
+      if (!userID) {
         const results = await knex("medics");
 
         res.status(201).json(results);
       } else {
-        const [result] = await knex("user").where({ id });
+        const [result] = await knex("medics").where({ userID });
 
-        return res.status(200).json({
-          email: result.email,
-          firstName: result.first_name,
-          lastName: result.last_name,
-        });
+        return res.status(200).json(result);
       }
     } catch (error) {
       next(error);
@@ -79,9 +75,8 @@ module.exports = {
             rg,
             birth_date: birthDate,
           });
-        
 
-        for (let sche of schedule){
+        for (let sche of schedule) {
           await knex("medic_schedule").insert({
             medic_id: parseInt(medicID),
             week_day: sche.week_day,
@@ -156,6 +151,18 @@ module.exports = {
       await knex("medics").where({ id }).del();
 
       res.status(201).send();
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async list(req, res, next) {
+    const { area } = req.params;
+
+    try {
+      const result = await knex("medics").where({ area });
+
+      res.status(200).send(result);
     } catch (error) {
       next(error);
     }
