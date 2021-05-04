@@ -14,6 +14,12 @@ exports.up = function (knex) {
     table.text("birth_date").notNullable();
 
     table
+      .integer("address")
+      .references("id")
+      .inTable('Address')
+      .notNullable()
+      .onDelete("CASCADE");
+    table
       .integer("userID")
       .references("id")
       .inTable('user')
