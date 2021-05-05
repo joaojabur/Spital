@@ -41,7 +41,7 @@ module.exports = {
     const hashPassword = await bcrypt.hash(password, 10);
 
     try {
-      const isTheEmailAlreadyRegistered = await knex("user").where({
+      const isTheEmailAlreadyRegistered = await knex("users").where({
         email,
       });
 
@@ -55,11 +55,12 @@ module.exports = {
       } else if (isTheCPFOrRGAlreadyRegistered.length > 0) {
         res.status(400).send({ error: "CPF e RG já registrados" });
       } else {
-        const userID = await knex("user").returning("id").insert({
+        const userID = await knex("users").returning("id").insert({
           first_name: firstName,
           last_name: lastName,
           email,
           password: hashPassword,
+          xp: 0,
         });
 
         const medicID = await knex("medics")

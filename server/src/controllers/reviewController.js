@@ -3,14 +3,23 @@ const knex = require("../database");
 module.exports = {
   async index(req, res, next) {
     try {
-      const { medic_id } = req.query;
-      const query = knex("appointments");
+      const { medic_id, client_id } = req.query;
+
+      const query = knex("reviews");
 
       if (medic_id) {
         query
-          .where("medic_id", medic_id)
-          .join("medics", "medics.id", "=", "appointments.medicID")
-          .select("appointments.*", "medics.first_name", "medics.last_name");
+          .where({
+            medicID: medic_id,
+            clientID: client_id,
+          })
+          .join("medics", "medics.id", "=", "reviews.medicID")
+          .select(
+            "reviews.*",
+            "medics.userID",
+            "medics.userID",
+            "clients.userID"
+          );
       }
 
       const results = await query;
@@ -23,13 +32,13 @@ module.exports = {
 
   async create(req, res, next) {
     try {
-      const { week_day, from, to } = req.body;
-      const { medic_id } = req.query;
-      await knex("appointments").insert({
+      const { stars, description } = req.body;
+      const { medic_id, client_id } = req.query;
+      await knex("reviews").insert({
+        stars,
+        description,
         medic_id,
-        week_day,
-        from,
-        to,
+        client_id,
       });
 
       res.status(201).send();
@@ -41,12 +50,12 @@ module.exports = {
   async update(req, res, next) {
     try {
       const { id } = req.params;
-      const { week_day, from, to } = req.body;
-      await knex("appointments")
+      const { stars, description } = req.body;
+
+      await knex("reviews")
         .update({
-          week_day,
-          from,
-          to,
+          stars,
+          description,
         })
         .where({ id });
 
@@ -59,7 +68,7 @@ module.exports = {
   async delete(req, res, next) {
     try {
       const { id } = req.params;
-      await knex("appointments").where({ id }).del();
+      await knex("reviews").where({ id }).del();
 
       res.status(200).send();
     } catch (error) {

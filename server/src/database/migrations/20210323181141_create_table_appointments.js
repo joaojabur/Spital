@@ -5,7 +5,7 @@ exports.up = function (knex) {
     table.integer("from").notNullable();
     table.integer("to").notNullable();
     table
-      .integer("medic_id")
+      .integer("medicID")
       .references("medics.id")
       .notNullable()
       .onDelete("CASCADE");

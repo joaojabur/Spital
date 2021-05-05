@@ -26,7 +26,7 @@ interface Schedule {
 export default function validateMedicInfo(credentials?: Medic) {
   let errors = {} as Medic;
 
-  if (credentials !== null){
+  if (credentials !== null) {
     if (!credentials?.firstName?.length ?? 0) {
       errors.firstName = "Campo de nome é necessário";
     }
@@ -38,7 +38,7 @@ export default function validateMedicInfo(credentials?: Medic) {
     if (!credentials?.email?.length ?? 0) {
       errors.email = "Campo de e-mail é necessário";
     } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(credentials?.email ?? '')
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(credentials?.email ?? "")
     ) {
       errors.email = "E-mail inválido";
     }
@@ -55,8 +55,9 @@ export default function validateMedicInfo(credentials?: Medic) {
       errors.confirmPassword = "As senhas não combinam";
     }
 
-    const phoneNumbers = credentials?.phoneNumber?.replace(/[-.() ]/g, "") ?? '0';
-    
+    const phoneNumbers =
+      credentials?.phoneNumber?.replace(/[-.() ]/g, "") ?? "0";
+
     if (isNaN(parseInt(phoneNumbers))) {
       errors.phoneNumber = "Número de telefone inválido";
     } else if (phoneNumbers.length !== 11) {
@@ -71,30 +72,34 @@ export default function validateMedicInfo(credentials?: Medic) {
 
     if (!credentials?.graduation?.length ?? 0) {
       errors.graduation = "Campo de graduação é necessário";
-    } else if (credentials?.graduation?.length < 10) {
+    } else if (credentials?.graduation?.length < 4) {
       errors.graduation = "Campo de graduação com poucos caracteres";
     }
 
-    if ((credentials?.masterDegree?.length ?? 0>= 1)
-      && (credentials?.masterDegree?.length ?? 0 <= 10)) {
+    if (
+      ((credentials?.masterDegree?.length ?? 0 )>= 1) &&
+      ((credentials?.masterDegree?.length ?? 0 )<= 4)
+    ) {
       errors.masterDegree = "Campo de mestrado com poucos caracteres";
     }
 
-    if ((credentials?.doctorateDegree?.length ?? 0 >= 1)
-       && (credentials?.doctorateDegree?.length ?? 0<= 10)) {
+    if (
+      ((credentials?.doctorateDegree?.length ?? 0 )>= 1) &&
+      ((credentials?.doctorateDegree?.length ?? 0 )<= 4)
+    ) {
       errors.doctorateDegree = "Campo de doutorado com poucos caracteres";
     }
 
-    const cpfNumbers = credentials?.cpf?.replace(/[-. ]/g, "") ?? '0';
+    const cpfNumbers = credentials?.cpf?.replace(/[-. ]/g, "") ?? "0";
 
     if (!cpfNumbers?.length ?? 0) {
       errors.cpf = "Campo de CPF é necessário";
     } else if (isNaN(parseInt(cpfNumbers))) {
       errors.rg = "Caracteres não aceitos";
-    } else if (validateCPF({cpf: cpfNumbers })) {
+    } else if (validateCPF({ cpf: cpfNumbers })) {
       errors.cpf = "CPF inválido";
     }
-    const rgNumbers = credentials?.rg?.replace(/[-. ]/g, "") ?? '0';
+    const rgNumbers = credentials?.rg?.replace(/[-. ]/g, "") ?? "0";
 
     if (!rgNumbers?.length ?? 0) {
       errors.rg = "Campo de RG é necessário";

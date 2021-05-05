@@ -6,11 +6,11 @@ module.exports = {
       const { id } = req.query;
 
       if (!id) {
-        const results = await knex("user");
+        const results = await knex("users");
 
         return res.status(200).json(results);
       } else {
-        const [result] = await knex("user").where({ id });
+        const [result] = await knex("users").where({ id });
 
         return res.status(200).json({
           email: result.email,

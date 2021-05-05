@@ -9,6 +9,8 @@ const MedicScheduleController = require("./controllers/medicScheduleController.j
 const isAuth = require("./middlewares/isAuth");
 const clientController = require("./controllers/clientController");
 const userController = require("./controllers/userController");
+const reviewController = require("./controllers/reviewController");
+const addressController = require("./controllers/addressController");
 
 routes.get("/users", userController.index);
 
@@ -34,5 +36,15 @@ routes.post("/medic-schedule", MedicScheduleController.create);
 routes.get("/medic-schedule", MedicScheduleController.index);
 routes.put("/medic-schedule/:id", MedicScheduleController.update);
 routes.delete("/medic-schedule/:id", MedicScheduleController.delete);
+
+routes.post("/reviews", reviewController.create);
+routes.get("/reviews", reviewController.index);
+routes.put("/reviews", reviewController.update);
+routes.delete("/reviews", reviewController.delete);
+
+routes.post("/addresses", addressController.create);
+routes.get("/addresses", addressController.index);
+routes.put("/addresses", addressController.update);
+routes.delete("/addresses", addressController.delete);
 
 module.exports = routes;

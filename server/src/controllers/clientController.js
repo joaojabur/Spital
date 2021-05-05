@@ -10,11 +10,11 @@ module.exports = {
       const { id } = req.query;
 
       if (!id) {
-        const results = await knex("user");
+        const results = await knex("users");
 
         return res.status(200).json(results);
       } else {
-        const [result] = await knex("user").where({ id });
+        const [result] = await knex("users").where({ id });
 
         return res.status(200).json({
           email: result.email,
@@ -33,18 +33,19 @@ module.exports = {
 
       const hashPassword = await bcrypt.hash(password, 10);
 
-      const isTheEmailAlreadyRegistered = await knex("user").where({
+      const isTheEmailAlreadyRegistered = await knex("users").where({
         email,
       });
 
       if (isTheEmailAlreadyRegistered.length > 0) {
         res.status(400).send({ error: "E-mail já registrado" });
       } else {
-        const userID = await knex("user").returning("id").insert({
+        const userID = await knex("users").returning("id").insert({
           first_name: firstName,
           last_name: lastName,
           email,
           password: hashPassword,
+          xp: 0
         });
 
         await knex("clients").insert({
@@ -95,7 +96,7 @@ module.exports = {
     try {
       const { email, password } = req.body;
 
-      const [user] = await knex("user")
+      const [user] = await knex("users")
         .where({ email })
         .select("password", "id");
 

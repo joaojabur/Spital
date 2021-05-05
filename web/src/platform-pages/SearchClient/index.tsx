@@ -8,7 +8,7 @@ const SearchClient = () => {
     <div className="client-platform">
       <HeaderPlatform title="Encontre os melhores médicos da sua região" />
       <div className="container">
-        <SearchInput />
+        <SearchInput placeholder="Busque pelo área ou nome do médico..." />
         <ListMedicAreas />
       </div>
     </div>

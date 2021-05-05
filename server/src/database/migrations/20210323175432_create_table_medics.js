@@ -1,7 +1,7 @@
 exports.up = function (knex) {
   return knex.schema.createTable("medics", (table) => {
     table.increments("id");
-    
+
     table.string("phoneNumber").notNullable();
 
     table.text("area").notNullable();
@@ -14,15 +14,9 @@ exports.up = function (knex) {
     table.text("birth_date").notNullable();
 
     table
-      .integer("address")
-      .references("id")
-      .inTable('Address')
-      .notNullable()
-      .onDelete("CASCADE");
-    table
       .integer("userID")
       .references("id")
-      .inTable('user')
+      .inTable("users")
       .notNullable()
       .onDelete("CASCADE");
   });

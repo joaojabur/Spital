@@ -1,16 +1,23 @@
+exports.up = function (knex) {
+  return knex.schema.createTable("reviews", (table) => {
+    table.increments("id");
 
-exports.up = function(knex) {
-    return knex.schema.createTable("Review", (table) => {
-        table.increments("id");
-        table.integer('stars');
-        table
-            .integer("medicID")
-            .references("medics.id")
-            .notNullable()
-            .onDelete("CASCADE");
-    });
+    table.text("description");
+    table.integer("stars").notNullable();
+    table
+      .integer("medicID")
+      .references("medics.id")
+      .notNullable()
+      .onDelete("CASCADE");
+
+    table
+      .integer("clientID")
+      .references("clients.id")
+      .notNullable()
+      .onDelete("CASCADE");
+  });
 };
 
-exports.down = function(knex) {
-    return knex.schema.dropTable('Review');
+exports.down = function (knex) {
+  return knex.schema.dropTable("reviews");
 };

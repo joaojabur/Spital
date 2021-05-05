@@ -28,10 +28,6 @@ const HeaderPlatform: React.FC<HeaderPlatformProps> = ({ title }) => {
       goTo: "/busca",
     },
     {
-      label: "Chats",
-      goTo: "/conversas",
-    },
-    {
       label: "Consultas",
       goTo: "/consultas",
     },

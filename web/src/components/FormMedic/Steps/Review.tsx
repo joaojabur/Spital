@@ -25,7 +25,7 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const { medicData, setMedicData }= useShareFormMedic();
+  const { medicData, setMedicData } = useShareFormMedic();
 
   const history = useHistory();
 
@@ -36,7 +36,7 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
 
     await api
       .post("medics", {
-        ...medicData
+        ...medicData,
       })
       .catch((err) => {
         console.log(err.response.data.error);
@@ -55,7 +55,7 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
 
   const [hasError, setHasError] = useState(false);
 
-  const hashedPassword = getPasswordAsterisk(medicData?.password ?? '');
+  const hashedPassword = getPasswordAsterisk(medicData?.password ?? "");
 
   const [errors, setErrors] = useState(validateMedicInfo(medicData));
 
@@ -64,6 +64,7 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
   async function handleSubmitForm(e: any) {
     e.preventDefault();
     const loopedErrors = Object.values(errors);
+    console.log(loopedErrors);
     if (loopedErrors.length > 0) {
       console.log("There's an error");
       setHasError(true);
@@ -146,9 +147,8 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
         {backendError}
       </p>
 
-      <button className="secondary" 
-        onClick={(e) => previousPage()}>
-          Anterior
+      <button className="secondary" onClick={(e) => previousPage()}>
+        Anterior
       </button>
       <button onClick={handleSubmitForm} className="primary">
         {isLoading ? (
@@ -181,7 +181,7 @@ export const RenderAccordion: React.FC<RenderAccorditionProps> = ({
   summary,
   medicInfo,
   index,
-  changePage
+  changePage,
 }) => {
   return (
     <Accordion>
