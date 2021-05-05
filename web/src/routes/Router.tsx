@@ -1,10 +1,10 @@
-import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch } from "react-router-dom";
 
 import Landing from "../pages/Landing";
 import LoginAndRegisterMedico from "../pages/LoginAndRegisterMedico";
 import LoginAndRegisterPaciente from "../pages/LoginAndRegisterPaciente";
 import LoginPacient from "../pages/LoginPatient";
+import ConfirmEmail from "../pages/ConfirmEmail";
 import LoginSpitalAccount from "../pages/LoginSpitalAccount";
 import RegisterPacient from "../pages/RegisterPacient";
 import RegisterPatientSpitalAccount from "../pages/RegisterSpitalAccount";
@@ -52,6 +52,11 @@ function Router() {
         <PublicRoute
           path="/registrar-spital-medico"
           component={RegisterMedicSpital}
+        />
+
+        <PublicRoute
+          path="/verificar-email"
+          component={ConfirmEmail}
         />
       </Switch>
     </BrowserRouter>

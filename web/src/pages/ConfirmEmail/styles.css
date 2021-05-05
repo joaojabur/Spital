@@ -1,0 +1,60 @@
+.confirm-email {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(7, 179, 214, 0.3);
+}
+
+.confirm-email-content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 80%;
+  height: 100%;
+}
+
+.confirm-email img {
+  width: 50%;
+  height: 50%;
+}
+
+.confirm-email h1 {
+  font-size: 4rem;
+  color: #3eb713;
+  font-weight: bold;
+  margin-bottom: 4rem;
+  text-align: center;
+}
+
+.confirm-email h2 {
+  color: #333;
+  margin-top: 4rem;
+  font-weight: bold;
+  font-size: 3rem;
+  text-align: center;
+}
+
+.confirm-email p {
+  font-size: 2rem;
+  color: #000;
+  text-align: center;
+}
+
+@media (max-width: 850px) {
+  .confirm-email h1 {
+    margin-bottom: 0rem;
+  }
+
+  .confirm-email h2 {
+    margin-top: 0rem;
+  }
+
+  .confirm-email img {
+    width: 60%;
+    height: 60%;
+  }
+}

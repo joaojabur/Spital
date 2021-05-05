@@ -10,7 +10,7 @@ module.exports = {
       if (medic_id) {
         query
           .where({ medic_id })
-          .join("medics", "medics.userID", "=", "medic_schedule.medic_id")
+          .join("medics", "medics.id", "=", "medic_schedule.medic_id")
           .select("medic_schedule.*");
       }
 

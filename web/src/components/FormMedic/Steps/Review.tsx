@@ -32,8 +32,6 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
   async function handleSubmitClient() {
     setIsLoading(true);
 
-    console.log(medicData);
-
     await api
       .post("medics", {
         ...medicData,
@@ -46,10 +44,7 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
     if (backendError !== null) {
       setIsLoading(false);
     } else {
-      setTimeout(() => {
-        history.push("/login-spital-medico");
-        setIsLoading(false);
-      }, 2000);
+      console.log("Cadastro realizado com sucesso!");
     }
   }
 
@@ -70,7 +65,9 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
       setHasError(true);
     } else {
       handleSubmitClient();
+      alert("Cadastro realizado com sucesso!");
       setHasError(false);
+      history.push("/verificar-email");
     }
   }
 

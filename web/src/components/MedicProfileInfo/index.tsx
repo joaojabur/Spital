@@ -33,9 +33,12 @@ const MedicProfileInfo: React.FC<MedicProfileInfoProps> = ({
     setIsFavorited(!isFavorited);
   }
 
+  console.log(id);
+
   useEffect(() => {
     api.get(`medic-schedule?medic_id=${id}`).then((response) => {
       setSchedule(response.data);
+      console.log(response.data);
     });
   }, []);
 
@@ -48,16 +51,22 @@ const MedicProfileInfo: React.FC<MedicProfileInfoProps> = ({
       <div className="medic-profile-info-time">
         <div className="medic-profile-info-time-today">
           <h3>Horário de trabalho hoje:</h3>
-          {today_week_day.map((string: ScheduleItemProps) => {
-            const formatedFrom = string.from / 60;
-            const formatedTo = string.to / 60;
+          {today_week_day.length > 0 ? (
+            today_week_day.map((string: ScheduleItemProps) => {
+              const formatedFrom = string.from / 60;
+              const formatedTo = string.to / 60;
 
-            return (
-              <span>
-                {formatedFrom} - {formatedTo}
-              </span>
-            );
-          })}
+              return (
+                <span>
+                  {formatedFrom} - {formatedTo}
+                </span>
+              );
+            })
+          ) : (
+            <span style={{ fontSize: "1.5rem" }}>
+              Médico descansando hoje 😴
+            </span>
+          )}
         </div>
         <div
           onClick={handleFavoriteMedic}

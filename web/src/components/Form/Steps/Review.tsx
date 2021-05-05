@@ -49,9 +49,10 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
       console.log("There's an error");
       setHasError(true);
     } else {
+      alert("Cadastro realizado com sucesso!")
       handleSubmitClient();
       setHasError(false);
-      history.push('/entrar-paciente')
+      history.push('/verificar-email')
     }
   }
 

@@ -50,6 +50,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
       getUserData(id);
 
+      alert("Usuário logado com sucesso!")
+
       return response;
     } catch (error) {
       return error.response.data;
