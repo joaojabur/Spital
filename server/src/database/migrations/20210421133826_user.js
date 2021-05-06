@@ -6,7 +6,7 @@ exports.up = function (knex) {
     table.string("email").unique().notNullable();
     table.string("password").notNullable();
     table.integer("xp").notNullable();
-    table.boolean("isValid").defaultTo("FALSE");
+    table.boolean("confirmed").defaultTo("FALSE");
     table.timestamp("created_at").defaultTo(knex.fn.now());
   });
 };
