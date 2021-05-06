@@ -17,6 +17,7 @@ import PublicRoute from "./PublicRoute";
 import RegisterMedicSpital from "../pages/RegisterMedicalSpitalAccount";
 import MedicArea from "../platform-pages/MedicArea";
 import MedicProfile from "../platform-pages/MedicProfile";
+import VerifyEmail from "../pages/VerifyEmail";
 
 function Router() {
   return (
@@ -37,7 +38,11 @@ function Router() {
           path="/login-spital-paciente"
           component={LoginSpitalAccount}
         />
-
+        <PublicRoute
+          path="/confirmar-email"
+          component={ConfirmEmail}
+        />
+        <PublicRoute path="/verificar/:token" component={VerifyEmail}/>
         <PrivateRoute path="/principal" component={HomeClient} />
         <PrivateRoute path="/busca" exact component={SearchClient} />
         <PrivateRoute path="/busca/:area" exact component={MedicArea} />
@@ -54,10 +59,6 @@ function Router() {
           component={RegisterMedicSpital}
         />
 
-        <PublicRoute
-          path="/verificar-email"
-          component={ConfirmEmail}
-        />
       </Switch>
     </BrowserRouter>
   );
