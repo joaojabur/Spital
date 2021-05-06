@@ -52,7 +52,7 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
       alert("Cadastro realizado com sucesso!")
       handleSubmitClient();
       setHasError(false);
-      history.push('/verificar-email')
+      history.push('/confirmar-email')
     }
   }
 
