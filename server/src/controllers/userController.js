@@ -1,4 +1,4 @@
-const verifyEmail = require('../middlewares/verifyEmail');
+const verifyEmail = require("../middlewares/verifyEmail");
 const knex = require("../database");
 
 module.exports = {
@@ -23,20 +23,34 @@ module.exports = {
       next(error);
     }
   },
-  async emailVerification(req, res, next){
+
+  async delete(req, res, next) {
     try {
-      const [ userID ] = verifyEmail(req.params.token);
-      
-      await knex("users").where({
-        id: userID
-      })
-      .update({
-        confirmed: "TRUE"
-      });
+      const { id } = req.params;
+
+      await knex("users").where({ id }).del();
+
+      res.status(200).send();
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async emailVerification(req, res, next) {
+    try {
+      const [userID] = verifyEmail(req.params.token);
+
+      await knex("users")
+        .where({
+          id: userID,
+        })
+        .update({
+          confirmed: true,
+        });
 
       res.send(200);
-    } catch(err){
+    } catch (err) {
       next(err);
     }
-  }
+  },
 };

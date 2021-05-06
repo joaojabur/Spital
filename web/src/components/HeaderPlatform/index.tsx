@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./styles.css";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   IoLocationOutline,
   IoCaretDownOutline,
@@ -9,7 +9,6 @@ import {
 } from "react-icons/io5";
 import logo from "../../assets/images/logo.svg";
 import { useAuth } from "../../context/AuthProvider";
-import Cookies from "js-cookie";
 
 import { IoLogOutOutline } from "react-icons/io5";
 
@@ -18,8 +17,6 @@ interface HeaderPlatformProps {
 }
 
 const HeaderPlatform: React.FC<HeaderPlatformProps> = ({ title }) => {
-  const history = useHistory();
-
   const { user, logout } = useAuth();
   const [showMobileNav, setShowMobileNav] = useState(false);
 
@@ -45,11 +42,6 @@ const HeaderPlatform: React.FC<HeaderPlatformProps> = ({ title }) => {
       goTo: "/principal",
     },
   ];
-
-  async function logoutTest() {
-    Cookies.remove("access-token");
-    history.push("/");
-  }
 
   return (
     <div className="header-platform">

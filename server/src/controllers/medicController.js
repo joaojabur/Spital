@@ -114,7 +114,7 @@ module.exports = {
       card_verification_number,
     } = req.body;
 
-    const { id } = req.params;
+    const { userID } = req.params;
 
     try {
       await knex("medics")
@@ -137,7 +137,7 @@ module.exports = {
           card_expiration_date,
           card_verification_number,
         })
-        .where({ id });
+        .where({ userID });
 
       res.status(200).send();
     } catch (error) {
@@ -146,10 +146,10 @@ module.exports = {
   },
 
   async delete(req, res, next) {
-    const { id } = req.params;
+    const { userID } = req.params;
 
     try {
-      await knex("medics").where({ id }).del();
+      await knex("medics").where({ userID }).del();
 
       res.status(201).send();
     } catch (error) {

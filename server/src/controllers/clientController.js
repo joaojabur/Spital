@@ -90,9 +90,9 @@ module.exports = {
 
   async delete(req, res, next) {
     try {
-      const { id } = req.params;
+      const { userID } = req.params;
 
-      await knex("clients").where({ id }).del();
+      await knex("clients").where({ userID }).del();
 
       res.status(200).send();
     } catch (error) {

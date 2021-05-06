@@ -28,11 +28,10 @@ interface AuthProviderProps {
 const AuthContext = createContext({} as AuthContextData);
 
 export default function AuthProvider({ children }: AuthProviderProps) {
-  const history = useHistory();
-
   const [user, setUser] = useState<User | null>(null);
   const [userID, setUserID] = useState<number | null>(null);
-  const [confirmed, setConfirmed ] = useState<boolean>(false);
+  const [confirmed, setConfirmed] = useState<boolean>(false);
+
   async function getUserData(id: number) {
     let response = await api.get(`clients?id=${id}`);
 
@@ -43,7 +42,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
   async function logout() {
     Cookies.remove("access-token");
-    history.push("/");
+    window.location.reload();
   }
 
   async function login(email: string, password: string) {
@@ -55,15 +54,20 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       });
       let { token, id, confirmed } = response.data;
 
-      Cookies.set("access-token", token);
+      console.log(response.data);
 
-      setUserID(id);
+      if (confirmed) {
+        Cookies.set("access-token", token);
+        setUserID(id);
 
-      setConfirmed(confirmed);
+        setConfirmed(confirmed);
 
-      getUserData(id);
+        getUserData(id);
 
-      alert("Usuário logado com sucesso!");
+        alert("Usuário logado com sucesso!");
+      } else {
+        alert(`Usuário não verificado`);
+      }
 
       return response;
     } catch (error) {
@@ -80,7 +84,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
     console.log(response);
 
-    let { auth, userID, confirmed} = response.data;
+    let { auth, userID, confirmed } = response.data;
 
     if (auth) {
       setUserID(userID);
@@ -105,18 +109,18 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     }
   }, []);
 
+  console.log(confirmed);
+
   let value = {
     user,
     authenticated: user !== null,
     signup,
     login,
     logout,
-    confirmed
+    confirmed,
   } as AuthContextData;
 
-  return <AuthContext.Provider value={value}>
-    {children}
-  </AuthContext.Provider>;
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {

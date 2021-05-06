@@ -38,11 +38,9 @@ function Router() {
           path="/login-spital-paciente"
           component={LoginSpitalAccount}
         />
-        <PublicRoute
-          path="/confirmar-email"
-          component={ConfirmEmail}
-        />
-        <PublicRoute path="/verificar/:token" component={VerifyEmail}/>
+        <PublicRoute path="/confirmar-email" component={ConfirmEmail} />
+        <PublicRoute path="/verificar/:token" component={VerifyEmail} />
+
         <PrivateRoute path="/principal" component={HomeClient} />
         <PrivateRoute path="/busca" exact component={SearchClient} />
         <PrivateRoute path="/busca/:area" exact component={MedicArea} />
@@ -58,7 +56,6 @@ function Router() {
           path="/registrar-spital-medico"
           component={RegisterMedicSpital}
         />
-
       </Switch>
     </BrowserRouter>
   );

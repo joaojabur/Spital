@@ -10,7 +10,7 @@ import Loader from "react-loader-spinner";
 import { useAuth } from "../../context/AuthProvider";
 
 const LoginSpitalAccount = () => {
-  const { login } = useAuth();
+  const { login, confirmed } = useAuth();
   const [user, setUser] = useState({
     email: "",
     password: "",
