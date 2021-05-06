@@ -2,7 +2,7 @@ const knex = require("../database");
 const jwt = require("jsonwebtoken");
 const authConfig = require("../configs/authConfig.json");
 const bcrypt = require("bcrypt");
-const validateTokens = require("../configs/jwt");
+const verifyEmail = require('../services/email/verify');
 
 module.exports = {
   async index(req, res, next) {
@@ -54,6 +54,13 @@ module.exports = {
           userID: parseInt(userID),
         });
 
+        // Tenta enviar o email
+        await verifyEmail({
+          id: userID,
+          email,
+          name: `${firstName} ${lastName}`
+        });
+
         return res.status(201).send();
       }
     } catch (error) {
@@ -74,7 +81,7 @@ module.exports = {
           phoneNumber,
         })
         .where({ id });
-
+      
       return res.status(200).send();
     } catch (error) {
       next(error);
@@ -99,7 +106,7 @@ module.exports = {
 
       const [user] = await knex("users")
         .where({ email })
-        .select("password", "id");
+        .select("password", "id", "confirmed");
 
       if (user === undefined) {
         return res.status(401).send({ error: "Usuário não encontrado" });
@@ -123,6 +130,7 @@ module.exports = {
 
         res.status(201).send({
           id: user.id,
+          confirmed: user.confirmed,
           token,
         });
       } else {
@@ -136,8 +144,12 @@ module.exports = {
   async auth(req, res, next) {
     const { post } = res.locals;
 
+    let [ { confirmed } ] = await knex("users").where({
+      id: post
+    }).select("confirmed");
+
     res
       .status(200)
-      .send({ auth: true, success: "Logado com sucesso!", userID: post });
+      .send({ auth: true, success: "Logado com sucesso!", userID: post, confirmed });
   },
 };

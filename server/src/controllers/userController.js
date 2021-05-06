@@ -1,3 +1,4 @@
+const verifyEmail = require('../middlewares/verifyEmail');
 const knex = require("../database");
 
 module.exports = {
@@ -22,4 +23,20 @@ module.exports = {
       next(error);
     }
   },
+  async emailVerification(req, res, next){
+    try {
+      const [ userID ] = verifyEmail(req.params.token);
+      
+      await knex("users").where({
+        id: userID
+      })
+      .update({
+        confirmed: "TRUE"
+      });
+
+      res.send(200);
+    } catch(err){
+      next(err);
+    }
+  }
 };

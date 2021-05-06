@@ -13,6 +13,7 @@ const reviewController = require("./controllers/reviewController");
 const addressController = require("./controllers/addressController");
 
 routes.get("/users", userController.index);
+routes.get("/users/:token", userController.emailVerification);
 
 routes.post("/clients", ClientController.create);
 routes.get("/clients", ClientController.index);

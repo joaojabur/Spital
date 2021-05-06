@@ -18,6 +18,7 @@ interface AuthContextData {
   login: (email: string, password: string) => any;
   signup: (user: User) => Promise<any>;
   logout: () => void;
+  confirmed: boolean;
 }
 
 interface AuthProviderProps {
@@ -31,7 +32,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
   const [user, setUser] = useState<User | null>(null);
   const [userID, setUserID] = useState<number | null>(null);
-
+  const [confirmed, setConfirmed ] = useState<boolean>(false);
   async function getUserData(id: number) {
     let response = await api.get(`clients?id=${id}`);
 
@@ -52,11 +53,13 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         email: email,
         password: password,
       });
-      let { token, id } = response.data;
+      let { token, id, confirmed } = response.data;
 
       Cookies.set("access-token", token);
 
       setUserID(id);
+
+      setConfirmed(confirmed);
 
       getUserData(id);
 
@@ -75,10 +78,13 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       },
     });
 
-    let { auth, userID } = response.data;
+    console.log(response);
+
+    let { auth, userID, confirmed} = response.data;
 
     if (auth) {
       setUserID(userID);
+      setConfirmed(confirmed);
       getUserData(userID);
     }
   }
@@ -105,93 +111,14 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     signup,
     login,
     logout,
+    confirmed
   } as AuthContextData;
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={value}>
+    {children}
+  </AuthContext.Provider>;
 }
 
 export function useAuth() {
   return useContext(AuthContext);
 }
-// const DataProvider = ({ children }: DataProviderProps) => {
-//   const [responseData, setResponseData] = useState({} as Array<User>);
-
-//   const [redirect, setRedirect] = useState(false);
-
-//   const [loggedUser, setLoggedUser] = useState({} as User);
-
-//   const [users, setUsers] = useState([] as Array<User>);
-
-//   const [user, setUser] = useState({} as User);
-
-//   const [loggedMedic, setLoggedMedic] = useState({} as Medic);
-
-//   const [medic, setMedic] = useState({} as Medic);
-
-//   useEffect(() => {
-//     api.get("clients").then((response) => {
-//       setUsers(response.data);
-//     });
-
-//     const token = Cookies.get("access-token");
-//     if (token === null) {
-//       console.log("token is null!");
-//     } else {
-//       api
-//         .get("clients/auth", {
-//           headers: { Authorization: token },
-//         })
-//         .then((response) => {
-//           const { auth, user_id } = response.data;
-
-//           api
-//             .get(`clients?id=${user_id}`)
-//             .then((response) => {
-//               if (responseData.length > 0) {
-//                 setLoggedUser((oldLoggedUser) => ({
-//                   ...oldLoggedUser,
-//                   ...responseData[0]
-//                 }));
-//               } else {
-//                 setResponseData(response.data);
-//                 setLoggedUser((oldLoggedUser) => ({
-//                   ...oldLoggedUser,
-//                   ...responseData[0]
-//                 }));
-//               }
-//             })
-//             .catch((err) => {
-//               if (err) {
-//                 console.log(err);
-//               }
-//             });
-
-//           if (auth) {
-//             console.log("Logou")
-//             setRedirect(true);
-//           }
-//         });
-//       }
-//   }, [responseData]);
-
-//   return (
-//     <DataContext.Provider
-//       value={{
-//         users,
-//         user,
-//         setUser,
-//         loggedUser,
-//         setLoggedUser,
-//         medic,
-//         setMedic,
-//         setLoggedMedic,
-//         loggedMedic,
-//         redirect,
-//       }}
-//     >
-//       { children }
-//     </DataContext.Provider>
-//   );
-// };
-
-// export default DataProvider;
