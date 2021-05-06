@@ -1,4 +1,5 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import api from "../services/api";
 import Cookies from "js-cookie";
 
@@ -8,6 +9,7 @@ interface User {
   email: string;
   phoneNumber: string;
   image: string;
+  xp: number;
 }
 
 interface AuthContextData {
@@ -15,6 +17,7 @@ interface AuthContextData {
   authenticated: boolean;
   login: (email: string, password: string) => any;
   signup: (user: User) => Promise<any>;
+  logout: () => void;
 }
 
 interface AuthProviderProps {
@@ -24,6 +27,8 @@ interface AuthProviderProps {
 const AuthContext = createContext({} as AuthContextData);
 
 export default function AuthProvider({ children }: AuthProviderProps) {
+  const history = useHistory();
+
   const [user, setUser] = useState<User | null>(null);
   const [userID, setUserID] = useState<number | null>(null);
 
@@ -33,6 +38,11 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     setUser({
       ...response.data,
     });
+  }
+
+  async function logout() {
+    Cookies.remove("access-token");
+    history.push("/");
   }
 
   async function login(email: string, password: string) {
@@ -50,7 +60,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
       getUserData(id);
 
-      alert("Usuário logado com sucesso!")
+      alert("Usuário logado com sucesso!");
 
       return response;
     } catch (error) {
@@ -94,6 +104,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     authenticated: user !== null,
     signup,
     login,
+    logout,
   } as AuthContextData;
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./styles.css";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   IoLocationOutline,
   IoCaretDownOutline,
@@ -9,13 +9,18 @@ import {
 } from "react-icons/io5";
 import logo from "../../assets/images/logo.svg";
 import { useAuth } from "../../context/AuthProvider";
+import Cookies from "js-cookie";
+
+import { IoLogOutOutline } from "react-icons/io5";
 
 interface HeaderPlatformProps {
   title?: string;
 }
 
 const HeaderPlatform: React.FC<HeaderPlatformProps> = ({ title }) => {
-  const { user } = useAuth();
+  const history = useHistory();
+
+  const { user, logout } = useAuth();
   const [showMobileNav, setShowMobileNav] = useState(false);
 
   function handleShowMobileNav() {
@@ -40,6 +45,11 @@ const HeaderPlatform: React.FC<HeaderPlatformProps> = ({ title }) => {
       goTo: "/principal",
     },
   ];
+
+  async function logoutTest() {
+    Cookies.remove("access-token");
+    history.push("/");
+  }
 
   return (
     <div className="header-platform">
@@ -80,6 +90,19 @@ const HeaderPlatform: React.FC<HeaderPlatformProps> = ({ title }) => {
               color="#bcfafc"
             />
           </div>
+        </div>
+
+        <div onClick={logout} className="logout-button">
+          <p>Sair</p>{" "}
+          <IoLogOutOutline
+            style={{
+              position: "relative",
+              top: "-0.45rem",
+              marginLeft: "1rem",
+            }}
+            color="#fff"
+            size={30}
+          />
         </div>
 
         <img className="header-logo" src={logo} alt="Spital" />

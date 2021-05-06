@@ -136,6 +136,18 @@
   }
 }
 
+.logout-button {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.logout-button p {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
 @media (max-width: 400px) {
   .header-logo {
     max-width: 70px;

@@ -20,6 +20,7 @@ module.exports = {
           email: result.email,
           firstName: result.first_name,
           lastName: result.last_name,
+          xp: result.xp,
         });
       }
     } catch (error) {
@@ -45,7 +46,7 @@ module.exports = {
           last_name: lastName,
           email,
           password: hashPassword,
-          xp: 0
+          xp: 0,
         });
 
         await knex("clients").insert({

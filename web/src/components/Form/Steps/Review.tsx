@@ -27,7 +27,7 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
   const history = useHistory();
 
   async function handleSubmitClient() {
-    let response = await signup({ ...userData });
+    let response = await signup({ ...userData, xp: 0 });
 
     console.log(response);
   }
@@ -49,10 +49,10 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
       console.log("There's an error");
       setHasError(true);
     } else {
-      alert("Cadastro realizado com sucesso!")
+      alert("Cadastro realizado com sucesso!");
       handleSubmitClient();
       setHasError(false);
-      history.push('/verificar-email')
+      history.push("/verificar-email");
     }
   }
 
