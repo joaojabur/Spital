@@ -14,6 +14,7 @@ interface MedicData {
   cpf: string;
   rg: string;
   birthDate: string;
+  crm: string;
   schedule: Array<Schedule>;
 }
 

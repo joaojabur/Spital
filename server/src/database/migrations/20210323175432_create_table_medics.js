@@ -8,6 +8,7 @@ exports.up = function (knex) {
     table.text("graduation").notNullable();
     table.text("master_degree");
     table.text("doctorate_degree");
+    table.text("crm").notNullable();
 
     table.text("cpf").notNullable();
     table.text("rg").notNullable();
