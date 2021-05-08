@@ -14,6 +14,7 @@ import validateInfo from "../../../utils/validateInfo";
 import { useShareClientForm } from "../../../context/ShareClientFormProvider";
 import { useAuth } from "../../../context/AuthProvider";
 import { useHistory } from "react-router-dom";
+import { useModal } from "../../../context/ModalProvider";
 
 interface ReviewProps {
   previousPage: () => void;
@@ -21,6 +22,7 @@ interface ReviewProps {
 }
 
 const Review = ({ previousPage, changePage }: ReviewProps) => {
+  const { sucesso } = useModal();
   const { signup } = useAuth();
   const { userData, setUserData } = useShareClientForm();
 
@@ -49,10 +51,16 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
       console.log("There's an error");
       setHasError(true);
     } else {
-      alert("Cadastro realizado com sucesso!");
+      sucesso.open({
+        name: userData.firstName + userData.lastName,
+        close: () => {
+          sucesso.close();
+          history.push('/confirmar-email');
+        }
+      });
       handleSubmitClient();
       setHasError(false);
-      history.push('/confirmar-email')
+
     }
   }
 
