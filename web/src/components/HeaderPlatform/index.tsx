@@ -10,12 +10,14 @@ import {
 import logo from "../../assets/images/logo.svg";
 import { useAuth } from "../../context/AuthProvider";
 
+import { IoLogOutOutline } from "react-icons/io5";
+
 interface HeaderPlatformProps {
   title?: string;
 }
 
 const HeaderPlatform: React.FC<HeaderPlatformProps> = ({ title }) => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [showMobileNav, setShowMobileNav] = useState(false);
 
   function handleShowMobileNav() {
@@ -80,6 +82,19 @@ const HeaderPlatform: React.FC<HeaderPlatformProps> = ({ title }) => {
               color="#bcfafc"
             />
           </div>
+        </div>
+
+        <div onClick={logout} className="logout-button">
+          <p>Sair</p>{" "}
+          <IoLogOutOutline
+            style={{
+              position: "relative",
+              top: "-0.45rem",
+              marginLeft: "1rem",
+            }}
+            color="#fff"
+            size={30}
+          />
         </div>
 
         <img className="header-logo" src={logo} alt="Spital" />

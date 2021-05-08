@@ -1,4 +1,5 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import api from "../services/api";
 import Cookies from "js-cookie";
 
@@ -8,6 +9,7 @@ interface User {
   email: string;
   phoneNumber: string;
   image: string;
+  xp: number;
 }
 
 interface AuthContextData {
@@ -15,6 +17,7 @@ interface AuthContextData {
   authenticated: boolean;
   login: (email: string, password: string) => any;
   signup: (user: User) => Promise<any>;
+  logout: () => void;
   confirmed: boolean;
 }
 
@@ -40,6 +43,11 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     setLoading(false)
   }
 
+  async function logout() {
+    Cookies.remove("access-token");
+    window.location.reload();
+  }
+
   async function login(email: string, password: string) {
     let response;
     try {
@@ -49,15 +57,18 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       });
       let { token, id, confirmed } = response.data;
 
-      Cookies.set("access-token", token);
+      if (confirmed) {
+        Cookies.set("access-token", token);
+        setUserID(id);
 
-      setUserID(id);
+        setConfirmed(confirmed);
 
-      setConfirmed(confirmed);
+        getUserData(id);
 
-      getUserData(id);
-
-      alert("Usuário logado com sucesso!")
+        alert("Usuário logado com sucesso!");
+      } else {
+        alert(`Usuário não verificado`);
+      }
 
       return response;
     } catch (error) {
@@ -74,7 +85,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
     console.log(response);
 
-    let { auth, userID, confirmed} = response.data;
+    let { auth, userID, confirmed } = response.data;
 
     if (auth) {
       setUserID(userID);
@@ -102,14 +113,15 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       setLoading(false);
     }
   }, []);
+  
 
-  console.log(user);
   let value = {
     user,
     authenticated: user !== null,
     signup,
     login,
-    confirmed
+    logout,
+    confirmed,
   } as AuthContextData;
   
   return <AuthContext.Provider value={value}>

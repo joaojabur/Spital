@@ -14,6 +14,7 @@ interface Medic {
   cpf: string;
   rg: string;
   birthDate: string;
+  crm: string;
   schedule: Array<Schedule>;
 }
 
@@ -88,6 +89,10 @@ export default function validateMedicInfo(credentials?: Medic) {
       ((credentials?.doctorateDegree?.length ?? 0 )<= 4)
     ) {
       errors.doctorateDegree = "Campo de doutorado com poucos caracteres";
+    }
+
+    if (credentials?.crm?.length ?? 0) {
+      errors.crm = "Campo de CRM é necessário"
     }
 
     const cpfNumbers = credentials?.cpf?.replace(/[-. ]/g, "") ?? "0";

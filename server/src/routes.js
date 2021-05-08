@@ -13,19 +13,20 @@ const reviewController = require("./controllers/reviewController");
 const addressController = require("./controllers/addressController");
 
 routes.get("/users", userController.index);
+routes.delete("/users/:id", userController.delete);
 routes.get("/users/:token", userController.emailVerification);
 
 routes.post("/clients", ClientController.create);
 routes.get("/clients", ClientController.index);
-routes.put("/clients/:id", ClientController.update);
-routes.delete("/clients/:id", ClientController.delete);
+routes.put("/clients/:userID", ClientController.update);
+routes.delete("/clients/:userID", ClientController.delete);
 routes.post("/clients/login", ClientController.login);
 routes.get("/clients/auth", isAuth, clientController.auth);
 
 routes.post("/medics", MedicController.create);
 routes.get("/medics", MedicController.index);
-routes.put("/medics/:id", MedicController.update);
-routes.delete("/medics/:id", MedicController.delete);
+routes.put("/medics/:userID", MedicController.update);
+routes.delete("/medics/:userID", MedicController.delete);
 routes.get("/medics/:area", MedicController.list);
 
 routes.post("/appointments", AppointmentController.create);

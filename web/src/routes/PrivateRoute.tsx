@@ -1,19 +1,12 @@
-import React from 'react'
-import { Redirect, Route } from 'react-router-dom';
-import { useAuth } from '../context/AuthProvider';
-import ConfirmEmail from '../pages/ConfirmEmail';
+import { Redirect, Route } from "react-router-dom";
+import { useAuth } from "../context/AuthProvider";
 
-export default function PrivateRoute({ component: Component, ...rest}: any) {
-    const { authenticated, confirmed } = useAuth();
+export default function PrivateRoute({ component: Component, ...rest }: any) {
+  const { authenticated } = useAuth();
 
-    if (authenticated){
-        console.log(confirmed);
-        return <Route {...rest} render={
-            props => confirmed ? <Component {...props}/> : <ConfirmEmail/>
-        }/>
-    }
-    
-    return (
-        <Redirect to="/"/>
-    );
+  if (authenticated) {
+    return <Route {...rest} render={(props) => <Component {...props} />} />;
+  }
+
+  return <Redirect to="/" />;
 }

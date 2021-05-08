@@ -189,6 +189,24 @@ const MedicAcademicData = ({ nextPage, previousPage }: MedicNamesProps) => {
         }
       />
 
+      <TextField
+        value={medicData?.crm}
+        placeholder="010201/SP"
+        label={<span style={{ fontSize: "1.5rem" }}>CRM</span>}
+        style={{ marginTop: "1rem" }}
+        variant="outlined"
+        fullWidth
+        onChange={(e) => {
+          setMedicData({ ...medicData, crm: e.target.value });
+        }}
+        autoComplete="off"
+        name="phone"
+        error={errors?.crm ? true : false}
+        helperText={
+          <span style={{ fontSize: "1rem" }}>{errors?.crm}</span>
+        }
+      />
+
       <button className="secondary" onClick={(e) => previousPage()}>
         Anterior
       </button>

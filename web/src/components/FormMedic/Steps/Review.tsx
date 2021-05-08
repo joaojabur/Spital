@@ -37,7 +37,6 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
         ...medicData,
       })
       .catch((err) => {
-        console.log(err.response.data.error);
         setBackEndError(err.response.data.error);
       });
 
@@ -61,7 +60,6 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
     const loopedErrors = Object.values(errors);
     console.log(loopedErrors);
     if (loopedErrors.length > 0) {
-      console.log("There's an error");
       setHasError(true);
     } else {
       handleSubmitClient();
