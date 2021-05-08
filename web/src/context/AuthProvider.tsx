@@ -64,15 +64,13 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         setConfirmed(confirmed);
 
         getUserData(id);
-
-        alert("Usuário logado com sucesso!");
       } else {
-        alert(`Usuário não verificado`);
+        throw new Error("Usuário não verificado")
       }
 
       return response;
     } catch (error) {
-      return error.response.data;
+      return error?.response?.data ?? { error: error.message };
     }
   }
 
