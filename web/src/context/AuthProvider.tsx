@@ -28,12 +28,16 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [userID, setUserID] = useState<number | null>(null);
   const [confirmed, setConfirmed ] = useState<boolean>(false);
+  const [loading, setLoading ] = useState<boolean>(true);
+
   async function getUserData(id: number) {
     let response = await api.get(`clients?id=${id}`);
 
     setUser({
       ...response.data,
     });
+
+    setLoading(false)
   }
 
   async function login(email: string, password: string) {
@@ -76,6 +80,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       setUserID(userID);
       setConfirmed(confirmed);
       getUserData(userID);
+    } else {
+      setLoading(false)
     }
   }
 
@@ -92,9 +98,12 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     */
     if (Cookies.get("access-token")) {
       loginWithToken();
+    } else {
+      setLoading(false);
     }
   }, []);
 
+  console.log(user);
   let value = {
     user,
     authenticated: user !== null,
@@ -102,9 +111,9 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     login,
     confirmed
   } as AuthContextData;
-
+  
   return <AuthContext.Provider value={value}>
-    {children}
+    {!loading && children}
   </AuthContext.Provider>;
 }
 
