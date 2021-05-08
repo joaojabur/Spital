@@ -20,152 +20,48 @@ module.exports = async function verifyEmail({ id, name, email, callback }) {
         rel="stylesheet"
       />
       <title>Spital E-mail Verfication</title>
-      <style>
-        :root {
-          font-size: 60%;
-        }
-  
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-        }
-  
-        html,
-        body {
-          height: 100vh;
-          background-color: #fff;
-        }
-  
-        body,
-        input,
-        button,
-        textarea {
-          font: 500 1.6rem "Quicksand";
-        }
-  
-        a {
-          text-decoration: none;
-        }
-  
-        li {
-          list-style: none;
-        }
-  
-        header {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 2rem;
-          width: 100vw;
-          background-color: rgba(7, 179, 214, 0.7);
-        }
-  
-        header a {
-          color: #fff;
-          font-size: 3.5rem;
-          font-weight: bold;
-        }
-  
-        main {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          width: 80vw;
-          padding: 2rem;
-        }
-  
-        .p1 {
-          display: block;
-          width: 70%;
-          font-size: 1rem;
-          text-align: left;
-          margin-top: 2rem;
-        }
-  
-        #p1-new {
-          width: 100%;
-        }
-  
-        .p2 {
-          display: block;
-          width: 70%;
-          font-size: 1rem;
-          margin-left: 25%;
-          margin-top: 3rem;
-          font-weight: 100;
-        }
-  
-        .subtitle {
-          text-transform: uppercase;
-          margin-top: 3rem;
-          font-size: 1.5rem;
-          font-weight: bold;
-          color: #8f2d56;
-        }
-  
-        .button {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 2rem;
-          background-color: #3EB713;
-          color: #fff;
-          font-weight: bold;
-          font-size: 3rem;
-          border-radius: 3rem;
-          margin-top: 2rem;
-          margin-bottom: 2rem;
-        }
-  
-        @media (max-width: 1250px) {
-          .p1 {
-            display: block;
-            width: 70%;
-            font-size: 2rem;
-            text-align: left;
-            margin-top: 2rem;
-          }
-  
-          .p2 {
-            display: block;
-            width: 70%;
-            font-size: 2rem;
-            margin-left: 25%;
-            margin-top: 3rem;
-            font-weight: 100;
-          }
-        }
-      </style>
     </head>
-    <body>
-      <header>
-        <a href="http://localhost:3000/">Spital</a>
-      </header>
-  
-      <main>
-        <p class="p1">
-          Olá <b>${name}!</b> Após o cadastro, precisamos que você clique no
-          botão abaixo para confirmarmos seu e-mail.
-        </p>
-        <p class="p2">
-          Após a verificação, você será redirecionado para o website e poderá
-          logar sem maiores problemas.
-        </p>
-        <p class="subtitle">Caso não tenha sido você:</p>
-        <p class="p1" id="p1-new">
-          Sua conta de e-mail
-          <span style="font-weight: bold; color: #f00"
-            >pode estar comprometida</span
-          >
-          e é necessário que não clique no botão de verificação!
-        </p>
-      </main>
-      <a class="button" href="${link}">Verificar E-mail</a>
+    <body style="margin: 0; padding: 0; box-sizing: border-box; font-family: Quicksand;">
+      <table width="600" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+          <td style="padding: 15px 0 15px 0; color: white; font-size: 30px; font-weight: bold;" bgcolor="#24daff" align="center">
+            <a style="text-decoration: none; color: #fff;" href="http://localhost:3000">Spital</a>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 20px 20px 20px 20px; font-size: 26px;">Olá <b>${name}<b>!</td>
+        </tr>
+        <tr>
+          <td style="padding: 0px 20px 5px 20px; font-size: 26px;">
+            Vimos aqui que você realizou seu cadastro! Para acessar a plataforma, precisamos que confirme que o e-mail é seu mesmo.
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 0px 20px 20px 20px; font-size: 24px; font-weight: 100;">
+            Para realizar a confirmação é necessário que clique no botão <span style="color: #3EB713;">"Verificar e-mail".</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding: 0px 20px 20px 20px; font-size: 24px; font-weight: bold; color: #8F2D56; text-transform: uppercase;">
+            Caso não tenha sido você: 
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding: 0px 20px 5px 20px; font-size: 22px;">
+            Sua conta de e-mail <span style="color: #f00;">pode estar comprometida</span> e é necessário que não clique no botão de verificação!
+          </td>
+        </tr>
+
+        <tr align="center">
+          <td>
+          <a href="${link}" style="margin: 20px auto 0 auto; background-color: #3EB713; color: #fff; display: block; width: 200px; height: 50px; font-size: 20px; padding-top: 20px; border-radius: 30px; text-decoration: none;">Verificar E-mail</a>
+          </td>
+        </tr>
+      </table>
     </body>
   </html>
-  
-    
     `;
 
   await sendMail({
