@@ -122,6 +122,11 @@ const MedicAcademicData = ({ nextPage, previousPage }: MedicNamesProps) => {
     setErrors(validateMedicInfo(medicData));
   }, [medicData]);
 
+  useEffect(() => {
+    setMedicData((previousState) => ({...previousState, area: areaOptions[0].value}))
+  }, [])
+
+  console.log(medicData);
   return (
     <div className="form-container">
       <h2>Dados Acadêmicos</h2>
