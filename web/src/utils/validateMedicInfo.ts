@@ -91,7 +91,7 @@ export default function validateMedicInfo(credentials?: Medic) {
       errors.doctorateDegree = "Campo de doutorado com poucos caracteres";
     }
 
-    if (credentials?.crm?.length ?? 0) {
+    if (!credentials?.crm?.length ?? 0) {
       errors.crm = "Campo de CRM é necessário"
     }
 
