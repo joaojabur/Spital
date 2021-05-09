@@ -1,16 +1,26 @@
-import React, { useState, useEffect } from "react";
-import api from "../../services/api";
+import { CircularProgress } from "@material-ui/core";
+import Loader from "react-loader-spinner";
 import DoctorItem from "../DoctorItem";
 import "./styles.css";
 
-const DoctorList = () => {
-  const [medics, setMedics] = useState([]);
+interface DoctorListProps {
+  medics: Array<Medic> | undefined;
+  loading: boolean;
+}
 
-  useEffect(() => {
-    api.get("medics").then((response) => {
-      setMedics(response.data);
-    });
-  }, []);
+export interface Medic {
+  firstName: string;
+  email: number;
+  phoneNumber: string;
+  lastName: string;
+  area: string;
+  userID: number;
+}
+
+const DoctorList = ({ medics, loading }: DoctorListProps) => {
+  if (medics === undefined) {
+    return <CircularProgress />;
+  }
 
   return (
     <div className="doctor-list">
@@ -18,13 +28,23 @@ const DoctorList = () => {
         <h1>Médicos</h1>
       </div>
       <div className="doctors-list-content">
-        {medics.map((medic, index) => {
+        {medics?.map((medic, index) => {
           return (
             <div key={index} className="doctors-list-unique">
               <DoctorItem medic={medic} />
             </div>
           );
         })}
+      </div>
+      <div className="doctors-list-loading">
+        {loading && (
+          <Loader
+            type="ThreeDots"
+            color="var(--color-button-primary)"
+            height={100}
+            width={100}
+          />
+        )}
       </div>
     </div>
   );

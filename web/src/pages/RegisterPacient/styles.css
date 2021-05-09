@@ -59,8 +59,12 @@
 }
 
 .register-patient-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 450px;
-  height: 75vh;
+  padding: 2rem;
   background-color: #fff;
   position: relative;
   border-radius: 2rem;
@@ -75,7 +79,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   text-align: center;
 }
 
@@ -207,7 +211,7 @@
     width: 500px;
     height: 80vh;
   }
-  
+
   .register-patient-form-content {
     width: 85%;
     margin: 35px auto 0 auto;
@@ -217,7 +221,7 @@
     justify-content: center;
     text-align: center;
   }
-  
+
   .register-patient-form-content h1 {
     font-size: 3.2rem;
     font-weight: 700;

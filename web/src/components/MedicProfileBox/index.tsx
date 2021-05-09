@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./styles.css";
 import { IoStar } from "react-icons/io5";
 import api from "../../services/api";
+import { useHistory, Link } from "react-router-dom";
 
 interface MedicProfileBoxProps {
   id: string;
@@ -15,6 +16,9 @@ interface UserProps {
 }
 
 const MedicProfileBox: React.FC<MedicProfileBoxProps> = ({ id, area }) => {
+  const history = useHistory();
+  const path = history.location.pathname;
+
   const [user, setUser] = useState<UserProps | null>(null);
 
   const rating = [1, 1, 1, 1, 1];
@@ -37,7 +41,9 @@ const MedicProfileBox: React.FC<MedicProfileBoxProps> = ({ id, area }) => {
           })}
         </div>
       </div>
-      <div className="medic-profile-box-schedule">Agendar consulta</div>
+      <Link to={`${path}/agendar`} className="medic-profile-box-schedule">
+        Agendar consulta
+      </Link>
     </div>
   );
 };

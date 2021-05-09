@@ -18,6 +18,7 @@ import RegisterMedicSpital from "../pages/RegisterMedicalSpitalAccount";
 import MedicArea from "../platform-pages/MedicArea";
 import MedicProfile from "../platform-pages/MedicProfile";
 import VerifyEmail from "../pages/VerifyEmail";
+import ScheduleAppointment from "../platform-pages/ScheduleAppointment";
 
 function Router() {
   return (
@@ -47,6 +48,7 @@ function Router() {
         <PrivateRoute path="/consultas" exact component={AppointmentsClient} />
         <PrivateRoute path="/perfil" exact component={MyProfile} />
         <PrivateRoute path="/medicos/:id" exact component={MedicProfile} />
+        <PrivateRoute path="/medicos/:id/agendar" exact component={ScheduleAppointment} />
 
         <PublicRoute
           path="/registrar-spital-paciente"

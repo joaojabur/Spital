@@ -6,12 +6,14 @@ import MedicProfileBox from "../../components/MedicProfileBox";
 import MedicProfileInfo from "../../components/MedicProfileInfo";
 import MedicProfileData from "../../components/MedicProfileData";
 import api from "../../services/api";
+import SubHeaderPlatform from "../../components/SubHeaderPlatform";
+import { useHistory } from "react-router-dom";
 
-interface ParamTypes {
+export interface ParamTypes {
   id: string;
 }
 
-interface MedicProps {
+export interface MedicProps {
   userID: string;
   area: string;
   birth_date: string;
@@ -23,18 +25,33 @@ interface MedicProps {
   master_degree: string;
 }
 
+export interface UserProps {
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
 const MedicProfile = () => {
+  const history = useHistory();
+
   const date = new Date();
   const dateString = date.toString();
   const week_day = dateString.split(" ")[0];
 
   const [medic, setMedic] = useState<MedicProps | null>(null);
+  const [user, setUser] = useState<UserProps | null>(null);
 
   const { id } = useParams<ParamTypes>();
 
   useEffect(() => {
     api.get(`medics?userID=${id}`).then((response) => {
       setMedic(response.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    api.get(`users?id=${id}`).then((response) => {
+      setUser(response.data);
     });
   }, []);
 
@@ -61,7 +78,10 @@ const MedicProfile = () => {
 
   return (
     <div className="client-platform">
-      <HeaderPlatform title="Perfil de Dr. Jaison" />
+      <SubHeaderPlatform
+        title={`Perfil de Dr(a). ${user?.firstName}`}
+        returnFunction={() => history.goBack()}
+      />
       <div className="container">
         <div className="container-perfil">
           <MedicProfileBox id={id} area={medic?.area} />
