@@ -64,7 +64,7 @@ const MedicProfileInfo: React.FC<MedicProfileInfoProps> = ({
               return (
                 <span key={index}>
                   <span style={{ color: "#3eb713" }}>
-                    {hours}:{min} - {hoursTo}:{minTo || "00"}
+                    {hours}:{min || "00"} - {hoursTo}:{minTo || "00"}
                   </span>
                 </span>
               );

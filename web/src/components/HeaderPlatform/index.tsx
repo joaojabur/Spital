@@ -11,17 +11,25 @@ import logo from "../../assets/images/logo.svg";
 import { useAuth } from "../../context/AuthProvider";
 
 import { IoLogOutOutline } from "react-icons/io5";
+import { useModal } from "../../context/ModalProvider";
 
 interface HeaderPlatformProps {
   title?: string;
 }
 
 const HeaderPlatform: React.FC<HeaderPlatformProps> = ({ title }) => {
+  const { spinner } = useModal();
   const { user, logout } = useAuth();
   const [showMobileNav, setShowMobileNav] = useState(false);
 
   function handleShowMobileNav() {
     setShowMobileNav(!showMobileNav);
+  }
+
+  function logoutSpinner() {
+    spinner.open();
+    logout();
+    spinner.close();
   }
 
   const links = [
@@ -84,7 +92,7 @@ const HeaderPlatform: React.FC<HeaderPlatformProps> = ({ title }) => {
           </div>
         </div>
 
-        <div onClick={logout} className="logout-button">
+        <div onClick={logoutSpinner} className="logout-button">
           <p>Sair</p>{" "}
           <IoLogOutOutline
             style={{
