@@ -1,11 +1,11 @@
 import "./styles.css";
 import { IoStar, IoTimeOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import React, { useEffect, useState } from "react";
-import api from "../../services/api";
 
-interface DoctorItemProps {
+export interface DoctorItemProps {
   medic: {
+    firstName: string;
+    email: number;
     phoneNumber: string;
     lastName: string;
     area: string;
@@ -13,23 +13,15 @@ interface DoctorItemProps {
   };
 }
 
-const DoctorItem: React.FC<DoctorItemProps> = ({ medic }) => {
-  const [userFirstName, setUserFirstName] = useState("");
-
+const DoctorItem = ({ medic }: DoctorItemProps) => {
   const id = medic.userID;
-
-  useEffect(() => {
-    api.get(`users?id=${id}`).then((response) => {
-      setUserFirstName(response.data.firstName);
-    });
-  }, []);
 
   return (
     <Link to={`/medicos/${id}`} className="doctor-item">
       <div className="doctor-item-first">
         <div className="doctor-item-image"></div>
         <div className="doctor-item-data">
-          <h1>Dr. {userFirstName}</h1>
+          <h1>Dr. {medic.firstName}</h1>
           <span>{medic.area}</span>
           <div className="doctor-item-data-flex">
             <IoStar size={15} color="#FFC107" />

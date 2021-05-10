@@ -1,0 +1,65 @@
+.modal-success {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 40vw;
+  height: 60vh;
+  background-color: #fff;
+  border-radius: 4rem;
+}
+
+.success-icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: -5rem;
+  width: 12rem;
+  height: 12rem;
+  border-radius: 50%;
+  background-color: #3eb713;
+}
+
+.modal-success h1 {
+  margin-top: 5rem;
+  font-size: 4rem;
+  color: #3eb713;
+}
+
+.modal-success p {
+  font-size: 2rem;
+  color: #333;
+}
+
+.modal-success button {
+  cursor: pointer;
+  width: 60%;
+  margin-top: 6rem;
+  padding: 2rem;
+  font-size: 3rem;
+  color: #fff;
+  font-weight: bold;
+  background-color: #47ff05;
+  border: 0;
+  outline: 0;
+  border-radius: 5rem;
+  transition: all ease-in-out 0.2s;
+}
+
+.modal-success button:hover {
+  background-color: #31b401;
+}
+
+@media (max-width: 1200px) {
+  .modal-success {
+    width: 50vw;
+  }
+}
+
+@media (max-width: 1200px) {
+  .modal-success {
+    width: 70vw;
+  }
+}

@@ -5,10 +5,30 @@ const bcrypt = require("bcrypt");
 module.exports = {
   async index(req, res, next) {
     try {
-      const { userID } = req.query;
+      let { userID, offset } = req.query;
+
+      if (!offset) {
+        offset = 1;
+      }
 
       if (!userID) {
-        const results = await knex("medics");
+        let results = await knex("medics")
+          .limit(30)
+          .offset(offset * 30);
+
+        for (let i in results) {
+          let medicID = results[i].userID;
+          let [result] = await knex("users")
+            .where({ id: medicID })
+            .select("first_name", "last_name", "email");
+
+          results[i] = {
+            ...results[i],
+            firstName: result.first_name,
+            lastName: result.last_name,
+            email: result.email,
+          };
+        }
 
         res.status(201).json(results);
       } else {
@@ -161,11 +181,34 @@ module.exports = {
 
   async list(req, res, next) {
     const { area } = req.params;
+    let { offset } = req.query;
+    console.log(area);
+
+    if (offset === undefined) {
+      offset = 1;
+    }
 
     try {
-      const result = await knex("medics").where({ area });
+      let results = await knex("medics")
+        .where({ area })
+        .limit(30)
+        .offset(offset * 30);
 
-      res.status(200).send(result);
+      for (let i in results) {
+        let medicID = results[i].userID;
+        let [result] = await knex("users")
+          .where({ id: medicID })
+          .select("first_name", "last_name", "email");
+
+        results[i] = {
+          ...results[i],
+          firstName: result.first_name,
+          lastName: result.last_name,
+          email: result.email,
+        };
+      }
+
+      res.status(200).send(results);
     } catch (error) {
       next(error);
     }

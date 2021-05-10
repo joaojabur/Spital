@@ -52,15 +52,14 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
       setHasError(true);
     } else {
       sucesso.open({
-        name: userData.firstName + userData.lastName,
+        name: userData.firstName + " " + userData.lastName,
         close: () => {
           sucesso.close();
-          history.push('/confirmar-email');
-        }
+          history.push("/confirmar-email");
+        },
       });
       handleSubmitClient();
       setHasError(false);
-
     }
   }
 

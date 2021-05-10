@@ -1,0 +1,32 @@
+.day-schedule {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  width: 100%;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 4rem;
+  margin-top: 2rem;
+}
+
+.day-schedule-unique {
+  font-size: 2rem;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  width: 90%;
+  height: 5rem;
+  border-radius: 5rem;
+  background-color: #16697a;
+  margin: 1rem 0;
+  transition: all ease-in-out 0.2s;
+}
+
+.day-schedule-unique:hover {
+  background-color: #055464;
+}

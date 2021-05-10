@@ -26,6 +26,14 @@
   margin: 0.2rem 0 1rem 0;
 }
 
+.doctors-list-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem;
+}
+
 @media (max-width: 700px) {
   .doctors-list-unique {
     width: 95%;
