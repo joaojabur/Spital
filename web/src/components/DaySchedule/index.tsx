@@ -1,7 +1,19 @@
 import React from "react";
 import "./styles.css";
 
-const DaySchedule = () => {
+interface DayScheduleProps {
+  getWeekDay: () => number;
+  getMonth: () => number;
+  year: string;
+  monthDay: string;
+}
+
+const DaySchedule = ({ getWeekDay, getMonth, year, monthDay }: DayScheduleProps) => {
+  const week_day = getWeekDay();
+  const month = getMonth();
+  const completeDate = `${monthDay}/${month}/${year}`
+  console.log(completeDate)
+
   return (
     <div className="day-schedule">
       <div className="day-schedule-unique">8:00 AM</div>

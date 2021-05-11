@@ -27,9 +27,6 @@ const ScheduleAppointment = () => {
   const dateString = date.toString();
 
   const [week_day, month, month_day, year] = dateString.split(" ");
-  console.log(
-    `Week day: ${week_day}, month: ${month}, month day: ${month_day}, year: ${year}`
-  );
 
   const { id } = useParams<ParamTypes>();
 
@@ -44,6 +41,59 @@ const ScheduleAppointment = () => {
       setUser(response.data);
     });
   }, []);
+
+  function transformWeekday() {
+    switch (week_day) {
+      case "Sun":
+        return 0;
+      case "Mon":
+        return 1;
+      case "Tue":
+        return 2;
+      case "Wed":
+        return 3;
+      case "Thu":
+        return 4;
+      case "Fri":
+        return 5;
+      case "Sat":
+        return 6;
+      default:
+        return 0;
+    }
+  }
+
+  function transformMonth() {
+    switch (month) {
+      case "Jan":
+        return 1;
+      case "Feb":
+        return 2;
+      case "Mar":
+        return 3;
+      case "Apr":
+        return 4;
+      case "May":
+        return 5;
+      case "Jun":
+        return 6;
+      case "Jul":
+        return 7;
+      case "Aug":
+        return 8;
+      case "Sep":
+        return 9;
+      case "Oct":
+        return 10;
+      case "Nov":
+        return 11;
+      case "Dec":
+        return 12;
+
+      default:
+        return 0;
+    }
+  }
 
   return (
     <div className="client-platform">
@@ -64,7 +114,7 @@ const ScheduleAppointment = () => {
           }}
         />
 
-        <DaySchedule />
+        <DaySchedule getMonth={transformMonth} getWeekDay={transformWeekday} year={year} monthDay={month_day} />
 
         <AppointmentType />
 
