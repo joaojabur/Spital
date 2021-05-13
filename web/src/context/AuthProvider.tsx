@@ -1,5 +1,4 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
-import { useHistory } from "react-router-dom";
 import api from "../services/api";
 import Cookies from "js-cookie";
 
