@@ -15,6 +15,9 @@ const addressController = require("./controllers/addressController");
 routes.get("/users", userController.index);
 routes.delete("/users/:id", userController.delete);
 routes.get("/users/:token", userController.emailVerification);
+routes.post("/users/recover/", userController.forgetPassword);
+routes.put("/users/recover/:token", userController.recoverPassword);
+routes.get("/users/recover/:token", userController.verifyRecoverToken);
 
 routes.post("/clients", ClientController.create);
 routes.get("/clients", ClientController.index);
