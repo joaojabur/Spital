@@ -38,31 +38,31 @@ class _PageHomeState extends State<PageHome> {
     "images/icons/hospital/svg/065-globulos-vermelhos.svg",
   ];
   List _categorias = [
-    "Alergista \ne\n Imunologista",
-    "Angiologista",
+    "Oftalmologista",
     "Cardiologista",
+    "Dentista",
+    "Otorrinolaringologista",
+    "Ortopedista",
+    "Pneumologista",
+    "Nefrologista",
+    "Geriatra",
+    "Neurologista",
+    "Urologista",
+    "Hematologista",
+    "Alergista \ne\n Imunologista",
     "Coloproctologista",
     "Dermatologista",
     "Endocrinologista",
-    "Endoscopista",
     "Gastroenterologista",
-    "Geriatra",
     "Ginecologista",
-    "Hematologista",
     "Infectologista",
-    "Nefrologista",
-    "Neurologista",
-    "Nutrologo",
+    "Nutrologista",
     "Obstetricista",
-    "Oftalmologista",
-    "Ortopedista",
-    "Otorrinolaringologista",
     "Pediatra",
-    "Pneumologista",
     "Radiologista",
     "Radioterapista",
     "Reumatologista",
-    "Urologista"
+    "Angiologista",
   ];
   @override
   Widget build(BuildContext context) {
@@ -72,8 +72,7 @@ class _PageHomeState extends State<PageHome> {
       backgroundColor: Colors.white,
       appBar: AppbarWidget(width: width, height: height),
       body: Container(
-        margin: EdgeInsets.only(top: 10),
-        height: 153,
+        height: height,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -81,7 +80,7 @@ class _PageHomeState extends State<PageHome> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.only(bottom: 10, left: 15),
                   child: Text(
                     "Categorias",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -104,40 +103,37 @@ class _PageHomeState extends State<PageHome> {
               scrollDirection: Axis.horizontal,
               itemCount: _categorias.length,
               itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(vertical: width * 0.01),
-                  child: Container(
-                    margin: EdgeInsets.only(left: 20, bottom: 20),
-                    child: PhysicalModel(
-                      borderRadius: BorderRadius.circular(35),
-                      color: Colors.black,
-                      //shadowColor: Colors.grey,
-                      elevation: 10,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(35),
-                            color: Colors.white),
-                        width: 85,
-                        height: 70,
-                        child: Padding(
-                          padding: const EdgeInsets.all(5),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              GestureDetector(
-                                child: SvgPicture.asset(
-                                  _imagesCatergorias[index],
-                                  height: 40,
-                                  width: 40,
-                                ),
+                return Container(
+                  margin: EdgeInsets.only(left: 20, bottom: 20),
+                  child: PhysicalModel(
+                    borderRadius: BorderRadius.circular(35),
+                    color: Colors.black,
+                    //shadowColor: Colors.grey,
+                    elevation: 10,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(35),
+                          color: Colors.white),
+                      width: 90,
+                      height: 70,
+                      child: Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              child: SvgPicture.asset(
+                                _imagesCatergorias[index],
+                                height: 40,
+                                width: 40,
                               ),
-                              Text(
-                                _categorias[index],
-                                style: AppTextStyles.categoriesTitle,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
+                            ),
+                            Text(
+                              _categorias[index],
+                              style: AppTextStyles.categoriesTitle,
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -145,6 +141,42 @@ class _PageHomeState extends State<PageHome> {
                 );
               },
             )),
+            Container(
+              margin: EdgeInsets.only(bottom: 5),
+              height: height * 0.3,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: Text(
+                        "Doutores",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView.separated(
+                        separatorBuilder: (context, index) => Divider(
+                          height: 5,
+                          color: Colors.white,
+                        ),
+                        itemCount: 3,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            height: 80,
+                            width: 50,
+                            color: Colors.black,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
