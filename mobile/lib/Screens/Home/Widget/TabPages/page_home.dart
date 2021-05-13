@@ -92,10 +92,9 @@ class _PageHomeState extends State<PageHome> {
                   child: Text(
                     "Ver mais",
                     style: TextStyle(
-                        decoration: TextDecoration.underline,
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.blue),
+                        color: Color(0xFFBCBCBC)),
                   ),
                 ),
               ],
