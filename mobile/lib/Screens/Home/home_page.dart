@@ -1,7 +1,7 @@
-import 'package:Spital/Screens/Home/Widget/TabPages/page_calendar.dart';
-import 'package:Spital/Screens/Home/Widget/TabPages/page_home.dart';
-import 'package:Spital/Screens/Home/Widget/TabPages/page_person.dart';
-import 'package:Spital/Screens/Home/Widget/TabPages/page_seach.dart';
+import 'package:Spital/Screens/Home/Widget/TabPages/page_calendar_widget.dart';
+import 'package:Spital/Screens/Home/Widget/TabPages/page_home_widget.dart';
+import 'package:Spital/Screens/Home/Widget/TabPages/page_person_widget.dart';
+import 'package:Spital/Screens/Home/Widget/TabPages/page_seach_widget.dart';
 import 'package:Spital/core/core.dart';
 import 'package:flutter/services.dart';
 import 'package:ionicons/ionicons.dart';
