@@ -2,20 +2,18 @@ exports.up = function (knex) {
   return knex.schema.createTable("medic_schedule", (table) => {
     table.increments("id");
 
+    table.string("from").notNullable();
+    table.string("to").notNullable();
     table.integer("week_day").notNullable();
-    table.integer("from").notNullable();
-    table.integer("to").notNullable();
 
     table
-      .integer("medic_id")
-      .references("medics.id")
+      .integer("scheduleID")
+      .references("schedules.id")
       .notNullable()
       .onDelete("CASCADE");
-
-    table.timestamp("created_at").defaultTo(knex.fn.now());
   });
 };
 
 exports.down = function (knex) {
-  return knex.schema.dropTable("medic_schedule");
+  knex.schema.dropTable("medic_schedule");
 };

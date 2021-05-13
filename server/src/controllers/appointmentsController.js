@@ -3,17 +3,13 @@ const knex = require("../database");
 module.exports = {
   async index(req, res, next) {
     try {
-      const { medic_id } = req.query;
-      const query = knex("appointments");
+      const { medicID } = req.query;
 
-      if (medic_id) {
-        query
-          .where("medic_id", medic_id)
-          .join("medics", "medics.id", "=", "appointments.medicID")
-          .select("appointments.*", "medics.first_name", "medics.last_name");
-      }
-
-      const results = await query;
+      const results = await knex
+        .select("*")
+        .from("schedules")
+        .where({ medicID })
+        .join("appointments", { "schedules.id": "appointments.scheduleID" });
 
       res.status(201).json(results);
     } catch (error) {
@@ -23,13 +19,18 @@ module.exports = {
 
   async create(req, res, next) {
     try {
-      const { week_day, from, to } = req.body;
-      const { medic_id } = req.query;
+      const { date } = req.body;
+      const { medicID } = req.query;
+      const { clientID } = req.query;
+
+      const scheduleID = await knex("schedules").returning("id").insert({
+        medicID,
+      });
+
       await knex("appointments").insert({
-        medic_id,
-        week_day,
-        from,
-        to,
+        scheduleID,
+        date,
+        clientID,
       });
 
       res.status(201).send();
@@ -41,12 +42,10 @@ module.exports = {
   async update(req, res, next) {
     try {
       const { id } = req.params;
-      const { week_day, from, to } = req.body;
+      const { date } = req.body;
       await knex("appointments")
         .update({
-          week_day,
-          from,
-          to,
+          date,
         })
         .where({ id });
 
