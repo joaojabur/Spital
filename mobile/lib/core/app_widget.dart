@@ -1,3 +1,4 @@
+import 'package:Spital/Screens/Home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -8,9 +9,7 @@ class AppWidget extends StatelessWidget {
       title: "Spital",
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
-      routes: {
-        '/': (context) => Container()
-      },
+      routes: {'/': (context) => HomePage()},
     );
   }
 }

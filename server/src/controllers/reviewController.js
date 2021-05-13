@@ -17,7 +17,6 @@ module.exports = {
           .select(
             "reviews.*",
             "medics.userID",
-            "medics.userID",
             "clients.userID"
           );
       }

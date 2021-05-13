@@ -20,7 +20,7 @@ const MedicArea = () => {
 
   async function loadMore() {
     setLoading(true);
-    let { data } = await api.get(`medics?offset=${page}`);
+    let { data } = await api.get(`medics/${capitalizeArea}?offset=${page}`);
     data = data.map((medic: Medic) => medic);
 
     setMedics((previousState) => [...previousState, ...data]);
