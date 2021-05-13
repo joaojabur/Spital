@@ -99,9 +99,15 @@ module.exports = {
             birth_date: birthDate,
           });
 
+        console.log(schedule);
+
+        const scheduleID = await knex("schedules")
+          .returning("id")
+          .insert({ medicID: parseInt(medicID) });
+
         for (let sche of schedule) {
           await knex("medic_schedule").insert({
-            medic_id: parseInt(medicID),
+            scheduleID: parseInt(scheduleID),
             week_day: sche.week_day,
             from: convertHourToMinutes(sche.from),
             to: convertHourToMinutes(sche.to),
@@ -127,13 +133,10 @@ module.exports = {
       graduation,
       master_degree,
       doctorate_degree,
+      crm,
       cpf,
       rg,
       birth_date,
-      card_name,
-      card_number,
-      card_expiration_date,
-      card_verification_number,
     } = req.body;
 
     const { userID } = req.params;
@@ -152,12 +155,9 @@ module.exports = {
           master_degree,
           doctorate_degree,
           cpf,
+          crm,
           rg,
           birth_date,
-          card_name,
-          card_number,
-          card_expiration_date,
-          card_verification_number,
         })
         .where({ userID });
 
@@ -182,10 +182,9 @@ module.exports = {
   async list(req, res, next) {
     const { area } = req.params;
     let { offset } = req.query;
-    console.log(area);
 
     if (offset === undefined) {
-      offset = 1;
+      offset = 0;
     }
 
     try {
