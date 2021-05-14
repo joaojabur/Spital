@@ -45,16 +45,14 @@ class AppTextStyles {
   );
 
   static final TextStyle topicName = GoogleFonts.roboto(
-    color: AppColors.black, 
-    fontSize: 20, 
-    fontWeight: FontWeight.bold
-  );
+      color: AppColors.black, fontSize: 20, fontWeight: FontWeight.bold);
+  static final TextStyle topicNameDoctor = GoogleFonts.roboto(
+      color: AppColors.black, fontSize: 14, fontWeight: FontWeight.bold);
 
   static final TextStyle topicDescription = GoogleFonts.roboto(
-    color: AppColors.lighGray,
-    fontSize: 12,
-    fontWeight: FontWeight.w500
-  );
+      color: AppColors.lighGray, fontSize: 12, fontWeight: FontWeight.w500);
+  static final TextStyle topicDescriptionDoctor = GoogleFonts.roboto(
+      color: AppColors.gray, fontSize: 12, fontWeight: FontWeight.w500);
 
   static final TextStyle topicDistance = GoogleFonts.roboto(
     color: AppColors.lighGray,
@@ -63,10 +61,7 @@ class AppTextStyles {
   );
 
   static final TextStyle topicStar = GoogleFonts.roboto(
-    color: AppColors.black,
-    fontSize: 12,
-    fontWeight: FontWeight.w500
-  );
+      color: AppColors.black, fontSize: 10, fontWeight: FontWeight.w500);
 
   static final TextStyle topicTime = GoogleFonts.roboto(
     color: AppColors.black,

@@ -29,7 +29,6 @@ class AppbarWidget extends PreferredSize {
                     height: height * 0.1,
                     child: SvgPicture.asset("images/logo.svg")),
                 Positioned(
-                  top: 0,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
