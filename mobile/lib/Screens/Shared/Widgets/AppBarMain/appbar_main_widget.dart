@@ -7,7 +7,7 @@ import 'dart:core';
 import 'Widgets/card_Infor_widget.dart';
 
 class AppbarWidget extends PreferredSize {
-  AppbarWidget({double width, double height})
+  AppbarWidget({required double width, required double height})
       : super(
             preferredSize: Size.fromHeight(height * 0.34),
             child: Container(

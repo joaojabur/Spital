@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class AppbarSecundaria extends PreferredSize {
   final String title;
 
-  AppbarSecundaria({this.title, double width, double height})
+  AppbarSecundaria({required this.title, double? width, required double height})
       : super(
           preferredSize: Size.fromHeight(height * 0.34),
           child: Container(
