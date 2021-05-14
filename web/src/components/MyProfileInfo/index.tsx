@@ -13,7 +13,7 @@ const MyProfileInfo = () => {
 
   let nivel = Math.floor(user.xp ** (1 / 2) / 4 - 1);
 
-  if (nivel === -1) {
+  if (nivel === -1 || nivel === 0) {
     nivel = 1;
   }
 

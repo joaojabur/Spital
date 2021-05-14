@@ -114,7 +114,12 @@ const ScheduleAppointment = () => {
           }}
         />
 
-        <DaySchedule getMonth={transformMonth} getWeekDay={transformWeekday} year={year} monthDay={month_day} />
+        <DaySchedule
+          getMonth={transformMonth}
+          getWeekDay={transformWeekday}
+          year={year}
+          monthDay={month_day}
+        />
 
         <AppointmentType />
 
