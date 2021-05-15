@@ -3,7 +3,7 @@ const generateForgetPassToken = require("../../middlewares/generateForgetPassTok
 
 module.exports = async function recoverEmail({ id, name, email, callback }) {
   const token = generateForgetPassToken(id);
-  const link = `http://localhost:3000/recover/${token}`;
+  const link = `http://localhost:3000/recuperar/${token}`;
 
   let to = email;
   let subject = "Recuperação de Senha";
