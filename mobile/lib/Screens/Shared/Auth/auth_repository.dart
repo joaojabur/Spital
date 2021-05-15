@@ -18,7 +18,7 @@ class LoginResponse {
 
 class AuthRepository {
   final storage = new secureStorage.FlutterSecureStorage();
-  final Dio dio = Dio(BaseOptions(baseUrl: "https://localhost:3333/"));
+  final Dio dio = Dio(BaseOptions(baseUrl: "http://192.168.1.9:3333"));
   Future<LoginResponse> login(String email,String password) async {
     try {
       final response = await dio.post('/clients/login',
