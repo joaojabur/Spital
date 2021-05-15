@@ -21,7 +21,7 @@ abstract class _AuthControllerBase with Store {
   bool isAuthenticated = false;
 
   Future<void> getToken() async {
-    var token = await storage.read(key: 'token');
+    var token = await storage.read(key: 'access-token');
 
     if (token?.isNotEmpty ?? false){
       var response = await _authRepository.loginWithToken(token!);
