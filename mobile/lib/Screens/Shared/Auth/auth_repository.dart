@@ -50,13 +50,13 @@ class AuthRepository {
 
   Future<LoginResponse> loginWithToken(String token) async {
     try {
-      final response = await dio.post('/clients/auth', options: Options(
+      final response = await dio.get('/clients/auth', options: Options(
         headers: {
-          HttpHeaders.authorizationHeader: token
+          'authorization': token
         }
       ));
 
-      int userID = response.data["id"];
+      int userID = response.data["userID"];
       bool auth = response.data["auth"];
       bool confirmed = response.data["confirmed"];
 
@@ -67,7 +67,7 @@ class AuthRepository {
         );
       }
 
-      await storage.delete(key: 'token');
+      await storage.delete(key: 'access-token');
       
       return LoginResponse(
         error: true,
