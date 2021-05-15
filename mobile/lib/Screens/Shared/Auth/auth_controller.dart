@@ -35,14 +35,15 @@ abstract class _AuthControllerBase with Store {
     }
   }
 
-  Future<String?> login(String email, String password) async {
+  Future<String> login(String email, String password) async {
     var response = await _authRepository.login(email, password);
 
     if (response.error){
-      return response.message;
+      return response.message!;
     } else {
       user = response.user;
       isAuthenticated = true;
+      return '';
     }
   }
 }
