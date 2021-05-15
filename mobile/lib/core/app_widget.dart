@@ -10,33 +10,37 @@ class AppWidget extends StatelessWidget {
   Widget initialize(BuildContext context){
     AuthController controller = Provider.of<AuthController>(context);
 
-    return FutureBuilder(
-      future: controller.getToken(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done){
-          if (controller.isAuthenticated){
-            SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
-              Navigator.pushReplacementNamed(context, '/');
-            });
-            return Scaffold(
-              body: Center(
-                child: CircularProgressIndicator()
-              )
-            );
-          } else {
-            SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
-              Navigator.pushReplacementNamed(context, '/login');
-            });
-            return Container();
-          }
-        } else {
-          return Scaffold(
-            body: Center(
-              child: CircularProgressIndicator()
-            )
-          );
-        }
-      },
+    if (controller.isAuthenticated){
+      SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
+        Navigator.pushReplacementNamed(context, '/');
+      });
+      return Scaffold(
+        body: Center( child: CircularProgressIndicator())
+      );
+    }
+    return Scaffold(
+      body: Center(
+        child: FutureBuilder(
+          future: controller.getToken(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done){
+              if (controller.isAuthenticated){
+                SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
+                  Navigator.pushReplacementNamed(context, '/');
+                });
+                return CircularProgressIndicator();
+              } else {
+                SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
+                  Navigator.pushReplacementNamed(context, '/login');
+                });
+                return Container();
+              }
+            } else {
+              return CircularProgressIndicator();
+            }
+          },
+        )
+      )
     );
   }
   @override
