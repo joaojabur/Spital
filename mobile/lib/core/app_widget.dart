@@ -15,7 +15,14 @@ class AppWidget extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done){
           if (controller.isAuthenticated){
-            return HomePage();
+            SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
+              Navigator.pushReplacementNamed(context, '/');
+            });
+            return Scaffold(
+              body: Center(
+                child: CircularProgressIndicator()
+              )
+            );
           } else {
             SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
               Navigator.pushReplacementNamed(context, '/login');
@@ -41,10 +48,11 @@ class AppWidget extends StatelessWidget {
         child: MaterialApp(
         title: "Spital",
         debugShowCheckedModeBanner: false,
-        initialRoute: '/',
+        initialRoute: '/splash',
         routes: {
-          '/': (context) => initialize(context),
-          '/login' : (context) => LoginPage()
+          '/splash' : (context) => initialize(context),
+          '/': (context) => HomePage(),
+          '/login' : (context) => LoginPage(),
         },
       )
     );
