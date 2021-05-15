@@ -4,14 +4,25 @@ const convertHourToMinutes = require("../utils/convertHoursToMinutes");
 module.exports = {
   async index(req, res, next) {
     try {
-      const { medicID } = req.query;
+      const { medicID, week_day } = req.query;
 
-      const results = await knex
-        .where({ medicID })
-        .join("medic_schedule", "schedules.id", "=", "medic_schedule.scheduleID")
-        .select("schedules.*", "medic_schedule.*");
+      const query = knex("schedules");
 
-      res.status(201).json(results);
+      if (medicID !== undefined) {
+        query
+          .where({ medicID: medicID, week_day: week_day })
+          .join(
+            "medic_schedule",
+            "schedules.id",
+            "=",
+            "medic_schedule.scheduleID"
+          )
+          .select(["schedules.*", "medic_schedule.*"]);
+      }
+
+      const results = await query;
+
+      res.status(201).send(results);
     } catch (error) {
       next(error);
     }
