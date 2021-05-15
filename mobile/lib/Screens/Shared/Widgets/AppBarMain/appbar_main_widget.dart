@@ -7,8 +7,12 @@ import 'dart:core';
 import 'Widgets/card_Infor_widget.dart';
 
 class AppbarWidget extends PreferredSize {
-  AppbarWidget({required double width, required double height})
-      : super(
+  AppbarWidget({
+      required double width,
+      required double height,
+      required String name,
+      required String image
+    }) : super(
             preferredSize: Size.fromHeight(height * 0.34),
             child: Container(
                 child: Stack(
@@ -40,17 +44,18 @@ class AppbarWidget extends PreferredSize {
                           height: 55,
                           width: 55,
                           decoration: BoxDecoration(
+                              color: Colors.white,
                               borderRadius: BorderRadius.circular(100),
                               image: DecorationImage(
-                                image: NetworkImage(
-                                    "https://i.pinimg.com/736x/a6/60/a5/a660a51eac30c2d625d7983aeb06f454.jpg"),
+                                fit: BoxFit.fill,
+                                image: NetworkImage(image),
                               ))),
                       Text.rich(TextSpan(
                           text: "Olá",
                           style: AppTextStyles.topicName,
                           children: [
                             TextSpan(
-                                text: "\n Carlos!",
+                                text: "\n ${name.substring(0, name.indexOf(' '))}!",
                                 style: AppTextStyles.subtitle)
                           ])),
                       Container(
