@@ -21,11 +21,12 @@ class AuthRepository {
   final Dio dio = Dio(BaseOptions(baseUrl: "http://192.168.1.9:3333"));
   Future<LoginResponse> login(String email,String password) async {
     try {
-      final response = await dio.post('/clients/login',
-        data: {
+      Map<String, String> data = {
           "email": email,
           "password": password
-        }
+      };
+      final response = await dio.post('/clients/login',
+        data: data
       );
 
       int userID = response.data["id"];
@@ -39,6 +40,7 @@ class AuthRepository {
         user: await getUserData(userID, confirmed)
       );
     } catch(error){
+      
       return LoginResponse(
         error: true,
         message: "Ocorreu um erro"
@@ -82,9 +84,10 @@ class AuthRepository {
 
   Future<UserModel> getUserData(int id, bool confirmed) async {
     final response = await dio.get('/clients?id=$id');
+    var data = Map<String, dynamic>.from(response.data);
 
-    response.data["confirmed"] = confirmed;
-
-    return UserModel.fromJson(response.data);
+    data['image'] = "https://wallpaperaccess.com/full/1604594.jpg";
+    data['confirmed'] = confirmed;
+    return UserModel.fromMap(data);
   }
 }
