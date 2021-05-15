@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo.svg";
 import medics from "../../assets/images/medics.svg";
 import { FaCommentMedical, FaClinicMedical } from "react-icons/fa";
-import { useModal } from "../../context/ModalProvider";
 
 const Landing = () => {
   return (

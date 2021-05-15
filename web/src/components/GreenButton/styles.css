@@ -1,4 +1,7 @@
 .green-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   width: 100%;
   padding: 2rem;
@@ -11,8 +14,10 @@
   font-weight: bold;
   margin: 2rem 0;
   transition: all ease-in-out 0.2s;
+  text-decoration: none !important;
 }
 
 .green-button:hover {
   background-color: #2a8a07;
+  color: #fff !important;
 }

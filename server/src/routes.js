@@ -11,6 +11,7 @@ const clientController = require("./controllers/clientController");
 const userController = require("./controllers/userController");
 const reviewController = require("./controllers/reviewController");
 const addressController = require("./controllers/addressController");
+const consultTypeController = require("./controllers/consultTypeController");
 
 routes.get("/users", userController.index);
 routes.delete("/users/:id", userController.delete);
@@ -51,5 +52,10 @@ routes.post("/addresses", addressController.create);
 routes.get("/addresses", addressController.index);
 routes.put("/addresses", addressController.update);
 routes.delete("/addresses", addressController.delete);
+
+routes.post("/consult-type", consultTypeController.create);
+routes.get("/consult-type", consultTypeController.index);
+routes.put("/consult-type/:id", consultTypeController.update);
+routes.delete("/consult-type/:id", consultTypeController.delete);
 
 module.exports = routes;

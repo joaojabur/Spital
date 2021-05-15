@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { useShareAppointmentForm } from "../../context/ShareAppointmentFormProvider";
 import { ParamTypes } from "../../platform-pages/MedicProfile";
 import api from "../../services/api";
 import "./styles.css";
 
-interface DayScheduleProps {
-  getWeekDay: () => number;
+export interface DayScheduleProps {
   getMonth: () => number;
   year: string;
   monthDay: string;
@@ -14,6 +14,7 @@ interface DayScheduleProps {
 interface DateProps {
   date: string;
   time: string;
+  isOn: boolean;
 }
 
 interface MedicScheduleProps {
@@ -23,11 +24,13 @@ interface MedicScheduleProps {
 }
 
 const DaySchedule = ({
-  getWeekDay,
   getMonth,
   year,
   monthDay,
 }: DayScheduleProps) => {
+  const { appointmentData, setAppointmentData } = useShareAppointmentForm();
+
+  const [chosenTime, setChosenTime] = useState("");
   const [medicSchedule, setMedicSchedule] =
     useState<MedicScheduleProps | null>(null);
   const [appointments, setAppointments] = useState<DateProps[]>([]);
@@ -52,8 +55,6 @@ const DaySchedule = ({
       });
   }, [newWeekDay, completeDate]);
 
-  console.log(appointments);
-
   const numberFrom = Number(medicSchedule?.from);
   const numberTo = Number(medicSchedule?.to);
 
@@ -64,58 +65,54 @@ const DaySchedule = ({
   }
 
   return (
-    <div className="day-schedule">
-      {quantityOfTimesArray.map((time) => {
-        const total = numberFrom + 30 * time;
-        const hour = total / 60;
-        const stringHour = hour.toString();
-        const [hours, minutes] = stringHour.split(".");
-        const completeMinutes = Number(minutes) * 6;
+    <>
+      <div className="day-schedule">
+        {quantityOfTimesArray.map((time) => {
+          const total = numberFrom + 30 * time;
+          const hour = total / 60;
+          const stringHour = hour.toString();
+          const [hours, minutes] = stringHour.split(".");
+          const completeMinutes = Number(minutes) * 6;
 
-        let isReserved = false;
+          let isReserved = false;
 
-        for (let appointment of appointments) {
-          if (
-            appointment.time ===
-            `${hours}:${isNaN(completeMinutes) ? "00" : completeMinutes}`
-          ) {
-            isReserved = true;
+          for (let appointment of appointments) {
+            if (
+              appointment.time ===
+              `${hours}:${isNaN(completeMinutes) ? "00" : completeMinutes}`
+            ) {
+              isReserved = true;
+            }
           }
-        }
 
-        if (isReserved) {
+          if (isReserved) {
+            return (
+              <button key={time} className="day-schedule-unique-reserved">
+                Reservado
+              </button>
+            );
+          }
+
           return (
             <button
               value={`${hours}:${
                 isNaN(completeMinutes) ? "00" : completeMinutes
               }`}
               key={time}
-              className="day-schedule-unique-reserved"
+              className="day-schedule-unique"
               onClick={(e: any) => {
-                console.log(e.target.value);
+                setAppointmentData({ ...appointmentData, time: e.target.value });
               }}
             >
-              Reservado
+              {hours}:{isNaN(completeMinutes) ? "00" : completeMinutes}
             </button>
           );
-        }
-
-        return (
-          <button
-            value={`${hours}:${
-              isNaN(completeMinutes) ? "00" : completeMinutes
-            }`}
-            key={time}
-            className="day-schedule-unique"
-            onClick={(e: any) => {
-              console.log(e.target.value);
-            }}
-          >
-            {hours}:{isNaN(completeMinutes) ? "00" : completeMinutes}
-          </button>
-        );
-      })}
-    </div>
+        })}
+      </div>
+      <div className="chosenTime">
+        Horário escolhido: <span>{appointmentData?.time}</span>
+      </div>
+    </>
   );
 };
 

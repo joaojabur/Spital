@@ -1,14 +1,48 @@
 import React from "react";
 import "./styles.css";
+import { useShareAppointmentForm } from "../../context/ShareAppointmentFormProvider";
 
-const AppointmentType = () => {
+type ConsultTypeProps = {
+  type: string;
+  price: string;
+};
+
+interface AppointmentTypeProps {
+  consultTypes: Array<ConsultTypeProps>;
+}
+
+const AppointmentType = ({ consultTypes }: AppointmentTypeProps) => {
+  const { appointmentData, setAppointmentData } = useShareAppointmentForm();
+
   return (
-    <div className="appointment-type">
-      <div className="appointment-type-unique">
-        <p>Consulta Urologia Comum</p>
-        <p>R$ 150,00</p>
+    <>
+      <div className="appointment-type">
+        {consultTypes.map((consultType, index) => {
+          return (
+            <button
+              value={consultType.type + ":" + consultType.price}
+              key={index}
+              className="appointment-type-unique"
+              onClick={(e: any) => {
+                const [type, price] = e.target.value.split(":");
+                setAppointmentData({
+                  ...appointmentData,
+                  type: type,
+                  price: price,
+                });
+              }}
+            >
+              <p>{consultType.type}</p>
+              <p>R$ {consultType.price}</p>
+            </button>
+          );
+        })}
       </div>
-    </div>
+
+      <div className="chosenTime">
+        Horário escolhido: <span>{appointmentData?.type}</span>
+      </div>
+    </>
   );
 };
 

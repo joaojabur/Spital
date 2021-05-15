@@ -16,8 +16,15 @@ import {
 import DaySchedule from "../../components/DaySchedule";
 import AppointmentType from "../../components/AppointmentType";
 import GreenButton from "../../components/GreenButton";
+import ShareAppointmentFormProvider from "../../context/ShareAppointmentFormProvider";
+
+interface ConsultTypeProps {
+  type: string;
+  price: string;
+}
 
 const ScheduleAppointment = () => {
+  const [consultTypes, setConsultTypes] = useState<ConsultTypeProps[]>([]);
   const history = useHistory();
   const [date, setDate] = useState(new Date());
 
@@ -31,6 +38,12 @@ const ScheduleAppointment = () => {
   const { id } = useParams<ParamTypes>();
 
   useEffect(() => {
+    api.get(`consult-type?medicID=${medic?.id}`).then((response: any) => {
+      setConsultTypes(response.data);
+    });
+  }, [medic?.id]);
+
+  useEffect(() => {
     api.get(`medics?userID=${id}`).then((response: any) => {
       setMedic(response.data);
     });
@@ -41,27 +54,6 @@ const ScheduleAppointment = () => {
       setUser(response.data);
     });
   }, []);
-
-  function transformWeekday() {
-    switch (week_day) {
-      case "Sun":
-        return 0;
-      case "Mon":
-        return 1;
-      case "Tue":
-        return 2;
-      case "Wed":
-        return 3;
-      case "Thu":
-        return 4;
-      case "Fri":
-        return 5;
-      case "Sat":
-        return 6;
-      default:
-        return 0;
-    }
-  }
 
   function transformMonth() {
     switch (month) {
@@ -96,36 +88,42 @@ const ScheduleAppointment = () => {
   }
 
   return (
-    <div className="client-platform">
-      <SubHeaderPlatform
-        title={`Agendar consulta com Dr(a). ${user?.firstName}`}
-        returnFunction={() => history.goBack()}
-      />
-      <div className="container">
-        <Calendar
-          prevLabel={<IoChevronBackOutline color="#07B3D6" />}
-          nextLabel={<IoChevronForwardOutline color="#07B3D6" />}
-          prev2Label={<IoArrowUndoSharp color="#07B3D6" />}
-          next2Label={<IoArrowRedoSharp color="#07B3D6" />}
-          className="big-calendar"
-          value={date}
-          onChange={(e: any) => {
-            setDate(e);
-          }}
+    <ShareAppointmentFormProvider>
+      <div className="client-platform">
+        <SubHeaderPlatform
+          title={`Agendar consulta com Dr(a). ${user?.firstName}`}
+          returnFunction={() => history.goBack()}
         />
+        <div className="container">
+          <Calendar
+            prevLabel={<IoChevronBackOutline color="#07B3D6" />}
+            nextLabel={<IoChevronForwardOutline color="#07B3D6" />}
+            prev2Label={<IoArrowUndoSharp color="#07B3D6" />}
+            next2Label={<IoArrowRedoSharp color="#07B3D6" />}
+            className="big-calendar"
+            value={date}
+            onChange={(e: any) => {
+              setDate(e);
+            }}
+          />
 
-        <DaySchedule
-          getMonth={transformMonth}
-          getWeekDay={transformWeekday}
-          year={year}
-          monthDay={month_day}
-        />
+          <DaySchedule
+            getMonth={transformMonth}
+            year={year}
+            monthDay={month_day}
+          />
 
-        <AppointmentType />
+          <AppointmentType consultTypes={consultTypes} />
 
-        <GreenButton label="Ir para o pagamento" />
+          <GreenButton
+            getMonth={transformMonth}
+            year={year}
+            monthDay={month_day}
+            label="Ir para o pagamento"
+          />
+        </div>
       </div>
-    </div>
+    </ShareAppointmentFormProvider>
   );
 };
 

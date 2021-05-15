@@ -51,3 +51,33 @@
 .day-schedule-unique:hover {
   background-color: #055464;
 }
+
+.chosenTime {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: #fff;
+  margin-top: 2rem;
+  padding: 1rem;
+  border-radius: 4rem;
+  font-size: 2rem;
+}
+
+.chosenTime span {
+  color: #3eb713;
+  font-weight: bold;
+  margin-left: 1rem;
+}
+
+@media (max-width: 500px) {
+  .day-schedule {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (max-width: 400px) {
+  .day-schedule {
+    grid-template-columns: 1fr 1fr;
+  }
+}

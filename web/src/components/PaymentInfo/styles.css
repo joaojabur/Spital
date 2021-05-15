@@ -1,0 +1,80 @@
+.payment-info {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  width: 100%;
+  padding: 3rem 3rem 2rem 3rem;
+  background-color: #fff;
+  border-radius: 4rem;
+}
+
+.payment-info h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.payment-info-date {
+  font-size: 1.6rem;
+  margin: 1rem 0;
+  color: #333;
+}
+
+.payment-info-doctor-name {
+  font-size: 2rem;
+  margin-top: 1rem;
+  color: #333;
+}
+
+.payment-info-consult-type {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.payment-info-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1rem 0;
+}
+
+.payment-info-flex h3 {
+  font-size: 2.5rem;
+}
+
+.payment-info-price {
+  margin: 0;
+  font-size: 2.5rem;
+  color: #3eb713;
+  font-weight: bold;
+}
+
+.payment-info-flex img {
+  width: 4.5rem;
+}
+
+.payment-info-card {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+}
+
+.payment-info-card p {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.payment-info-card-number {
+  font-size: 1.5rem;
+  color: #bcbcbc;
+  position: relative;
+  top: -0.5rem;
+}
+
+.payment-info-flex button {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  outline: 0;
+  color: #07b3d6;
+  font-size: 2rem;
+}
