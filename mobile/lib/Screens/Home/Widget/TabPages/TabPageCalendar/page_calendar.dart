@@ -1,4 +1,5 @@
 import 'package:Spital/Screens/Shared/Widgets/AppBarSecond/appbar_second_widget.dart';
+
 import 'package:flutter/material.dart';
 
 class PageCalendar extends StatefulWidget {
@@ -12,12 +13,11 @@ class _PageCalendarState extends State<PageCalendar> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppbarSecundaria(
+      body: AppbarSecundaria(
         title: "Calendario",
         width: width,
         height: height,
       ),
-      body: Center(child: Text("Consultas")),
     );
   }
 }
