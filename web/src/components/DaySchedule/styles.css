@@ -25,8 +25,59 @@
   background-color: #16697a;
   margin: 1rem 0;
   transition: all ease-in-out 0.2s;
+  border: none;
+  outline: 0 !important;
+}
+
+.day-schedule-unique-reserved {
+  font-size: 2rem;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  width: 90%;
+  height: 5rem;
+  border-radius: 5rem;
+  background-color: #bbe8f1;
+  margin: 1rem 0;
+  transition: all ease-in-out 0.2s;
+  border: none;
+  outline: 0 !important;
 }
 
 .day-schedule-unique:hover {
   background-color: #055464;
+}
+
+.chosenTime {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: #fff;
+  margin-top: 2rem;
+  padding: 1rem;
+  border-radius: 4rem;
+  font-size: 2rem;
+}
+
+.chosenTime span {
+  color: #3eb713;
+  font-weight: bold;
+  margin-left: 1rem;
+}
+
+@media (max-width: 500px) {
+  .day-schedule {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (max-width: 400px) {
+  .day-schedule {
+    grid-template-columns: 1fr 1fr;
+  }
 }

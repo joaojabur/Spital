@@ -2,7 +2,7 @@ const knex = require("../database");
 const jwt = require("jsonwebtoken");
 const authConfig = require("../configs/authConfig.json");
 const bcrypt = require("bcrypt");
-const verifyEmail = require('../services/email/verify');
+const verifyEmail = require("../services/email/verify");
 
 module.exports = {
   async index(req, res, next) {
@@ -10,17 +10,27 @@ module.exports = {
       const { id } = req.query;
 
       if (!id) {
-        const results = await knex("users");
+        const results = await knex("clients");
 
         return res.status(200).json(results);
       } else {
-        const [result] = await knex("users").where({ id });
+        const query = knex("clients");
+
+        query
+          .where({
+            userID: id,
+          })
+          .join("users", "users.id", "=", "clients.userID")
+          .select("users.*", "clients.phoneNumber");
+
+        const [result] = await query;
 
         return res.status(200).json({
           email: result.email,
           firstName: result.first_name,
           lastName: result.last_name,
           xp: result.xp,
+          phoneNumber: result.phoneNumber,
         });
       }
     } catch (error) {
@@ -41,12 +51,12 @@ module.exports = {
       if (isTheEmailAlreadyRegistered.length > 0) {
         res.status(400).send({ error: "E-mail já registrado" });
       } else {
-        const userID = await knex("users").returning("id").insert({
+        const [userID] = await knex("users").returning("id").insert({
           first_name: firstName,
           last_name: lastName,
           email,
           password: hashPassword,
-          xp: 0,
+          xp: 32,
         });
 
         await knex("clients").insert({
@@ -58,7 +68,7 @@ module.exports = {
         await verifyEmail({
           id: userID,
           email,
-          name: `${firstName} ${lastName}`
+          name: `${firstName} ${lastName}`,
         });
 
         return res.status(201).send();
@@ -81,7 +91,7 @@ module.exports = {
           phoneNumber,
         })
         .where({ id });
-      
+
       return res.status(200).send();
     } catch (error) {
       next(error);
@@ -144,12 +154,17 @@ module.exports = {
   async auth(req, res, next) {
     const { post } = res.locals;
 
-    let [ { confirmed } ] = await knex("users").where({
-      id: post
-    }).select("confirmed");
+    let [{ confirmed }] = await knex("users")
+      .where({
+        id: parseInt(post),
+      })
+      .select("confirmed");
 
-    res
-      .status(200)
-      .send({ auth: true, success: "Logado com sucesso!", userID: post, confirmed });
+    res.status(200).send({
+      auth: true,
+      success: "Logado com sucesso!",
+      userID: post,
+      confirmed,
+    });
   },
 };

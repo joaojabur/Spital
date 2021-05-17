@@ -1,96 +1,38 @@
-import HeaderPlatform from "../../components/HeaderPlatform";
-import { useParams } from "react-router-dom";
-import "./styles.css";
-import { useEffect, useState } from "react";
-import MedicProfileBox from "../../components/MedicProfileBox";
-import MedicProfileInfo from "../../components/MedicProfileInfo";
-import MedicProfileData from "../../components/MedicProfileData";
-import api from "../../services/api";
-import SubHeaderPlatform from "../../components/SubHeaderPlatform";
+import React, { Fragment, useState } from "react";
+import MainProfileMedic from "../../components/MedicProfilePages/Main";
+import PaymentMedicProfile from "../../components/MedicProfilePages/Payment";
+import ScheduleMedicProfile from "../../components/MedicProfilePages/Schedule";
+import ShareAppointmentFormProvider from "../../context/ShareAppointmentFormProvider";
 import { useHistory } from "react-router-dom";
-
-export interface ParamTypes {
-  id: string;
-}
-
-export interface MedicProps {
-  userID: string;
-  area: string;
-  birth_date: string;
-  cpf: string;
-  doctorate_degree: string;
-  graduation: string;
-  rg: string;
-  phoneNumber: string;
-  master_degree: string;
-}
-
-export interface UserProps {
-  firstName: string;
-  lastName: string;
-  email: string;
-}
 
 const MedicProfile = () => {
   const history = useHistory();
+  const [currentPage, setCurrentPage] = useState(0);
 
-  const date = new Date();
-  const dateString = date.toString();
-  const week_day = dateString.split(" ")[0];
+  let pages: Array<JSX.Element> = [
+    <MainProfileMedic nextPage={nextPage} previousPage={previousPage} />,
+    <ScheduleMedicProfile nextPage={nextPage} previousPage={previousPage} />,
+    <PaymentMedicProfile nextPage={nextPage} previousPage={previousPage} />,
+  ];
 
-  const [medic, setMedic] = useState<MedicProps | null>(null);
-  const [user, setUser] = useState<UserProps | null>(null);
+  function changePage(index: number) {
+    setCurrentPage(index);
+  }
+  function previousPage() {
+    if (currentPage === 0) {
+      history.replace("/registrar-paciente");
+    }
 
-  const { id } = useParams<ParamTypes>();
+    setCurrentPage(currentPage - 1);
+  }
 
-  useEffect(() => {
-    api.get(`medics?userID=${id}`).then((response) => {
-      setMedic(response.data);
-    });
-  }, []);
-
-  useEffect(() => {
-    api.get(`users?id=${id}`).then((response) => {
-      setUser(response.data);
-    });
-  }, []);
-
-  function getWeekday() {
-    switch (week_day) {
-      case "Sun":
-        return 0;
-      case "Mon":
-        return 1;
-      case "Tue":
-        return 2;
-      case "Wed":
-        return 3;
-      case "Thu":
-        return 4;
-      case "Fri":
-        return 5;
-      case "Sat":
-        return 6;
-      default:
-        return 0;
+  function nextPage() {
+    if (currentPage + 1 < pages.length) {
+      setCurrentPage(currentPage + 1);
     }
   }
 
-  return (
-    <div className="client-platform">
-      <SubHeaderPlatform
-        title={`Perfil de Dr(a). ${user?.firstName}`}
-        returnFunction={() => history.goBack()}
-      />
-      <div className="container">
-        <div className="container-perfil">
-          <MedicProfileBox id={id} area={medic?.area} />
-          <MedicProfileInfo id={id} week_day={getWeekday()} />
-        </div>
-        <MedicProfileData id={id} medic={medic} />
-      </div>
-    </div>
-  );
+  return <ShareAppointmentFormProvider>{pages[currentPage]}</ShareAppointmentFormProvider>;
 };
 
 export default MedicProfile;

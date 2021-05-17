@@ -1,14 +1,10 @@
-import React from 'react'
-import './style.css';
+import React from "react";
+import "./style.css";
 
 interface OverlayProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 export default function Overlay({ children }: OverlayProps) {
-    return (
-        <div className="modal-overlay">
-            { children }
-        </div>
-    )
+  return <div className="modal-overlay">{children}</div>;
 }

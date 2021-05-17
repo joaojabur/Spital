@@ -73,10 +73,10 @@ module.exports = {
 
         res.sendStatus(200);
       } else {
-        throw new Error("Email não encontrado");
+        res.sendStatus(404);
       }
     } catch(err){
-      res.sendStatus(404).json({ error: err.message});
+      res.sendStatus(404);
     }
   },
 
@@ -114,9 +114,9 @@ module.exports = {
     const userID = verifyToken(req.params.token);
     
     if (userID){
-      res.sendStatus(202).json("Token válido");
+      res.sendStatus(202);
     } else {
-      res.sendStatus(404).json({ err: "Página não encontrada"});
+      res.sendStatus(404);
     }
   }
 };

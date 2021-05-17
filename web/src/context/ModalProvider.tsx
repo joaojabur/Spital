@@ -1,56 +1,68 @@
-import React, { createContext, useContext, useState } from 'react'
-import CadastroSucesso, { CadastroSucessoProps as sucessoProps } from '../components/Modals/CadastroSucesso';
-import Spinner from '../components/Modals/Spinner';
+import React, { createContext, useContext, useState } from "react";
+import CadastroSucesso, {
+  CadastroSucessoProps as sucessoProps,
+} from "../components/Modals/CadastroSucesso";
+import PaymentMethod from "../components/Modals/PaymentMethod";
+import Spinner from "../components/Modals/Spinner";
 
 interface ModalProviderProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 interface ModalContextProps {
-    spinner: {
-        open: () => void;
-        close: () => void;
-    },
-    sucesso: {
-        open: ({ name, close}: sucessoProps) => void;
-        close: () => void;
-    }
+  spinner: {
+    open: () => void;
+    close: () => void;
+  };
+  sucesso: {
+    open: ({ name, close }: sucessoProps) => void;
+    close: () => void;
+  };
+  paymentMethod: {
+    open: () => void;
+    close: () => void;
+  };
 }
 
 const ModalContext = createContext({} as ModalContextProps);
 
 export default function ModalProvider({ children }: ModalProviderProps) {
-    const [isModalOpen, setIsModalOpen ] = useState<boolean>(false);
-    const [modal, setModal] = useState<JSX.Element | null>(null);
-    
-    function openModal(Modal: any){
-        setModal(Modal);
-        setIsModalOpen(true);
-    }
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modal, setModal] = useState<JSX.Element | null>(null);
 
-    function closeModal(){
-        setIsModalOpen(false);
-    }
+  function openModal(Modal: any) {
+    setModal(Modal);
+    setIsModalOpen(true);
+  }
 
-    let value = {
-        spinner: {
-            open: () => openModal(<Spinner/>),
-            close: closeModal
-        },
-        sucesso: {
-            open: ({ name, close }: sucessoProps) => openModal(<CadastroSucesso name={name} close={close}/>),
-            close: closeModal
-        }
-    } as ModalContextProps;
+  function closeModal() {
+    setIsModalOpen(false);
+  }
 
-    return (
-        <ModalContext.Provider value={value}>
-            { children }
-            { isModalOpen && modal }
-        </ModalContext.Provider>
-    )
+  let value = {
+    spinner: {
+      open: () => openModal(<Spinner />),
+      close: closeModal,
+    },
+    sucesso: {
+      open: ({ name, close }: sucessoProps) =>
+        openModal(<CadastroSucesso name={name} close={close} />),
+      close: closeModal,
+    },
+    paymentMethod: {
+      open: () => openModal(<PaymentMethod />),
+      close: closeModal,
+    },
+  } as ModalContextProps;
+
+  return (
+    <ModalContext.Provider value={value}>
+      {children}
+      {isModalOpen && modal}
+    </ModalContext.Provider>
+  );
 }
 
-export function useModal(){
-    return useContext(ModalContext);
+export function useModal() {
+  return useContext(ModalContext);
 }

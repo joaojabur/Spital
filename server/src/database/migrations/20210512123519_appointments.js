@@ -3,6 +3,8 @@ exports.up = function (knex) {
     table.increments("id");
 
     table.text("date").notNullable();
+    table.text("time").notNullable();
+
     table
       .integer("clientID")
       .references("clients.id")
@@ -19,4 +21,6 @@ exports.up = function (knex) {
   });
 };
 
-exports.down = function (knex) {};
+exports.down = function (knex) {
+  return knex.schema.dropTable("appointments");
+};

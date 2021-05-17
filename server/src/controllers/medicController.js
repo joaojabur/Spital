@@ -99,8 +99,6 @@ module.exports = {
             birth_date: birthDate,
           });
 
-        console.log(schedule);
-
         const scheduleID = await knex("schedules")
           .returning("id")
           .insert({ medicID: parseInt(medicID) });

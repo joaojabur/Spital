@@ -3,15 +3,25 @@ const knex = require("../database");
 module.exports = {
   async index(req, res, next) {
     try {
-      const { medicID } = req.query;
+      const { medicID, date } = req.query;
+      console.log(date);
 
-      const results = await knex
-        .select("*")
-        .from("schedules")
-        .where({ medicID })
-        .join("appointments", { "schedules.id": "appointments.scheduleID" });
+      const query = knex("schedules");
 
-      res.status(201).json(results);
+      if (medicID !== undefined || date !== undefined) {
+        query
+          .where({ medicID: medicID, date: date })
+          .join("appointments", "schedules.id", "=", "appointments.scheduleID")
+          .select(["appointments.*", "schedules.medicID"]);
+      } else {
+        query
+          .join("appointments", "schedules.id", "=", "appointments.scheduleID")
+          .select(["appointments.*", "schedules.medicID"]);
+      }
+
+      const results = await query;
+
+      res.status(201).send(results);
     } catch (error) {
       next(error);
     }
@@ -19,7 +29,7 @@ module.exports = {
 
   async create(req, res, next) {
     try {
-      const { date } = req.body;
+      const { date, time } = req.body;
       const { medicID } = req.query;
       const { clientID } = req.query;
 
@@ -28,9 +38,10 @@ module.exports = {
       });
 
       await knex("appointments").insert({
-        scheduleID,
+        scheduleID: parseInt(scheduleID),
         date,
-        clientID,
+        time,
+        clientID: parseInt(clientID),
       });
 
       res.status(201).send();
@@ -42,10 +53,11 @@ module.exports = {
   async update(req, res, next) {
     try {
       const { id } = req.params;
-      const { date } = req.body;
+      const { date, time } = req.body;
       await knex("appointments")
         .update({
           date,
+          time,
         })
         .where({ id });
 

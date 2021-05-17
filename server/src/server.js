@@ -1,7 +1,15 @@
 const express = require("express");
-const routes = require("./routes");
-const cors = require("cors");
+var https = require('https');
+var fs = require('fs');
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
+
+const routes = require("./routes");
+
+var privateKey = fs.readFileSync(__dirname + '/keys/spital.pem');
+var certificate = fs.readFileSync(__dirname + '/keys/cert.pem');
+
+var credentials = {key: privateKey, cert: certificate};
 
 const app = express();
 
