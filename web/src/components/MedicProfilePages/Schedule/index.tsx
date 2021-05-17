@@ -1,10 +1,14 @@
 import { useParams } from "react-router-dom";
 import "./styles.css";
 import { useEffect, useState } from "react";
-import api from "../../services/api";
-import SubHeaderPlatform from "../../components/SubHeaderPlatform";
+import api from "../../../services/api";
+import SubHeaderPlatform from "../../../components/SubHeaderPlatform";
 import { useHistory } from "react-router-dom";
-import { ParamTypes, MedicProps, UserProps } from "../MedicProfile";
+import {
+  ParamTypes,
+  MedicProps,
+  UserProps,
+} from "../../../components/MedicProfilePages/Main";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import {
@@ -13,17 +17,18 @@ import {
   IoArrowUndoSharp,
   IoArrowRedoSharp,
 } from "react-icons/io5";
-import DaySchedule from "../../components/DaySchedule";
-import AppointmentType from "../../components/AppointmentType";
-import GreenButton from "../../components/GreenButton";
-import ShareAppointmentFormProvider from "../../context/ShareAppointmentFormProvider";
+import DaySchedule from "../../../components/DaySchedule";
+import AppointmentType from "../../../components/AppointmentType";
+import GreenButton from "../../../components/GreenButton";
+import ShareAppointmentFormProvider from "../../../context/ShareAppointmentFormProvider";
+import { NamesProps } from "../../Form/Steps/Names";
 
 interface ConsultTypeProps {
   type: string;
   price: string;
 }
 
-const ScheduleAppointment = () => {
+const ScheduleMedicProfile = ({ nextPage, previousPage }: NamesProps) => {
   const [consultTypes, setConsultTypes] = useState<ConsultTypeProps[]>([]);
   const history = useHistory();
   const [date, setDate] = useState(new Date());
@@ -88,43 +93,42 @@ const ScheduleAppointment = () => {
   }
 
   return (
-    <ShareAppointmentFormProvider>
-      <div className="client-platform">
-        <SubHeaderPlatform
-          title={`Agendar consulta com Dr(a). ${user?.firstName}`}
-          returnFunction={() => history.goBack()}
+    <div className="client-platform">
+      <SubHeaderPlatform
+        title={`Agendar consulta com Dr(a). ${user?.firstName}`}
+        returnFunction={() => previousPage()}
+      />
+      <div className="container">
+        <Calendar
+          prevLabel={<IoChevronBackOutline color="#07B3D6" />}
+          nextLabel={<IoChevronForwardOutline color="#07B3D6" />}
+          prev2Label={<IoArrowUndoSharp color="#07B3D6" />}
+          next2Label={<IoArrowRedoSharp color="#07B3D6" />}
+          className="big-calendar"
+          value={date}
+          onChange={(e: any) => {
+            setDate(e);
+          }}
         />
-        <div className="container">
-          <Calendar
-            prevLabel={<IoChevronBackOutline color="#07B3D6" />}
-            nextLabel={<IoChevronForwardOutline color="#07B3D6" />}
-            prev2Label={<IoArrowUndoSharp color="#07B3D6" />}
-            next2Label={<IoArrowRedoSharp color="#07B3D6" />}
-            className="big-calendar"
-            value={date}
-            onChange={(e: any) => {
-              setDate(e);
-            }}
-          />
 
-          <DaySchedule
-            getMonth={transformMonth}
-            year={year}
-            monthDay={month_day}
-          />
+        <DaySchedule
+          getMonth={transformMonth}
+          year={year}
+          monthDay={month_day}
+        />
 
-          <AppointmentType consultTypes={consultTypes} />
+        <AppointmentType consultTypes={consultTypes} />
 
-          <GreenButton
-            getMonth={transformMonth}
-            year={year}
-            monthDay={month_day}
-            label="Ir para o pagamento"
-          />
-        </div>
+        <GreenButton
+          nextPage={nextPage}
+          getMonth={transformMonth}
+          year={year}
+          monthDay={month_day}
+          label="Ir para o pagamento"
+        />
       </div>
-    </ShareAppointmentFormProvider>
+    </div>
   );
 };
 
-export default ScheduleAppointment;
+export default ScheduleMedicProfile;

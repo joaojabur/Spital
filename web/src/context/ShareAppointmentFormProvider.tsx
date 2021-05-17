@@ -25,7 +25,9 @@ export default function ShareAppointmentFormProvider({
   children,
 }: ShareClientFormProviderProps) {
   const [appointmentData, setAppointmentData] =
-    useState<AppointmentData | null>(null);
+    useState<AppointmentData>();
+
+  console.log(appointmentData);
 
   let value = {
     appointmentData,

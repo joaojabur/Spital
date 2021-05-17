@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import validateInfo from "../../../utils/validateInfo";
 import { useShareClientForm } from "../../../context/ShareClientFormProvider";
-
 import "./styles.css";
-interface NamesProps {
+
+export interface NamesProps {
   nextPage: () => void;
   previousPage: () => void;
 }

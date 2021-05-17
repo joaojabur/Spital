@@ -21,3 +21,20 @@
   background-color: #2a8a07;
   color: #fff !important;
 }
+
+.error-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  width: 100%;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 4rem;
+}
+
+.error-container span {
+  color: #f00;
+  font-weight: bold;
+  font-size: 2rem;
+}

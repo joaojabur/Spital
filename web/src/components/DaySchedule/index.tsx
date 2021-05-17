@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useShareAppointmentForm } from "../../context/ShareAppointmentFormProvider";
-import { ParamTypes } from "../../platform-pages/MedicProfile";
+import { ParamTypes } from "../../components/MedicProfilePages/Main";
 import api from "../../services/api";
 import "./styles.css";
 
@@ -23,11 +23,7 @@ interface MedicScheduleProps {
   week_day: number;
 }
 
-const DaySchedule = ({
-  getMonth,
-  year,
-  monthDay,
-}: DayScheduleProps) => {
+const DaySchedule = ({ getMonth, year, monthDay }: DayScheduleProps) => {
   const { appointmentData, setAppointmentData } = useShareAppointmentForm();
 
   const [chosenTime, setChosenTime] = useState("");
@@ -101,7 +97,10 @@ const DaySchedule = ({
               key={time}
               className="day-schedule-unique"
               onClick={(e: any) => {
-                setAppointmentData({ ...appointmentData, time: e.target.value });
+                setAppointmentData({
+                  ...appointmentData,
+                  time: e.target.value,
+                });
               }}
             >
               {hours}:{isNaN(completeMinutes) ? "00" : completeMinutes}
