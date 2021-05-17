@@ -20,21 +20,37 @@ class _ListDoctorsState extends State<ListDoctors> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: Text(
-                "Doutores",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Text(
+                    "Doutores",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "Ver mais",
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFFBCBCBC)),
+                  ),
+                ),
+              ],
             ),
             Expanded(
               child: ListView.separated(
-                physics: BouncingScrollPhysics(),
+                physics: NeverScrollableScrollPhysics(),
+                // physics: BouncingScrollPhysics(),
                 separatorBuilder: (context, index) => Divider(
                   height: 5,
                   color: Colors.white,
                 ),
-                itemCount: 5,
+                itemCount: 2,
                 itemBuilder: (context, index) {
                   return Container(
                     margin: EdgeInsets.only(
