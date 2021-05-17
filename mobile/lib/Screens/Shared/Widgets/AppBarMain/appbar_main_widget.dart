@@ -31,6 +31,7 @@ class AppbarWidget extends PreferredSize {
                 Positioned(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
                           margin: EdgeInsets.only(
@@ -43,7 +44,7 @@ class AppbarWidget extends PreferredSize {
                               borderRadius: BorderRadius.circular(100),
                               image: DecorationImage(
                                 image: NetworkImage(
-                                    "https://i.pinimg.com/736x/a6/60/a5/a660a51eac30c2d625d7983aeb06f454.jpg"),
+                                    "https://i.pinimg.com/originals/fb/ee/9d/fbee9d7947ab4af4618e4a66d2a41c5a.jpg"),
                               ))),
                       Text.rich(TextSpan(
                           text: "Olá",
@@ -55,7 +56,8 @@ class AppbarWidget extends PreferredSize {
                           ])),
                       Container(
                         margin: EdgeInsets.only(
-                            bottom: height * 0.08, left: width * 0.03),
+                          bottom: height * 0.08,
+                        ), //left: width * 0.03),
                         height: height * 0.26, //0.27
                         width: width * 0.5,
                         child: SvgPicture.asset(
