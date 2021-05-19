@@ -1,0 +1,21 @@
+.add-credit-card {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#add-credit-card-form {
+  position: relative;
+  top: 0;
+  margin-top: 2rem;
+}
+
+.flex-credit-card-form {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

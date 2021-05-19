@@ -1,38 +1,74 @@
-import React, { useState } from 'react'
-import { useModal } from '../../context/ModalProvider';
-import api from '../../services/api';
+import { TextField } from "@material-ui/core";
+import React, { useState } from "react";
+import { useModal } from "../../context/ModalProvider";
+import api from "../../services/api";
+import "./styles.css";
 
 export default function ForgetPassword() {
-    const { spinner } = useModal();
-    const [ email, setEmail ] = useState('');
-    const [ error, setError ] = useState('');
+  const { spinner } = useModal();
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [successfull, setSuccesfull] = useState("");
 
-    async function handleSubmit(e: React.FormEvent){
-        e.preventDefault();
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
 
-        setError('');
-        spinner.open();
+    setError("");
+    spinner.open();
 
-        try {
-            let response = await api.post('/users/recover/', { email });
+    try {
+      let response = await api.post("/users/recover/", { email });
 
-            if (response.status === 200){
-                // Email enviado
-            }
-        } catch(error){
-            if (error.response.data === "Not Found"){
-                setError('Usuário Não Encontrado');
-            }
-        }
+      if (response.status === 200) {
+        // Email enviado
+      }
 
-        spinner.close();
+      setSuccesfull("E-mail enviado!");
+    } catch (error) {
+      if (error.response.data === "Not Found") {
+        setSuccesfull("");
+        setError("Usuário não encontrado");
+      }
     }
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <input type="email" onChange={(e) => setEmail(e.target.value)}/>
-            <button>Recuperar senha</button>
-            { error.length ? <h1 style={{color: "red"}}> {error} </h1> : null}
-        </form>
-    )
+    spinner.close();
+  }
+
+  return (
+    <form className="form-container" onSubmit={handleSubmit}>
+      <h2>Seu e-mail</h2>
+      <div className="line"></div>
+      <TextField
+        value={email}
+        name="firstName"
+        label={<span style={{ fontSize: "1.5rem" }}>E-mail</span>}
+        variant="outlined"
+        fullWidth
+        onChange={(e) => {
+          setEmail(e.target.value);
+        }}
+        autoComplete="off"
+        required
+        error={false}
+      />
+      <button className="recover-password-button">Recuperar senha</button>
+      {error.length ? (
+        <h1 style={{ color: "red", fontSize: "2rem" }}> {error} </h1>
+      ) : null}
+
+      {successfull.length > 0 && (
+        <span
+          style={{
+            color: "#3EB713",
+            marginTop: "2rem",
+            fontSize: "2rem",
+            position: "relative",
+            textAlign: "center",
+          }}
+        >
+          {successfull}
+        </span>
+      )}
+    </form>
+  );
 }

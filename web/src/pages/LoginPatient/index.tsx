@@ -12,7 +12,6 @@ import Loader from "react-loader-spinner";
 const LoginPacient = () => {
   return (
     <div className="register-patient">
-      (
       <Fragment>
         <header className="register-patient-header">
           <Link to="/entrar-registrar-paciente">

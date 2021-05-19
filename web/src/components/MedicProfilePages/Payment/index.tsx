@@ -7,7 +7,6 @@ import { NamesProps } from "../../Form/Steps/Names";
 
 const PaymentMedicProfile = ({ previousPage }: NamesProps) => {
   const { paymentMethod } = useModal();
-  const history = useHistory();
 
   return (
     <div className="client-platform">
