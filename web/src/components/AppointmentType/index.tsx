@@ -40,7 +40,7 @@ const AppointmentType = ({ consultTypes }: AppointmentTypeProps) => {
       </div>
 
       <div className="chosenTime">
-        Horário escolhido: <span>{appointmentData?.type}</span>
+        Consulta escolhida: <span>{appointmentData?.type}</span>
       </div>
     </>
   );

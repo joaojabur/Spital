@@ -20,6 +20,7 @@ import MedicProfile from "../platform-pages/MedicProfile";
 import VerifyEmail from "../pages/VerifyEmail";
 import ForgetPassword from "../pages/ForgetPassword";
 import RecoverPassword from "../pages/RecoverPassword";
+import AddCreditCard from "../platform-pages/AddCreditCard";
 
 function Router() {
   return (
@@ -51,6 +52,7 @@ function Router() {
         <PrivateRoute path="/consultas" exact component={AppointmentsClient} />
         <PrivateRoute path="/perfil" exact component={MyProfile} />
         <PrivateRoute path="/medicos/:id" exact component={MedicProfile} />
+        <PrivateRoute path="/cadastrar-cartao" exact component={AddCreditCard} />
 
         <PublicRoute
           path="/registrar-spital-paciente"

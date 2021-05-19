@@ -27,8 +27,6 @@ export default function ShareAppointmentFormProvider({
   const [appointmentData, setAppointmentData] =
     useState<AppointmentData>();
 
-  console.log(appointmentData);
-
   let value = {
     appointmentData,
     setAppointmentData,
