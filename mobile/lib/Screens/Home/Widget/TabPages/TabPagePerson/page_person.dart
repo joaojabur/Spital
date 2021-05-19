@@ -1,5 +1,6 @@
 import 'package:Spital/Screens/Shared/Widgets/AppBarSecond/appbar_second_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
 
 class PagePerson extends StatefulWidget {
   @override
@@ -16,6 +17,9 @@ class _PagePersonState extends State<PagePerson> {
         title: "Meu Perfil",
         width: width,
         height: height,
+        topleftIcon: false,
+        topRightIcon: false,
+        iconAddRight: Ionicons.save,
       ),
       body: Center(child: Text("Perfil")),
     );

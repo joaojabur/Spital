@@ -1,6 +1,7 @@
 import 'package:Spital/Screens/Shared/Widgets/AppBarSecond/appbar_second_widget.dart';
 
 import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
 
 class PageCalendar extends StatefulWidget {
   @override
@@ -14,9 +15,12 @@ class _PageCalendarState extends State<PageCalendar> {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: AppbarSecundaria(
+        iconAddRight: Ionicons.save,
         title: "Calendario",
         width: width,
         height: height,
+        topleftIcon: false,
+        topRightIcon: false,
       ),
     );
   }

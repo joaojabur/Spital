@@ -1,5 +1,6 @@
 import 'package:Spital/Screens/Shared/Widgets/AppBarSecond/appbar_second_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
 
 class PageSeach extends StatefulWidget {
   @override
@@ -13,9 +14,12 @@ class _PageSeachState extends State<PageSeach> {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppbarSecundaria(
+        iconAddRight: Ionicons.save,
         title: "Chats",
         width: width,
         height: height,
+        topleftIcon: false,
+        topRightIcon: false,
       ),
       body: Center(child: Text("Seach")),
     );
