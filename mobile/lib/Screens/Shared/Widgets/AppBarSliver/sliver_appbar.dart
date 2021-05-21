@@ -6,13 +6,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class SliverPage extends PreferredSize {
   final String title;
-
+  final size;
   final bool topleftIcon;
   final bool topRightIcon;
   final IconData iconAddRight;
 
   SliverPage(
       {required this.topleftIcon,
+      required this.size,
       required this.iconAddRight,
       required this.topRightIcon,
       required this.title,
@@ -58,7 +59,10 @@ class SliverPage extends PreferredSize {
                       child: SvgPicture.asset("images/register.svg")),
                 ],
               ),
-              // title: Text(title),
+              title: Text(
+                title,
+                style: TextStyle(color: Colors.transparent),
+              ),
               centerTitle: true,
             ),
           ),

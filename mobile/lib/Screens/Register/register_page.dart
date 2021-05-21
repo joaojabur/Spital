@@ -13,6 +13,8 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
+    Size _size = MediaQuery.of(context).size;
+
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -21,12 +23,14 @@ class _RegisterPageState extends State<RegisterPage> {
         headerSliverBuilder: (context, condition) {
           return <Widget>[
             SliverPage(
-                topleftIcon: false,
-                iconAddRight: Ionicons.chevron_back_outline,
-                topRightIcon: false,
-                title: "Resgistrar",
-                height: height,
-                width: width)
+              topleftIcon: false,
+              iconAddRight: Ionicons.chevron_back_outline,
+              topRightIcon: false,
+              title: "Resgistrar",
+              height: height,
+              width: width,
+              size: _size,
+            )
           ];
         },
         body: SingleChildScrollView(

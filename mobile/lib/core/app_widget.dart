@@ -58,7 +58,7 @@ class AppWidget extends StatelessWidget {
         child: MaterialApp(
           title: "Spital",
           debugShowCheckedModeBanner: false,
-          initialRoute: '/splash',
+          initialRoute: '/resgister',
           routes: {
             '/splash': (context) => initialize(context),
             '/': (context) => HomePage(),
