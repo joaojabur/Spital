@@ -4,9 +4,12 @@ import 'app_colors.dart';
 
 class AppTextStyles {
   static final TextStyle titleBold = GoogleFonts.quicksand(
-    color: AppColors.black, 
-    fontSize: 36, 
-    fontWeight: FontWeight.bold
+      color: AppColors.black, fontSize: 33, fontWeight: FontWeight.bold);
+  static final TextStyle titleBold2 = GoogleFonts.quicksand(
+      color: AppColors.black, fontSize: 28, fontWeight: FontWeight.bold);
+  static final TextStyle loginDescription = GoogleFonts.quicksand(
+    color: AppColors.gray,
+    fontSize: 18,
   );
 
   static final TextStyle subtitle = GoogleFonts.quicksand(
@@ -16,33 +19,18 @@ class AppTextStyles {
   );
 
   static final TextStyle warningTitle = GoogleFonts.quicksand(
-    color: Colors.white,
-    fontSize: 20,
-    fontWeight: FontWeight.bold
-  );
+      color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold);
 
   static final TextStyle warningDescription = GoogleFonts.quicksand(
-    color: Colors.white,
-    fontSize: 15,
-    fontWeight: FontWeight.w400
-  );
+      color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400);
 
   static final TextStyle categoriesTitle = GoogleFonts.roboto(
-    color: AppColors.black,
-    fontSize: 8,
-    fontWeight: FontWeight.w300
-  );
+      color: AppColors.black, fontSize: 8, fontWeight: FontWeight.w300);
 
   static final TextStyle topicTitle = GoogleFonts.roboto(
-    color: AppColors.black,
-    fontSize: 20,
-    fontWeight: FontWeight.bold
-  );
+      color: AppColors.black, fontSize: 20, fontWeight: FontWeight.bold);
   static final TextStyle titleAppBarSecundaria = GoogleFonts.roboto(
-    color: AppColors.black,
-    fontSize: 30,
-    fontWeight: FontWeight.bold
-  );
+      color: AppColors.black, fontSize: 25, fontWeight: FontWeight.bold);
 
   static final TextStyle topicName = GoogleFonts.roboto(
       color: AppColors.black, fontSize: 20, fontWeight: FontWeight.bold);
@@ -64,8 +52,5 @@ class AppTextStyles {
       color: AppColors.black, fontSize: 10, fontWeight: FontWeight.w500);
 
   static final TextStyle topicTime = GoogleFonts.roboto(
-    color: AppColors.black,
-    fontSize: 12,
-    fontWeight: FontWeight.w500
-  );
+      color: AppColors.black, fontSize: 12, fontWeight: FontWeight.w500);
 }

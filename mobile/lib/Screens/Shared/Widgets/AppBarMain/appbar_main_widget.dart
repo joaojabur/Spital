@@ -6,6 +6,12 @@ import 'dart:core';
 
 import 'Widgets/card_Infor_widget.dart';
 
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${this.substring(1)}";
+  }
+}
+
 class AppbarWidget extends PreferredSize {
   AppbarWidget(
       {required double width,
@@ -57,7 +63,7 @@ class AppbarWidget extends PreferredSize {
                           children: [
                             TextSpan(
                                 text:
-                                    "\n ${name.substring(0, name.indexOf(' '))}!",
+                                    "\n ${name.substring(0, (name.indexOf(' ') == -1 ? name.length : name.indexOf(' '))).capitalize()}!",
                                 style: AppTextStyles.subtitle)
                           ])),
                       Container(

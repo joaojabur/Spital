@@ -10,24 +10,21 @@ class SplashPage extends StatelessWidget {
         SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return Scaffold(
-      body: Container(
-        color: AppColors.blueTransparent,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset("images/splash.svg"),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: width * 0.1, right: width * 0.1, top: height * 0.05),
-              child: LinearProgressIndicator(
-                value: 0.3,
-                backgroundColor: Colors.white,
-                valueColor: AlwaysStoppedAnimation<Color>(AppColors.blue),
-              ),
-            )
-          ],
-        ),
+    return Container(
+      color: AppColors.blueTransparent,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset("images/splash.svg"),
+          Padding(
+            padding: EdgeInsets.only(
+                left: width * 0.1, right: width * 0.1, top: height * 0.05),
+            child: LinearProgressIndicator(
+              backgroundColor: Colors.white,
+              valueColor: AlwaysStoppedAnimation<Color>(AppColors.blue),
+            ),
+          )
+        ],
       ),
     );
   }
