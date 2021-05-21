@@ -30,7 +30,6 @@ interface ConsultTypeProps {
 
 const ScheduleMedicProfile = ({ nextPage, previousPage }: NamesProps) => {
   const [consultTypes, setConsultTypes] = useState<ConsultTypeProps[]>([]);
-  const history = useHistory();
   const [date, setDate] = useState(new Date());
 
   const [medic, setMedic] = useState<MedicProps | null>(null);
@@ -43,10 +42,10 @@ const ScheduleMedicProfile = ({ nextPage, previousPage }: NamesProps) => {
   const { id } = useParams<ParamTypes>();
 
   useEffect(() => {
-    api.get(`consult-type?medicID=${medic?.id}`).then((response: any) => {
+    api.get(`consult-type?medicID=${id}`).then((response: any) => {
       setConsultTypes(response.data);
     });
-  }, [medic?.id]);
+  }, [id]);
 
   useEffect(() => {
     api.get(`medics?userID=${id}`).then((response: any) => {

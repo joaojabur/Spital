@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 import CadastroSucesso, {
   CadastroSucessoProps as sucessoProps,
 } from "../components/Modals/CadastroSucesso";
-import PaymentMethod from "../components/Modals/PaymentMethod";
+import PaymentMethod, { PaymentMethodProps } from "../components/Modals/PaymentMethod";
 import Spinner from "../components/Modals/Spinner";
 
 interface ModalProviderProps {
@@ -15,11 +15,11 @@ interface ModalContextProps {
     close: () => void;
   };
   sucesso: {
-    open: ({ name, close }: sucessoProps) => void;
+    open: ({ name, close, description }: sucessoProps) => void;
     close: () => void;
   };
   paymentMethod: {
-    open: () => void;
+    open: ({ cards }: PaymentMethodProps) => void;
     close: () => void;
   };
 }
@@ -45,12 +45,19 @@ export default function ModalProvider({ children }: ModalProviderProps) {
       close: closeModal,
     },
     sucesso: {
-      open: ({ name, close }: sucessoProps) =>
-        openModal(<CadastroSucesso name={name} close={close} />),
+      open: ({ name, close, description }: sucessoProps) =>
+        openModal(
+          <CadastroSucesso
+            description={description}
+            name={name}
+            close={close}
+          />
+        ),
       close: closeModal,
     },
     paymentMethod: {
-      open: () => openModal(<PaymentMethod />),
+      open: ({ cards }: PaymentMethodProps) =>
+        openModal(<PaymentMethod cards={cards} />),
       close: closeModal,
     },
   } as ModalContextProps;

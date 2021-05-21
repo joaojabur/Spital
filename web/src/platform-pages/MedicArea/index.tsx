@@ -30,7 +30,10 @@ const MedicArea = () => {
 
   const { area } = useParams<ParamTypes>();
 
-  const capitalizeArea = area.charAt(0).toUpperCase() + area.slice(1);
+  let capitalizeArea = area.charAt(0).toUpperCase() + area.slice(1);
+  if (capitalizeArea === "Alergistas-e-imunologista") {
+    capitalizeArea = "Alergista-e-Imunologista";
+  }
 
   useEffect(() => {
     api.get(`medics/${capitalizeArea}`).then((response) => {

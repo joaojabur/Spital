@@ -5,17 +5,24 @@ import { useShareAppointmentForm } from "../../context/ShareAppointmentFormProvi
 import { ParamTypes } from "../../components/MedicProfilePages/Main";
 import { useParams } from "react-router";
 import api from "../../services/api";
+import { PaymentMethodProps } from "../Modals/PaymentMethod";
+import { useAuth } from "../../context/AuthProvider";
 
-const PaymentInfo = () => {
+const PaymentInfo = ({ cards }: PaymentMethodProps) => {
+  const { cardInUse } = useAuth();
   const [firstName, setFirstName] = useState("");
 
   const { appointmentData, setAppointmentData } = useShareAppointmentForm();
   const { id } = useParams<ParamTypes>();
+
   useEffect(() => {
     api.get(`users?id=${id}`).then((response: any) => {
       setFirstName(response.data.firstName);
     });
   }, []);
+
+  const usedCard = cards.filter((card) => card.card.id === cardInUse);
+  console.log(usedCard[0]);
 
   return (
     <div className="payment-info">
@@ -39,7 +46,7 @@ const PaymentInfo = () => {
           <div className="payment-info-card">
             <p>Cartão pelo app</p>
             <span className="payment-info-card-number">
-              Cartão terminado em 4715
+              Cartão terminado em {usedCard[0]?.card?.last_digits}
             </span>
           </div>
         </div>

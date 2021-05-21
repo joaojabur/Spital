@@ -5,6 +5,10 @@ import SubHeaderPlatform from "../../components/SubHeaderPlatform";
 import "./styles.css";
 import mask from "../../utils/mask";
 import validateCard from "../../utils/validateCard";
+import { useModal } from "../../context/ModalProvider";
+import api from "../../services/api";
+import { useAuth } from "../../context/AuthProvider";
+// ak_test_i0ggSEBPCYYeCVZXIwNoKgcCfGOSht API
 
 interface AddCreditCardProps {
   card_number: string;
@@ -15,6 +19,9 @@ interface AddCreditCardProps {
 }
 
 const AddCreditCard = () => {
+  const { spinner, sucesso } = useModal();
+  const { userID } = useAuth();
+  
   const history = useHistory();
   const [card, setCard] = useState<AddCreditCardProps>({
     card_number: "",
@@ -24,9 +31,41 @@ const AddCreditCard = () => {
     client_id: "",
   });
   const [errors, setErrors] = useState(validateCard(card));
+  const [hasError, setHasError] = useState(false);
 
   function validate() {
     setErrors(validateCard(card));
+  }
+
+  async function submitHandleFormCard() {
+    spinner.open();
+    const loopedErrors = Object.values(errors);
+
+    if (loopedErrors.length > 0) {
+      setHasError(true);
+    } else {
+      setHasError(false);
+      const card_number_without_space = card.card_number.replace(/[ ]/g, "");
+      const card_expiration_date_withou_slash =
+        card.card_expiration_date.replace(/[/]/g, "");
+
+      const response = await api.post(`cards?userID=${userID}`, {
+        card_number: card_number_without_space,
+        card_holder_name: card.card_holder_name,
+        card_expiration_date: card_expiration_date_withou_slash,
+        card_cvv: card.card_cvv,
+      });
+
+      console.log(response.data);
+
+      sucesso.open({
+        name: "Cartão cadastrado com sucesso!",
+        close: () => {
+          sucesso.close();
+        },
+        description: "Método de pagamento adicionado.",
+      });
+    }
   }
 
   useEffect(() => {
@@ -41,7 +80,11 @@ const AddCreditCard = () => {
           history.replace("/");
         }}
       />
-      <form id="add-credit-card-form" className="form-container">
+      <form
+        onSubmit={submitHandleFormCard}
+        id="add-credit-card-form"
+        className="form-container"
+      >
         <h2>Dados do cartão de crédito</h2>
         <div className="line"></div>
         <TextField
@@ -128,6 +171,16 @@ const AddCreditCard = () => {
             </span>
           }
         />
+
+        {hasError && (
+          <span style={{ marginTop: "2rem", fontSize: "1.5rem" }}>
+            Formulário possui erros
+          </span>
+        )}
+
+        <button type="submit" className="primary">
+          Cadastrar
+        </button>
       </form>
     </div>
   );

@@ -181,13 +181,15 @@ module.exports = {
     const { area } = req.params;
     let { offset } = req.query;
 
+    const formattedArea = area.replace(/[-]/g, " ");
+
     if (offset === undefined) {
       offset = 0;
     }
 
     try {
       let results = await knex("medics")
-        .where({ area })
+        .where({ area: formattedArea })
         .limit(30)
         .offset(offset * 30);
 

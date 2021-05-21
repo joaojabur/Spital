@@ -14,7 +14,7 @@ export interface ParamTypes {
 }
 
 export interface MedicProps {
-  id: string;
+  id: string | undefined;
   userID: string;
   area: string;
   birth_date: string;

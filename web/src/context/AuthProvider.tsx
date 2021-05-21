@@ -1,6 +1,13 @@
-import React, { useState, useEffect, createContext, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  createContext,
+  useContext,
+  SetStateAction,
+} from "react";
 import api from "../services/api";
 import Cookies from "js-cookie";
+import { CardProps } from "../components/Modals/PaymentMethod";
 
 interface User {
   firstName: string;
@@ -18,6 +25,9 @@ interface AuthContextData {
   signup: (user: User) => Promise<any>;
   logout: () => void;
   confirmed: boolean;
+  userID: number;
+  cardInUse: string;
+  setCardInUse: React.Dispatch<SetStateAction<string>>;
 }
 
 interface AuthProviderProps {
@@ -29,8 +39,15 @@ const AuthContext = createContext({} as AuthContextData);
 export default function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [userID, setUserID] = useState<number | null>(null);
-  const [confirmed, setConfirmed ] = useState<boolean>(false);
-  const [loading, setLoading ] = useState<boolean>(true);
+  const [confirmed, setConfirmed] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [cardInUse, setCardInUse] = useState("");
+
+  useEffect(() => {
+    api.get(`cards?userID=${userID}`).then((response) => {
+      setCardInUse(response.data[0].card.id);
+    });
+  }, [userID, setCardInUse]);
 
   async function getUserData(id: number) {
     let response = await api.get(`clients?id=${id}`);
@@ -39,7 +56,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       ...response.data,
     });
 
-    setLoading(false)
+    setLoading(false);
   }
 
   async function logout() {
@@ -64,7 +81,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
         getUserData(id);
       } else {
-        throw new Error("Usuário não verificado")
+        throw new Error("Usuário não verificado");
       }
 
       return response;
@@ -80,8 +97,6 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       },
     });
 
-    console.log(response);
-
     let { auth, userID, confirmed } = response.data;
 
     if (auth) {
@@ -89,7 +104,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       setConfirmed(confirmed);
       getUserData(userID);
     } else {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -100,17 +115,12 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   }
 
   useEffect(() => {
-    /*
-      Verifica se o navegador tem os Cookies,
-      ou seja já está logado
-    */
     if (Cookies.get("access-token")) {
       loginWithToken();
     } else {
       setLoading(false);
     }
   }, []);
-  
 
   let value = {
     user,
@@ -119,11 +129,16 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     login,
     logout,
     confirmed,
+    userID,
+    cardInUse,
+    setCardInUse,
   } as AuthContextData;
-  
-  return <AuthContext.Provider value={value}>
-    {!loading && children}
-  </AuthContext.Provider>;
+
+  return (
+    <AuthContext.Provider value={value}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {
