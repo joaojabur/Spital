@@ -3,11 +3,9 @@ import React, {
   useEffect,
   createContext,
   useContext,
-  SetStateAction,
 } from "react";
 import api from "../services/api";
 import Cookies from "js-cookie";
-import { CardProps } from "../components/Modals/PaymentMethod";
 
 interface User {
   firstName: string;
@@ -26,8 +24,6 @@ interface AuthContextData {
   logout: () => void;
   confirmed: boolean;
   userID: number;
-  cardInUse: string;
-  setCardInUse: React.Dispatch<SetStateAction<string>>;
 }
 
 interface AuthProviderProps {
@@ -41,13 +37,6 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   const [userID, setUserID] = useState<number | null>(null);
   const [confirmed, setConfirmed] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const [cardInUse, setCardInUse] = useState("");
-
-  useEffect(() => {
-    api.get(`cards?userID=${userID}`).then((response) => {
-      setCardInUse(response.data[0].card.id);
-    });
-  }, [userID, setCardInUse]);
 
   async function getUserData(id: number) {
     let response = await api.get(`clients?id=${id}`);
@@ -130,8 +119,6 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     logout,
     confirmed,
     userID,
-    cardInUse,
-    setCardInUse,
   } as AuthContextData;
 
   return (

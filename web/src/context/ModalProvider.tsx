@@ -2,7 +2,10 @@ import React, { createContext, useContext, useState } from "react";
 import CadastroSucesso, {
   CadastroSucessoProps as sucessoProps,
 } from "../components/Modals/CadastroSucesso";
-import PaymentMethod, { PaymentMethodProps } from "../components/Modals/PaymentMethod";
+import Filtro from "../components/Modals/Filtro";
+import PaymentMethod, {
+  PaymentMethodProps,
+} from "../components/Modals/PaymentMethod";
 import Spinner from "../components/Modals/Spinner";
 
 interface ModalProviderProps {
@@ -19,7 +22,11 @@ interface ModalContextProps {
     close: () => void;
   };
   paymentMethod: {
-    open: ({ cards }: PaymentMethodProps) => void;
+    open: ({ card }: any) => void;
+    close: () => void;
+  };
+  filter: {
+    open: () => void;
     close: () => void;
   };
 }
@@ -56,8 +63,13 @@ export default function ModalProvider({ children }: ModalProviderProps) {
       close: closeModal,
     },
     paymentMethod: {
-      open: ({ cards }: PaymentMethodProps) =>
-        openModal(<PaymentMethod cards={cards} />),
+      open: ({ card }: any) =>
+        openModal(<PaymentMethod card={card} />),
+      close: closeModal,
+    },
+
+    filter: {
+      open: () => openModal(<Filtro />),
       close: closeModal,
     },
   } as ModalContextProps;

@@ -5,13 +5,13 @@ import { useShareAppointmentForm } from "../../context/ShareAppointmentFormProvi
 import { ParamTypes } from "../../components/MedicProfilePages/Main";
 import { useParams } from "react-router";
 import api from "../../services/api";
-import { PaymentMethodProps } from "../Modals/PaymentMethod";
-import { useAuth } from "../../context/AuthProvider";
+import { TextField } from "@material-ui/core";
+import mask from "../../utils/mask";
 
-const PaymentInfo = ({ cards }: PaymentMethodProps) => {
-  const { cardInUse } = useAuth();
+const PaymentInfo = ({ card, setCard }: any) => {
   const [firstName, setFirstName] = useState("");
 
+  const { cvvError, setCvvError } = useShareAppointmentForm();
   const { appointmentData, setAppointmentData } = useShareAppointmentForm();
   const { id } = useParams<ParamTypes>();
 
@@ -19,10 +19,7 @@ const PaymentInfo = ({ cards }: PaymentMethodProps) => {
     api.get(`users?id=${id}`).then((response: any) => {
       setFirstName(response.data.firstName);
     });
-  }, []);
-
-  const usedCard = cards.filter((card) => card.card.id === cardInUse);
-  console.log(usedCard[0]);
+  }, [id]);
 
   return (
     <div className="payment-info">
@@ -46,11 +43,44 @@ const PaymentInfo = ({ cards }: PaymentMethodProps) => {
           <div className="payment-info-card">
             <p>Cartão pelo app</p>
             <span className="payment-info-card-number">
-              Cartão terminado em {usedCard[0]?.card?.last_digits}
+              Cartão terminado em {card.last_digits}
             </span>
           </div>
         </div>
-        <button>Trocar</button>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <span style={{ fontSize: "2rem", fontWeight: "bold" }}>
+          Insira o código de segurança
+        </span>
+        <TextField
+          style={{
+            width: "40%",
+          }}
+          label={<span style={{ fontSize: "1.5rem" }}>CVV</span>}
+          variant="filled"
+          onChange={(e) => {
+            setCard({ ...card, card_cvv: mask(e.target.value, "###") });
+            if (card?.card_cvv?.length === 0) {
+              setCvvError("Campo de CVV é necessário para a transação");
+            } else if (!(card.card_cvv?.length === 2)) {
+              setCvvError("Campo de CVV inválido");
+            } else if (isNaN(card.card_cvv)) {
+              setCvvError("Campo de CVV só aceita números");
+            } else {
+              setCvvError("");
+            }
+          }}
+          error={cvvError ? true : false}
+          helperText={
+            <span style={{ fontSize: "1rem", color: "#f00" }}>{cvvError}</span>
+          }
+        />
       </div>
     </div>
   );

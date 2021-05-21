@@ -3,21 +3,16 @@ import "./styles.css";
 import { IoAddCircleOutline, IoCloseOutline } from "react-icons/io5";
 import { useModal } from "../../../context/ModalProvider";
 
-export interface CardProps {
-  id: string;
-  card: {
-    last_digits: string;
-    valid: boolean;
-    holder_name: string;
-    id: string;
-  };
-}
-
 export interface PaymentMethodProps {
-  cards: Array<CardProps>;
+  id: string;
+  first_digits: string;
+  last_digits: string;
+  holder_name: string;
+  expiration_date: string;
+  card_cvv: string;
 }
 
-const PaymentMethod = ({ cards }: PaymentMethodProps) => {
+const PaymentMethod = ({ card }: any) => {
   const { paymentMethod } = useModal();
 
   return (
@@ -29,20 +24,14 @@ const PaymentMethod = ({ cards }: PaymentMethodProps) => {
         <h1>Formas de pagamento</h1>
         <div className="gray-line"></div>
         <h2>Cartões cadastrados</h2>
-        {cards.length === 0 ? (
+        {card.length === 0 ? (
           <span style={{ color: "f00", fontSize: "1.5rem" }}>
             Sem cartões cadastrados
           </span>
         ) : (
-          <select className="payment-method-select">
-            {cards.map((cardUnique) => {
-              return (
-                <option key={cardUnique.id}>
-                  Cartão terminado em {cardUnique.card.last_digits}
-                </option>
-              );
-            })}
-          </select>
+          <div style={{ width: "100%" }}>
+            <h1>Cartão terminado em: {card.last_digits}</h1>
+          </div>
         )}
 
         <div className="gray-line"></div>
