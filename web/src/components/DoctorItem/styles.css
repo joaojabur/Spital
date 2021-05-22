@@ -34,8 +34,10 @@
 .doctor-item-image {
   width: 16%;
   height: 9vh;
-  background-color: blueviolet;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
   border-radius: 20%;
+  display: flex;
+  align-items: center;
 }
 
 .doctor-item-data {
