@@ -11,7 +11,7 @@ const SearchClient = () => {
       <HeaderPlatform title="Encontre os melhores médicos da sua região" />
       <div className="container">
         <SearchInput 
-          placeholder="Busque pelo área ou nome do médico..."
+          placeholder="Busque pela área do médico..."
           onChange={(e: React.FormEvent<HTMLInputElement>) => setSearchTerm(e.currentTarget.value)} />
         <ListMedicAreas searchTerm={searchTerm}/>
       </div>
