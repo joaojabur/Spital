@@ -5,38 +5,51 @@ const bcrypt = require("bcrypt");
 module.exports = {
   async index(req, res, next) {
     try {
-      let { userID, offset } = req.query;
+      let { userID, offset, lat, lon } = req.query;
 
       if (!offset) {
         offset = 1;
       }
 
       if (!userID) {
-        let results = await knex("medics")
-          .limit(30)
-          .offset(offset * 30);
-
-        for (let i in results) {
-          let medicID = results[i].userID;
-          let [result] = await knex("users")
-            .where({ id: medicID })
-            .select("first_name", "last_name", "email");
-
-          results[i] = {
-            ...results[i],
+        let results = await knex.select(knex.raw(` 
+            users.*, medic.*, addresses."userID", addresses.number, address, 
+            (((acos(sin((${lat} *pi()/180)) * sin((lat * pi()/180)) 
+            + cos((${lat}*pi()/180)) * cos((lat*pi()/180))
+            * cos(((${lon} - lon) * pi()/180))))
+              * 180/pi()) * 60 * 1.1515 * 1.609344) 
+              as distance 
+          FROM addresses
+          join medics as medic
+          on medic."userID" = addresses."userID"
+          join users
+          on medic."userID" = users.id
+          Order by distance
+          OFFSET ${offset * 30}
+          LIMIT 30
+        `));
+        
+        let formatedResults = []
+  
+        for (let result of results){
+          formatedResults.push({
+            ...result,
+            password: undefined,
             firstName: result.first_name,
+            first_name: undefined,
             lastName: result.last_name,
-            email: result.email,
-          };
+            last_name: undefined
+          });
         }
 
-        res.status(201).json(results);
+        res.status(201).json(formatedResults);
       } else {
         const [result] = await knex("medics").where({ userID });
 
         return res.status(200).json(result);
       }
     } catch (error) {
+      console.log(error);
       next(error);
     }
   },
@@ -57,6 +70,7 @@ module.exports = {
       rg,
       birthDate,
       schedule,
+      address
     } = req.body;
 
     const hashPassword = await bcrypt.hash(password, 10);
@@ -97,7 +111,15 @@ module.exports = {
             cpf,
             rg,
             birth_date: birthDate,
-          });
+        });
+
+        await knex('addresses').insert({
+          address: address.location,
+          number: address.number,
+          lat: address.lat,
+          lon: address.lon,
+          userID: parseInt(userID)
+        });
 
         const scheduleID = await knex("schedules")
           .returning("id")
@@ -179,35 +201,58 @@ module.exports = {
 
   async list(req, res, next) {
     const { area } = req.params;
-    let { offset } = req.query;
-
+    let { offset, lat, lon, distance } = req.query;
     const formattedArea = area.replace(/[-]/g, " ");
 
-    if (offset === undefined) {
+    if (!offset) {
       offset = 0;
     }
 
+    if (!distance || distance === "null"){
+      distance = 999999;
+    }
+
     try {
-      let results = await knex("medics")
-        .where({ area: formattedArea })
-        .limit(30)
-        .offset(offset * 30);
+      console.log(offset);
+      console.log(distance);
+      console.log(formattedArea);
+      let results = await knex.select(knex.raw(`
+        *
+        from (
+          select 
+            addresses."userID",
+            addresses.number,
+            address,
+            (((acos(sin((${lat} *pi()/180)) * sin((lat * pi()/180)) 
+          + cos((${lat}*pi()/180)) * cos((lat*pi()/180))
+          * cos(((${lon} - lon) * pi()/180))))
+            * 180/pi()) * 60 * 1.1515 * 1.609344) 
+            as distance from addresses
+        ) address
+        join medics as medic
+        on medic."userID" = address."userID"
+        join users as "user"
+        on medic."userID" = "user".id
+        where distance <= ${distance} and area = '${formattedArea}'
+        order by distance
+        limit 30
+        offset ${30 * offset}
+      `));
 
-      for (let i in results) {
-        let medicID = results[i].userID;
-        let [result] = await knex("users")
-          .where({ id: medicID })
-          .select("first_name", "last_name", "email");
+      let formatedResults = []
 
-        results[i] = {
-          ...results[i],
+      for (let result of results){
+        formatedResults.push({
+          ...result,
+          password: undefined,
           firstName: result.first_name,
+          first_name: undefined,
           lastName: result.last_name,
-          email: result.email,
-        };
+          last_name: undefined
+        });
       }
 
-      res.status(200).send(results);
+      res.status(200).send(formatedResults);
     } catch (error) {
       next(error);
     }
