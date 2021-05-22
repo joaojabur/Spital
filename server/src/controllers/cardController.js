@@ -52,4 +52,17 @@ module.exports = {
       next(error);
     }
   },
+
+  async delete(req, res, next) {
+    const { id } = req.params;
+    try {
+      console.log(id);
+
+      await knex("cards").where({ id }).delete();
+
+      res.status(200).send();
+    } catch (error) {
+      next(error);
+    }
+  },
 };
