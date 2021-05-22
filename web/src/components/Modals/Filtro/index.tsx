@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import { useModal } from "../../../context/ModalProvider";
 import Overlay from "../Overlay";
 import "./styles.css";
 import Select from "react-select";
 
-const Filtro = () => {
+export interface FiltroProps {
+  changePrice: (price: number) => void;
+  changeDistance: (distance: number) => void;
+  currentPrice: number;
+  currentDistance: number;
+}
+
+const Filtro = ({ changePrice, changeDistance, currentPrice, currentDistance}: FiltroProps) => {
   const { filter } = useModal();
+  let [price, setPrice] = useState<number>(currentPrice);
+  let [distance, setDistance] = useState<number>(currentDistance);
 
   const prices = [
     {
@@ -58,6 +67,13 @@ const Filtro = () => {
     },
   ];
 
+  function handleFilter(){
+    changePrice(price);
+    changeDistance(distance);
+
+    filter.close();
+  }
+
   return (
     <Overlay>
       <form className="filtro">
@@ -70,8 +86,9 @@ const Filtro = () => {
             <p>Preços</p>
             <Select
               options={prices}
+              defaultValue={{ label: `Até R$ ${currentPrice}`, value: currentPrice}}
               onChange={(e: any) => {
-                console.log(e.value);
+                setPrice(e.value)
               }}
             />
           </div>
@@ -79,13 +96,14 @@ const Filtro = () => {
             <p>Distância</p>
             <Select
               options={distances}
+              defaultValue={{ label: `Até ${currentDistance}km`, value: currentDistance}}
               onChange={(e: any) => {
-                console.log(e.value);
+                setDistance(e.value)
               }}
             />
           </div>
 
-          <button type="button" className="filtro-button">
+          <button type="button" className="filtro-button" onClick={handleFilter}>
             Filtrar
           </button>
         </div>
