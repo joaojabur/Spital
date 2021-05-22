@@ -30,7 +30,7 @@ const MedicProfileData: React.FC<MedicProfileDataProps> = ({ id, medic }) => {
     api.get(`users?id=${id}`).then((response) => {
       setUser(response.data);
     });
-  }, []);
+  }, [id]);
 
   return (
     <div className="medic-profile-data">

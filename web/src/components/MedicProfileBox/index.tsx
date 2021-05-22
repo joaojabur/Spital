@@ -28,7 +28,7 @@ const MedicProfileBox: React.FC<MedicProfileBoxProps> = ({
     api.get(`users?id=${id}`).then((response) => {
       setUser(response.data);
     });
-  }, []);
+  }, [id]);
 
   return (
     <div className="medic-profile-box">

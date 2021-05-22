@@ -1,4 +1,3 @@
-import React, { useState, useEffect, Fragment } from "react";
 import "./styles.css";
 import { Link } from "react-router-dom";
 
@@ -7,12 +6,11 @@ import returnIcon from "../../assets/images/icons/return.svg";
 import logo from "../../assets/images/logo.svg";
 import facebookIcon from "../../assets/images/icons/facebook.svg";
 import googleIcon from "../../assets/images/icons/google.png";
-import Loader from "react-loader-spinner";
 
 const LoginPacient = () => {
   return (
     <div className="register-patient">
-      <Fragment>
+      <>
         <header className="register-patient-header">
           <Link to="/entrar-registrar-paciente">
             <img src={returnIcon} alt="Retornar" />
@@ -51,7 +49,7 @@ const LoginPacient = () => {
             </div>
           </div>
         </main>
-      </Fragment>
+      </>
       )
     </div>
   );

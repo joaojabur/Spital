@@ -4,9 +4,7 @@ import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 
 import {
-  IoSyncOutline,
-  IoCheckmarkOutline,
-  IoInfiniteOutline,
+  IoInfiniteOutline
 } from "react-icons/io5";
 
 const useStyles = makeStyles({

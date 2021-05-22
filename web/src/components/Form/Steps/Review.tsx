@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./styles.css";
-import api from "../../../services/api";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -24,7 +23,7 @@ interface ReviewProps {
 const Review = ({ previousPage, changePage }: ReviewProps) => {
   const { sucesso } = useModal();
   const { signup } = useAuth();
-  const { userData, setUserData } = useShareClientForm();
+  const { userData } = useShareClientForm();
 
   const history = useHistory();
 

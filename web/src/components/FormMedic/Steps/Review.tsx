@@ -25,7 +25,7 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const { medicData, setMedicData } = useShareFormMedic();
+  const { medicData } = useShareFormMedic();
 
   const history = useHistory();
 

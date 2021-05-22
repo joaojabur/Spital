@@ -37,7 +37,7 @@ const MedicProfileInfo: React.FC<MedicProfileInfoProps> = ({
     api.get(`medic-schedule?medic_id=${id}`).then((response) => {
       setSchedule(response.data);
     });
-  }, []);
+  }, [id]);
 
   const today_week_day = schedule.filter(
     (scheduleItem: ScheduleItemProps) => scheduleItem.week_day === week_day

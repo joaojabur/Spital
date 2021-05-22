@@ -15,7 +15,7 @@ interface MedicScheduleProps {
 }
 
 const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
-  const { medicData, setMedicData } = useShareFormMedic();
+  const { setMedicData } = useShareFormMedic();
 
   const weekDays = [
     {

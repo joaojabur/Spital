@@ -124,7 +124,7 @@ const MedicAcademicData = ({ nextPage, previousPage }: MedicNamesProps) => {
 
   useEffect(() => {
     setMedicData((previousState) => ({...previousState, area: areaOptions[0].value}))
-  }, [])
+  }, [areaOptions])
 
   console.log(medicData);
   return (

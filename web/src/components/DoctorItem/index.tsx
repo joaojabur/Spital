@@ -1,5 +1,5 @@
 import "./styles.css";
-import { IoStar, IoTimeOutline } from "react-icons/io5";
+import { IoStar } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
 export interface DoctorItemProps {

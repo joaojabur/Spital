@@ -48,13 +48,13 @@ const MainProfileMedic = ({nextPage, previousPage}: NamesProps) => {
     api.get(`medics?userID=${id}`).then((response) => {
       setMedic(response.data);
     });
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     api.get(`users?id=${id}`).then((response) => {
       setUser(response.data);
     });
-  }, []);
+  }, [id]);
 
   function getWeekday() {
     switch (week_day) {

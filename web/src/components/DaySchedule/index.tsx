@@ -25,8 +25,6 @@ interface MedicScheduleProps {
 
 const DaySchedule = ({ getMonth, year, monthDay }: DayScheduleProps) => {
   const { appointmentData, setAppointmentData } = useShareAppointmentForm();
-
-  const [chosenTime, setChosenTime] = useState("");
   const [medicSchedule, setMedicSchedule] =
     useState<MedicScheduleProps | null>(null);
   const [appointments, setAppointments] = useState<DateProps[]>([]);
@@ -49,7 +47,7 @@ const DaySchedule = ({ getMonth, year, monthDay }: DayScheduleProps) => {
       .then((response: any) => {
         setMedicSchedule(response.data[0]);
       });
-  }, [newWeekDay, completeDate]);
+  }, [newWeekDay, completeDate, id]);
 
   const numberFrom = Number(medicSchedule?.from);
   const numberTo = Number(medicSchedule?.to);
