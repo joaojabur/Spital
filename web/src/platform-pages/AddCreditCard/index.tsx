@@ -9,21 +9,22 @@ import { useModal } from "../../context/ModalProvider";
 import api from "../../services/api";
 import { useAuth } from "../../context/AuthProvider";
 // ak_test_i0ggSEBPCYYeCVZXIwNoKgcCfGOSht API
-
-interface AddCreditCardProps {
-  card_number: string;
-  card_holder_name: string;
-  card_expiration_date: string;
-  card_cvv: string;
-  client_id: string;
-}
+const pagarme = require("pagarme");
 
 const AddCreditCard = () => {
   const { spinner, sucesso } = useModal();
   const { userID } = useAuth();
-  
+  const [pagarmeError, setPagarmeError] = useState("");
+  const [cards, setCards] = useState<any>([]);
+
+  useEffect(() => {
+    api.get(`cards?userID=${userID}`).then((response: any) => {
+      setCards(response.data);
+    });
+  }, []);
+
   const history = useHistory();
-  const [card, setCard] = useState<AddCreditCardProps>({
+  const [card, setCard] = useState({
     card_number: "",
     card_holder_name: "",
     card_expiration_date: "",
@@ -37,26 +38,45 @@ const AddCreditCard = () => {
     setErrors(validateCard(card));
   }
 
-  async function submitHandleFormCard() {
-    spinner.open();
+  const cardValidation = pagarme.validate({ card });
+
+  async function submitHandleFormCard(e: any) {
+    e.preventDefault();
     const loopedErrors = Object.values(errors);
 
     if (loopedErrors.length > 0) {
       setHasError(true);
-    } else {
+      setPagarmeError("");
+    } else if (cards.length > 0) {
+      setPagarmeError("Não é possível cadastrar mais de um cartão");
+    } else if (cardValidation.card.card_holder_name === false) {
+      setPagarmeError("Nome no cartão inválido");
       setHasError(false);
-      const card_number_without_space = card.card_number.replace(/[ ]/g, "");
-      const card_expiration_date_withou_slash =
-        card.card_expiration_date.replace(/[/]/g, "");
+    } else if (cardValidation.card.card_number === false) {
+      setPagarmeError("Número do cartão inválido");
+      setHasError(false);
+    } else if (cardValidation.card.card_expiration_date === false) {
+      setPagarmeError("Data de expiração inválida");
+      setHasError(false);
+    } else if (cardValidation.card.card_cvv === false) {
+      setPagarmeError("CVV inválido");
+      setHasError(false);
+    } else {
+      spinner.open();
+      setPagarmeError("");
+      setHasError(false);
+      //const card_number_without_space = card.card_number.replace(/[ ]/g, "");
+      //const card_expiration_date_withou_slash =
+      //card.card_expiration_date.replace(/[/]/g, "");
 
-      const response = await api.post(`cards?userID=${userID}`, {
-        card_number: card_number_without_space,
-        card_holder_name: card.card_holder_name,
-        card_expiration_date: card_expiration_date_withou_slash,
-        card_cvv: card.card_cvv,
-      });
-
-      console.log(response.data);
+      pagarme.client
+        .connect({
+          encryption_key: "ek_live_umV8Rv1MmMupcC0lorpGrAYo0j3ifN",
+        })
+        .then((client: any) => client.security.encrypt(card))
+        .then((card_hash: any) => {
+          console.log(card_hash);
+        });
 
       sucesso.open({
         name: "Cartão cadastrado com sucesso!",
@@ -65,6 +85,11 @@ const AddCreditCard = () => {
         },
         description: "Método de pagamento adicionado.",
       });
+
+      setCards((previousCards: any) => ([
+        ...previousCards,
+        card,
+      ]));
     }
   }
 
@@ -177,6 +202,10 @@ const AddCreditCard = () => {
             Formulário possui erros
           </span>
         )}
+
+        <span style={{ marginTop: "2rem", fontSize: "1.5rem", color: "#f00" }}>
+          {pagarmeError}
+        </span>
 
         <button type="submit" className="primary">
           Cadastrar

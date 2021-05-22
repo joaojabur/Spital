@@ -61,5 +61,6 @@ routes.delete("/consult-type/:id", consultTypeController.delete);
 
 routes.post("/cards", cardController.create);
 routes.get("/cards", cardController.index);
+routes.delete("/cards/:id", cardController.delete);
 
 module.exports = routes;

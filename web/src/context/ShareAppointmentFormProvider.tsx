@@ -27,7 +27,7 @@ export default function ShareAppointmentFormProvider({
   children,
 }: ShareClientFormProviderProps) {
   const [appointmentData, setAppointmentData] = useState<AppointmentData>();
-  const [cvvError, setCvvError] = useState<any>("");
+  const [cvvError, setCvvError] = useState<any>(null);
 
   let value = {
     appointmentData,

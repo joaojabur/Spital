@@ -79,9 +79,8 @@ module.exports = {
   },
 
   async update(req, res, next) {
-    const { fullName, email, phoneNumber } = req.body;
+    const { fullName, phoneNumber } = req.body;
     const { id } = req.params;
-    console.log(fullName + " " + email + " " + phoneNumber + " " + id);
 
     const [first_name, last_name] = fullName.split(" ");
 
@@ -90,7 +89,6 @@ module.exports = {
         .update({
           first_name,
           last_name,
-          email,
         })
         .where({ id });
 
