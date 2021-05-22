@@ -7,17 +7,21 @@ import { useParams } from "react-router";
 import api from "../../services/api";
 import { TextField } from "@material-ui/core";
 import mask from "../../utils/mask";
+import Loader from "react-loader-spinner";
 
-const PaymentInfo = ({ card, setCard }: any) => {
+const PaymentInfo = ({ card, setCard, error }: any) => {
   const [firstName, setFirstName] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { cvvError, setCvvError } = useShareAppointmentForm();
   const { appointmentData, setAppointmentData } = useShareAppointmentForm();
   const { id } = useParams<ParamTypes>();
 
   useEffect(() => {
+    setLoading(true);
     api.get(`users?id=${id}`).then((response: any) => {
       setFirstName(response.data.firstName);
+      setLoading(false);
     });
   }, [id]);
 
@@ -29,7 +33,17 @@ const PaymentInfo = ({ card, setCard }: any) => {
         Dia {appointmentData?.date}, {appointmentData?.time} AM
       </h2>
       <div className="line-global"></div>
-      <h1 className="payment-info-doctor-name">Dr(a). {firstName}</h1>
+      {loading ? (
+        <Loader
+          type="TailSpin"
+          color="var(--color-button-primary)"
+          height={50}
+          width={50}
+        />
+      ) : (
+        <h1 className="payment-info-doctor-name">Dr(a). {firstName}</h1>
+      )}
+
       <p className="payment-info-consult-type">Consulta urologia comum</p>
       <div className="line-global"></div>
       <div className="payment-info-flex">
@@ -66,7 +80,7 @@ const PaymentInfo = ({ card, setCard }: any) => {
           variant="filled"
           onChange={(e) => {
             setCard({ ...card, card_cvv: mask(e.target.value, "###") });
-            if (card?.card_cvv?.length === 0) {
+            if (!card?.card_cvv) {
               setCvvError("Campo de CVV é necessário para a transação");
             } else if (!(card.card_cvv?.length === 2)) {
               setCvvError("Campo de CVV inválido");
@@ -82,6 +96,17 @@ const PaymentInfo = ({ card, setCard }: any) => {
           }
         />
       </div>
+      <span
+        style={{
+          color: "#f00",
+          textAlign: "center",
+          marginTop: "2rem",
+          fontSize: "2rem",
+          fontWeight: "bold",
+        }}
+      >
+        {error}
+      </span>
     </div>
   );
 };

@@ -15,6 +15,7 @@ const PaymentMedicProfile = ({ previousPage }: NamesProps) => {
   const { userID } = useAuth();
   const [loading, setLoading] = useState(false);
   const { cvvError } = useShareAppointmentForm();
+  const [error, setError] = useState("");
 
   const { paymentMethod } = useModal();
   const [card, setCard] = useState<PaymentMethodProps>({
@@ -29,21 +30,27 @@ const PaymentMedicProfile = ({ previousPage }: NamesProps) => {
   useEffect(() => {
     setLoading(true);
     api.get(`cards?userID=${userID}`).then((response: any) => {
-      console.log(response.data[0]);
       setCard(response.data[0].card);
       setLoading(false);
     });
   }, [userID, setCard]);
 
   function handleSubmitAppointment() {
-    console.log({
-      card_id: card.id,
-      card_number: card.first_digits + card.last_digits,
-      amount: Number(appointmentData.price) * 100,
-      card_cvv: card.card_cvv,
-      card_holder_name: card.holder_name,
-      payment_method: "credit_card",
-    });
+    if (!card?.card_cvv) {
+      setError("Campo de CVV vazio");
+    } else if (cvvError?.length === null || cvvError?.length > 0) {
+      setError("Campo de CVV inválido");
+    } else {
+      setError("");
+      console.log({
+        card_id: card.id,
+        card_number: card.first_digits + card.last_digits,
+        amount: Number(appointmentData.price) * 100,
+        card_cvv: card.card_cvv,
+        card_holder_name: card.holder_name,
+        payment_method: "credit_card",
+      });
+    }
   }
 
   return (
@@ -53,7 +60,7 @@ const PaymentMedicProfile = ({ previousPage }: NamesProps) => {
         returnFunction={() => previousPage()}
       />
       <div className="container">
-        <PaymentInfo card={card} setCard={setCard} />
+        <PaymentInfo card={card} setCard={setCard} error={error} />
         {loading ? (
           <Loader
             type="TailSpin"
