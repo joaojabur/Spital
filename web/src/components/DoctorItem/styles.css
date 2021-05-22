@@ -74,18 +74,6 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  justify-content: space-between;
+  justify-content: flex-end;
   flex: 1;
-}
-
-.doctor-item-data-distance {
-  color: #969696;
-  font-weight: normal;
-  font-size: 1.6rem;
-}
-
-.doctor-item-data-workload {
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
 }

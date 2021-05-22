@@ -43,23 +43,9 @@ function AppointmentStatus() {
     >
       <BottomNavigationAction
         className={classes.button}
-        label={<span style={{ fontSize: "2rem" }}>Ativas</span>}
-        value="active"
-        icon={<IoSyncOutline size={30} />}
-        style={{ border: "none", outline: "none" }}
-      />
-      <BottomNavigationAction
-        className={classes.button}
         label={<span style={{ fontSize: "2rem" }}>Todas</span>}
         value="todas"
         icon={<IoInfiniteOutline size={30} />}
-        style={{ border: "none", outline: "none" }}
-      />
-      <BottomNavigationAction
-        className={classes.button}
-        label={<span style={{ fontSize: "2rem" }}>Finalizadas</span>}
-        value="done"
-        icon={<IoCheckmarkOutline size={30} />}
         style={{ border: "none", outline: "none" }}
       />
     </BottomNavigation>

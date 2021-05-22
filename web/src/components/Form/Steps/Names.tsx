@@ -9,18 +9,18 @@ export interface NamesProps {
   previousPage: () => void;
 }
 
-const Names = ({ nextPage, previousPage}: NamesProps) => {
+const Names = ({ nextPage, previousPage }: NamesProps) => {
   const { setUserData, userData } = useShareClientForm();
-  const [errors, setErrors] = useState(validateInfo(userData))
-  
-  function validate(){
+  const [errors, setErrors] = useState(validateInfo(userData));
+
+  function validate() {
     setErrors(validateInfo(userData));
   }
 
   useEffect(() => {
     setErrors(validateInfo(userData));
-  }, [ userData ])
-  
+  }, [userData]);
+
   return (
     <form className="form-container">
       <h2>Seus dados</h2>
@@ -33,7 +33,7 @@ const Names = ({ nextPage, previousPage}: NamesProps) => {
         fullWidth
         onChange={(e) => {
           setUserData({ ...userData, firstName: e.target.value });
-          validate()
+          validate();
         }}
         autoComplete="off"
         required
@@ -51,17 +51,14 @@ const Names = ({ nextPage, previousPage}: NamesProps) => {
         fullWidth
         onChange={(e) => {
           setUserData({ ...userData, lastName: e.target.value });
-          validate()
+          validate();
         }}
         style={{ marginTop: "1rem" }}
         required
         error={errors.lastName ? true : false}
         helperText={<span style={{ fontSize: "1rem" }}>{errors.lastName}</span>}
       />
-      <button 
-        className="primary" 
-        type="button"
-        onClick={(e) => nextPage()}>
+      <button className="primary" type="button" onClick={(e) => nextPage()}>
         Próximo
       </button>
     </form>

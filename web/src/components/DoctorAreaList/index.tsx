@@ -7,7 +7,7 @@ interface DoctorAreaListProps {
 }
 
 const DoctorAreaList: React.FC<DoctorAreaListProps> = ({ area }) => {
-  const [medics, setMedics] = useState([]);
+  const [medics] = useState([]);
 
   return (
     <div className="doctor-list">

@@ -23,7 +23,7 @@ routes.get("/users/recover/:token", userController.verifyRecoverToken);
 
 routes.post("/clients", ClientController.create);
 routes.get("/clients", ClientController.index);
-routes.put("/clients/:userID", ClientController.update);
+routes.put("/clients/:id", ClientController.update);
 routes.delete("/clients/:userID", ClientController.delete);
 routes.post("/clients/login", ClientController.login);
 routes.get("/clients/auth", isAuth, clientController.auth);
