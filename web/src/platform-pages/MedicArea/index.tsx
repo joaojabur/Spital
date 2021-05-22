@@ -16,21 +16,59 @@ interface ParamTypes {
 
 const MedicArea = () => {
   const { filter } = useModal();
-
-  const {} = useModal();
   const history = useHistory();
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [medics, setMedics] = useState<Array<Medic>>([]);
+  const [location, setLocation] = useState<null | GeolocationPosition>(null);
+
+  const [maxPrice, setMaxPrice] = useState<number>(500);
+  const [maxDistance, setMaxDistance] = useState<number>(100);
+
+  function changePrice(price: number){
+    setMaxPrice(price);
+  }
+
+  function changeDistance(distance: number){
+    setMaxDistance(distance);
+  }
 
   async function loadMore() {
-    setLoading(true);
-    let { data } = await api.get(`medics/${capitalizeArea}?offset=${page}`);
+    let { data } = await api.get(`medics/${capitalizeArea}?offset=${page}&lat=${location?.coords.latitude}&lon=${location?.coords.longitude}&distance=${maxDistance}`);
     data = data.map((medic: Medic) => medic);
 
     setMedics((previousState) => [...previousState, ...data]);
     setPage(page + 1);
     setLoading(false);
+  }
+
+  async function reload(){
+    let { data } = await api.get(`medics/${capitalizeArea}?lat=${location?.coords.latitude}&lon=${location?.coords.longitude}&distance=${maxDistance}`);
+    data = data.map((medic: Medic) => medic);
+
+    setMedics(data);
+    setPage(1);
+    setLoading(false);
+  }
+
+  async function getUserLocation() {
+    if (navigator.geolocation){
+      let permission = await navigator.permissions.query({ name: "geolocation"});
+
+      if (permission.state === 'granted' || permission.state === 'prompt'){
+        navigator.geolocation.getCurrentPosition((pos: GeolocationPosition) => {
+          setLocation(pos);
+        }, () => {}, { enableHighAccuracy: true});
+      } else if (permission.state === 'denied') {
+        //
+        console.log("Você precisa ativar sua localização")
+      }
+
+      permission.onchange = () => {
+        console.log("Estado alterado")
+        console.log(permission.state);
+      };
+    }
   }
 
   const { area } = useParams<ParamTypes>();
@@ -41,10 +79,15 @@ const MedicArea = () => {
   }
 
   useEffect(() => {
-    api.get(`medics/${capitalizeArea}`).then((response) => {
-      setMedics(response.data);
-    });
+    setLoading(true);
+    getUserLocation()
   }, [capitalizeArea]);
+
+  useEffect(() => {
+    if (location?.coords.latitude !== undefined){
+      reload();
+    }
+  }, [location, maxPrice, maxDistance])
 
   return (
     <div className="client-platform">
@@ -57,13 +100,13 @@ const MedicArea = () => {
           <div className="search-flex-input">
             <SearchInput placeholder="Busque pelo nome do médico..." />
           </div>
-          <div onClick={filter.open} className="search-flex-filter-button">
+          <div onClick={() => filter.open({changePrice, changeDistance, currentDistance: maxDistance, currentPrice: maxPrice})} className="search-flex-filter-button">
             <IoFilterOutline size={22} color="#000000" />
           </div>
         </div>
 
-        <DoctorList medics={medics} loading={loading} />
-        <LoadMoreButton onClick={loadMore} />
+        <DoctorList medics={medics} loading={loading}/>
+        <LoadMoreButton onClick={loadMore}/>
       </div>
     </div>
   );
