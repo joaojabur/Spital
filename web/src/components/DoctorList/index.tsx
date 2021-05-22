@@ -15,6 +15,7 @@ export interface Medic {
   lastName: string;
   area: string;
   userID: number;
+  distance: number;
 }
 
 const DoctorList = ({ medics, loading }: DoctorListProps) => {
@@ -31,7 +32,7 @@ const DoctorList = ({ medics, loading }: DoctorListProps) => {
         {medics?.map((medic, index) => {
           return (
             <div key={index} className="doctors-list-unique">
-              <DoctorItem medic={medic} />
+              <DoctorItem medic={medic}/>
             </div>
           );
         })}
