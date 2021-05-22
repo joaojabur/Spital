@@ -8,12 +8,13 @@ import "./styles.css";
 
 const HomeClient = () => {
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [medics, setMedics] = useState<Array<Medic>>([]);
+  const [location, setLocation] = useState<null | GeolocationPosition>(null);
 
   async function loadMore() {
     setLoading(true);
-    let { data } = await api.get(`medics?offset=${page}`);
+    let { data } = await api.get(`medics?offset=${page}&lat=${location?.coords.latitude}&lon=${location?.coords.longitude}`);
     data = data.map((medic: Medic) => medic);
 
     setMedics((previousState) => [...previousState, ...data]);
@@ -21,18 +22,45 @@ const HomeClient = () => {
     setLoading(false);
   }
 
+  
+  async function getUserLocation() {
+    if (navigator.geolocation){
+      let permission = await navigator.permissions.query({ name: "geolocation"});
+
+      if (permission.state === 'granted' || permission.state === 'prompt'){
+        navigator.geolocation.getCurrentPosition((pos: GeolocationPosition) => {
+          console.log(pos);
+          setLocation(pos);
+          
+        }, () => {}, { enableHighAccuracy: true});
+      } else if (permission.state === 'denied') {
+        //
+        console.log("Você precisa ativar sua localização")
+      }
+
+      permission.onchange = () => {
+        console.log("Estado alterado")
+        console.log(permission.state);
+      };
+    }
+  }
+
+  console.log(medics);
+
   useEffect(() => {
-    api.get("medics").then((response: any) => {
-      setMedics(response.data);
-    });
+    getUserLocation();
   }, []);
+
+  useEffect(() => {
+    loadMore();
+  }, [location])
 
   return (
     <div className="client-platform">
       <HeaderPlatform />
       <div className="container">
         <Categories />
-        <DoctorList loading={loading} medics={medics} />
+        <DoctorList loading={loading} medics={medics}/>
         <LoadMoreButton onClick={loadMore} />
       </div>
     </div>
