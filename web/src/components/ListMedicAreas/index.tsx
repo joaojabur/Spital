@@ -26,143 +26,149 @@ import radiotherapyIcon from "../../assets/images/icons/hospital/svg/063-radioth
 import muscleIcon from "../../assets/images/icons/hospital/svg/064-muscle.svg";
 import angiologyIcon from "../../assets/images/icons/hospital/svg/065-globulos-vermelhos.svg";
 
-const ListMedicAreas = () => {
+interface ListMedicAreasProps {
+  searchTerm: string;
+}
+
+const ListMedicAreas = ({ searchTerm }: ListMedicAreasProps) => {
   const categories = [
     {
       img: eyeIcon,
       label: "Oftalmologista",
-      gotTo: "/busca/oftalmologista",
+      gotTo: "oftalmologista",
     },
     {
       img: heartIcon,
       label: "Cardiologista",
-      gotTo: "/busca/cardiologista",
+      gotTo: "cardiologista",
     },
     {
       img: dentistIcon,
       label: "Dentista",
-      gotTo: "/busca/dentista",
+      gotTo: "dentista",
     },
     {
       img: earIcon,
       label: "Otorrinolaringologista",
-      gotTo: "/busca/otorrinolaringologista",
+      gotTo: "otorrinolaringologista",
     },
     {
       img: boneIcon,
       label: "Ortopedista",
-      gotTo: "/busca/ortopedista",
+      gotTo: "ortopedista",
     },
     {
       img: lungsIcon,
       label: "Pneumologista",
-      gotTo: "/busca/pneumologista",
+      gotTo: "pneumologista",
     },
     {
       img: brainIcon,
       label: "Neurologista",
-      gotTo: "/busca/neurologista",
+      gotTo: "neurologista",
     },
     {
       img: sickIcon,
       label: "Geriatra",
-      gotTo: "/busca/geriatra",
+      gotTo: "geriatra",
     },
     {
       img: kidneyIcon,
       label: "Nefrologista",
-      gotTo: "/busca/nefrologista",
+      gotTo: "nefrologista",
     },
     {
       img: urologyIcon,
       label: "Urologista",
-      gotTo: "/busca/urologista",
+      gotTo: "urologista",
     },
     {
       img: bloodIcon,
       label: "Hematologista",
-      gotTo: "/busca/hematologista",
+      gotTo: "hematologista",
     },
     {
       img: bacteriaIcon,
       label: "Alergista e Imunologista",
-      gotTo: "/busca/alergistas-e-imunologista",
+      gotTo: "alergistas-e-imunologista",
     },
     {
       img: colonIcon,
       label: "Coloproctologista",
-      gotTo: "/busca/coloproctologista",
+      gotTo: "coloproctologista",
     },
     {
       img: dermisIcon,
       label: "Demartologista",
-      gotTo: "/busca/dermatologista",
+      gotTo: "dermatologista",
     },
     {
       img: endocrinologyIcon,
       label: "Endocrinologista",
-      gotTo: "/busca/endocrinologista",
+      gotTo: "endocrinologista",
     },
     {
       img: stomachIcon,
       label: "Gastroenterologista",
-      gotTo: "/busca/gastroenterologista",
+      gotTo: "gastroenterologista",
     },
     {
       img: gynecologyIcon,
       label: "Ginecologista",
-      gotTo: "/busca/ginecologista",
+      gotTo: "ginecologista",
     },
     {
       img: virusIcon,
       label: "Infectologista",
-      gotTo: "/busca/infectologista",
+      gotTo: "infectologista",
     },
     {
       img: nutrologyIcon,
       label: "Nutrologista",
-      gotTo: "/busca/nutrologista",
+      gotTo: "nutrologista",
     },
     {
       img: obstetricsIcon,
       label: "Obstetricista",
-      gotTo: "/busca/obstetricista",
+      gotTo: "obstetricista",
     },
     {
       img: pediatricsIcon,
       label: "Pediatra",
-      gotTo: "/busca/pediatra",
+      gotTo: "pediatra",
     },
     {
       img: radiologyIcon,
       label: "Radiologista",
-      gotTo: "/busca/radiologista",
+      gotTo: "radiologista",
     },
     {
       img: radiotherapyIcon,
       label: "Radioterapista",
-      gotTo: "/busca/radioterapista",
+      gotTo: "radioterapista",
     },
     {
       img: muscleIcon,
       label: "Remautologista",
-      gotTo: "/busca/remautologista",
+      gotTo: "remautologista",
     },
     {
       img: angiologyIcon,
       label: "Angiologista",
-      gotTo: "/busca/angiologista",
+      gotTo: "angiologista",
     },
   ];
 
   return (
     <div className="list-medic-areas">
       {categories.map((categorie, index) => {
+        let isIncluded = categorie.gotTo.includes(searchTerm.toLowerCase())
         return (
           <Link
             key={index}
-            to={categorie.gotTo}
+            to={`/busca/${categorie.gotTo}`}
             className="list-medic-areas-unique"
+            style={{display: isIncluded ? '' : 'none'}}
           >
             <img src={categorie.img} alt={categorie.label} />
             <h2>{categorie.label}</h2>
