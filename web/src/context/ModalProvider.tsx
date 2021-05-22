@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 import CadastroSucesso, {
   CadastroSucessoProps as sucessoProps,
 } from "../components/Modals/CadastroSucesso";
-import Filtro from "../components/Modals/Filtro";
+import Filtro, { FiltroProps } from "../components/Modals/Filtro";
 import PaymentMethod, {
   PaymentMethodProps,
 } from "../components/Modals/PaymentMethod";
@@ -26,7 +26,7 @@ interface ModalContextProps {
     close: () => void;
   };
   filter: {
-    open: () => void;
+    open: ({ changePrice, changeDistance, currentPrice, currentDistance }: FiltroProps) => void;
     close: () => void;
   };
 }
@@ -69,7 +69,7 @@ export default function ModalProvider({ children }: ModalProviderProps) {
     },
 
     filter: {
-      open: () => openModal(<Filtro />),
+      open: ({ changePrice, changeDistance, currentPrice, currentDistance }: FiltroProps) => openModal(<Filtro changeDistance={changeDistance} changePrice={changePrice} currentDistance={currentDistance} currentPrice={currentPrice} />),
       close: closeModal,
     },
   } as ModalContextProps;
