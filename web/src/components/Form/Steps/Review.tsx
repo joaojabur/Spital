@@ -52,11 +52,12 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
       setHasError(true);
     } else {
       sucesso.open({
-        name: userData.firstName + " " + userData.lastName,
+        name: "Parabéns " + userData.firstName + " " + userData.lastName,
         close: () => {
           sucesso.close();
           history.push("/confirmar-email");
         },
+        description: "Conta criada com sucesso."
       });
       handleSubmitClient();
       setHasError(false);

@@ -11,6 +11,8 @@ const clientController = require("./controllers/clientController");
 const userController = require("./controllers/userController");
 const reviewController = require("./controllers/reviewController");
 const addressController = require("./controllers/addressController");
+const consultTypeController = require("./controllers/consultTypeController");
+const cardController = require("./controllers/cardController");
 
 routes.get("/users", userController.index);
 routes.delete("/users/:id", userController.delete);
@@ -21,7 +23,7 @@ routes.get("/users/recover/:token", userController.verifyRecoverToken);
 
 routes.post("/clients", ClientController.create);
 routes.get("/clients", ClientController.index);
-routes.put("/clients/:userID", ClientController.update);
+routes.put("/clients/:id", ClientController.update);
 routes.delete("/clients/:userID", ClientController.delete);
 routes.post("/clients/login", ClientController.login);
 routes.get("/clients/auth", isAuth, clientController.auth);
@@ -51,5 +53,13 @@ routes.post("/addresses", addressController.create);
 routes.get("/addresses", addressController.index);
 routes.put("/addresses", addressController.update);
 routes.delete("/addresses", addressController.delete);
+
+routes.post("/consult-type", consultTypeController.create);
+routes.get("/consult-type", consultTypeController.index);
+routes.put("/consult-type/:id", consultTypeController.update);
+routes.delete("/consult-type/:id", consultTypeController.delete);
+
+routes.post("/cards", cardController.create);
+routes.get("/cards", cardController.index);
 
 module.exports = routes;

@@ -18,9 +18,9 @@ import RegisterMedicSpital from "../pages/RegisterMedicalSpitalAccount";
 import MedicArea from "../platform-pages/MedicArea";
 import MedicProfile from "../platform-pages/MedicProfile";
 import VerifyEmail from "../pages/VerifyEmail";
-import ScheduleAppointment from "../platform-pages/ScheduleAppointment";
 import ForgetPassword from "../pages/ForgetPassword";
 import RecoverPassword from "../pages/RecoverPassword";
+import AddCreditCard from "../platform-pages/AddCreditCard";
 
 function Router() {
   return (
@@ -43,15 +43,16 @@ function Router() {
         />
         <PublicRoute path="/confirmar-email" component={ConfirmEmail} />
         <PublicRoute path="/verificar/:token" component={VerifyEmail} />
-        <PublicRoute path="/recuperar" exact component={ForgetPassword}/>
-        <PublicRoute path="/recuperar/:token" component={RecoverPassword}/>
+        <PublicRoute path="/recuperar" exact component={ForgetPassword} />
+        <PublicRoute path="/recuperar/:token" component={RecoverPassword} />
+
         <PrivateRoute path="/principal" component={HomeClient} />
         <PrivateRoute path="/busca" exact component={SearchClient} />
         <PrivateRoute path="/busca/:area" exact component={MedicArea} />
         <PrivateRoute path="/consultas" exact component={AppointmentsClient} />
         <PrivateRoute path="/perfil" exact component={MyProfile} />
         <PrivateRoute path="/medicos/:id" exact component={MedicProfile} />
-        <PrivateRoute path="/medicos/:id/agendar" exact component={ScheduleAppointment} />
+        <PrivateRoute path="/cadastrar-cartao" exact component={AddCreditCard} />
 
         <PublicRoute
           path="/registrar-spital-paciente"

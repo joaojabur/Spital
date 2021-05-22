@@ -79,18 +79,26 @@ module.exports = {
   },
 
   async update(req, res, next) {
-    const { first_name, last_name, email, password, phoneNumber } = req.body;
+    const { fullName, email, phoneNumber } = req.body;
     const { id } = req.params;
+    console.log(fullName + " " + email + " " + phoneNumber + " " + id);
+
+    const [first_name, last_name] = fullName.split(" ");
+
     try {
-      await knex("clients")
+      await knex("users")
         .update({
           first_name,
           last_name,
           email,
-          password,
-          phoneNumber,
         })
         .where({ id });
+
+      await knex("clients")
+        .update({
+          phoneNumber,
+        })
+        .where({ userID: id });
 
       return res.status(200).send();
     } catch (error) {

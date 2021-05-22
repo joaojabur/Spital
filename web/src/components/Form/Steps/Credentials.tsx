@@ -10,20 +10,19 @@ interface CredentialsProps {
   previousPage: () => void;
 }
 
-
-const Credentials = ({ nextPage, previousPage}: CredentialsProps) => {
+const Credentials = ({ nextPage, previousPage }: CredentialsProps) => {
   const { setUserData, userData } = useShareClientForm();
 
   const [showPassword, setShowPassword] = useState(false);
-  const [errors, setErrors] = useState(validateInfo(userData))
+  const [errors, setErrors] = useState(validateInfo(userData));
 
   function handleShowPassword() {
     setShowPassword(!showPassword);
   }
-  
+
   useEffect(() => {
     setErrors(validateInfo(userData));
-  }, [ userData ])
+  }, [userData]);
 
   return (
     <div className="form-container">
@@ -87,12 +86,12 @@ const Credentials = ({ nextPage, previousPage}: CredentialsProps) => {
           <span style={{ fontSize: "1rem" }}>{errors.confirmPassword}</span>
         }
       />
-      <button 
-        className="secondary"
-        onClick={(e) => previousPage()}>Anterior</button>
-      <button 
-        className="primary"
-        onClick={(e) => nextPage()}>Próximo</button>
+      <button className="secondary" onClick={(e) => previousPage()}>
+        Anterior
+      </button>
+      <button className="primary" onClick={(e) => nextPage()}>
+        Próximo
+      </button>
     </div>
   );
 };

@@ -10,13 +10,16 @@ interface MedicPersonalDataProps {
   previousPage: () => void;
 }
 
-const MedicPersonalData = ({ nextPage, previousPage}: MedicPersonalDataProps) => {
-  const { medicData, setMedicData }= useShareFormMedic();
-  const [ errors, setErrors ] = useState(validateMedicInfo(medicData));
+const MedicPersonalData = ({
+  nextPage,
+  previousPage,
+}: MedicPersonalDataProps) => {
+  const { medicData, setMedicData } = useShareFormMedic();
+  const [errors, setErrors] = useState(validateMedicInfo(medicData));
 
   useEffect(() => {
     setErrors(validateMedicInfo(medicData));
-  }, [ medicData ])
+  }, [medicData]);
 
   return (
     <form className="form-container">
@@ -30,7 +33,10 @@ const MedicPersonalData = ({ nextPage, previousPage}: MedicPersonalDataProps) =>
         variant="outlined"
         fullWidth
         onChange={(e) => {
-          setMedicData({ ...medicData, cpf: mask(e.target.value, "###.###.###-##") });
+          setMedicData({
+            ...medicData,
+            cpf: mask(e.target.value, "###.###.###-##"),
+          });
         }}
         autoComplete="off"
         required
@@ -46,7 +52,10 @@ const MedicPersonalData = ({ nextPage, previousPage}: MedicPersonalDataProps) =>
         variant="outlined"
         fullWidth
         onChange={(e) => {
-          setMedicData({ ...medicData, rg: mask(e.target.value, "##.###.###-#") });
+          setMedicData({
+            ...medicData,
+            rg: mask(e.target.value, "##.###.###-#"),
+          });
         }}
         style={{ marginTop: "1rem" }}
         required
@@ -77,13 +86,11 @@ const MedicPersonalData = ({ nextPage, previousPage}: MedicPersonalDataProps) =>
         {errors?.birthDate}
       </p>
 
-      <button className="secondary" 
-        onClick={(e) => previousPage()}>
-          Anterior
+      <button className="secondary" onClick={(e) => previousPage()}>
+        Anterior
       </button>
-      <button className="primary"
-        onClick={(e) => nextPage()}>
-          Próximo
+      <button className="primary" onClick={(e) => nextPage()}>
+        Próximo
       </button>
     </form>
   );

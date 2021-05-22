@@ -124,8 +124,8 @@ const ListMedicAreas = ({ searchTerm }: ListMedicAreasProps) => {
     },
     {
       img: nutrologyIcon,
-      label: "Nutrologista",
-      gotTo: "nutrologista",
+      label: "Nutrologo",
+      gotTo: "/nutrologo",
     },
     {
       img: obstetricsIcon,
@@ -149,8 +149,8 @@ const ListMedicAreas = ({ searchTerm }: ListMedicAreasProps) => {
     },
     {
       img: muscleIcon,
-      label: "Remautologista",
-      gotTo: "remautologista",
+      label: "Reumatologista",
+      gotTo: "reumatologista",
     },
     {
       img: angiologyIcon,

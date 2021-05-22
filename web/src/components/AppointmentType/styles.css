@@ -20,6 +20,12 @@
   background-color: #16697a;
   border-radius: 5rem;
   transition: all ease-in-out 0.2s;
+  border: none;
+  outline: 0 !important;
+}
+
+.appointment-type-unique + .appointment-type-unique {
+  margin-top: 1rem;
 }
 
 .appointment-type-unique:hover {

@@ -12,19 +12,11 @@ module.exports = {
         query
           .where({ medicID: medicID, date: date })
           .join("appointments", "schedules.id", "=", "appointments.scheduleID")
-          .select([
-            "appointments.date",
-            "appointments.time",
-            "schedules.medicID",
-          ]);
+          .select(["appointments.*", "schedules.medicID"]);
       } else {
         query
           .join("appointments", "schedules.id", "=", "appointments.scheduleID")
-          .select([
-            "appointments.date",
-            "appointments.time",
-            "schedules.medicID",
-          ]);
+          .select(["appointments.*", "schedules.medicID"]);
       }
 
       const results = await query;
@@ -40,8 +32,6 @@ module.exports = {
       const { date, time } = req.body;
       const { medicID } = req.query;
       const { clientID } = req.query;
-
-      console.log(date, time);
 
       const scheduleID = await knex("schedules").returning("id").insert({
         medicID,
@@ -63,10 +53,11 @@ module.exports = {
   async update(req, res, next) {
     try {
       const { id } = req.params;
-      const { date } = req.body;
+      const { date, time } = req.body;
       await knex("appointments")
         .update({
           date,
+          time,
         })
         .where({ id });
 

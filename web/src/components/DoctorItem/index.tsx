@@ -30,14 +30,6 @@ const DoctorItem = ({ medic }: DoctorItemProps) => {
         </div>
         <div className="doctor-item-data-location">
           <p className="doctor-item-data-distance">1.5 km</p>
-          <div className="doctor-item-data-workload">
-            <IoTimeOutline
-              style={{ position: "relative", right: "1rem" }}
-              size={20}
-              color="blueviolet"
-            />
-            <span>8:00 AM - 1:00 PM</span>
-          </div>
         </div>
       </div>
     </Link>

@@ -1,73 +1,141 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { useHistory, useParams } from 'react-router'
-import { useModal } from '../../context/ModalProvider';
-import api from '../../services/api';
+import { IconButton, TextField } from "@material-ui/core";
+import React, { useCallback, useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router";
+import { useModal } from "../../context/ModalProvider";
+import api from "../../services/api";
+import validateNewPassword from "../../utils/validateNewPassword";
+import "./styles.css";
 
 interface RecoverPasswordParams {
-    token?: string;
+  token?: string;
 }
 
 export default function RecoverPassword() {
-    let { token } = useParams<RecoverPasswordParams>();
-    const { spinner } = useModal();
-    const [ isValid, setIsValid ] = useState<boolean | null>(null);
-    const [ isLoading, setIsLoading ] = useState(true);
-    const [ password, setPassword] = useState('');
-    const [ confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
-    const history = useHistory();
+  let { token } = useParams<RecoverPasswordParams>();
+  const { spinner } = useModal();
+  const [isValid, setIsValid] = useState<boolean | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [newPassword, setNewPassword] = useState({
+    password: "",
+    confirmPassword: "",
+  });
+  const [errors, setErrors] = useState(validateNewPassword(newPassword));
 
-    if (!token || (isValid !== null && !isValid)){
-        spinner.close()
-        history.replace('/');
+  useEffect(() => {
+    setErrors(validateNewPassword(newPassword));
+  }, [newPassword]);
+
+  function validate() {
+    setErrors(validateNewPassword(newPassword));
+  }
+
+  function handleShowPassword() {
+    setShowPassword(!showPassword);
+  }
+
+  const history = useHistory();
+
+  if (!token || (isValid !== null && !isValid)) {
+    spinner.close();
+    history.replace("/");
+  }
+
+  const verifyToken = useCallback(async () => {
+    spinner.open();
+    let response = await api.get(`/users/recover/${token}`);
+
+    if (response.status === 202) {
+      setIsValid(true);
     }
 
-    const verifyToken = useCallback(async () => {
-        spinner.open();
-        let response = await api.get(`/users/recover/${token}`);
+    setIsLoading(false);
+    spinner.close();
+  }, [setIsValid, token]);
 
-        if (response.status === 202){
-            setIsValid(true);
-        }
+  useEffect(() => {
+    verifyToken();
+  }, [verifyToken]);
 
-        setIsLoading(false);
-        spinner.close();
-    }, [setIsValid, token]);
+  if (isLoading) {
+    return <div></div>;
+  }
 
-    useEffect(() => {
-        verifyToken();
-    }, [verifyToken]);
-
-    if (isLoading){
-        return <div></div>
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    spinner.open();
+    if (newPassword.password !== newPassword.confirmPassword) {
+      spinner.close();
+      return;
     }
 
-    async function handleSubmit(e: React.FormEvent){
-        e.preventDefault();
-        spinner.open();
-        if (password !== confirmPassword){
-            spinner.close();
-            return
-        }
+    let response = await api.put(`/users/recover/${token}`, {
+      password: newPassword.password,
+    });
 
-        let response = await api.put(`/users/recover/${token}`, { password });
-
-        if (response.status === 200){
-            console.log("Senha Mudada")
-            history.replace('/');
-        }
-
-        spinner.close();
+    if (response.status === 200) {
+      console.log("Senha Mudada");
+      history.replace("/");
     }
 
-    return (
-        <div>
-            Carregou
-            <form onSubmit={handleSubmit}>
-                <input type="password"/>
-                <input type="password"/>
-                <button>Salvar nova Senha</button>
-            </form>
-        </div>
-    )
+    spinner.close();
+  }
+
+  return (
+    <form className="form-container" onSubmit={handleSubmit}>
+      <div id="flex">
+        <h2>Seu e-mail</h2>
+        <IconButton
+          onClick={() => {
+            handleShowPassword();
+          }}
+          className="show-password-button"
+          color="primary"
+        >
+          {showPassword ? "Esconder senha" : "Mostrar senha"}
+        </IconButton>
+      </div>
+
+      <div className="line"></div>
+      <TextField
+        type={showPassword ? "text" : "password"}
+        value={newPassword.password}
+        name="password"
+        label={<span style={{ fontSize: "1.5rem" }}>Nova senha</span>}
+        variant="outlined"
+        fullWidth
+        onChange={(e) => {
+          setNewPassword({ ...newPassword, password: e.target.value });
+          validate();
+        }}
+        autoComplete="off"
+        required
+        error={errors.password ? true : false}
+        helperText={
+          <span style={{ fontSize: "1.5rem" }}>{errors.password}</span>
+        }
+      />
+      <TextField
+        type={showPassword ? "text" : "password"}
+        value={newPassword.confirmPassword}
+        style={{ marginTop: "1rem" }}
+        name="confirm_password"
+        label={<span style={{ fontSize: "1.5rem" }}>Confirmar nova senha</span>}
+        variant="outlined"
+        fullWidth
+        onChange={(e) => {
+          setNewPassword({ ...newPassword, confirmPassword: e.target.value });
+          validate();
+        }}
+        autoComplete="off"
+        required
+        error={errors.confirmPassword ? true : false}
+        helperText={
+          <span style={{ fontSize: "1.5rem" }}>{errors.confirmPassword}</span>
+        }
+      />
+      <button className="recover-password-button">Alterar senha</button>
+    </form>
+  );
 }

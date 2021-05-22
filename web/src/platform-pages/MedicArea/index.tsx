@@ -7,12 +7,17 @@ import DoctorList, { Medic } from "../../components/DoctorList";
 import LoadMoreButton from "../../components/LoadMoreButton";
 import SubHeaderPlatform from "../../components/SubHeaderPlatform";
 import { useHistory } from "react-router-dom";
+import { IoFilterOutline } from "react-icons/io5";
+import { useModal } from "../../context/ModalProvider";
 
 interface ParamTypes {
   area: string;
 }
 
 const MedicArea = () => {
+  const { filter } = useModal();
+
+  const {} = useModal();
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -30,7 +35,10 @@ const MedicArea = () => {
 
   const { area } = useParams<ParamTypes>();
 
-  const capitalizeArea = area.charAt(0).toUpperCase() + area.slice(1);
+  let capitalizeArea = area.charAt(0).toUpperCase() + area.slice(1);
+  if (capitalizeArea === "Alergistas-e-imunologista") {
+    capitalizeArea = "Alergista-e-Imunologista";
+  }
 
   useEffect(() => {
     api.get(`medics/${capitalizeArea}`).then((response) => {
@@ -45,7 +53,15 @@ const MedicArea = () => {
         returnFunction={() => history.goBack()}
       />
       <div className="container">
-        <SearchInput placeholder="Busque pelo nome do médico..." />
+        <div className="search-flex">
+          <div className="search-flex-input">
+            <SearchInput placeholder="Busque pelo nome do médico..." />
+          </div>
+          <div onClick={filter.open} className="search-flex-filter-button">
+            <IoFilterOutline size={22} color="#000000" />
+          </div>
+        </div>
+
         <DoctorList medics={medics} loading={loading} />
         <LoadMoreButton onClick={loadMore} />
       </div>
