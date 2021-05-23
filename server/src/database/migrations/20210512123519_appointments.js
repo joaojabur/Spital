@@ -4,6 +4,8 @@ exports.up = function (knex) {
 
     table.text("date").notNullable();
     table.text("time").notNullable();
+    table.string("price").notNullable();
+    table.string("card_id").notNullable();
 
     table
       .integer("clientID")

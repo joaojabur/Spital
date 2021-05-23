@@ -9,6 +9,7 @@ import { useAuth } from "../../../context/AuthProvider";
 import Loader from "react-loader-spinner";
 import { PaymentMethodProps } from "../../Modals/PaymentMethod";
 import { useShareAppointmentForm } from "../../../context/ShareAppointmentFormProvider";
+const pagarme = require("pagarme");
 
 const PaymentMedicProfile = ({ previousPage }: NamesProps) => {
   const { appointmentData, setAppointmentData } = useShareAppointmentForm();
@@ -30,26 +31,36 @@ const PaymentMedicProfile = ({ previousPage }: NamesProps) => {
   useEffect(() => {
     setLoading(true);
     api.get(`cards?userID=${userID}`).then((response: any) => {
-      setCard(response.data[0].card);
+      setCard(response.data[0]?.card);
       setLoading(false);
     });
   }, [userID, setCard]);
 
   function handleSubmitAppointment() {
+    setLoading(true);
     if (!card?.card_cvv) {
       setError("Campo de CVV vazio");
+      setLoading(false);
     } else if (cvvError?.length === null || cvvError?.length > 0) {
       setError("Campo de CVV inválido");
+      setLoading(false);
     } else {
       setError("");
-      console.log({
-        card_id: card.id,
-        card_number: card.first_digits + card.last_digits,
-        amount: Number(appointmentData.price) * 100,
-        card_cvv: card.card_cvv,
-        card_holder_name: card.holder_name,
-        payment_method: "credit_card",
-      });
+      pagarme.client
+        .connect({
+          api_key: "ak_live_1LTY4ZT4KedK1k68VQRzmVM3znX40e",
+        })
+        .then((client: any) => client.cards.find({ id: card.id }))
+        .then((card: any) => {
+          api
+            .post("cards", {
+              card,
+              appointmentData,
+            })
+            .then(() => {
+              setLoading(false);
+            });
+        });
     }
   }
 

@@ -64,7 +64,7 @@ const MyProfileSettings = () => {
 
   useEffect(() => {
     api.get(`cards?userID=${userID}`).then((response: any) => {
-      setCard(response.data[0].card);
+      setCard(response.data[0]?.card);
     });
   }, [userID]);
 
@@ -178,7 +178,7 @@ const MyProfileSettings = () => {
                     fontWeight: "bold",
                   }}
                 >
-                  {card.last_digits}
+                  {card?.last_digits}
                 </span>
               </span>
             </h1>

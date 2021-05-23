@@ -51,51 +51,78 @@ const PaymentInfo = ({ card, setCard, error }: any) => {
         <p className="payment-info-price">R$ {appointmentData?.price}</p>
       </div>
       <div className="line-global"></div>
-      <div className="payment-info-flex">
-        <div style={{ display: "flex" }}>
-          <img src={creditCard} alt="Cartão de Crédito" />
-          <div className="payment-info-card">
-            <p>Cartão pelo app</p>
-            <span className="payment-info-card-number">
-              Cartão terminado em {card.last_digits}
-            </span>
+      {card ? (
+        <>
+          <div className="payment-info-flex">
+            <div style={{ display: "flex" }}>
+              <img src={creditCard} alt="Cartão de Crédito" />
+              <div className="payment-info-card">
+                <p>Cartão pelo app</p>
+                {loading ? (
+                  <Loader
+                    type="TailSpin"
+                    color="var(--color-button-primary)"
+                    height={30}
+                    width={30}
+                  />
+                ) : (
+                  <span className="payment-info-card-number">
+                    Cartão terminado em {card?.last_digits}
+                  </span>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <span style={{ fontSize: "2rem", fontWeight: "bold" }}>
-          Insira o código de segurança
-        </span>
-        <TextField
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <span style={{ fontSize: "2rem", fontWeight: "bold" }}>
+              Insira o código de segurança
+            </span>
+            <TextField
+              style={{
+                width: "40%",
+              }}
+              label={<span style={{ fontSize: "1.5rem" }}>CVV</span>}
+              variant="filled"
+              onChange={(e) => {
+                setCard({ ...card, card_cvv: mask(e.target.value, "###") });
+                if (!card?.card_cvv) {
+                  setCvvError("Campo de CVV é necessário para a transação");
+                } else if (!(card.card_cvv?.length === 2)) {
+                  setCvvError("Campo de CVV inválido");
+                } else if (isNaN(card.card_cvv)) {
+                  setCvvError("Campo de CVV só aceita números");
+                } else {
+                  setCvvError("");
+                }
+              }}
+              error={cvvError ? true : false}
+              helperText={
+                <span style={{ fontSize: "1rem", color: "#f00" }}>
+                  {cvvError}
+                </span>
+              }
+            />
+          </div>
+        </>
+      ) : (
+        <span
           style={{
-            width: "40%",
+            color: "#f00",
+            fontSize: "2rem",
+            fontWeight: "bold",
+            marginTop: "2rem",
           }}
-          label={<span style={{ fontSize: "1.5rem" }}>CVV</span>}
-          variant="filled"
-          onChange={(e) => {
-            setCard({ ...card, card_cvv: mask(e.target.value, "###") });
-            if (!card?.card_cvv) {
-              setCvvError("Campo de CVV é necessário para a transação");
-            } else if (!(card.card_cvv?.length === 2)) {
-              setCvvError("Campo de CVV inválido");
-            } else if (isNaN(card.card_cvv)) {
-              setCvvError("Campo de CVV só aceita números");
-            } else {
-              setCvvError("");
-            }
-          }}
-          error={cvvError ? true : false}
-          helperText={
-            <span style={{ fontSize: "1rem", color: "#f00" }}>{cvvError}</span>
-          }
-        />
-      </div>
+        >
+          Nenhum cartão cadastrado
+        </span>
+      )}
+
       <span
         style={{
           color: "#f00",

@@ -31,21 +31,23 @@ module.exports = {
   },
   async create(req, res, next) {
     const { userID } = req.query;
-    const { card_number, card_expiration_date, card_holder_name, card_cvv } =
-      req.body;
+    const { card_hash } = req.body;
 
     try {
-      pagarme.client
+      const cardID = await pagarme.client
         .connect({ api_key: "ak_live_1LTY4ZT4KedK1k68VQRzmVM3znX40e" })
-        .then((client) =>
-          client.cards.create({
-            card_number: card_number,
-            card_holder_name: card_holder_name,
-            card_expiration_date: card_expiration_date,
-            card_cvv: card_cvv,
-          })
-        )
-        .then((card) => knex("cards").insert({ cardID: card.id, userID }));
+        .then((client) => client.cards.create({ card_hash }))
+        .then((card) => {
+          return card.id;
+        });
+
+      console.log(userID);
+      console.log(cardID);
+
+      await knex("cards").insert({
+        userID,
+        cardID,
+      });
 
       res.status(201).send();
     } catch (error) {

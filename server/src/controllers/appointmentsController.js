@@ -30,19 +30,7 @@ module.exports = {
   async create(req, res, next) {
     try {
       const { date, time } = req.body;
-      const { medicID } = req.query;
-      const { clientID } = req.query;
-
-      const scheduleID = await knex("schedules").returning("id").insert({
-        medicID,
-      });
-
-      await knex("appointments").insert({
-        scheduleID: parseInt(scheduleID),
-        date,
-        time,
-        clientID: parseInt(clientID),
-      });
+      const { medicID, clientID } = req.query;
 
       res.status(201).send();
     } catch (error) {

@@ -12,7 +12,8 @@ module.exports = {
       }
 
       if (!userID) {
-        let results = await knex.select(knex.raw(` 
+        let results = await knex.select(
+          knex.raw(` 
             users.*, medic.*, addresses."userID", addresses.number, address, 
             (((acos(sin((${lat} *pi()/180)) * sin((lat * pi()/180)) 
             + cos((${lat}*pi()/180)) * cos((lat*pi()/180))
@@ -27,18 +28,19 @@ module.exports = {
           Order by distance
           OFFSET ${offset * 30}
           LIMIT 30
-        `));
-        
-        let formatedResults = []
-  
-        for (let result of results){
+        `)
+        );
+
+        let formatedResults = [];
+
+        for (let result of results) {
           formatedResults.push({
             ...result,
             password: undefined,
             firstName: result.first_name,
             first_name: undefined,
             lastName: result.last_name,
-            last_name: undefined
+            last_name: undefined,
           });
         }
 
@@ -70,7 +72,7 @@ module.exports = {
       rg,
       birthDate,
       schedule,
-      address
+      address,
     } = req.body;
 
     const hashPassword = await bcrypt.hash(password, 10);
@@ -111,14 +113,14 @@ module.exports = {
             cpf,
             rg,
             birth_date: birthDate,
-        });
+          });
 
-        await knex('addresses').insert({
+        await knex("addresses").insert({
           address: address.location,
           number: address.number,
           lat: address.lat,
           lon: address.lon,
-          userID: parseInt(userID)
+          userID: parseInt(userID),
         });
 
         const scheduleID = await knex("schedules")
@@ -208,7 +210,7 @@ module.exports = {
       offset = 0;
     }
 
-    if (!distance || distance === "null"){
+    if (!distance || distance === "null") {
       distance = 999999;
     }
 
@@ -216,7 +218,8 @@ module.exports = {
       console.log(offset);
       console.log(distance);
       console.log(formattedArea);
-      let results = await knex.select(knex.raw(`
+      let results = await knex.select(
+        knex.raw(`
         *
         from (
           select 
@@ -237,18 +240,19 @@ module.exports = {
         order by distance
         limit 30
         offset ${30 * offset}
-      `));
+      `)
+      );
 
-      let formatedResults = []
+      let formatedResults = [];
 
-      for (let result of results){
+      for (let result of results) {
         formatedResults.push({
           ...result,
           password: undefined,
           firstName: result.first_name,
           first_name: undefined,
           lastName: result.last_name,
-          last_name: undefined
+          last_name: undefined,
         });
       }
 

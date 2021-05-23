@@ -71,7 +71,7 @@ const ScheduleMedicProfile = ({ nextPage, previousPage }: NamesProps) => {
 
   const [week_day, month, month_day, year] = dateString.split(" ");
   const numberMonth = calculateMonth(month);
-  const totalDate = numberMonth + Number(month_day) * Number(year);
+  const totalDate = Number(month_day) + numberMonth * Number(year);
 
   const today = new Date();
   const todayString = today.toString();
@@ -80,7 +80,7 @@ const ScheduleMedicProfile = ({ nextPage, previousPage }: NamesProps) => {
 
   const todayNumberMonth = calculateMonth(today_month);
   const today_totalDate =
-    todayNumberMonth + Number(today_month_day) * Number(today_year);
+    Number(today_month_day) + todayNumberMonth * Number(today_year);
 
   const { id } = useParams<ParamTypes>();
 
