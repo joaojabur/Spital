@@ -9,17 +9,20 @@ import { useAuth } from "../../../context/AuthProvider";
 import Loader from "react-loader-spinner";
 import { PaymentMethodProps } from "../../Modals/PaymentMethod";
 import { useShareAppointmentForm } from "../../../context/ShareAppointmentFormProvider";
-const pagarme = require("pagarme");
+import { useParams } from "react-router-dom";
+import { ParamTypes } from "../Main";
+import StripeCheckout from "react-stripe-checkout";
 
 const PaymentMedicProfile = ({ previousPage }: NamesProps) => {
-  const { appointmentData, setAppointmentData } = useShareAppointmentForm();
+  const { id } = useParams<ParamTypes>();
+  const [clientID, setClientID] = useState("");
   const { userID } = useAuth();
   const [loading, setLoading] = useState(false);
-  const { cvvError } = useShareAppointmentForm();
+  const { appointmentData } = useShareAppointmentForm();
   const [error, setError] = useState("");
 
   const { paymentMethod } = useModal();
-  const [card, setCard] = useState<PaymentMethodProps>({
+  const [cardInfo, setCardInfo] = useState<PaymentMethodProps>({
     id: "",
     first_digits: "",
     last_digits: "",
@@ -30,38 +33,14 @@ const PaymentMedicProfile = ({ previousPage }: NamesProps) => {
 
   useEffect(() => {
     setLoading(true);
-    api.get(`cards?userID=${userID}`).then((response: any) => {
-      setCard(response.data[0]?.card);
+    api.get(`clients?userID=${userID}`).then((response: any) => {
+      setClientID(response.data[0]?.id);
       setLoading(false);
     });
-  }, [userID, setCard]);
+  }, [userID, setClientID]);
 
-  function handleSubmitAppointment() {
-    setLoading(true);
-    if (!card?.card_cvv) {
-      setError("Campo de CVV vazio");
-      setLoading(false);
-    } else if (cvvError?.length === null || cvvError?.length > 0) {
-      setError("Campo de CVV inválido");
-      setLoading(false);
-    } else {
-      setError("");
-      pagarme.client
-        .connect({
-          api_key: "ak_live_1LTY4ZT4KedK1k68VQRzmVM3znX40e",
-        })
-        .then((client: any) => client.cards.find({ id: card.id }))
-        .then((card: any) => {
-          api
-            .post("cards", {
-              card,
-              appointmentData,
-            })
-            .then(() => {
-              setLoading(false);
-            });
-        });
-    }
+  function handleToken({ token, addresses }: any) {
+    console.log(token, addresses);
   }
 
   return (
@@ -71,7 +50,7 @@ const PaymentMedicProfile = ({ previousPage }: NamesProps) => {
         returnFunction={() => previousPage()}
       />
       <div className="container">
-        <PaymentInfo card={card} setCard={setCard} error={error} />
+        <PaymentInfo card={cardInfo} setCard={setCardInfo} error={error} />
         {loading ? (
           <Loader
             type="TailSpin"
@@ -82,17 +61,9 @@ const PaymentMedicProfile = ({ previousPage }: NamesProps) => {
         ) : (
           <>
             <button
-              className="green-button"
-              style={{ backgroundColor: "#8F2D56" }}
-              onClick={(e) => {
-                paymentMethod.open({ card });
+              onClick={() => {
+                api.post("appointments");
               }}
-            >
-              Escolher forma de pagamento
-            </button>
-
-            <button
-              onClick={handleSubmitAppointment}
               className="green-button"
               style={{ marginTop: "-1rem" }}
             >

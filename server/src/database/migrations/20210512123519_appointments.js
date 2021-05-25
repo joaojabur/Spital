@@ -2,8 +2,9 @@ exports.up = function (knex) {
   return knex.schema.createTable("appointments", (table) => {
     table.increments("id");
 
-    table.text("date").notNullable();
-    table.text("time").notNullable();
+    table.string("title").notNullable();
+    table.string("date").notNullable();
+    table.string("time").notNullable();
     table.string("price").notNullable();
     table.string("card_id").notNullable();
 
