@@ -11,15 +11,15 @@ const PaymentInfo = ({ error }: any) => {
   const [loading, setLoading] = useState(false);
 
   const { appointmentData } = useShareAppointmentForm();
-  const { id } = useParams<ParamTypes>();
+  const { medicID } = useParams<ParamTypes>();
 
   useEffect(() => {
     setLoading(true);
-    api.get(`users?id=${id}`).then((response: any) => {
+    api.get(`users?id=${medicID}`).then((response: any) => {
       setFirstName(response.data.firstName);
       setLoading(false);
     });
-  }, [id]);
+  }, [medicID]);
 
   return (
     <div className="payment-info">

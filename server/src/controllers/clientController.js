@@ -21,7 +21,7 @@ module.exports = {
             userID: id,
           })
           .join("users", "users.id", "=", "clients.userID")
-          .select("users.*", "clients.phoneNumber");
+          .select("users.*", "clients.*");
 
         const [result] = await query;
 
@@ -31,6 +31,7 @@ module.exports = {
           lastName: result.last_name,
           xp: result.xp,
           phoneNumber: result.phoneNumber,
+          id: result.id,
         });
       }
     } catch (error) {

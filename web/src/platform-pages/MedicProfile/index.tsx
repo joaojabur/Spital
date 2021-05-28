@@ -1,9 +1,16 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import MainProfileMedic from "../../components/MedicProfilePages/Main";
 import PaymentMedicProfile from "../../components/MedicProfilePages/Payment";
 import ScheduleMedicProfile from "../../components/MedicProfilePages/Schedule";
 import ShareAppointmentFormProvider from "../../context/ShareAppointmentFormProvider";
 import { useHistory } from "react-router-dom";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import FinalizePayment from "../../components/MedicProfilePages/FinalizePayment";
+
+const stripeTestPromise = loadStripe(
+  "pk_test_51Iv07nLzHamxFkPlOXUPzNy3nYzwfpzIsELp6DbiThm491PCIQX5o7D0w3I1uhnj1fyF8P3VTMq3vkMuIqvjBtit008Uk9KvJj"
+);
 
 const MedicProfile = () => {
   const history = useHistory();
@@ -13,11 +20,9 @@ const MedicProfile = () => {
     <MainProfileMedic nextPage={nextPage} previousPage={previousPage} />,
     <ScheduleMedicProfile nextPage={nextPage} previousPage={previousPage} />,
     <PaymentMedicProfile nextPage={nextPage} previousPage={previousPage} />,
+    <FinalizePayment previousPage={previousPage} />,
   ];
 
-  function changePage(index: number) {
-    setCurrentPage(index);
-  }
   function previousPage() {
     if (currentPage === 0) {
       history.replace("/registrar-paciente");
@@ -32,7 +37,11 @@ const MedicProfile = () => {
     }
   }
 
-  return <ShareAppointmentFormProvider>{pages[currentPage]}</ShareAppointmentFormProvider>;
+  return (
+    <ShareAppointmentFormProvider>
+      <Elements stripe={stripeTestPromise}>{pages[currentPage]}</Elements>
+    </ShareAppointmentFormProvider>
+  );
 };
 
 export default MedicProfile;

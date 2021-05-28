@@ -36,6 +36,8 @@
   font-size: 3rem;
   font-weight: bold;
   transition: all ease-in-out 0.2s;
+  outline: 0 !important;
+  border: 0 !important;
 }
 
 .medic-profile-box-schedule:hover {
@@ -60,5 +62,9 @@
   .medic-profile-box {
     width: 100%;
     margin-bottom: 2rem;
+  }
+  
+  .medic-profile-box-schedule:hover {
+    transform: scale(1);
   }
 }

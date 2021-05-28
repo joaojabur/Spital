@@ -6,7 +6,7 @@ import "./styles.css";
 const AppointmentsClient = () => {
   return (
     <div className="client-platform">
-      <HeaderPlatform title="Médicos que já cuidaram da sua saúde" />
+      <HeaderPlatform title="Consultas agendadas" />
       <div className="container">
         <AppointmentStatus />
         <ListAppointments />

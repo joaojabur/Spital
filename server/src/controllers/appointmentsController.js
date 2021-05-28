@@ -7,7 +7,6 @@ module.exports = {
   async index(req, res, next) {
     try {
       const { medicID, date } = req.query;
-      console.log(date);
 
       const query = knex("schedules");
 
@@ -15,10 +14,12 @@ module.exports = {
         query
           .where({ medicID: medicID, date: date })
           .join("appointments", "schedules.id", "=", "appointments.scheduleID")
-          .select(["appointments.*", "schedules.medicID"]);
+          .join("medics", "medics.id", "=", "schedules.medicID")
+          .select(["appointments.*", "schedules.medicID", "medics.*"]);
       } else {
         query
           .join("appointments", "schedules.id", "=", "appointments.scheduleID")
+          .join("medics", "medics.id", "=", "schedules.medicID")
           .select(["appointments.*", "schedules.medicID"]);
       }
 
@@ -33,33 +34,39 @@ module.exports = {
   async create(req, res, next) {
     try {
       const { medicID, clientID } = req.query;
-
-      const account = await stripe.accounts.create({
-        type: "standard",
+      const { amount, id, appointmentData, date } = req.body;
+      console.log(medicID, clientID, amount, id, appointmentData, date);
+      const payment = await stripe.paymentIntents.create({
+        amount,
+        currency: "BRL",
+        description: "consulta Spital",
+        payment_method: id,
+        confirm: true,
       });
 
-      const accountLinks = await stripe.accountLinks.create({
-        account: account.id,
-        refresh_url: "http://localhost:3000/",
-        return_url: "http://localhost:3000",
-        type: "account_onboarding",
+      const scheduleID = await knex("schedules").returning("id").insert({
+        medicID,
       });
 
-      const paymentIntent = await stripe.paymentIntents.create({
-        payment_method_types: ["card"],
-        amount: 100,
-        currency: "brl",
-        application_fee_amount: 123,
-        transfer_data: {
-          destination: account.id,
-        },
+      await knex("appointments").insert({
+        clientID: parseInt(clientID),
+        scheduleID: parseInt(scheduleID),
+        date,
+        time: appointmentData.time,
+        price: parseInt(appointmentData.price),
+        card_id: id,
       });
 
-      console.log(paymentIntent);
-
-      res.status(201).send();
+      res.status(201).json({
+        message: "Payment succesfull 😀",
+        success: true,
+      });
     } catch (error) {
-      next(error);
+      res.status(401).json({
+        message: "Payment failed 😥",
+        success: false,
+      });
+      console.log(error);
     }
   },
 
@@ -86,6 +93,30 @@ module.exports = {
       await knex("appointments").where({ id }).del();
 
       res.status(200).send();
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async list(req, res, next) {
+    const { clientID } = req.params;
+
+    const query = knex("appointments");
+
+    if (clientID) {
+      query
+        .where({ clientID })
+        .join("schedules", "schedules.id", "=", "appointments.scheduleID")
+        .join("medics", "medics.id", "=", "schedules.medicID")
+        .join("users", "users.id", "=", "medics.userID")
+        .select(["appointments.*", "schedules.medicID", "medics.*", "users.*"])
+        .orderBy([{ column: "appointments.created_at", order: "desc" }]);
+    }
+
+    const results = await query;
+    res.status(200).send(results);
+
+    try {
     } catch (error) {
       next(error);
     }

@@ -49,7 +49,7 @@
 }
 
 .list-appoints-unique-information-text h2 {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   margin-left: 1rem;
   margin-top: 1rem;
@@ -81,6 +81,24 @@
   font-size: 1.5rem;
   font-weight: bold;
   margin-top: 0.8rem;
+  padding: 1rem;
+  color: #fff;
+}
+
+.list-appoints-unique-status-value-false {
+  width: 8rem;
+  height: 2.5rem;
+  margin-right: 2rem;
+  border-radius: 2rem;
+  background-color: #ff1e00;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 0.8rem;
+  padding: 1rem;
+  color: #fff;
 }
 
 .list-appoints-unique-status-text {
@@ -95,12 +113,12 @@
 .list-appointments-unique footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 5vh;
+  height: 34%;
   background-color: #07b3d6;
   border-bottom-left-radius: 3rem;
   border-bottom-right-radius: 3rem;
@@ -109,6 +127,8 @@
 .list-appointments-unique footer p {
   font-size: 2rem;
   font-weight: bold;
+  color: #fff;
+  margin-top: 0.7rem;
 }
 
 @media (max-width: 800px) {

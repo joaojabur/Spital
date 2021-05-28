@@ -46,7 +46,10 @@ module.exports = {
 
         res.status(201).json(formatedResults);
       } else {
-        const [result] = await knex("medics").where({ userID });
+        const [result] = await knex("medics")
+          .where({ userID })
+          .join("users", "users.id", "=", "medics.userID")
+          .select("users.*", "medics.*");
 
         return res.status(200).json(result);
       }

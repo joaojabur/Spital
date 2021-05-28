@@ -10,7 +10,7 @@ import { useHistory } from "react-router-dom";
 import { NamesProps } from "../../Form/Steps/Names";
 
 export interface ParamTypes {
-  id: string;
+  medicID: string;
 }
 
 export interface MedicProps {
@@ -24,15 +24,11 @@ export interface MedicProps {
   rg: string;
   phoneNumber: string;
   master_degree: string;
-}
-
-export interface UserProps {
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   email: string;
 }
-
-const MainProfileMedic = ({nextPage, previousPage}: NamesProps) => {
+const MainProfileMedic = ({ nextPage }: NamesProps) => {
   const history = useHistory();
 
   const date = new Date();
@@ -40,21 +36,15 @@ const MainProfileMedic = ({nextPage, previousPage}: NamesProps) => {
   const week_day = dateString.split(" ")[0];
 
   const [medic, setMedic] = useState<MedicProps | null>(null);
-  const [user, setUser] = useState<UserProps | null>(null);
 
-  const { id } = useParams<ParamTypes>();
+  const { medicID } = useParams<ParamTypes>();
 
   useEffect(() => {
-    api.get(`medics?userID=${id}`).then((response) => {
+    api.get(`medics?userID=${medicID}`).then((response) => {
       setMedic(response.data);
+      console.log(response.data);
     });
-  }, [id]);
-
-  useEffect(() => {
-    api.get(`users?id=${id}`).then((response) => {
-      setUser(response.data);
-    });
-  }, [id]);
+  }, [medicID]);
 
   function getWeekday() {
     switch (week_day) {
@@ -80,15 +70,19 @@ const MainProfileMedic = ({nextPage, previousPage}: NamesProps) => {
   return (
     <div className="client-platform">
       <SubHeaderPlatform
-        title={`Perfil de Dr(a). ${user?.firstName}`}
+        title={`Perfil de Dr(a). ${medic?.first_name}`}
         returnFunction={() => history.goBack()}
       />
       <div className="container">
         <div className="container-perfil">
-          <MedicProfileBox nextPage={nextPage} id={id} area={medic?.area} />
-          <MedicProfileInfo id={id} week_day={getWeekday()} />
+          <MedicProfileBox
+            nextPage={nextPage}
+            id={medicID}
+            area={medic?.area}
+          />
+          <MedicProfileInfo id={medicID} week_day={getWeekday()} />
         </div>
-        <MedicProfileData id={id} medic={medic} />
+        <MedicProfileData id={medicID} medic={medic} />
       </div>
     </div>
   );

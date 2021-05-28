@@ -50,7 +50,7 @@ function Router() {
         <PrivateRoute path="/busca/:area" exact component={MedicArea} />
         <PrivateRoute path="/consultas" exact component={AppointmentsClient} />
         <PrivateRoute path="/perfil" exact component={MyProfile} />
-        <PrivateRoute path="/medicos/:id" exact component={MedicProfile} />
+        <PrivateRoute path="/medicos/:medicID" exact component={MedicProfile} />
 
         <PublicRoute
           path="/registrar-spital-paciente"
