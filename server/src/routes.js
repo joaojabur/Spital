@@ -44,6 +44,7 @@ routes.post("/medic-schedule", MedicScheduleController.create);
 routes.get("/medic-schedule", MedicScheduleController.index);
 routes.put("/medic-schedule/:id", MedicScheduleController.update);
 routes.delete("/medic-schedule/:id", MedicScheduleController.delete);
+routes.get("/medic-schedule/:medicID", MedicScheduleController.list);
 
 routes.post("/reviews", reviewController.create);
 routes.get("/reviews", reviewController.index);

@@ -20,6 +20,7 @@ import MedicProfile from "../platform-pages/MedicProfile";
 import VerifyEmail from "../pages/VerifyEmail";
 import ForgetPassword from "../pages/ForgetPassword";
 import RecoverPassword from "../pages/RecoverPassword";
+import AppointmentUnique from "../platform-pages/AppointmentUnique";
 
 function Router() {
   return (
@@ -49,6 +50,11 @@ function Router() {
         <PrivateRoute path="/busca" exact component={SearchClient} />
         <PrivateRoute path="/busca/:area" exact component={MedicArea} />
         <PrivateRoute path="/consultas" exact component={AppointmentsClient} />
+        <PrivateRoute
+          path="/consultas/:scheduleID"
+          exact
+          component={AppointmentUnique}
+        />
         <PrivateRoute path="/perfil" exact component={MyProfile} />
         <PrivateRoute path="/medicos/:medicID" exact component={MedicProfile} />
 

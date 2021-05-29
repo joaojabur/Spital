@@ -42,7 +42,6 @@ const MainProfileMedic = ({ nextPage }: NamesProps) => {
   useEffect(() => {
     api.get(`medics?userID=${medicID}`).then((response) => {
       setMedic(response.data);
-      console.log(response.data);
     });
   }, [medicID]);
 

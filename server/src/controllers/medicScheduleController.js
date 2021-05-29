@@ -77,4 +77,29 @@ module.exports = {
       next(error);
     }
   },
+
+  async list(req, res, next) {
+    try {
+      const { medicID } = req.params;
+      const query = knex("schedules");
+
+      if (medicID) {
+        query
+          .where({ medicID })
+          .join(
+            "medic_schedule",
+            "schedules.id",
+            "=",
+            "medic_schedule.scheduleID"
+          )
+          .select(["schedules.*", "medic_schedule.*"]);
+      }
+
+      const results = await query;
+
+      res.status(200).send(results);
+    } catch (error) {
+      next(error);
+    }
+  },
 };

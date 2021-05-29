@@ -6,21 +6,46 @@ const stripe = require("stripe")(
 module.exports = {
   async index(req, res, next) {
     try {
-      const { medicID, date } = req.query;
+      const { medicID, date, scheduleID } = req.query;
 
-      const query = knex("schedules");
+      let query = knex("schedules");
 
-      if (medicID !== undefined || date !== undefined) {
-        query
-          .where({ medicID: medicID, date: date })
-          .join("appointments", "schedules.id", "=", "appointments.scheduleID")
+      if (scheduleID) {
+        query = await knex("appointments")
+          .where({ scheduleID })
+          .join("schedules", "schedules.id", "=", "appointments.scheduleID")
           .join("medics", "medics.id", "=", "schedules.medicID")
-          .select(["appointments.*", "schedules.medicID", "medics.*"]);
-      } else {
-        query
-          .join("appointments", "schedules.id", "=", "appointments.scheduleID")
-          .join("medics", "medics.id", "=", "schedules.medicID")
-          .select(["appointments.*", "schedules.medicID"]);
+          .join("users", "users.id", "=", "medics.userID")
+          .select([
+            "appointments.*",
+            "schedules.medicID",
+            "medics.*",
+            "users.*",
+          ]);
+      }
+      if (!scheduleID) {
+        if (medicID !== undefined || date !== undefined) {
+          query
+            .where({ medicID: medicID, date: date })
+            .join(
+              "appointments",
+              "schedules.id",
+              "=",
+              "appointments.scheduleID"
+            )
+            .join("medics", "medics.id", "=", "schedules.medicID")
+            .select(["appointments.*", "schedules.medicID", "medics.*"]);
+        } else {
+          query
+            .join(
+              "appointments",
+              "schedules.id",
+              "=",
+              "appointments.scheduleID"
+            )
+            .join("medics", "medics.id", "=", "schedules.medicID")
+            .select(["appointments.*", "schedules.medicID"]);
+        }
       }
 
       const results = await query;
@@ -35,7 +60,6 @@ module.exports = {
     try {
       const { medicID, clientID } = req.query;
       const { amount, id, appointmentData, date } = req.body;
-      console.log(medicID, clientID, amount, id, appointmentData, date);
       const payment = await stripe.paymentIntents.create({
         amount,
         currency: "BRL",
@@ -55,6 +79,7 @@ module.exports = {
         time: appointmentData.time,
         price: parseInt(appointmentData.price),
         card_id: id,
+        payment_intent: payment.id,
       });
 
       res.status(201).json({
@@ -90,11 +115,22 @@ module.exports = {
   async delete(req, res, next) {
     try {
       const { id } = req.params;
-      await knex("appointments").where({ id }).del();
 
-      res.status(200).send();
+      await stripe.refunds.create({
+        payment_intent: id,
+      });
+
+      await knex("appointments").where({ payment_intent: id }).del();
+
+      res.status(201).json({
+        message: "Reembolso realizado com sucesso!",
+        success: true,
+      });
     } catch (error) {
-      next(error);
+      res.send(401).json({
+        message: "Erro ao realizar o reembolso",
+        success: false,
+      });
     }
   },
 

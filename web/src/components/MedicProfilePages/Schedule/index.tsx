@@ -19,6 +19,7 @@ import DaySchedule from "../../../components/DaySchedule";
 import AppointmentType from "../../../components/AppointmentType";
 import GreenButton from "../../../components/GreenButton";
 import { NamesProps } from "../../Form/Steps/Names";
+import { useShareAppointmentForm } from "../../../context/ShareAppointmentFormProvider";
 
 interface ConsultTypeProps {
   type: string;
@@ -26,6 +27,7 @@ interface ConsultTypeProps {
 }
 
 const ScheduleMedicProfile = ({ nextPage, previousPage }: NamesProps) => {
+  const { appointmentData, setError } = useShareAppointmentForm();
   const [consultTypes, setConsultTypes] = useState<ConsultTypeProps[]>([]);
   const [date, setDate] = useState(new Date());
 

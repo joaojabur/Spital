@@ -6,7 +6,7 @@ import { useAuth } from "../../context/AuthProvider";
 import api from "../../services/api";
 import "./styles.css";
 
-interface AppointmentProps {
+export interface AppointmentProps {
   area: string;
   birth_date: string;
   card_id: string;
@@ -28,6 +28,7 @@ interface AppointmentProps {
   email: string;
   first_name: string;
   last_name: string;
+  payment_intent: string;
 }
 
 const ListAppointments = () => {
@@ -142,7 +143,7 @@ const ListAppointments = () => {
             return (
               <Link
                 key={index}
-                to={`/consultas/`}
+                to={`/consultas/${appointment.scheduleID}`}
                 className="list-appointments-unique"
               >
                 <div className="list-appoints-unique-information">
