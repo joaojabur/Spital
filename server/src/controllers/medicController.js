@@ -11,21 +11,27 @@ module.exports = {
         offset = 1;
       }
 
+      if (lat === "undefined" || lon === "undefined") {
+        lat = -23.6821604;
+        lon = -46.8754915;
+      }
+
       if (!userID) {
         let results = await knex.select(
-          knex.raw(` 
+          knex.raw(`
             users.*, medic.*, addresses."userID", addresses.number, address, 
             (((acos(sin((${lat} *pi()/180)) * sin((lat * pi()/180)) 
             + cos((${lat}*pi()/180)) * cos((lat*pi()/180))
             * cos(((${lon} - lon) * pi()/180))))
               * 180/pi()) * 60 * 1.1515 * 1.609344) 
-              as distance 
+              as distance, (select avg(stars) from reviews where medic.id = reviews."medicID") as star
           FROM addresses
           join medics as medic
           on medic."userID" = addresses."userID"
           join users
           on medic."userID" = users.id
-          Order by distance
+          Order by distance, star
+          desc
           OFFSET ${offset * 30}
           LIMIT 30
         `)
@@ -41,6 +47,7 @@ module.exports = {
             first_name: undefined,
             lastName: result.last_name,
             last_name: undefined,
+            star: result.star ? result.star : "4.0",
           });
         }
 
@@ -205,15 +212,17 @@ module.exports = {
   },
 
   async list(req, res, next) {
-    let { area } = req.params;
-    let { offset, lat, lon, distance, name } = req.query;
+    const { area } = req.params;
+    let { offset, lat, lon, distance } = req.query;
     const formattedArea = area.replace(/[-]/g, " ");
 
-    if (!name){
-      name = ''
-    }
     if (!offset) {
       offset = 0;
+    }
+
+    if (lat === "undefined" || lon === "undefined") {
+      lat = -23.6821604;
+      lon = -46.8754915;
     }
 
     if (!distance || distance === "null") {
@@ -221,8 +230,11 @@ module.exports = {
     }
 
     try {
-      console.log(name);
-      let results = await knex.select(knex.raw(`
+      console.log(offset);
+      console.log(distance);
+      console.log(formattedArea);
+      let results = await knex.select(
+        knex.raw(`
         *
         from (
           select 
@@ -240,12 +252,6 @@ module.exports = {
         join users as "user"
         on medic."userID" = "user".id
         where distance <= ${distance} and area = '${formattedArea}'
-        and lower(
-          (
-              REGEXP_REPLACE("user".first_name, '[^0-9a-zA-Z:,]+', '')
-                   || ' ' ||
-              REGEXP_REPLACE("user".last_name, '[^0-9a-zA-Z:,]+', '')
-           )) ~ '${name}'
         order by distance
         limit 30
         offset ${30 * offset}
@@ -264,8 +270,6 @@ module.exports = {
           last_name: undefined,
         });
       }
-
-      console.log(formatedResults.map((r) => r.firstName))
 
       res.status(200).send(formatedResults);
     } catch (error) {
