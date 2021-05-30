@@ -29,6 +29,8 @@ export interface AppointmentProps {
   first_name: string;
   last_name: string;
   payment_intent: string;
+  confirmed: boolean;
+  rated: boolean;
 }
 
 const ListAppointments = () => {

@@ -7,6 +7,8 @@ exports.up = function (knex) {
     table.string("price").notNullable();
     table.string("card_id").notNullable();
     table.string("payment_intent").notNullable();
+    table.boolean("confirmed").defaultTo(false);
+    table.boolean("rated").defaultTo(false);
 
     table
       .integer("clientID")

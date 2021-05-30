@@ -14,6 +14,7 @@ interface Medic {
   area: string;
   userID: number;
   distance: number;
+  star: string;
 }
 
 const DoctorItem = ({ medic }: DoctorItemProps) => {
@@ -23,22 +24,29 @@ const DoctorItem = ({ medic }: DoctorItemProps) => {
     <Link to={`/medicos/${id}`} className="doctor-item">
       <div className="doctor-item-first">
         <div className="doctor-item-image">
-          <img src={`https://avatars.dicebear.com/api/human/${medic.firstName + medic.lastName}.svg`} alt="Medic Profile"/>
+          <img
+            src={`https://avatars.dicebear.com/api/human/${
+              medic.firstName + medic.lastName
+            }.svg`}
+            alt="Medic Profile"
+          />
         </div>
         <div className="doctor-item-data">
           <h1>Dr. {medic.firstName}</h1>
           <span>{medic.area}</span>
           <div className="doctor-item-data-flex">
             <IoStar size={15} color="#FFC107" />
-            <p className="doctor-item-data-rating">5.0</p>
+            <p className="doctor-item-data-rating">
+              {medic?.star?.substring(0, 3)}
+            </p>
           </div>
         </div>
         <div className="doctor-item-data-location">
-          { medic.distance &&
-            <p className="doctor-item-data-distance">{
-              medic.distance.toFixed(1)
-            } km</p>
-          }
+          {medic.distance && (
+            <p className="doctor-item-data-distance">
+              {medic.distance.toFixed(1)} km
+            </p>
+          )}
         </div>
       </div>
     </Link>

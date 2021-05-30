@@ -182,6 +182,17 @@
   margin-top: 2rem;
 }
 
+.rated-appointment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rated-appointment img {
+  width: 5rem;
+  margin-right: 2rem;
+}
+
 @media (max-width: 1200px) {
   .medic-info img {
     width: 20%;

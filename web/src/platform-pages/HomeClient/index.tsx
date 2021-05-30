@@ -8,10 +8,10 @@ import Geocode from "react-geocode";
 import "./styles.css";
 
 const HomeClient = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [medics, setMedics] = useState<Array<Medic>>([]);
-  const [location, setLocation] = useState<null | GeolocationPosition>(null);
+  let [location, setLocation] = useState<null | GeolocationPosition>(null);
 
   async function loadMore() {
     setLoading(true);
@@ -46,7 +46,6 @@ const HomeClient = () => {
       if (permission.state === "granted" || permission.state === "prompt") {
         navigator.geolocation.getCurrentPosition(
           (pos: GeolocationPosition) => {
-            console.log(pos);
             setLocation(pos);
           },
           () => {},
@@ -68,13 +67,20 @@ const HomeClient = () => {
   }, []);
 
   useEffect(() => {
-    loadMore();
+    console.log(location);
+    if (!location) {
+      // Nada
+    } else {
+      loadMore();
+    }
   }, [location]);
 
   Geocode.setApiKey("AIzaSyAHU3nGBAYTXAVknTd_OZuyj2k9d9B0i98");
   Geocode.setLanguage("pt");
   Geocode.setRegion("br");
   Geocode.enableDebug();
+
+  console.log(medics);
 
   return (
     <div className="client-platform">

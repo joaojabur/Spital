@@ -1,9 +1,10 @@
 import Overlay from "../Overlay";
 import "./styles.css";
-import { IoCheckmarkOutline, IoCloseCircleOutline } from "react-icons/io5";
+import { IoCloseCircleOutline } from "react-icons/io5";
 
 export interface AreYouSureProps {
   message: string;
+  buttonMessage: string;
   close?: () => void;
   sureFunction: () => void;
 }
@@ -11,6 +12,7 @@ export default function AreYouSure({
   close,
   message,
   sureFunction,
+  buttonMessage,
 }: AreYouSureProps) {
   return (
     <Overlay>
@@ -31,7 +33,7 @@ export default function AreYouSure({
             type="button"
             className="are-you-sure-button are-you-sure-yes"
           >
-            Deletar
+            {buttonMessage}
           </button>
         </div>
       </div>

@@ -25,7 +25,7 @@ const MedicProfile = () => {
 
   function previousPage() {
     if (currentPage === 0) {
-      history.replace("/registrar-paciente");
+      history.goBack();
     }
 
     setCurrentPage(currentPage - 1);

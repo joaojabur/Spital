@@ -4,9 +4,7 @@ import CadastroSucesso, {
   CadastroSucessoProps as sucessoProps,
 } from "../components/Modals/CadastroSucesso";
 import Filtro, { FiltroProps } from "../components/Modals/Filtro";
-import PaymentMethod, {
-  PaymentMethodProps,
-} from "../components/Modals/PaymentMethod";
+import PaymentMethod from "../components/Modals/PaymentMethod";
 import Spinner from "../components/Modals/Spinner";
 import AreYouSure from "../components/Modals/AreYouSure";
 
@@ -37,7 +35,12 @@ interface ModalContextProps {
     close: () => void;
   };
   areYouSure: {
-    open: ({ close, message, sureFunction }: AreYouSureProps) => void;
+    open: ({
+      close,
+      message,
+      sureFunction,
+      buttonMessage,
+    }: AreYouSureProps) => void;
     close: () => void;
   };
 }
@@ -97,12 +100,18 @@ export default function ModalProvider({ children }: ModalProviderProps) {
     },
 
     areYouSure: {
-      open: ({ close, message, sureFunction }: AreYouSureProps) =>
+      open: ({
+        close,
+        message,
+        sureFunction,
+        buttonMessage,
+      }: AreYouSureProps) =>
         openModal(
           <AreYouSure
             close={close}
             message={message}
             sureFunction={sureFunction}
+            buttonMessage={buttonMessage}
           />
         ),
       close: closeModal,

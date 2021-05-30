@@ -36,7 +36,7 @@ routes.get("/medics/:area", MedicController.list);
 
 routes.post("/appointments", AppointmentController.create);
 routes.get("/appointments", AppointmentController.index);
-routes.put("/appointments/:id", AppointmentController.update);
+routes.put("/appointments/:scheduleID", AppointmentController.update);
 routes.delete("/appointments/:id", AppointmentController.delete);
 routes.get("/appointments/:clientID", AppointmentController.list);
 
