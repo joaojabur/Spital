@@ -1,29 +1,25 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./styles.css";
-import creditCard from "../../assets/images/icons/credit-card.png";
 import { useShareAppointmentForm } from "../../context/ShareAppointmentFormProvider";
 import { ParamTypes } from "../../components/MedicProfilePages/Main";
 import { useParams } from "react-router";
 import api from "../../services/api";
-import { TextField } from "@material-ui/core";
-import mask from "../../utils/mask";
 import Loader from "react-loader-spinner";
 
-const PaymentInfo = ({ card, setCard, error }: any) => {
+const PaymentInfo = ({ error }: any) => {
   const [firstName, setFirstName] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { cvvError, setCvvError } = useShareAppointmentForm();
-  const { appointmentData, setAppointmentData } = useShareAppointmentForm();
-  const { id } = useParams<ParamTypes>();
+  const { appointmentData } = useShareAppointmentForm();
+  const { medicID } = useParams<ParamTypes>();
 
   useEffect(() => {
     setLoading(true);
-    api.get(`users?id=${id}`).then((response: any) => {
+    api.get(`users?id=${medicID}`).then((response: any) => {
       setFirstName(response.data.firstName);
       setLoading(false);
     });
-  }, [id]);
+  }, [medicID]);
 
   return (
     <div className="payment-info">
@@ -51,51 +47,6 @@ const PaymentInfo = ({ card, setCard, error }: any) => {
         <p className="payment-info-price">R$ {appointmentData?.price}</p>
       </div>
       <div className="line-global"></div>
-      <div className="payment-info-flex">
-        <div style={{ display: "flex" }}>
-          <img src={creditCard} alt="Cartão de Crédito" />
-          <div className="payment-info-card">
-            <p>Cartão pelo app</p>
-            <span className="payment-info-card-number">
-              Cartão terminado em {card.last_digits}
-            </span>
-          </div>
-        </div>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <span style={{ fontSize: "2rem", fontWeight: "bold" }}>
-          Insira o código de segurança
-        </span>
-        <TextField
-          style={{
-            width: "40%",
-          }}
-          label={<span style={{ fontSize: "1.5rem" }}>CVV</span>}
-          variant="filled"
-          onChange={(e) => {
-            setCard({ ...card, card_cvv: mask(e.target.value, "###") });
-            if (!card?.card_cvv) {
-              setCvvError("Campo de CVV é necessário para a transação");
-            } else if (!(card.card_cvv?.length === 2)) {
-              setCvvError("Campo de CVV inválido");
-            } else if (isNaN(card.card_cvv)) {
-              setCvvError("Campo de CVV só aceita números");
-            } else {
-              setCvvError("");
-            }
-          }}
-          error={cvvError ? true : false}
-          helperText={
-            <span style={{ fontSize: "1rem", color: "#f00" }}>{cvvError}</span>
-          }
-        />
-      </div>
       <span
         style={{
           color: "#f00",

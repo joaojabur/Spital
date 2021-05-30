@@ -11,8 +11,8 @@ interface AppointmentData {
 interface ShareAppointmentFormContextData {
   appointmentData: AppointmentData;
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
-  cvvError: string;
-  setCvvError: React.Dispatch<React.SetStateAction<string>>;
+  error: string;
+  setError: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface ShareClientFormProviderProps {
@@ -28,12 +28,13 @@ export default function ShareAppointmentFormProvider({
 }: ShareClientFormProviderProps) {
   const [appointmentData, setAppointmentData] = useState<AppointmentData>();
   const [cvvError, setCvvError] = useState<any>(null);
+  const [error, setError] = useState<any>(null);
 
   let value = {
     appointmentData,
     setAppointmentData,
-    cvvError,
-    setCvvError,
+    error,
+    setError,
   } as ShareAppointmentFormContextData;
   return (
     <ShareAppointmentFormContext.Provider value={value}>

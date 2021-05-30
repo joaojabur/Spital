@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
+import { AreYouSureProps } from "../components/Modals/AreYouSure";
 import CadastroSucesso, {
   CadastroSucessoProps as sucessoProps,
 } from "../components/Modals/CadastroSucesso";
@@ -7,6 +8,7 @@ import PaymentMethod, {
   PaymentMethodProps,
 } from "../components/Modals/PaymentMethod";
 import Spinner from "../components/Modals/Spinner";
+import AreYouSure from "../components/Modals/AreYouSure";
 
 interface ModalProviderProps {
   children: React.ReactNode;
@@ -26,7 +28,16 @@ interface ModalContextProps {
     close: () => void;
   };
   filter: {
-    open: ({ changePrice, changeDistance, currentPrice, currentDistance }: FiltroProps) => void;
+    open: ({
+      changePrice,
+      changeDistance,
+      currentPrice,
+      currentDistance,
+    }: FiltroProps) => void;
+    close: () => void;
+  };
+  areYouSure: {
+    open: ({ close, message, sureFunction }: AreYouSureProps) => void;
     close: () => void;
   };
 }
@@ -63,13 +74,37 @@ export default function ModalProvider({ children }: ModalProviderProps) {
       close: closeModal,
     },
     paymentMethod: {
-      open: ({ card }: any) =>
-        openModal(<PaymentMethod card={card} />),
+      open: ({ card }: any) => openModal(<PaymentMethod card={card} />),
       close: closeModal,
     },
 
     filter: {
-      open: ({ changePrice, changeDistance, currentPrice, currentDistance }: FiltroProps) => openModal(<Filtro changeDistance={changeDistance} changePrice={changePrice} currentDistance={currentDistance} currentPrice={currentPrice} />),
+      open: ({
+        changePrice,
+        changeDistance,
+        currentPrice,
+        currentDistance,
+      }: FiltroProps) =>
+        openModal(
+          <Filtro
+            changeDistance={changeDistance}
+            changePrice={changePrice}
+            currentDistance={currentDistance}
+            currentPrice={currentPrice}
+          />
+        ),
+      close: closeModal,
+    },
+
+    areYouSure: {
+      open: ({ close, message, sureFunction }: AreYouSureProps) =>
+        openModal(
+          <AreYouSure
+            close={close}
+            message={message}
+            sureFunction={sureFunction}
+          />
+        ),
       close: closeModal,
     },
   } as ModalContextProps;

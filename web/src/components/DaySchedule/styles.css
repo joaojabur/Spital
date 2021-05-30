@@ -70,6 +70,24 @@
   margin-left: 1rem;
 }
 
+.medic-resting {
+  background-color: rgb(23, 157, 167);
+  padding: 2rem;
+  margin-top: 2rem;
+  border-radius: 4rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.medic-resting span {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+}
+
 @media (max-width: 500px) {
   .day-schedule {
     grid-template-columns: 1fr 1fr 1fr;

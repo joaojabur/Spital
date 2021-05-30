@@ -1,27 +1,32 @@
-import { TextField } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import SubHeaderPlatform from "../../components/SubHeaderPlatform";
 import "./styles.css";
+import creditCard from "../../assets/images/icons/credit-card.png";
 import mask from "../../utils/mask";
 import validateCard from "../../utils/validateCard";
 import { useModal } from "../../context/ModalProvider";
 import api from "../../services/api";
 import { useAuth } from "../../context/AuthProvider";
-// ak_test_i0ggSEBPCYYeCVZXIwNoKgcCfGOSht API
+import Loader from "react-loader-spinner";
+import { IoTrashOutline } from "react-icons/io5";
 const pagarme = require("pagarme");
 
 const AddCreditCard = () => {
-  const { spinner, sucesso } = useModal();
+  const { sucesso, areYouSure } = useModal();
   const { userID } = useAuth();
   const [pagarmeError, setPagarmeError] = useState("");
   const [cards, setCards] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     api.get(`cards?userID=${userID}`).then((response: any) => {
       setCards(response.data);
+      setLoading(false);
     });
-  }, []);
+  }, [userID]);
 
   const history = useHistory();
   const [card, setCard] = useState({
@@ -41,61 +46,76 @@ const AddCreditCard = () => {
   const cardValidation = pagarme.validate({ card });
 
   async function submitHandleFormCard(e: any) {
+    setLoading(true);
     e.preventDefault();
     const loopedErrors = Object.values(errors);
 
     if (loopedErrors.length > 0) {
       setHasError(true);
       setPagarmeError("");
+      setLoading(false);
     } else if (cards.length > 0) {
       setPagarmeError("Não é possível cadastrar mais de um cartão");
+      setLoading(false);
     } else if (cardValidation.card.card_holder_name === false) {
       setPagarmeError("Nome no cartão inválido");
       setHasError(false);
+      setLoading(false);
     } else if (cardValidation.card.card_number === false) {
       setPagarmeError("Número do cartão inválido");
       setHasError(false);
+      setLoading(false);
     } else if (cardValidation.card.card_expiration_date === false) {
       setPagarmeError("Data de expiração inválida");
       setHasError(false);
+      setLoading(false);
     } else if (cardValidation.card.card_cvv === false) {
       setPagarmeError("CVV inválido");
       setHasError(false);
+      setLoading(false);
     } else {
-      spinner.open();
       setPagarmeError("");
       setHasError(false);
       //const card_number_without_space = card.card_number.replace(/[ ]/g, "");
       //const card_expiration_date_withou_slash =
       //card.card_expiration_date.replace(/[/]/g, "");
 
-      pagarme.client
+      await pagarme.client
         .connect({
           encryption_key: "ek_live_umV8Rv1MmMupcC0lorpGrAYo0j3ifN",
         })
         .then((client: any) => client.security.encrypt(card))
         .then((card_hash: any) => {
           console.log(card_hash);
+          api.post(`cards?userID=${userID}`, {
+            card_hash,
+          });
+          setLoading(false);
+          window.location.reload();
         });
 
-      sucesso.open({
+      await sucesso.open({
         name: "Cartão cadastrado com sucesso!",
         close: () => {
           sucesso.close();
         },
         description: "Método de pagamento adicionado.",
       });
-
-      setCards((previousCards: any) => ([
-        ...previousCards,
-        card,
-      ]));
     }
   }
 
   useEffect(() => {
     setErrors(validateCard(card));
   }, [card]);
+
+  function SureFunction() {
+    setLoading(true);
+    api.delete(`cards/${cards[0].id}`).then((response) => {
+      console.log(response);
+      setLoading(false);
+      window.location.reload();
+    });
+  }
 
   return (
     <div className="add-credit-card">
@@ -207,10 +227,57 @@ const AddCreditCard = () => {
           {pagarmeError}
         </span>
 
-        <button type="submit" className="primary">
-          Cadastrar
-        </button>
+        {loading ? (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              width: "100%",
+              justifyContent: "center",
+            }}
+          >
+            <Loader
+              type="TailSpin"
+              color="var(--color-button-primary)"
+              height={70}
+              width={70}
+            />
+          </div>
+        ) : (
+          <button type="submit" className="primary">
+            Cadastrar
+          </button>
+        )}
       </form>
+
+      {cards?.length && (
+        <div className="registered-cards">
+          <h1>Cartão cadastrado:</h1>
+          <div className="registered-cards-flex">
+            <div className="registered-cards-flex-unique">
+              <img src={creditCard} alt="Cartão" />
+              <span>Terminado em {cards[0]?.card?.last_digits}</span>
+            </div>
+
+            <Button
+              onClick={() => {
+                areYouSure.open({
+                  message: "Certeza que deseja deletar seu cartão?",
+                  sureFunction: () => {
+                    SureFunction();
+                  },
+                  close: () => {
+                    areYouSure.close();
+                  },
+                });
+              }}
+              style={{ outline: 0, border: 0 }}
+            >
+              <IoTrashOutline color="#f00" size={30} />
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

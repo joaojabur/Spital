@@ -14,6 +14,7 @@ export interface PaymentMethodProps {
 
 const PaymentMethod = ({ card }: any) => {
   const { paymentMethod } = useModal();
+  console.log(card);
 
   return (
     <Overlay>
@@ -24,13 +25,13 @@ const PaymentMethod = ({ card }: any) => {
         <h1>Formas de pagamento</h1>
         <div className="gray-line"></div>
         <h2>Cartões cadastrados</h2>
-        {card.length === 0 ? (
-          <span style={{ color: "f00", fontSize: "1.5rem" }}>
+        {!card ? (
+          <span style={{ color: "#f00", fontSize: "1.5rem" }}>
             Sem cartões cadastrados
           </span>
         ) : (
           <div style={{ width: "100%" }}>
-            <h1>Cartão terminado em: {card.last_digits}</h1>
+            <h1>Cartão terminado em: {card?.last_digits}</h1>
           </div>
         )}
 

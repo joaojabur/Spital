@@ -34,7 +34,7 @@ const MedicProfileInfo: React.FC<MedicProfileInfoProps> = ({
   }
 
   useEffect(() => {
-    api.get(`medic-schedule?medic_id=${id}`).then((response) => {
+    api.get(`medic-schedule/${id}`).then((response) => {
       setSchedule(response.data);
     });
   }, [id]);

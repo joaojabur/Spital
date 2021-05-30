@@ -3,11 +3,9 @@ import "./styles.css";
 import { useEffect, useState } from "react";
 import api from "../../../services/api";
 import SubHeaderPlatform from "../../../components/SubHeaderPlatform";
-import { useHistory } from "react-router-dom";
 import {
   ParamTypes,
   MedicProps,
-  UserProps,
 } from "../../../components/MedicProfilePages/Main";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -20,8 +18,8 @@ import {
 import DaySchedule from "../../../components/DaySchedule";
 import AppointmentType from "../../../components/AppointmentType";
 import GreenButton from "../../../components/GreenButton";
-import ShareAppointmentFormProvider from "../../../context/ShareAppointmentFormProvider";
 import { NamesProps } from "../../Form/Steps/Names";
+import { useShareAppointmentForm } from "../../../context/ShareAppointmentFormProvider";
 
 interface ConsultTypeProps {
   type: string;
@@ -29,11 +27,11 @@ interface ConsultTypeProps {
 }
 
 const ScheduleMedicProfile = ({ nextPage, previousPage }: NamesProps) => {
+  const { appointmentData, setError } = useShareAppointmentForm();
   const [consultTypes, setConsultTypes] = useState<ConsultTypeProps[]>([]);
   const [date, setDate] = useState(new Date());
 
   const [medic, setMedic] = useState<MedicProps | null>(null);
-  const [user, setUser] = useState<UserProps | null>(null);
 
   function calculateMonth(month: any) {
     switch (month) {
@@ -71,7 +69,7 @@ const ScheduleMedicProfile = ({ nextPage, previousPage }: NamesProps) => {
 
   const [week_day, month, month_day, year] = dateString.split(" ");
   const numberMonth = calculateMonth(month);
-  const totalDate = numberMonth + Number(month_day) * Number(year);
+  const totalDate = Number(month_day) + numberMonth * Number(year);
 
   const today = new Date();
   const todayString = today.toString();
@@ -80,27 +78,21 @@ const ScheduleMedicProfile = ({ nextPage, previousPage }: NamesProps) => {
 
   const todayNumberMonth = calculateMonth(today_month);
   const today_totalDate =
-    todayNumberMonth + Number(today_month_day) * Number(today_year);
+    Number(today_month_day) + todayNumberMonth * Number(today_year);
 
-  const { id } = useParams<ParamTypes>();
+  const { medicID } = useParams<ParamTypes>();
 
   useEffect(() => {
-    api.get(`consult-type?medicID=${id}`).then((response: any) => {
+    api.get(`consult-type?medicID=${medicID}`).then((response: any) => {
       setConsultTypes(response.data);
     });
-  }, [id]);
+  }, [medicID]);
 
   useEffect(() => {
-    api.get(`medics?userID=${id}`).then((response: any) => {
+    api.get(`medics?userID=${medicID}`).then((response: any) => {
       setMedic(response.data);
     });
-  }, []);
-
-  useEffect(() => {
-    api.get(`users?id=${id}`).then((response: any) => {
-      setUser(response.data);
-    });
-  }, []);
+  }, [medicID]);
 
   function transformMonth() {
     switch (month) {
@@ -137,7 +129,7 @@ const ScheduleMedicProfile = ({ nextPage, previousPage }: NamesProps) => {
   return (
     <div className="client-platform">
       <SubHeaderPlatform
-        title={`Agendar consulta com Dr(a). ${user?.firstName}`}
+        title={`Agendar consulta com Dr(a). ${medic?.first_name}`}
         returnFunction={() => previousPage()}
       />
       <div className="container">
@@ -185,7 +177,7 @@ const ScheduleMedicProfile = ({ nextPage, previousPage }: NamesProps) => {
           getMonth={transformMonth}
           year={year}
           monthDay={month_day}
-          label="Ir para o pagamento"
+          label="Revisar consulta"
         />
       </div>
     </div>

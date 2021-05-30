@@ -1,0 +1,181 @@
+.appointment-unique {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  background-color: #fff;
+  padding: 2rem;
+  margin-top: 2rem;
+  border-radius: 4rem;
+}
+
+.appointment-unique-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem;
+}
+
+.medic-info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 50%;
+}
+
+.medic-info-name {
+  position: relative;
+  top: 0.5rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-left: 1rem;
+}
+
+.medic-info-name h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.medic-info-name p {
+  font-size: 1.5rem;
+  color: rgb(168, 168, 168);
+}
+
+.medic-info img {
+  width: 10%;
+  border-radius: 50%;
+  background-color: #07b3d6;
+}
+
+.see-profile {
+  text-decoration: none !important;
+  color: #16697a;
+  font-weight: bold;
+  transition: all ease-in-out 0.2s;
+}
+
+.see-profile:hover {
+  text-decoration: none !important;
+  color: #1d4750;
+}
+
+.appointment-unique-date {
+  margin-top: 2rem;
+  padding: 1rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.appointment-unique-date p {
+  color: #818183;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.appointment-unique-date-created_at {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: #16697a56;
+  padding: 1rem;
+  font-size: 2rem;
+  border-radius: 2rem;
+  font-weight: bold;
+}
+
+.appointment-unique-date-created_at img {
+  width: 3rem;
+  margin-right: 2rem;
+}
+
+.appointment-unique-date-flex {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.appointment-unique-date-flex-column {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 50%;
+}
+
+.appointment-unique-date-flex-quantity {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5rem;
+  height: 5rem;
+  background-color: var(--color-main);
+  border-radius: 50%;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+.appointment-unique-date-flex-column p {
+  font-size: 1.6rem;
+  font-weight: normal;
+  position: relative;
+  top: 0.3rem;
+}
+
+.appointment-unique-date-flex-price {
+  font-size: 2rem;
+  color: #333 !important;
+}
+
+.appointment-unique-location {
+  margin-top: 1rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+@media (max-width: 1200px) {
+  .medic-info img {
+    width: 20%;
+  }
+}
+
+@media (max-width: 575px) {
+  .medic-info img {
+    width: 40%;
+  }
+  .medic-info-name h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .medic-info-name p {
+    font-size: 1rem;
+    color: rgb(168, 168, 168);
+  }
+
+  .appointment-unique-date p {
+    font-size: 1.5rem;
+  }
+
+  .appointment-unique-date-created_at {
+    padding: 1rem;
+    font-size: 1.5rem;
+  }
+
+  .appointment-unique-date-created_at img {
+    width: 2.5rem;
+    margin-right: 2rem;
+  }
+}

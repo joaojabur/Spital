@@ -20,14 +20,6 @@ const MyProfileSettings = () => {
 
   const [errors, setErrors] = useState(refreshUserValidate(refreshUser));
   const [formError, setFormError] = useState("");
-  const [card, setCard] = useState<PaymentMethodProps>({
-    id: "",
-    first_digits: "",
-    last_digits: "",
-    holder_name: "",
-    expiration_date: "",
-    card_cvv: "",
-  });
 
   function validate() {
     setErrors(refreshUserValidate(refreshUser));
@@ -60,131 +52,77 @@ const MyProfileSettings = () => {
     }
   }
 
-  const [navMyProfileSettings, setNavMyProfileSettings] = useState(false);
-
-  useEffect(() => {
-    api.get(`cards?userID=${userID}`).then((response: any) => {
-      setCard(response.data[0].card);
-    });
-  }, [userID]);
-
   return (
     <div className="my-profile-settings">
       <div className="my-profile-settings-nav">
-        <button
-          onClick={() => {
-            setNavMyProfileSettings(false);
-          }}
-        >
+        <button>
           <IoSettingsOutline size={40} color="#07B3D6" />
           <span>Configurações da minha conta</span>
         </button>
-        <button
-          onClick={() => {
-            setNavMyProfileSettings(true);
+      </div>
+
+      <div className="my-profile-settings-info">
+        <h2>Informações da conta</h2>
+        <TextField
+          value={refreshUser.fullName}
+          name="fullname"
+          label={<span style={{ fontSize: "1.5rem" }}>Nome</span>}
+          variant="outlined"
+          fullWidth
+          autoComplete="off"
+          required
+          onChange={(e) => {
+            setRefreshUser({ ...refreshUser, fullName: e.target.value });
+            validate();
           }}
-        >
-          <IoCardOutline size={30} color="#07B3D6" />
-          <span>Meios de pagamento</span>
+          error={errors.fullName ? true : false}
+          style={{ width: "85%", marginLeft: "3rem" }}
+          helperText={
+            <span style={{ fontSize: "1.5rem" }}>{errors.fullName}</span>
+          }
+        />
+
+        <TextField
+          value={refreshUser.email}
+          name="email"
+          label={<span style={{ fontSize: "1.5rem" }}>Nome</span>}
+          variant="outlined"
+          fullWidth
+          autoComplete="off"
+          required
+          error={errors.email ? true : false}
+          style={{ width: "85%", marginLeft: "3rem" }}
+          helperText={
+            <span style={{ fontSize: "1.5rem" }}>{errors.email}</span>
+          }
+        />
+
+        <TextField
+          value={refreshUser.phoneNumber}
+          name="phoneNumber"
+          label={<span style={{ fontSize: "1.5rem" }}>Telefone</span>}
+          variant="outlined"
+          fullWidth
+          autoComplete="off"
+          required
+          onChange={(e) => {
+            setRefreshUser({
+              ...refreshUser,
+              phoneNumber: mask(e.target.value, "(##) # ####-####"),
+            });
+            validate();
+          }}
+          error={errors.phoneNumber ? true : false}
+          style={{ width: "85%", marginLeft: "3rem" }}
+          helperText={
+            <span style={{ fontSize: "1.5rem" }}>{errors.phoneNumber}</span>
+          }
+        />
+
+        <button onClick={handleSubmitRefreshUser} type="button">
+          Atualizar dados
         </button>
       </div>
-      {!navMyProfileSettings ? (
-        <div className="my-profile-settings-info">
-          <h2>Informações da conta</h2>
-          <TextField
-            value={refreshUser.fullName}
-            name="fullname"
-            label={<span style={{ fontSize: "1.5rem" }}>Nome</span>}
-            variant="outlined"
-            fullWidth
-            autoComplete="off"
-            required
-            onChange={(e) => {
-              setRefreshUser({ ...refreshUser, fullName: e.target.value });
-              validate();
-            }}
-            error={errors.fullName ? true : false}
-            style={{ width: "85%", marginLeft: "3rem" }}
-            helperText={
-              <span style={{ fontSize: "1.5rem" }}>{errors.fullName}</span>
-            }
-          />
-
-          <TextField
-            value={refreshUser.email}
-            name="email"
-            label={<span style={{ fontSize: "1.5rem" }}>Nome</span>}
-            variant="outlined"
-            fullWidth
-            autoComplete="off"
-            required
-            error={errors.email ? true : false}
-            style={{ width: "85%", marginLeft: "3rem" }}
-            helperText={
-              <span style={{ fontSize: "1.5rem" }}>{errors.email}</span>
-            }
-          />
-
-          <TextField
-            value={refreshUser.phoneNumber}
-            name="phoneNumber"
-            label={<span style={{ fontSize: "1.5rem" }}>Telefone</span>}
-            variant="outlined"
-            fullWidth
-            autoComplete="off"
-            required
-            onChange={(e) => {
-              setRefreshUser({
-                ...refreshUser,
-                phoneNumber: mask(e.target.value, "(##) # ####-####"),
-              });
-              validate();
-            }}
-            error={errors.phoneNumber ? true : false}
-            style={{ width: "85%", marginLeft: "3rem" }}
-            helperText={
-              <span style={{ fontSize: "1.5rem" }}>{errors.phoneNumber}</span>
-            }
-          />
-
-          <button onClick={handleSubmitRefreshUser} type="button">
-            Atualizar dados
-          </button>
-        </div>
-      ) : (
-        <div
-          style={{ alignItems: "flex-start", justifyContent: "flex-start" }}
-          className="my-profile-settings-info"
-        >
-          <h2 style={{ marginTop: "3rem" }}>Meios de pagamento</h2>
-          <div
-            style={{ width: "85%", margin: "1rem auto 0 auto" }}
-            className="line-gray"
-          >
-            <h1 style={{ fontSize: "2rem", marginTop: "2rem" }}>
-              <IoCardOutline size={30} color="#07b3d6" />
-              <span
-                style={{
-                  position: "relative",
-                  top: "-0.7rem",
-                  marginLeft: "1rem",
-                }}
-              >
-                Cartão terminado em
-                <span
-                  style={{
-                    color: "#DB6400",
-                    marginLeft: "1rem",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {card.last_digits}
-                </span>
-              </span>
-            </h1>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

@@ -1,0 +1,91 @@
+.are-you-sure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 60vw;
+  height: 70vh;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 4rem;
+}
+
+.are-you-sure h1 {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+}
+
+.are-you-sure p {
+  font-size: 2rem;
+  color: #333;
+  font-weight: 400;
+  text-align: center;
+}
+
+.are-you-sure-flex {
+  display: flex;
+  width: 80%;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.are-you-sure-button {
+  cursor: pointer;
+  width: 45%;
+  border: 0;
+  outline: 0 !important;
+  padding: 1.5rem;
+  font-size: 2rem;
+  font-weight: bold;
+  transition: all ease-in-out 0.2s;
+  transform: scale(0.9);
+}
+
+.are-you-sure-button:hover {
+  transform: scale(1);
+}
+
+.are-you-sure-yes {
+  background-color: rgb(241, 50, 50);
+  color: #fff;
+  border: 1px solid #ccc;
+}
+
+.are-you-sure-yes:hover {
+  background-color: rgb(172, 33, 33);
+}
+
+.are-you-sure-no {
+  border: 1px solid #ccc;
+}
+
+.are-you-sure-no:hover {
+  background-color: rgb(189, 189, 189);
+}
+
+@media (max-width: 1200px) {
+  .are-you-sure {
+    width: 80vw;
+  }
+}
+
+@media (max-width: 800px) {
+  .are-you-sure {
+    width: 90vw;
+  }
+  .are-you-sure h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+  }
+
+  .are-you-sure p {
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: 400;
+    text-align: center;
+  }
+}

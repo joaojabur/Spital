@@ -1,24 +1,16 @@
 import "./styles.css";
 import SubHeaderPlatform from "../../../components/SubHeaderPlatform";
 import PaymentInfo from "../../../components/PaymentInfo";
-import { useModal } from "../../../context/ModalProvider";
 import { NamesProps } from "../../Form/Steps/Names";
-import { useEffect, useState } from "react";
-import api from "../../../services/api";
-import { useAuth } from "../../../context/AuthProvider";
+import { useState } from "react";
 import Loader from "react-loader-spinner";
 import { PaymentMethodProps } from "../../Modals/PaymentMethod";
-import { useShareAppointmentForm } from "../../../context/ShareAppointmentFormProvider";
 
-const PaymentMedicProfile = ({ previousPage }: NamesProps) => {
-  const { appointmentData, setAppointmentData } = useShareAppointmentForm();
-  const { userID } = useAuth();
+const PaymentMedicProfile = ({ previousPage, nextPage }: NamesProps) => {
   const [loading, setLoading] = useState(false);
-  const { cvvError } = useShareAppointmentForm();
   const [error, setError] = useState("");
 
-  const { paymentMethod } = useModal();
-  const [card, setCard] = useState<PaymentMethodProps>({
+  const [cardInfo, setCardInfo] = useState<PaymentMethodProps>({
     id: "",
     first_digits: "",
     last_digits: "",
@@ -27,40 +19,14 @@ const PaymentMedicProfile = ({ previousPage }: NamesProps) => {
     card_cvv: "",
   });
 
-  useEffect(() => {
-    setLoading(true);
-    api.get(`cards?userID=${userID}`).then((response: any) => {
-      setCard(response.data[0].card);
-      setLoading(false);
-    });
-  }, [userID, setCard]);
-
-  function handleSubmitAppointment() {
-    if (!card?.card_cvv) {
-      setError("Campo de CVV vazio");
-    } else if (cvvError?.length === null || cvvError?.length > 0) {
-      setError("Campo de CVV inválido");
-    } else {
-      setError("");
-      console.log({
-        card_id: card.id,
-        card_number: card.first_digits + card.last_digits,
-        amount: Number(appointmentData.price) * 100,
-        card_cvv: card.card_cvv,
-        card_holder_name: card.holder_name,
-        payment_method: "credit_card",
-      });
-    }
-  }
-
   return (
     <div className="client-platform">
       <SubHeaderPlatform
-        title="Pagamento"
+        title="Dados da consulta"
         returnFunction={() => previousPage()}
       />
       <div className="container">
-        <PaymentInfo card={card} setCard={setCard} error={error} />
+        <PaymentInfo card={cardInfo} setCard={setCardInfo} error={error} />
         {loading ? (
           <Loader
             type="TailSpin"
@@ -70,22 +36,8 @@ const PaymentMedicProfile = ({ previousPage }: NamesProps) => {
           />
         ) : (
           <>
-            <button
-              className="green-button"
-              style={{ backgroundColor: "#8F2D56" }}
-              onClick={(e) => {
-                paymentMethod.open({ card });
-              }}
-            >
-              Escolher forma de pagamento
-            </button>
-
-            <button
-              onClick={handleSubmitAppointment}
-              className="green-button"
-              style={{ marginTop: "-1rem" }}
-            >
-              Agendar consulta
+            <button onClick={nextPage} className="green-button">
+              Ir para o pagamento
             </button>
           </>
         )}
