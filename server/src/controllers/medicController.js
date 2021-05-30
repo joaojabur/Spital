@@ -200,7 +200,7 @@ module.exports = {
   },
 
   async list(req, res, next) {
-    const { area } = req.params;
+    const { area, name } = req.params;
     let { offset, lat, lon, distance } = req.query;
     const formattedArea = area.replace(/[-]/g, " ");
 
@@ -213,9 +213,6 @@ module.exports = {
     }
 
     try {
-      console.log(offset);
-      console.log(distance);
-      console.log(formattedArea);
       let results = await knex.select(knex.raw(`
         *
         from (
@@ -234,6 +231,12 @@ module.exports = {
         join users as "user"
         on medic."userID" = "user".id
         where distance <= ${distance} and area = '${formattedArea}'
+        lower(
+          (
+              REGEXP_REPLACE("user".first_name, '[^0-9a-zA-Z:,]+', '')
+                   || ' ' ||
+              REGEXP_REPLACE("user".last_name, '[^0-9a-zA-Z:,]+', '')
+           )) ~ '${name}'
         order by distance
         limit 30
         offset ${30 * offset}
