@@ -21,9 +21,9 @@ const MedicArea = () => {
   const [page, setPage] = useState(0);
   const [medics, setMedics] = useState<Array<Medic>>([]);
   const [location, setLocation] = useState<null | GeolocationPosition>(null);
-
+  const [medicName, setMedicName] = useState<string>('');
   const [maxPrice, setMaxPrice] = useState<number>(500);
-  const [maxDistance, setMaxDistance] = useState<number>(100);
+  const [maxDistance, setMaxDistance] = useState<number>(9999);
 
   function changePrice(price: number){
     setMaxPrice(price);
@@ -34,7 +34,8 @@ const MedicArea = () => {
   }
 
   async function loadMore() {
-    let { data } = await api.get(`medics/${capitalizeArea}?offset=${page}&lat=${location?.coords.latitude}&lon=${location?.coords.longitude}&distance=${maxDistance}`);
+    let name = medicName.replace(/[^0-9a-zA-Z:,]+/, '').toLowerCase();
+    let { data } = await api.get(`medics/${capitalizeArea}?offset=${page}&lat=${location?.coords.latitude}&lon=${location?.coords.longitude}&distance=${maxDistance}&name=${name}`);
     data = data.map((medic: Medic) => medic);
 
     setMedics((previousState) => [...previousState, ...data]);
@@ -43,7 +44,8 @@ const MedicArea = () => {
   }
 
   async function reload(){
-    let { data } = await api.get(`medics/${capitalizeArea}?lat=${location?.coords.latitude}&lon=${location?.coords.longitude}&distance=${maxDistance}`);
+    let name = medicName.replace(/[^0-9a-zA-Z:,]+/, '').toLowerCase();
+    let { data } = await api.get(`medics/${capitalizeArea}?lat=${location?.coords.latitude}&lon=${location?.coords.longitude}&distance=${maxDistance}&name=${name}`);
     data = data.map((medic: Medic) => medic);
 
     setMedics(data);
@@ -89,6 +91,8 @@ const MedicArea = () => {
     }
   }, [location, maxPrice, maxDistance])
 
+  console.log(medicName);
+
   return (
     <div className="client-platform">
       <SubHeaderPlatform
@@ -98,14 +102,20 @@ const MedicArea = () => {
       <div className="container">
         <div className="search-flex">
           <div className="search-flex-input">
-            <SearchInput placeholder="Busque pelo nome do médico..." />
+            <SearchInput placeholder="Busque pelo nome do médico..." 
+              onChange={(e) => setMedicName(e.currentTarget.value)} 
+              onKeyDown={(e) => e.key === "Enter" ? reload() : null}/>
           </div>
           <div onClick={() => filter.open({changePrice, changeDistance, currentDistance: maxDistance, currentPrice: maxPrice})} className="search-flex-filter-button">
             <IoFilterOutline size={22} color="#000000" />
           </div>
         </div>
-
         <DoctorList medics={medics} loading={loading}/>
+        {
+          !loading && !medics.length && (
+            <h1>Nada encontrado</h1>
+          )
+        }
         <LoadMoreButton onClick={loadMore}/>
       </div>
     </div>
