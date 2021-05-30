@@ -205,10 +205,13 @@ module.exports = {
   },
 
   async list(req, res, next) {
-    const { area, name } = req.params;
-    let { offset, lat, lon, distance } = req.query;
+    let { area } = req.params;
+    let { offset, lat, lon, distance, name } = req.query;
     const formattedArea = area.replace(/[-]/g, " ");
 
+    if (!name){
+      name = ''
+    }
     if (!offset) {
       offset = 0;
     }
@@ -218,6 +221,7 @@ module.exports = {
     }
 
     try {
+      console.log(name);
       let results = await knex.select(knex.raw(`
         *
         from (
@@ -236,7 +240,7 @@ module.exports = {
         join users as "user"
         on medic."userID" = "user".id
         where distance <= ${distance} and area = '${formattedArea}'
-        lower(
+        and lower(
           (
               REGEXP_REPLACE("user".first_name, '[^0-9a-zA-Z:,]+', '')
                    || ' ' ||
@@ -260,6 +264,8 @@ module.exports = {
           last_name: undefined,
         });
       }
+
+      console.log(formatedResults.map((r) => r.firstName))
 
       res.status(200).send(formatedResults);
     } catch (error) {
