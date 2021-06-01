@@ -53,10 +53,13 @@ module.exports = {
 
         res.status(201).json(formatedResults);
       } else {
-        const [result] = await knex("medics")
+        let [result] = await knex("medics")
           .where({ userID })
           .join("users", "users.id", "=", "medics.userID")
-          .select("users.*", "medics.*");
+          .join("reviews", "reviews.medicID", "=", "medics.id")
+          .select("users.*", "medics.*", "reviews.stars");
+
+        console.log(result);
 
         return res.status(200).json(result);
       }
@@ -212,17 +215,15 @@ module.exports = {
   },
 
   async list(req, res, next) {
-    const { area } = req.params;
-    let { offset, lat, lon, distance } = req.query;
+    let { area } = req.params;
+    let { offset, lat, lon, distance, name } = req.query;
     const formattedArea = area.replace(/[-]/g, " ");
 
+    if (!name) {
+      name = "";
+    }
     if (!offset) {
       offset = 0;
-    }
-
-    if (lat === "undefined" || lon === "undefined") {
-      lat = -23.6821604;
-      lon = -46.8754915;
     }
 
     if (!distance || distance === "null") {
@@ -230,12 +231,11 @@ module.exports = {
     }
 
     try {
-      console.log(offset);
-      console.log(distance);
-      console.log(formattedArea);
+      console.log(name);
       let results = await knex.select(
         knex.raw(`
         *
+        ,(select avg(stars) from reviews where medic.id = reviews."medicID") as star
         from (
           select 
             addresses."userID",
@@ -252,7 +252,14 @@ module.exports = {
         join users as "user"
         on medic."userID" = "user".id
         where distance <= ${distance} and area = '${formattedArea}'
-        order by distance
+        and lower(
+          (
+              REGEXP_REPLACE("user".first_name, '[^0-9a-zA-Z:,]+', '')
+                   || ' ' ||
+              REGEXP_REPLACE("user".last_name, '[^0-9a-zA-Z:,]+', '')
+           )) ~ '${name}'
+        order by distance, star
+        desc
         limit 30
         offset ${30 * offset}
       `)
@@ -268,8 +275,11 @@ module.exports = {
           first_name: undefined,
           lastName: result.last_name,
           last_name: undefined,
+          star: result.star ? result.star : "4.0",
         });
       }
+
+      console.log(formatedResults.map((r) => r.firstName));
 
       res.status(200).send(formatedResults);
     } catch (error) {

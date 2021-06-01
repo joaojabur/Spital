@@ -1,0 +1,68 @@
+.review-medic-profile {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  margin-top: 2rem;
+  border-radius: 4rem;
+  width: 100%;
+  padding: 2rem;
+  background-color: #fff;
+}
+
+.review-medic-profile-wrap {
+  padding: 2rem;
+  display: flex;
+  align-content: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  width: 95%;
+  height: 200px;
+  background-color: #07b3d6;
+  border-radius: 4rem;
+  margin-bottom: 2rem;
+  overflow-y: auto;
+}
+
+.review-medic-profile-wrap-flex {
+  display: flex;
+  align-content: center;
+}
+
+.review-medic-profile-wrap-flex h1 {
+  color: #fff;
+  font-weight: bold;
+  font-size: 2.5rem;
+  margin-left: 1.6rem;
+  margin-top: 1.2rem;
+}
+
+.review-medic-profile-wrap-flex span {
+  color: #fff;
+  font-weight: bold;
+  font-size: 2.5rem;
+  margin-left: 5rem;
+  margin-top: 1.2rem;
+}
+
+.review-medic-profile-wrap img {
+  width: 6rem;
+  background-color: #fff;
+  border-radius: 50%;
+}
+
+.review-medic-profile-wrap p {
+  color: #fff;
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 950px) {
+  .review-medic-profile {
+    grid-template-columns: 1fr;
+  }
+  .review-medic-profile-wrap {
+    width: 100%;
+  }
+}
