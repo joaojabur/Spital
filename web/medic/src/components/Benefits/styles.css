@@ -1,0 +1,36 @@
+.benefits {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  width: 100%;
+  padding: 3rem;
+  background-color: #16697abe;
+}
+
+.benefits h1 {
+  color: #82eaff;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.benefits ul {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+
+.benefit {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: 2rem;
+}
+
+.small-list-style {
+  width: 2rem;
+  height: 0.2rem;
+  background-color: #fff;
+  margin-right: 2rem;
+}
