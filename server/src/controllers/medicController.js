@@ -1,11 +1,14 @@
 const knex = require("../database");
+const jwt = require("jsonwebtoken");
+const authConfig = require("../configs/authConfig.json");
 const convertHourToMinutes = require("../utils/convertHoursToMinutes");
 const bcrypt = require("bcrypt");
+const verify = require("../services/email/verify");
 
 module.exports = {
   async index(req, res, next) {
     try {
-      let { userID, offset, lat, lon } = req.query;
+      let { id, offset, lat, lon } = req.query;
 
       if (!offset) {
         offset = 1;
@@ -16,7 +19,7 @@ module.exports = {
         lon = -46.8754915;
       }
 
-      if (!userID) {
+      if (!id) {
         let results = await knex.select(
           knex.raw(`
             users.*, medic.*, addresses."userID", addresses.number, address, 
@@ -54,12 +57,10 @@ module.exports = {
         res.status(201).json(formatedResults);
       } else {
         let [result] = await knex("medics")
-          .where({ userID })
+          .where("userID", id)
           .join("users", "users.id", "=", "medics.userID")
           .join("reviews", "reviews.medicID", "=", "medics.id")
           .select("users.*", "medics.*", "reviews.stars");
-
-        console.log(result);
 
         return res.status(200).json(result);
       }
@@ -149,6 +150,12 @@ module.exports = {
           });
         }
 
+        await verify({
+          id: parseInt(userID),
+          email,
+          name: firstName + " " + lastName
+        });
+
         res.status(201).send();
       }
     } catch (error) {
@@ -231,7 +238,6 @@ module.exports = {
     }
 
     try {
-      console.log(name);
       let results = await knex.select(
         knex.raw(`
         *
@@ -285,5 +291,72 @@ module.exports = {
     } catch (error) {
       next(error);
     }
+  },
+  async login(req, res, next) {
+    try {
+      const { email, password } = req.body;
+
+      const [user] = await knex("users")
+        .where({ email })
+        .select("password", "id", "confirmed");
+
+      if (user === undefined) {
+        return res.status(401).send({ error: "Usuário não encontrado" });
+      }
+
+      if (await bcrypt.compare(password, user.password)) {
+
+        let [ medic ] = await knex('medics')
+          .where('userID', user.id);
+        
+        if (!medic){
+          throw Error("Email não encontrado")
+        }
+
+        const token = jwt.sign({ id: user.id }, authConfig.secret, {
+          expiresIn: 604800,
+        });
+
+        res.cookie(
+          "access-token",
+          token,
+          {
+            maxAge: 60 * 60 * 24 * 7 * 1000,
+          },
+          {
+            httpOnly: true,
+          }
+        );
+        
+        
+
+        res.status(201).send({
+          id: user.id,
+          confirmed: user.confirmed,
+          token,
+        });
+      } else {
+        return res.status(401).send({ error: "Senha ou e-mail inválido(s)" });
+      }
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async auth(req, res, next) {
+    const { post } = res.locals;
+
+    let [{ confirmed }] = await knex("users")
+      .where({
+        id: parseInt(post),
+      })
+      .select("confirmed");
+
+    res.status(200).send({
+      auth: true,
+      success: "Logado com sucesso!",
+      userID: post,
+      confirmed,
+    });
   },
 };
