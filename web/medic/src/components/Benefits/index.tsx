@@ -1,8 +1,6 @@
 import React from "react";
 import "./styles.css";
 
-// dsadasdasda
-
 const Benefits = () => {
   const lists = [
     {

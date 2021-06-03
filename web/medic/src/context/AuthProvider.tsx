@@ -2,20 +2,54 @@ import React, { useState, useEffect, createContext, useContext } from "react";
 import api from "../services/api";
 import Cookies from "js-cookie";
 
-interface User {
+interface Medic {
   firstName: string;
   lastName: string;
   email: string;
   phoneNumber: string;
   image: string;
   xp: number;
+  confirmed: boolean;
+  birthDate: Date;
+  crm: string;
+  area: string;
+  graduation: string;
+  masterDegree?: string;
+  doctorageDegree?: string;
+  address: string;
+  number: number;
+}
+
+interface MedicData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  phoneNumber: string;
+  area: string;
+  graduation: string;
+  masterDegree: string;
+  doctorateDegree: string;
+  cpf: string;
+  rg: string;
+  birthDate: string;
+  crm: string;
+  schedule: Array<Schedule>;
+  xp: 0;
+}
+
+interface Schedule {
+  week_day: number;
+  from: string;
+  to: string;
 }
 
 interface AuthContextData {
-  user: User;
+  user: Medic;
   authenticated: boolean;
   login: (email: string, password: string) => any;
-  signup: (user: User) => Promise<any>;
+  signup: (medic: MedicData) => Promise<any>;
   logout: () => void;
   confirmed: boolean;
   userID: number;
@@ -28,13 +62,14 @@ interface AuthProviderProps {
 const AuthContext = createContext({} as AuthContextData);
 
 export default function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<Medic | null>(null);
   const [userID, setUserID] = useState<number | null>(null);
   const [confirmed, setConfirmed] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
   async function getUserData(id: number) {
-    let response = await api.get(`clients?id=${id}`);
+    console.log(id);
+    let response = await api.get(`medics?id=${id}`);
 
     setUser({
       ...response.data,
@@ -92,7 +127,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  async function signup(user: User) {
+  async function signup(user: MedicData) {
     return await api.post("medics", {
       ...user,
     });

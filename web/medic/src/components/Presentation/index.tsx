@@ -1,8 +1,11 @@
 import React from "react";
 import "./styles.css";
 import doctorImg from "../../assets/images/doctor.svg";
+import { useHistory } from "react-router-dom";
 
 const Presentation = () => {
+  let history = useHistory();
+
   return (
     <div className="presentation">
       <img src={doctorImg} alt="Médico e paciente" />
@@ -14,7 +17,7 @@ const Presentation = () => {
           é totalmente gratuita! Gostaria de saber como te proporcionamos tudo
           isso? Clique no botão abaixo.
         </p>
-        <button>Venha descobrir</button>
+        <button onClick={() => history.push('/entrar')}>Venha descobrir</button>
       </div>
     </div>
   );
