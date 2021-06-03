@@ -1,0 +1,144 @@
+.form-finalize-payment {
+  margin-top: 2rem;
+  width: 70vw;
+  background-color: #fff;
+  padding: 3rem 3rem 0.6rem 3rem;
+  border-radius: 4rem;
+}
+
+.form-finalize-payment h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.form-finalize-payment button {
+  margin-top: 2rem !important;
+  padding: 1rem !important;
+}
+
+.form-finalize-payment-info {
+  border-radius: 2rem;
+  width: 100%;
+  background-color: rgb(31, 243, 232);
+  padding: 1rem;
+}
+
+.spinner-div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.success-payment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.success-payment h1 {
+  font-size: 4rem;
+  text-align: center;
+  font-weight: 500;
+  color: rgb(1, 114, 19);
+  margin-bottom: 3rem;
+}
+
+.success-payment img {
+  width: 40%;
+}
+
+.success-payment p {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 3rem;
+}
+
+.date-text {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--color-main);
+}
+
+.time-text {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-left: 2rem;
+  color: var(--color-main);
+}
+
+.return-button {
+  cursor: pointer;
+  width: 50%;
+  padding: 1.5rem;
+  font-size: 2rem;
+  font-weight: bold;
+  background-color: var(--color-main);
+  outline: 0 !important;
+  border: 0;
+  color: #fff;
+  border-radius: 2rem;
+  margin-top: 3rem;
+}
+
+@media (max-width: 600px) {
+  .form-finalize-payment {
+    width: 100vw;
+  }
+
+  .success-payment h1 {
+    font-size: 4rem;
+    text-align: center;
+    font-weight: 500;
+    color: rgb(1, 114, 19);
+    margin-bottom: 3rem;
+  }
+
+  .success-payment img {
+    width: 75%;
+  }
+
+  .success-payment p {
+    text-align: center;
+    font-size: 2rem;
+    margin-top: 3rem;
+  }
+
+  .date-text {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--color-main);
+  }
+
+  .time-text {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-left: 2rem;
+    color: var(--color-main);
+  }
+
+  .return-button {
+    cursor: pointer;
+    width: 75%;
+    padding: 1.5rem;
+    font-size: 2rem;
+    font-weight: bold;
+    background-color: var(--color-main);
+    outline: 0 !important;
+    border: 0;
+    color: #fff;
+    border-radius: 2rem;
+    margin-top: 3rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .success-payment {
+    justify-content: space-evenly;
+  }
+}

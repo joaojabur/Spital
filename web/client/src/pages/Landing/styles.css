@@ -1,0 +1,158 @@
+#page-landing {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--color-button-light-text);
+  background-color: rgba(7, 179, 214, 0.5);
+}
+
+.logo-container img {
+  height: 10rem;
+}
+
+.hero-image {
+  display: block;
+  width: 100%;
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 3.2rem;
+}
+
+.logo-container h2 {
+  font-size: 2.4rem;
+  line-height: 4.6rem;
+  margin-top: 0.8rem;
+  font-weight: 500;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  margin: 3.2rem 0;
+}
+
+.buttons-container a {
+  width: 28rem;
+  height: 10.4rem;
+  border-radius: 0.8rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-decoration: none;
+  color: var(--color-button-light-text);
+
+  transition: background-color 0.2s ease-in-out;
+
+  border: 1px solid #fff;
+}
+
+.buttons-container a:first-child {
+  margin-right: 1.6rem;
+}
+
+.buttons-container a span {
+  margin-left: 1rem;
+}
+
+.buttons-container a.pacient {
+  background-color: var(--color-button-primary);
+}
+
+.buttons-container a.medic {
+  background-color: var(--color-button-secondary);
+}
+.buttons-container a.pacient:hover {
+  background-color: #13505e;
+}
+
+.buttons-container a.medic:hover {
+  background-color: var(--color-secundary-dark);
+}
+.buttons-container a.medic:hover {
+  background-color: #641234;
+}
+
+.total-connections {
+  font-size: 2rem;
+  font-weight: 700;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.total-connections img {
+  margin-left: 0.8rem;
+}
+
+@media (min-width: 1100px) {
+  #page-landing-container {
+    max-width: 1100px;
+
+    display: grid;
+    grid-template-rows: 350px 1fr;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-areas:
+      "logo hero hero"
+      "buttons buttons total";
+  }
+
+  .logo-container {
+    grid-area: logo;
+    align-self: center;
+    text-align: left;
+    margin: 0;
+  }
+
+  .logo-container h2 {
+    text-align: initial;
+    font-size: 3.6rem;
+  }
+
+  .logo-container img {
+    max-width: 70%;
+    height: 100%;
+  }
+
+  .hero-image {
+    grid-area: hero;
+    justify-self: end;
+    width: 80% !important;
+  }
+
+  .buttons-container {
+    grid-area: buttons;
+    justify-content: flex-start;
+  }
+
+  .buttons-container a {
+    font-size: 2.4rem;
+  }
+
+  .total-connections {
+    grid-area: total;
+    justify-self: end;
+  }
+}
+
+@media (min-width: 620px) {
+  .hero-image {
+    width: 60%;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 900px) {
+  .hero-image {
+    width: 50%;
+  }
+}

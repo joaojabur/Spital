@@ -1,0 +1,25 @@
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+}
+
+.title h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #333333;
+  text-align: center;
+}
+
+@media (max-width: 540px) {
+  .title h1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 340px) {
+  .title h1 {
+    font-size: 1.5rem;
+  }
+}

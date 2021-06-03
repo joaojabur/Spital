@@ -1,0 +1,27 @@
+.search-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.search-flex-input {
+  width: 93%;
+}
+
+.search-flex-filter-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2rem;
+  cursor: pointer;
+  width: 5%;
+  background-color: #fff;
+  height: 6vh;
+  margin-top: 3rem;
+  transition: all ease-in-out 0.2s;
+}
+
+.search-flex-filter-button:hover {
+  background-color: rgb(202, 202, 202);
+}

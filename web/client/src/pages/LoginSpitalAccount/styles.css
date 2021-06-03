@@ -1,0 +1,186 @@
+.login-spital-account {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #e3f8fd;
+  overflow-x: hidden;
+}
+
+.header-login {
+  display: flex;
+  width: 100vw;
+  background-color: var(--color-main);
+  align-items: center;
+  justify-content: center;
+  height: 30vh;
+  position: absolute;
+  top: 0;
+}
+
+.login-spital-account-credentials {
+  position: relative;
+  top: 20rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 50vw;
+  padding: 0.1rem;
+  background-color: var(--color-button-light-text);
+  border-radius: 5rem;
+  border: 1px solid var(--color-button-dark-text);
+}
+
+.login-spital-account-form {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 3rem;
+}
+
+.login-spital-account-form-flex {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.login-spital-account-form-flex button {
+  padding: 1.2rem;
+  border: 0;
+  outline: 0;
+  color: var(--color-button-light-text);
+  font-size: 2.5rem;
+  font-weight: 700;
+  border-radius: 1.8rem;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: all ease-in-out 0.2s;
+  background-color: var(--color-main);
+}
+
+.login-spital-account-form-flex button:hover {
+  background-color: #1294ad;
+}
+
+.login-spital-account-form h1 {
+  color: #001a1f;
+}
+
+.gray-line {
+  width: 100%;
+  height: 1px;
+  background-color: #e6e6f0;
+  margin-top: 1.5rem;
+}
+
+#gray-line-2 {
+  margin-top: -1rem;
+}
+
+.login-spital-account-form-inputs {
+  width: 113%;
+  padding: 30px;
+  margin-left: -7%;
+}
+
+.login-spital-account-form-inputs input {
+  font-size: 1.5rem;
+  width: 100%;
+}
+
+#label-upload {
+  margin-top: 4rem;
+}
+
+.upload-button {
+  height: 100%;
+  width: 15%;
+  background-color: var(--color-main);
+  color: var(--color-button-light-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  border-top-right-radius: 1.5rem;
+  border-bottom-right-radius: 1.5rem;
+  cursor: pointer;
+}
+
+#input-upload-file {
+  display: none;
+}
+
+.input-upload-label {
+  width: 85%;
+  padding-left: 40px;
+  padding-top: 5px;
+  font-size: 2rem;
+  font-family: 700;
+}
+
+.login-button {
+  width: 100%;
+  height: 7rem;
+
+  margin-top: 5rem;
+  background-color: var(--color-button-primary);
+  border-radius: 1.5rem;
+  font-size: 2.5rem;
+  color: var(--color-button-light-text);
+  border: 0;
+  outline: 0;
+  transition: all ease-in-out 0.2s;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background-color: #0f4b57;
+}
+
+input[type="email"] {
+  font-size: 1.5rem;
+}
+
+input[type="password"] {
+  font-size: 1.5rem;
+}
+
+
+@media (max-height: 1280px) {
+  .login-spital-account-credentials {
+    margin-top: 0rem;
+  }
+}
+
+@media (max-width: 1250px) {
+  .upload-button {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .login-spital-account-credentials {
+    width: 70vw;
+  }
+}
+
+@media (max-width: 600px) {
+  .login-spital-account-credentials {
+    position: relative;
+    top: 20rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 90vw;
+    padding: 0.1rem;
+    background-color: var(--color-button-light-text);
+    border-radius: 5rem;
+    border: 1px solid var(--color-button-dark-text);
+  }
+}

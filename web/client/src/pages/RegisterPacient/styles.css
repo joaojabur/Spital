@@ -1,0 +1,253 @@
+.register-patient {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(227, 248, 253);
+  position: relative;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.register-patient::before {
+  content: "";
+  position: absolute;
+  top: -200px;
+  left: -200px;
+  width: 1200px;
+  height: 1200px;
+  border-radius: 50%;
+  background-color: rgba(7, 179, 214, 0.2);
+}
+
+.register-patient-grid {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 3fr;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-patient-header {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  z-index: 1000;
+  position: relative;
+}
+
+.register-patient-header img:first-child {
+  width: 50px;
+  filter: invert(1);
+}
+
+.register-patient-header > img {
+  width: 100px;
+}
+
+.register-patient-main {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 20px auto 0 auto;
+}
+
+.register-patient-main > img {
+  width: 500px;
+  position: relative;
+}
+
+.register-patient-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 450px;
+  padding: 2rem;
+  background-color: #fff;
+  position: relative;
+  border-radius: 2rem;
+  -webkit-box-shadow: 0px 1px 7px -1px rgba(0, 0, 0, 0.72);
+  -moz-box-shadow: 0px 1px 7px -1px rgba(0, 0, 0, 0.72);
+  box-shadow: 0px 1px 7px -1px rgba(0, 0, 0, 0.72);
+}
+
+.register-patient-form-content {
+  width: 85%;
+  margin: 35px auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.register-patient-form-content h1 {
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: var(--color-button-dark-text);
+}
+
+.register-patient-form-content h4 {
+  font-size: 2rem;
+  color: #717171;
+  margin-top: 15px;
+}
+
+.register-pacient-form-content-buttons {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-pacient-form-content-buttons button {
+  width: 350px;
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.register-pacient-form-content-buttons button img {
+  width: 4.5rem;
+}
+
+.register-pacient-form-content-buttons button {
+  font-size: 1.9rem;
+  color: var(--color-button-dark-text);
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 1rem;
+  border: none;
+  outline: none;
+  transition: all ease-in-out 0.2s;
+}
+
+.register-pacient-form-content-buttons a {
+  margin-top: 20px;
+}
+
+.register-pacient-form-content-buttons button + button {
+  margin-top: 20px;
+}
+
+.register-pacient-form-content-buttons button.facebook-button {
+  background-color: #33508e;
+  color: var(--color-button-light-text) !important;
+  -webkit-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.72);
+  -moz-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.72);
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.72);
+}
+
+.register-pacient-form-content-buttons button.facebook-button:hover {
+  background-color: #204188;
+}
+
+.register-pacient-form-content-buttons button.google-button {
+  background-color: #fff;
+  -webkit-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.72);
+  -moz-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.72);
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.72);
+}
+
+.register-pacient-form-content-buttons button.google-button:hover {
+  background-color: rgb(228, 227, 227);
+}
+
+.register-pacient-form-content-buttons button.spital-button {
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+
+.register-pacient-form-content-buttons button.spital-button:hover {
+  background-color: var(--color-main);
+  border: 1px solid #000;
+  color: var(--color-button-light-text);
+}
+
+.register-pacient-form-text {
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.register-pacient-form-text p {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-button-dark-text);
+}
+
+.register-pacient-form-text p a {
+  color: var(--color-main);
+  transition: all ease-in-out 0.2s;
+}
+
+.register-pacient-form-text p a:hover {
+  color: #0a96b3;
+}
+
+@media (max-width: 1100px) {
+  .register-patient::before {
+    width: 1200px;
+    height: 1200px;
+  }
+
+  .register-patient-main {
+    flex-direction: column;
+    overflow-x: auto;
+  }
+
+  .register-patient-main > img {
+    display: none;
+  }
+
+  .register-patient-form {
+    width: 500px;
+    height: 80vh;
+  }
+
+  .register-patient-form-content {
+    width: 85%;
+    margin: 35px auto 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .register-patient-form-content h1 {
+    font-size: 3.2rem;
+    font-weight: 700;
+    color: var(--color-button-dark-text);
+  }
+}
+
+@media (max-width: 580px) {
+  .register-patient-form {
+    width: 400px;
+    height: 80vh;
+  }
+}
+
+@media (max-width: 400px) {
+  .register-patient-form {
+    width: 300px;
+    height: 80vh;
+  }
+
+  .register-pacient-form-content-buttons button {
+    width: 250px;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+}

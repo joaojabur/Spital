@@ -1,0 +1,155 @@
+.header-platform {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  background-color: var(--color-main);
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.header-platform-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.header-platform-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-platform-nav a {
+  color: #fff;
+  font-weight: bold;
+  padding: 1rem;
+  text-decoration: none;
+  transition: all ease-in-out 0.2s;
+}
+.header-platform-nav a:hover {
+  color: rgb(188, 250, 252);
+}
+
+.header-platform-location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-platform-location-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.header-platform-location-flex p {
+  color: #fff;
+  font-weight: bold;
+}
+
+.header-logo {
+  max-width: 100px;
+}
+
+.header-hello-message {
+  position: relative;
+  left: -12%;
+  display: flex;
+  align-items: flex-start;
+  text-align: left;
+  flex-direction: column;
+  justify-content: flex-start;
+  font-size: 4rem;
+  color: #333333;
+  font-weight: bold;
+}
+
+.header-platform-title {
+  font-size: 4rem;
+  color: #333333;
+  font-weight: bold;
+}
+
+.header-hello-message span {
+  color: #16697a;
+  position: relative;
+  left: 20%;
+}
+
+/*Mobile*/
+
+.header-button-nav {
+  display: none;
+  background: none;
+  border: none;
+  outline: none;
+  transition: all ease-in-out 0.2s;
+}
+
+.header-platform-nav-mobile {
+  display: none;
+  transition: all ease-in-out 0.2s;
+  flex-direction: column !important;
+}
+
+.header-platform-nav-mobile-show {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .header-platform-nav {
+    display: none;
+  }
+
+  .header-button-nav {
+    display: flex;
+  }
+
+  .header-platform-nav-mobile {
+    display: none;
+    transition: all ease-in-out 0.2s;
+  }
+
+  .header-platform-nav-mobile-show {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    height: 35vh;
+    background-color: #fff;
+    justify-content: space-around;
+    border-bottom-left-radius: 5rem;
+    border-bottom-right-radius: 5rem;
+    border-top-right-radius: 5rem;
+    align-items: center;
+    transition: all ease-in-out 0.2s;
+  }
+
+  .header-platform-nav-mobile-show a {
+    font-size: 2rem;
+    color: var(--color-main);
+    text-decoration: none !important;
+    padding: 0.5rem;
+    border-bottom: 1px solid #ccc;
+  }
+}
+
+.logout-button {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.logout-button p {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+@media (max-width: 400px) {
+  .header-logo {
+    max-width: 70px;
+  }
+}

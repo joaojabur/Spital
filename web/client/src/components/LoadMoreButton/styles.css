@@ -1,0 +1,19 @@
+.load-more-button {
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--color-main);
+  font-size: 3rem;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 3rem;
+  border-radius: 0.8rem;
+  border: none;
+  cursor: pointer;
+  transform: scale(0.97);
+  transition: all ease-in-out 0.2s;
+  outline: none !important;
+}
+
+.load-more-button:hover {
+  transform: scale(1);
+}
