@@ -32,9 +32,9 @@ routes.post("/medics", MedicController.create);
 routes.get("/medics", MedicController.index);
 routes.put("/medics/:userID", MedicController.update);
 routes.delete("/medics/:userID", MedicController.delete);
-routes.get("/medics/:area", MedicController.list);
-routes.post("/medics/login", MedicController.login);
 routes.get("/medics/auth", isAuth, MedicController.auth);
+routes.post("/medics/login", MedicController.login);
+routes.get("/medics/:area", MedicController.list);
 
 routes.post("/appointments", AppointmentController.create);
 routes.get("/appointments", AppointmentController.index);
