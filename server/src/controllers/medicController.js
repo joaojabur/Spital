@@ -102,9 +102,9 @@ module.exports = {
       });
 
       if (isTheEmailAlreadyRegistered.length > 0) {
-        res.status(400).send({ error: "E-mail já registrado" });
+        res.json({ success: false, message: "E-mail já registrado" });
       } else if (isTheCPFOrRGAlreadyRegistered.length > 0) {
-        res.status(400).send({ error: "CPF e RG já registrados" });
+        res.json({ success: false, message: "CPF e RG já registrados" });
       } else {
         const userID = await knex("users").returning("id").insert({
           first_name: firstName,
@@ -129,6 +129,7 @@ module.exports = {
             birth_date: birthDate,
           });
 
+        /*
         await knex("addresses").insert({
           address: address.location,
           number: address.number,
@@ -136,6 +137,7 @@ module.exports = {
           lon: address.lon,
           userID: parseInt(userID),
         });
+        */
 
         const scheduleID = await knex("schedules")
           .returning("id")
@@ -153,10 +155,13 @@ module.exports = {
         await verify({
           id: parseInt(userID),
           email,
-          name: firstName + " " + lastName
+          name: firstName + " " + lastName,
         });
 
-        res.status(201).send();
+        res.status(201).json({
+          success: true,
+          message: "Cadastro realizado com sucesso!",
+        });
       }
     } catch (error) {
       next(error);
@@ -305,17 +310,15 @@ module.exports = {
       }
 
       if (await bcrypt.compare(password, user.password)) {
-
-        let [ medic ] = await knex('medics')
-          .where('userID', user.id);
-        
-        if (!medic){
-          throw Error("Email não encontrado")
-        }
-
         const token = jwt.sign({ id: user.id }, authConfig.secret, {
           expiresIn: 604800,
         });
+
+        let [medic] = await knex("medics").where("userID", user.id);
+
+        if (!medic) {
+          throw Error("Email não encontrado");
+        }
 
         res.cookie(
           "access-token",
@@ -327,8 +330,6 @@ module.exports = {
             httpOnly: true,
           }
         );
-        
-        
 
         res.status(201).send({
           id: user.id,

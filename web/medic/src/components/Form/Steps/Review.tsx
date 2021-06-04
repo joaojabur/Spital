@@ -23,22 +23,16 @@ interface MedicReviewProps {
 }
 
 const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
+  const [isThereBackendError, setIsThereBackendError] = useState(false);
   const [backendError, setBackEndError] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
-  const { signup } = useAuth();
   const { sucesso } = useModal();
   const { medicData } = useShareFormMedic();
 
   const history = useHistory();
 
-  async function handleSubmitMedic() {
-    let response = await signup({ ...medicData, xp: 0 });
-
-    console.log(response);
-  }
-
-  function handleSubmitForm(e: any) {
+  async function handleSubmitForm(e: any) {
     setIsLoading(true);
     e.preventDefault();
     const loopedErrors = Object.values(errors);
@@ -46,18 +40,34 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
       console.log("There's an error");
       setHasError(true);
     } else {
-      sucesso.open({
-        name: "Parabéns " + medicData.firstName + " " + medicData.lastName,
-        close: () => {
-          sucesso.close();
-          history.push("/confirmar-email");
-        },
-        description: "Conta criada com sucesso."
-      });
-      handleSubmitMedic();
       setHasError(false);
+      await api
+        .post("medics", {
+          ...medicData,
+          xp: 0,
+        })
+        .then((response: any) => {
+          if (response.data.success) {
+            setIsThereBackendError(false);
+            setBackEndError("");
+            sucesso.open({
+              name:
+                "Parabéns " + medicData.firstName + " " + medicData.lastName,
+              close: () => {
+                sucesso.close();
+                history.push("/confirmar-email");
+              },
+              description: "Conta criada com sucesso.",
+            });
+            setIsLoading(false);
+          } else {
+            setIsThereBackendError(true);
+            setBackEndError(response.data.message);
+
+            setIsLoading(false);
+          }
+        });
     }
-    setIsLoading(false);
   }
 
   const [hasError, setHasError] = useState(false);
@@ -67,7 +77,7 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
   const [errors, setErrors] = useState(validateMedicInfo(medicData));
 
   const formatedBirthDate = medicData?.birthDate?.replace(/[-]/g, "/");
-  
+
   return (
     <div className="form-container">
       <h2>Revise seus dados</h2>

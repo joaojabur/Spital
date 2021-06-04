@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import verified from "../../assets/images/verified.svg";
 import api from "../../services/api";
@@ -22,7 +22,7 @@ export default function VerifyEmail() {
       }
 
       setTimeout(() => {
-        history.replace("/entrar-paciente");
+        history.replace("/entrar");
       }, 3000);
     } catch (err) {
       console.log("Ocorreu um erro");

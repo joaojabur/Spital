@@ -9,5 +9,5 @@ export default function PublicRoute({ component: Component, ...rest }: any) {
     return <Route {...rest} render={(props: any) => <Component {...props} />} />;
   }
 
-  return <Redirect to="/principal" />;
+  return <Redirect to="/agenda" />;
 }
