@@ -22,7 +22,11 @@ const VerticalHeader = ({ colorIcon }: VerticalHeaderProps) => {
       name: "agenda",
       icon: (
         <IoCalendarOutline
-          style={{ cursor: "pointer", marginTop: "1.5rem" }}
+          style={{
+            cursor: "pointer",
+            marginTop: "1.5rem",
+            transition: "all ease-in-out 0.2s",
+          }}
           size="3.5rem"
           color={colorIcon === "agenda" ? "#62A4FB" : "#ccc"}
         />
@@ -33,7 +37,11 @@ const VerticalHeader = ({ colorIcon }: VerticalHeaderProps) => {
       name: "pacients",
       icon: (
         <IoPeopleOutline
-          style={{ cursor: "pointer", marginTop: "1.5rem" }}
+          style={{
+            cursor: "pointer",
+            marginTop: "1.5rem",
+            transition: "all ease-in-out 0.2s",
+          }}
           size="3.5rem"
           color={colorIcon === "pacients" ? "#62A4FB" : "#ccc"}
         />
@@ -44,7 +52,11 @@ const VerticalHeader = ({ colorIcon }: VerticalHeaderProps) => {
       name: "profile",
       icon: (
         <IoMedicalOutline
-          style={{ cursor: "pointer", marginTop: "1.5rem" }}
+          style={{
+            cursor: "pointer",
+            marginTop: "1.5rem",
+            transition: "all ease-in-out 0.2s",
+          }}
           size="3.5rem"
           color={colorIcon === "profile" ? "#62A4FB" : "#ccc"}
         />
@@ -55,7 +67,11 @@ const VerticalHeader = ({ colorIcon }: VerticalHeaderProps) => {
       name: "appointments",
       icon: (
         <IoPlayBackOutline
-          style={{ cursor: "pointer", marginTop: "1.5rem" }}
+          style={{
+            cursor: "pointer",
+            marginTop: "1.5rem",
+            transition: "all ease-in-out 0.2s",
+          }}
           size="3.5rem"
           color={colorIcon === "appointments" ? "#62A4FB" : "#ccc"}
         />
@@ -81,7 +97,11 @@ const VerticalHeader = ({ colorIcon }: VerticalHeaderProps) => {
       </div>
       <Link to="/configuracoes">
         <IoSettingsOutline
-          style={{ cursor: "pointer", marginBottom: "1rem" }}
+          style={{
+            cursor: "pointer",
+            marginBottom: "1rem",
+            transition: "all ease-in-out 0.2s",
+          }}
           size="3.5rem"
           color={colorIcon === "configurations" ? "#62A4FB" : "#ccc"}
         />

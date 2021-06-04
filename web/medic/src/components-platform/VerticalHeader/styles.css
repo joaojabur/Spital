@@ -24,3 +24,21 @@
   margin-top: 2rem;
   width: 4.5rem;
 }
+
+@media (max-width: 1200px) {
+  .vertical-header {
+    width: 10vw;
+  }
+}
+
+@media (max-width: 550px) {
+  .vertical-header {
+    width: 15vw;
+  }
+}
+
+@media (max-width: 300px) {
+  .vertical-header {
+    width: 20vw;
+  }
+}
