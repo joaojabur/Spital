@@ -116,7 +116,19 @@ export default function validateMedicInfo(credentials?: Medic) {
 
     if (!credentials?.birthDate?.length ?? 0) {
       errors.birthDate = "Campo de data de nascimento é necessário";
+    } else {
+      let year = new Date(credentials?.birthDate).getFullYear();
+      let month = new Date(credentials?.birthDate).getMonth() + 1;
+      let day = new Date(credentials?.birthDate).getDate();
+      if (new Date().getFullYear() - year <= 18){
+        if ((new Date().getMonth() + 1) - month <= 0){
+          if (new Date().getDate() - day <= 0){
+            errors.birthDate = "Você precisa ser maior de 18 anos";
+          }
+        }
+      }
     }
+
   }
 
   return errors;
