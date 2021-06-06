@@ -10,6 +10,7 @@ interface Medic {
   image: string;
   xp: number;
   confirmed: boolean;
+  configured: boolean;
   birthDate: Date;
   crm: string;
   area: string;
@@ -30,6 +31,7 @@ interface MedicData {
   area: string;
   graduation: string;
   masterDegree: string;
+  configured: boolean;
   doctorateDegree: string;
   cpf: string;
   rg: string;
@@ -68,7 +70,6 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   const [loading, setLoading] = useState<boolean>(true);
 
   async function getUserData(id: number) {
-    console.log(id);
     let response = await api.get(`medics?id=${id}`);
 
     setUser({

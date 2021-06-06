@@ -19,6 +19,8 @@ module.exports = {
         lon = -46.8754915;
       }
 
+      console.log(id, offset, lon, lat);
+
       if (!id) {
         let results = await knex.select(
           knex.raw(`
@@ -59,8 +61,7 @@ module.exports = {
         let [result] = await knex("medics")
           .where("userID", id)
           .join("users", "users.id", "=", "medics.userID")
-          .join("reviews", "reviews.medicID", "=", "medics.id")
-          .select("users.*", "medics.*", "reviews.stars");
+          .select("medics.*", "users.*");
 
         return res.status(200).json(result);
       }

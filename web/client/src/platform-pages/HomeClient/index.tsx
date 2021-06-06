@@ -75,7 +75,7 @@ const HomeClient = () => {
     }
   }, [location]);
 
-  Geocode.setApiKey("AIzaSyAHU3nGBAYTXAVknTd_OZuyj2k9d9B0i98");
+  Geocode.setApiKey("AIzaSyDanmMSOYTtyp-Lbu43BVKiSW5EP8FRS9Y");
   Geocode.setLanguage("pt");
   Geocode.setRegion("br");
   Geocode.enableDebug();

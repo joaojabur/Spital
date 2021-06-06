@@ -15,7 +15,7 @@ interface MedicScheduleProps {
 }
 
 const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
-  const { setMedicData } = useShareFormMedic();
+  const { setMedicData, medicData } = useShareFormMedic();
 
   const weekDays = [
     {
@@ -56,12 +56,13 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
     },
   ] as Array<ISchedule>);
 
-
   useEffect(() => {
     console.log(scheduleItems);
-    setMedicData((previousState) => ({ ...previousState, schedule: scheduleItems}))
-  }, [scheduleItems, setMedicData])
-
+    setMedicData((previousState) => ({
+      ...previousState,
+      schedule: scheduleItems,
+    }));
+  }, [scheduleItems, setMedicData]);
 
   function addNewScheduleItem() {
     if (scheduleItems.length >= 7) {
@@ -69,14 +70,17 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
         "Are you living on Earth? Here we have only seven days in a week!"
       );
     } else {
-      setScheduleItems([
-        ...scheduleItems,
-        {
-          week_day: scheduleItems.length,
-          from: "08:30",
-          to: "17:00",
-        },
-      ]);
+      setMedicData({
+        ...medicData,
+        schedule: [
+          ...medicData.schedule,
+          {
+            week_day: medicData.schedule.length + 1,
+            from: "",
+            to: "",
+          },
+        ],
+      });
     }
   }
 
@@ -167,13 +171,11 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
         );
       })}
 
-      <button className="secondary" 
-        onClick={(e) => previousPage()}>
-          Anterior
+      <button className="secondary" onClick={(e) => previousPage()}>
+        Anterior
       </button>
-      <button className="primary"
-        onClick={(e) => nextPage()}>
-          Próximo
+      <button className="primary" onClick={(e) => nextPage()}>
+        Próximo
       </button>
     </form>
   );

@@ -40,7 +40,29 @@ export const ShareMedicFormContext = createContext(
 export default function ShareClientFormProvider({
   children,
 }: ShareClientFormProviderProps) {
-  const [medicData, setMedicData] = useState<MedicData>({} as MedicData);
+  const [medicData, setMedicData] = useState<MedicData>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    phoneNumber: "",
+    area: "",
+    graduation: "",
+    masterDegree: "",
+    doctorateDegree: "",
+    cpf: "",
+    rg: "",
+    birthDate: "",
+    crm: "",
+    schedule: [
+      {
+        week_day: 0,
+        from: "08:30",
+        to: "17:00",
+      },
+    ],
+  } as MedicData);
 
   let value = {
     medicData,
