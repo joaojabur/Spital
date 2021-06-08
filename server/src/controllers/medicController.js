@@ -14,7 +14,7 @@ module.exports = {
         offset = 1;
       }
 
-      if (lat === "undefined" || lon === "undefined") {
+      if (lat === undefined || lon === undefined) {
         lat = -23.6821604;
         lon = -46.8754915;
       }
@@ -63,6 +63,15 @@ module.exports = {
           .join("users", "users.id", "=", "medics.userID")
           .select("medics.*", "users.*");
 
+        const rating = await knex("reviews")
+          .where({ medicID: id })
+          .select("stars");
+        const divider = rating.length;
+        const dividend = rating.reduce((a, b) => a + b.stars, 0);
+        const count = dividend / divider;
+
+        result.rating = count;
+
         return res.status(200).json(result);
       }
     } catch (error) {
@@ -87,7 +96,6 @@ module.exports = {
       rg,
       birthDate,
       schedule,
-      address,
     } = req.body;
 
     const hashPassword = await bcrypt.hash(password, 10);

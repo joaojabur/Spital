@@ -14,6 +14,8 @@ exports.up = function (knex) {
     table.text("rg").notNullable();
     table.text("birth_date").notNullable();
 
+    table.text("accountID");
+
     table.boolean("configured").defaultTo(false);
 
     table

@@ -7,10 +7,19 @@ import PlacesAutocomplete, {
   getLatLng,
 } from "react-places-autocomplete";
 import Loader from "react-loader-spinner";
+import { useEffect, useState } from "react";
+import validateConfigureMedic from "../../../utils/validateConfigureMedic";
 
 const ClinicAddress = ({ previousPage, nextPage }: PagesProps) => {
   const { medicDataConfigure, setMedicDataConfigure } =
     useShareFormMedicConfigure();
+  const [errors, setErrors] = useState(
+    validateConfigureMedic(medicDataConfigure)
+  );
+
+  useEffect(() => {
+    setErrors(validateConfigureMedic(medicDataConfigure));
+  }, [medicDataConfigure]);
 
   const handleSelect = async (value: any) => {
     const results = await geocodeByAddress(medicDataConfigure.address);
@@ -53,6 +62,8 @@ const ClinicAddress = ({ previousPage, nextPage }: PagesProps) => {
                   fullWidth
                   label={<span style={{ fontSize: "1.5rem" }}>Endereço</span>}
                   variant="outlined"
+                  error={errors.address ? true : false}
+                  helperText={errors.address}
                 />
 
                 <div>
@@ -96,6 +107,8 @@ const ClinicAddress = ({ previousPage, nextPage }: PagesProps) => {
             style={{ width: "15%" }}
             label={<span style={{ fontSize: "1.5rem" }}>Número</span>}
             variant="outlined"
+            error={errors.number ? true : false}
+            helperText={errors.number}
           />
         </div>
       </div>

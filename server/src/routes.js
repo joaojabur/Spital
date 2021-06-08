@@ -13,6 +13,7 @@ const reviewController = require("./controllers/reviewController");
 const addressController = require("./controllers/addressController");
 const consultTypeController = require("./controllers/consultTypeController");
 const cardController = require("./controllers/cardController");
+const configureMedicController = require("./controllers/configureMedicController");
 
 routes.get("/users", userController.index);
 routes.delete("/users/:id", userController.delete);
@@ -35,6 +36,9 @@ routes.delete("/medics/:userID", MedicController.delete);
 routes.get("/medics/auth", isAuth, MedicController.auth);
 routes.post("/medics/login", MedicController.login);
 routes.get("/medics/:area", MedicController.list);
+
+routes.post("/configure-medic", configureMedicController.create);
+routes.get("/configure-medic", configureMedicController.index);
 
 routes.post("/appointments", AppointmentController.create);
 routes.get("/appointments", AppointmentController.index);

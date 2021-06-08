@@ -5,6 +5,7 @@ import "./styles.css";
 import { useHistory, useParams } from "react-router-dom";
 import { ParamTypes } from "../MedicProfilePages/Main";
 import { FaStar } from "react-icons/fa";
+import Loader from "react-loader-spinner";
 
 interface ReviewProps {
   id: number;
@@ -17,22 +18,25 @@ interface ReviewProps {
 const MedicProfileRating = () => {
   const { medicID } = useParams<ParamTypes>();
   const [reviews, setReviews] = useState<ReviewProps[]>([]);
+  const [medicName, setMedicName] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    api.get(`medics?userID=${medicID}`).then((response: any) => {
+    setLoading(true);
+    api.get(`medics?id=${medicID}`).then((response: any) => {
+      setMedicName(response.data.first_name);
       api.get(`reviews?medicID=${response.data.id}`).then((res: any) => {
         setReviews(res.data);
+        setLoading(false);
       });
     });
   }, [setReviews, medicID]);
-
-  console.log(reviews);
 
   const history = useHistory();
   return (
     <div className="client-platform">
       <SubHeaderPlatform
-        title="Avaliações do(a) Dr(a) James"
+        title={`Avaliações do(a) Dr(a) ${medicName}`}
         returnFunction={() => history.goBack()}
       />
       <div
@@ -44,28 +48,41 @@ const MedicProfileRating = () => {
         >
           Avaliações:
         </h1>
-        <div className="review-medic-profile">
-          {reviews.map((review: ReviewProps) => {
-            return (
-              <div className="review-medic-profile-wrap">
-                <div className="review-medic-profile-wrap-flex">
-                  <img
-                    src={`https://avatars.dicebear.com/api/human/${
-                      review.first_name + review.last_name
-                    }.svg`}
-                  />
-                  <h1>
-                    {review.first_name} {review.last_name}
-                  </h1>
+        {loading ? (
+          <Loader
+            type="TailSpin"
+            color="var(--color-button-primary)"
+            height={100}
+            width={100}
+          />
+        ) : (
+          <div className="review-medic-profile">
+            {reviews.map((review: ReviewProps, index: number) => {
+              return (
+                <div key={index} className="review-medic-profile-wrap">
+                  <div className="review-medic-profile-wrap-flex">
+                    <img
+                      src={`https://avatars.dicebear.com/api/human/${
+                        review.first_name + review.last_name
+                      }.svg`}
+                    />
+                    <h1>
+                      {review.first_name} {review.last_name}
+                    </h1>
 
-                  <span>{review.stars}.0</span>
-                  <FaStar color="#FFC107" style={{ marginTop: '1.1rem', marginLeft: '1.5rem' }} size="3rem" />
+                    <span>{review.stars}.0</span>
+                    <FaStar
+                      color="#FFC107"
+                      style={{ marginTop: "1.1rem", marginLeft: "1.5rem" }}
+                      size="3rem"
+                    />
+                  </div>
+                  <p>{review.description}</p>
                 </div>
-                <p>{review.description}</p>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );
