@@ -37,6 +37,7 @@ module.exports = {
           xp: result.xp,
           phoneNumber: result.phoneNumber,
           id: result.id,
+          accountID: result.accountID,
         });
       }
     } catch (error) {
@@ -72,13 +73,15 @@ module.exports = {
 
         moip.customer
           .create({
-            ownId: userID,
+            ownId: `${userID}`,
             fullname: `${firstName} ${lastName}`,
             email: email,
             birthDate: "1988-12-30",
           })
-          .then((response) => {
-            console.log(response.body);
+          .then(async (response) => {
+            await knex("clients")
+              .where({ userID })
+              .update({ accountID: response.body.id });
           });
 
         await verifyEmail({
