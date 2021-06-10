@@ -8,8 +8,10 @@
 }
 
 .horizontal-header h1 {
+  font-size: 3rem;
   color: #fff;
   font-weight: bold;
+  margin-top: 0;
 }
 
 .logout-button {

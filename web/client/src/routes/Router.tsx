@@ -82,14 +82,9 @@ function Router() {
             component={MedicProfileRating}
           />
         </ShareInfoDataProvider>
-        <PublicRoute
-          path="*"
-          component={NotFound}
-        />
-        <PrivateRoute
-          path="*"
-          component={NotFound}
-        />
+
+        <PublicRoute path="*" component={NotFound} />
+        <PrivateRoute path="*" component={NotFound} />
       </Switch>
     </BrowserRouter>
   );

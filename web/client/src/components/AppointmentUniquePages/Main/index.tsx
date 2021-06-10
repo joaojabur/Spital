@@ -238,7 +238,7 @@ const AppointmentUniqueMain = ({ previousPage, nextPage }: any) => {
                           marginTop: "2rem",
                         }}
                       >
-                        {totalDate > now_totalDate || appointment.confirmed ? (
+                        {now_totalDate > totalDate ? (
                           <p
                             onClick={() => {
                               areYouSure.open({

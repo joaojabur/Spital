@@ -1,5 +1,4 @@
 const knex = require("../database");
-const pagarme = require("pagarme");
 
 module.exports = {
   async index(req, res, next) {

@@ -41,7 +41,7 @@ const MainProfileMedic = ({ nextPage }: NamesProps) => {
   const { medicID } = useParams<ParamTypes>();
 
   useEffect(() => {
-    api.get(`medics?userID=${medicID}`).then((response) => {
+    api.get(`medics?id=${medicID}`).then((response) => {
       setMedic(response.data);
     });
   }, [medicID]);

@@ -3,6 +3,11 @@ const jwt = require("jsonwebtoken");
 const authConfig = require("../configs/authConfig.json");
 const bcrypt = require("bcrypt");
 const verifyEmail = require("../services/email/verify");
+const moip = require("moip-sdk-node").default({
+  token: "U3UJDDW9WKUUUYN4SY5URVIPFMFSBFX1",
+  key: "B0HZCGHREPSALKIP6RUKWRYJS3Z2X0IDJYXJWMIJ",
+  production: false,
+});
 
 module.exports = {
   async index(req, res, next) {
@@ -32,6 +37,7 @@ module.exports = {
           xp: result.xp,
           phoneNumber: result.phoneNumber,
           id: result.id,
+          accountID: result.accountID,
         });
       }
     } catch (error) {
@@ -57,7 +63,7 @@ module.exports = {
       });
 
       if (isTheEmailAlreadyRegistered.length > 0) {
-        res.status(400).send({ error: "E-mail já registrado" });
+        res.json({ message: "E-mail já registrado", success: false });
       } else {
         const [userID] = await knex("users").returning("id").insert({
           first_name: firstName,
@@ -73,7 +79,19 @@ module.exports = {
           userID: parseInt(userID),
         });
 
-        // Tenta enviar o email
+        moip.customer
+          .create({
+            ownId: `${userID}`,
+            fullname: `${firstName} ${lastName}`,
+            email: email,
+            birthDate: "1988-12-30",
+          })
+          .then(async (response) => {
+            await knex("clients")
+              .where({ userID })
+              .update({ accountID: response.body.id });
+          });
+
         await verifyEmail({
           id: userID,
           email,

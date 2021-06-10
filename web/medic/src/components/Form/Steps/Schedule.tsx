@@ -15,7 +15,8 @@ interface MedicScheduleProps {
 }
 
 const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
-  const { setMedicData } = useShareFormMedic();
+  const { setMedicData, medicData } = useShareFormMedic();
+  console.log(medicData);
 
   const weekDays = [
     {
@@ -48,35 +49,23 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
     },
   ];
 
-  const [scheduleItems, setScheduleItems] = useState([
-    {
-      week_day: 0,
-      from: "08:30",
-      to: "17:00",
-    },
-  ] as Array<ISchedule>);
-
-
-  useEffect(() => {
-    console.log(scheduleItems);
-    setMedicData((previousState) => ({ ...previousState, schedule: scheduleItems}))
-  }, [scheduleItems, setMedicData])
-
-
   function addNewScheduleItem() {
-    if (scheduleItems.length >= 7) {
+    if (medicData.schedule.length >= 7) {
       console.log(
         "Are you living on Earth? Here we have only seven days in a week!"
       );
     } else {
-      setScheduleItems([
-        ...scheduleItems,
-        {
-          week_day: scheduleItems.length,
-          from: "08:30",
-          to: "17:00",
-        },
-      ]);
+      setMedicData({
+        ...medicData,
+        schedule: [
+          ...medicData.schedule,
+          {
+            week_day: medicData.schedule.length,
+            from: "",
+            to: "",
+          },
+        ],
+      });
     }
   }
 
@@ -85,7 +74,7 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
     field: string,
     value: string
   ) {
-    const newScheduleItems = scheduleItems.map((scheduleItem, index) => {
+    const newScheduleItem = medicData.schedule.map((scheduleItem, index) => {
       if (index === position) {
         return { ...scheduleItem, [field]: value };
       }
@@ -93,16 +82,16 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
       return scheduleItem;
     });
 
-    setScheduleItems(newScheduleItems);
+    setMedicData({ ...medicData, schedule: newScheduleItem });
   }
 
   function deleteScheduleItem(position: number) {
-    let newScheduleItems = [...scheduleItems];
+    let newScheduleItems = [...medicData.schedule];
     const index = newScheduleItems.findIndex((item: any) => item === position);
 
     newScheduleItems.splice(index, 1);
 
-    setScheduleItems(newScheduleItems);
+    setMedicData({ ...medicData, schedule: newScheduleItems });
   }
   return (
     <form className="form-container">
@@ -116,7 +105,7 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
 
       <div className="line"></div>
 
-      {scheduleItems.map((scheduleItem, index) => {
+      {medicData.schedule.map((scheduleItem, index) => {
         return (
           <div key={scheduleItem.week_day} className="schedule-item">
             <span className="schedule-item-label">Dia da semana</span>
@@ -167,13 +156,11 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
         );
       })}
 
-      <button className="secondary" 
-        onClick={(e) => previousPage()}>
-          Anterior
+      <button className="secondary" onClick={previousPage}>
+        Anterior
       </button>
-      <button className="primary"
-        onClick={(e) => nextPage()}>
-          Próximo
+      <button className="primary" onClick={nextPage}>
+        Próximo
       </button>
     </form>
   );

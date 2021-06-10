@@ -62,12 +62,20 @@ module.exports = {
     try {
       const { medicID, clientID } = req.query;
       const { amount, id, appointmentData, date } = req.body;
+
+      const [{ accountID }] = await knex("medics")
+        .where({ id: medicID })
+        .select("medics.accountID");
+
       const payment = await stripe.paymentIntents.create({
         amount,
         currency: "BRL",
         description: "consulta Spital",
         payment_method: id,
         confirm: true,
+        transfer_data: {
+          destination: accountID,
+        },
       });
 
       const scheduleID = await knex("schedules").returning("id").insert({

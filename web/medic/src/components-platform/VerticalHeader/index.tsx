@@ -89,7 +89,7 @@ const VerticalHeader = ({ colorIcon }: VerticalHeaderProps) => {
         ></div>
         {items.map((item: any) => {
           return (
-            <Link to={item.goTo}>
+            <Link key={item.name} to={item.goTo}>
               <div>{item.icon}</div>
             </Link>
           );
