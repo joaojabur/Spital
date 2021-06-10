@@ -41,7 +41,14 @@ module.exports = {
 
   async create(req, res, next) {
     try {
-      const { firstName, lastName, email, password, phoneNumber } = req.body;
+      const { 
+        firstName, 
+        lastName, 
+        email, 
+        password, 
+        phoneNumber, 
+        birthDate 
+      } = req.body;
 
       const hashPassword = await bcrypt.hash(password, 10);
 
@@ -57,6 +64,7 @@ module.exports = {
           last_name: lastName,
           email,
           password: hashPassword,
+          birth_date: birthDate,
           xp: 32,
         });
 

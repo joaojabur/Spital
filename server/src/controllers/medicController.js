@@ -111,6 +111,7 @@ module.exports = {
           last_name: lastName,
           email,
           password: hashPassword,
+          birth_date: birthDate,
           xp: 0,
         });
 
@@ -126,7 +127,6 @@ module.exports = {
             crm,
             cpf,
             rg,
-            birth_date: birthDate,
           });
 
         /*
