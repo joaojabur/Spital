@@ -6,7 +6,7 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ListItemText from "@material-ui/core/ListItemText";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { IconButton } from "@material-ui/core";
+import { Checkbox, IconButton, FormControlLabel } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import getPasswordAsterisk from "../../../utils/HashPassword";
 import validateInfo from "../../../utils/validateInfo";
@@ -38,6 +38,8 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
   const hashedPassword = getPasswordAsterisk(userData?.password ?? "");
 
   const [errors, setErrors] = useState(validateInfo(userData));
+
+  const [agreement, setAgreement] = useState(false);
 
   useEffect(() => {
     setErrors(validateInfo(userData));
@@ -100,11 +102,23 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
         )}
       </p>
 
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={agreement}
+            onChange={(e) => setAgreement(e.target.checked)}
+            name="checkedB"
+            color="primary"
+          />
+        }
+        label="Clique aqui para aceitar nossos Termos e Serviços"
+      />
+
       <button className="secondary" onClick={(e) => previousPage()}>
         Anterior
       </button>
 
-      <button className="primary" onClick={handleSubmitForm}>
+      <button style={!agreement ? { cursor: 'not-allowed'} : {}} className="primary" onClick={handleSubmitForm} disabled={!agreement}>
         Cadastrar
       </button>
     </div>
