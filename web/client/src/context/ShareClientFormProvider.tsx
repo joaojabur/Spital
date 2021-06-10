@@ -7,6 +7,7 @@ interface UserData {
   password: string;
   confirmPassword: string;
   phoneNumber: string;
+  birthDate: string;
   image: string;
 }
 

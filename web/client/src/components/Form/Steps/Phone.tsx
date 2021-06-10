@@ -42,6 +42,21 @@ const Phone = ({ nextPage, previousPage }: PhoneProps) => {
           <span style={{ fontSize: "1rem" }}>{errors.phoneNumber}</span>
         }
       />
+      <TextField
+          value={userData?.birthDate}
+          type="date"
+          style={{ marginTop: "1rem" }}
+          onChange={(e) => {
+            setUserData({ ...userData, birthDate: e.target.value });
+          }}
+          fullWidth
+          autoComplete="off"
+          error={errors.birthDate ? true : false}
+          helperText={
+            <span style={{ fontSize: "1rem" }}>{errors?.birthDate}</span>
+          }
+          name="birthDate"
+        />
       <button
         className="secondary"
         onClick={(e) => previousPage()}>Anterior</button>
