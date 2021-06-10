@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import AppointmentInfo from "../../components-platform/ConfigureMedicPages/AppointmentInfo";
 import BankData from "../../components-platform/ConfigureMedicPages/BankData";
 import ClinicAddress from "../../components-platform/ConfigureMedicPages/ClinicAddress";
+import InvoiceAddress from "../../components-platform/ConfigureMedicPages/InvoiceAddress";
 import Landing from "../../components-platform/ConfigureMedicPages/Landing";
 import Success from "../../components-platform/ConfigureMedicPages/Success";
 import ShareMedicConfigureFormProvider from "../../context/ShareMedicConfigureFormProvider";
@@ -22,6 +23,7 @@ const ConfigureMedic = () => {
     <AppointmentInfo previousPage={previousPage} nextPage={nextPage} />,
     <ClinicAddress previousPage={previousPage} nextPage={nextPage} />,
     <BankData previousPage={previousPage} nextPage={nextPage} />,
+    <InvoiceAddress previousPage={previousPage} nextPage={nextPage} />,
     <Success previousPage={previousPage} nextPage={nextPage} />,
   ];
 

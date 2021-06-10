@@ -38,7 +38,10 @@ routes.post("/medics/login", MedicController.login);
 routes.get("/medics/:area", MedicController.list);
 
 routes.post("/configure-medic", configureMedicController.create);
-routes.get("/configure-medic", configureMedicController.index);
+routes.post(
+  "/configure-medic/:moipAccountId",
+  configureMedicController.createBankAccount
+);
 
 routes.post("/appointments", AppointmentController.create);
 routes.get("/appointments", AppointmentController.index);

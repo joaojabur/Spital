@@ -13,7 +13,8 @@ exports.up = function (knex) {
     table.text("cpf").notNullable();
     table.text("rg").notNullable();
 
-    table.text("accountID");
+    table.text("moipAccountID");
+    table.text("bankAccountID");
 
     table.boolean("configured").defaultTo(false);
 

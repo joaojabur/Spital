@@ -9,6 +9,7 @@ import PlacesAutocomplete, {
 import Loader from "react-loader-spinner";
 import { useEffect, useState } from "react";
 import validateConfigureMedic from "../../../utils/validateConfigureMedic";
+import BankAccountValidator from "br-bank-account-validator";
 
 const ClinicAddress = ({ previousPage, nextPage }: PagesProps) => {
   const { medicDataConfigure, setMedicDataConfigure } =
