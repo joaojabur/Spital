@@ -59,20 +59,16 @@ export default function validateInfo(credentials: User) {
       let year = new Date(credentials?.birthDate).getFullYear();
       let month = new Date(credentials?.birthDate).getMonth() + 1;
       let day = new Date(credentials?.birthDate).getDate();
-      console.log(year)
-      console.log(month)
-      console.log(day);
-      console.log(new Date().getFullYear() - year)
-      console.log(new Date().getMonth() + 1 - month)
-      console.log(new Date().getDate() - day)
       if (new Date().getFullYear() - year >= 18){
-        if ((new Date().getMonth() + 1) - month >= 0){
-          if (new Date().getDate() - day <= 0){
+        if (new Date().getFullYear() - year === 18){
+          if ((new Date().getMonth() + 1) - month >= 0){
+            if (new Date().getDate() - day <= 0){
+              errors.birthDate = "Você precisa ser maior de 18 anos";
+            }
+          } else {
             errors.birthDate = "Você precisa ser maior de 18 anos";
           }
-        } else {
-          errors.birthDate = "Você precisa ser maior de 18 anos";
-        }
+        } 
       } else {
         errors.birthDate = "Você precisa ser maior de 18 anos";
       }
