@@ -12,7 +12,6 @@ exports.up = function (knex) {
 
     table.text("cpf").notNullable();
     table.text("rg").notNullable();
-    table.text("birth_date").notNullable();
 
     table.boolean("configured").defaultTo(false);
 
