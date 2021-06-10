@@ -43,6 +43,14 @@ function Router() {
           path="/login-spital-paciente"
           component={LoginSpitalAccount}
         />
+        <PublicRoute
+          path="/registrar-spital-paciente"
+          component={RegisterPatientSpitalAccount}
+        />
+        <PublicRoute
+          path="/registrar-spital-medico"
+          component={RegisterMedicSpital}
+        />
         <PublicRoute path="/confirmar-email" component={ConfirmEmail} />
         <PublicRoute path="/verificar/:token" component={VerifyEmail} />
         <PublicRoute path="/recuperar" exact component={ForgetPassword} />
@@ -74,15 +82,6 @@ function Router() {
             component={MedicProfileRating}
           />
         </ShareInfoDataProvider>
-
-        <PublicRoute
-          path="/registrar-spital-paciente"
-          component={RegisterPatientSpitalAccount}
-        />
-        <PublicRoute
-          path="/registrar-spital-medico"
-          component={RegisterMedicSpital}
-        />
         <PublicRoute
           path="*"
           component={NotFound}
