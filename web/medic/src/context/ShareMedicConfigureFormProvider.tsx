@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
+import { BankData } from "../components-platform/ConfigureMedicPages/BankData";
+import { InvoiceAddressProps } from "../components-platform/ConfigureMedicPages/InvoiceAddress";
 
 interface MedicConfigureData {
   appointments: Array<Appointment>;
@@ -6,6 +8,8 @@ interface MedicConfigureData {
   number: string;
   lat: number | null;
   lon: number | null;
+  bankData: BankData;
+  invoiceAddress: InvoiceAddressProps;
 }
 
 interface Appointment {
@@ -43,6 +47,22 @@ export default function ShareClientFormProvider({
       number: "",
       lat: null,
       lon: null,
+      bankData: {
+        bankNumber: "",
+        agencyNumber: "",
+        accountNumber: "",
+        accountCheckNumber: "",
+        fullName: "",
+        cpf: "",
+      },
+      invoiceAddress: {
+        street: "",
+        streetNumber: "",
+        district: "",
+        zipCode: "",
+        city: "",
+        state: "SP",
+      },
     } as MedicConfigureData);
 
   let value = {

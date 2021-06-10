@@ -9,7 +9,6 @@ const AppointmentInfo = ({ previousPage, nextPage }: PagesProps) => {
   const [appointmentError, setAppointmentError] = useState("");
   const { medicDataConfigure, setMedicDataConfigure } =
     useShareFormMedicConfigure();
-  console.log(medicDataConfigure);
 
   function addNewAppointmentItem() {
     if (medicDataConfigure.appointments.length >= 3) {

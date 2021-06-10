@@ -16,9 +16,12 @@ import "./styles.css";
 import api from "../../services/api";
 import { useAuth } from "../../context/AuthProvider";
 import { useModal } from "../../context/ModalProvider";
+import { useHistory } from "react-router-dom";
 
 const AgendaComponent = () => {
+  const history = useHistory();
   const { user } = useAuth();
+  console.log(user.configured);
 
   const [data, setData] = useState([
     {
@@ -36,6 +39,10 @@ const AgendaComponent = () => {
       isAllDay: false,
     },
   ]);
+
+  if (!user.configured) {
+    history.replace("/configurar");
+  }
 
   return (
     <>

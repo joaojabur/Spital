@@ -6,7 +6,7 @@ import { IoCheckmarkOutline } from "react-icons/io5";
 export interface CadastroSucessoProps {
   name: string;
   description: string;
-  close?: () => void;
+  close?: () => any;
 }
 export default function CadastroSucesso({
   name,
