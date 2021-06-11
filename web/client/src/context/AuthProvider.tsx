@@ -1,11 +1,7 @@
-import React, {
-  useState,
-  useEffect,
-  createContext,
-  useContext,
-} from "react";
+import React, { useState, useEffect, createContext, useContext } from "react";
 import api from "../services/api";
 import Cookies from "js-cookie";
+import { useModal } from "./ModalProvider";
 
 interface User {
   firstName: string;
@@ -33,6 +29,7 @@ interface AuthProviderProps {
 const AuthContext = createContext({} as AuthContextData);
 
 export default function AuthProvider({ children }: AuthProviderProps) {
+  const { spinner } = useModal();
   const [user, setUser] = useState<User | null>(null);
   const [userID, setUserID] = useState<number | null>(null);
   const [confirmed, setConfirmed] = useState<boolean>(false);
@@ -98,6 +95,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function signup(user: User) {
+    await spinner.open();
+
     return await api.post("clients", {
       ...user,
     });

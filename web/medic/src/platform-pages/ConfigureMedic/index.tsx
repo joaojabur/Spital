@@ -6,6 +6,7 @@ import ClinicAddress from "../../components-platform/ConfigureMedicPages/ClinicA
 import InvoiceAddress from "../../components-platform/ConfigureMedicPages/InvoiceAddress";
 import Landing from "../../components-platform/ConfigureMedicPages/Landing";
 import Success from "../../components-platform/ConfigureMedicPages/Success";
+import { useAuth } from "../../context/AuthProvider";
 import ShareMedicConfigureFormProvider from "../../context/ShareMedicConfigureFormProvider";
 import "./styles.css";
 
@@ -17,6 +18,12 @@ export interface PagesProps {
 const ConfigureMedic = () => {
   const history = useHistory();
   const [currentPage, setCurrentPage] = useState(0);
+
+  const { user } = useAuth();
+
+  if (user.configured) {
+    history.replace("/configuracoes");
+  }
 
   let pages: Array<JSX.Element> = [
     <Landing previousPage={previousPage} nextPage={nextPage} />,

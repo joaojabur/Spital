@@ -84,7 +84,7 @@ module.exports = {
             ownId: `${userID}`,
             fullname: `${firstName} ${lastName}`,
             email: email,
-            birthDate: "1988-12-30",
+            birthDate: birthDate,
           })
           .then(async (response) => {
             await knex("clients")

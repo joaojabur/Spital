@@ -21,7 +21,8 @@ interface ReviewProps {
 }
 
 const Review = ({ previousPage, changePage }: ReviewProps) => {
-  const { sucesso } = useModal();
+  const [backendError, setBackendError] = useState("");
+  const { sucesso, spinner } = useModal();
   const { signup } = useAuth();
   const { userData } = useShareClientForm();
 
@@ -29,8 +30,22 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
 
   async function handleSubmitClient() {
     let response = await signup({ ...userData, xp: 0 });
+    console.log(response.data);
+    spinner.close();
 
-    console.log(response);
+    if (response.status === 201) {
+      setBackendError("");
+      sucesso.open({
+        name: "Parabéns " + userData.firstName + " " + userData.lastName,
+        close: () => {
+          sucesso.close();
+          history.push("/confirmar-email");
+        },
+        description: "Conta criada com sucesso.",
+      });
+    } else {
+      setBackendError(response.data.message);
+    }
   }
 
   const [hasError, setHasError] = useState(false);
@@ -52,14 +67,6 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
       console.log("There's an error");
       setHasError(true);
     } else {
-      sucesso.open({
-        name: "Parabéns " + userData.firstName + " " + userData.lastName,
-        close: () => {
-          sucesso.close();
-          history.push("/confirmar-email");
-        },
-        description: "Conta criada com sucesso."
-      });
       handleSubmitClient();
       setHasError(false);
     }
@@ -89,18 +96,21 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
       />
       <RenderAccordion
         summary="Telefone"
-        userInfo={[{ type: "Telefone celular", info: userData?.phoneNumber }]}
+        userInfo={[
+          { type: "Telefone celular", info: userData?.phoneNumber },
+          { type: "Data de nascimento", info: userData?.birthDate },
+        ]}
         index={2}
         changePage={changePage}
       />
 
-      <p>
-        {hasError ? (
-          <span style={{ color: "red" }}>O formulário possui erros...</span>
-        ) : (
-          <span></span>
-        )}
-      </p>
+      <span style={{ color: "red" }}>
+        {hasError && "O formulário possui erros"}
+      </span>
+
+      <span style={{ color: "#f00", fontSize: "2rem", fontWeight: "bold" }}>
+        {backendError}
+      </span>
 
       <FormControlLabel
         control={
@@ -118,7 +128,12 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
         Anterior
       </button>
 
-      <button style={!agreement ? { cursor: 'not-allowed'} : {}} className="primary" onClick={handleSubmitForm} disabled={!agreement}>
+      <button
+        style={!agreement ? { cursor: "not-allowed" } : {}}
+        className="primary"
+        onClick={handleSubmitForm}
+        disabled={!agreement}
+      >
         Cadastrar
       </button>
     </div>

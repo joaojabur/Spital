@@ -19,8 +19,6 @@ module.exports = {
         lon = -46.8754915;
       }
 
-      console.log(id, offset, lon, lat);
-
       if (!id) {
         let results = await knex.select(
           knex.raw(`
@@ -63,14 +61,21 @@ module.exports = {
           .join("users", "users.id", "=", "medics.userID")
           .select("medics.*", "users.*");
 
-        const rating = await knex("reviews")
+        let rating = await knex("reviews")
           .where({ medicID: id })
           .select("stars");
-        const divider = rating.length;
-        const dividend = rating.reduce((a, b) => a + b.stars, 0);
-        const count = dividend / divider;
 
-        result.rating = count;
+        if (rating === undefined) {
+          rating = [0, { stars: 0 }];
+        }
+
+        const divider = rating?.length;
+        const dividend = rating?.reduce((a, b) => a + b?.stars, 0);
+        let count = dividend / divider;
+
+        if (isNaN(count)) {
+          count = 4;
+        }
 
         return res.status(200).json(result);
       }

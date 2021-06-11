@@ -106,10 +106,6 @@ module.exports = {
             .update({ moipAccountID: response.body.id })
             .where({ id: medicID });
 
-          await knex("medics")
-            .update({ configured: true })
-            .where({ id: medicID });
-
           res.json({
             success: true,
             message: "Sucesso!",
@@ -157,7 +153,7 @@ module.exports = {
         .then(async (response) => {
           console.log(response.body);
           await knex("medics")
-            .update({ bankAccountID: response.body.id })
+            .update({ bankAccountID: response.body.id, configured: true })
             .where({ id: medicID });
         });
 
