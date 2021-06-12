@@ -47,7 +47,7 @@ module.exports = {
       const [result] = await knex("medics")
         .where({ userID })
         .join("users", "users.id", "=", "medics.userID")
-        .select("users.email", "medics.phoneNumber", "medics.birth_date");
+        .select("users.email", "medics.phoneNumber", "users.birth_date");
       const [ddd, phoneNumber] = result.phoneNumber.split(")");
 
       const formattedDDD = ddd.replace("(", "");
@@ -114,10 +114,9 @@ module.exports = {
           });
         });
     } catch (error) {
-      res.json({
-        success: false,
-        message: "Erro no servidor",
-      });
+      console.log(error);
+
+      next(error);
     }
   },
 

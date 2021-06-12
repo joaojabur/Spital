@@ -27,7 +27,7 @@ module.exports = {
             + cos((${lat}*pi()/180)) * cos((lat*pi()/180))
             * cos(((${lon} - lon) * pi()/180))))
               * 180/pi()) * 60 * 1.1515 * 1.609344) 
-              as distance, (select avg(stars) from reviews where medic.id = reviews."medicID") as star
+              as distance
           FROM addresses
           join medics as medic
           on medic."userID" = addresses."userID"
@@ -43,6 +43,12 @@ module.exports = {
         let formatedResults = [];
 
         for (let result of results) {
+          let [ { star } ] = await knex.select(
+            knex.raw(`
+              round(avg(stars), 2) as star from reviews where reviews."medicID" = ${result.id};`
+            )
+          )
+
           formatedResults.push({
             ...result,
             password: undefined,
@@ -50,7 +56,7 @@ module.exports = {
             first_name: undefined,
             lastName: result.last_name,
             last_name: undefined,
-            star: result.star ? result.star : "4.0",
+            rating: star ? star : "4.0",
           });
         }
 
@@ -60,21 +66,24 @@ module.exports = {
           .where("userID", id)
           .join("users", "users.id", "=", "medics.userID")
           .select("medics.*", "users.*");
+        
+        let [ { star } ] = await knex.select(
+          knex.raw(`
+            round(avg(stars), 2) as star from reviews where reviews."medicID" = ${result.id};`
+          )
+        )
 
-        let rating = await knex("reviews")
-          .where({ medicID: id })
-          .select("stars");
+        result.rating = star;
 
-        if (rating === undefined) {
-          rating = [0, { stars: 0 }];
-        }
-
-        const divider = rating?.length;
-        const dividend = rating?.reduce((a, b) => a + b?.stars, 0);
-        let count = dividend / divider;
-
-        if (isNaN(count)) {
-          count = 4;
+        result = {
+          ...result,
+          password: undefined,
+          rg: undefined,
+          cpf: undefined,
+          bankAccountID: undefined,
+          configured: undefined,
+          moipAccountID: undefined,
+          rating: star ? star : "4.0",
         }
 
         return res.status(200).json(result);
@@ -260,7 +269,6 @@ module.exports = {
       let results = await knex.select(
         knex.raw(`
         *
-        ,(select avg(stars) from reviews where medic.id = reviews."medicID") as star
         from (
           select 
             addresses."userID",
@@ -283,7 +291,7 @@ module.exports = {
                    || ' ' ||
               REGEXP_REPLACE("user".last_name, '[^0-9a-zA-Z:,]+', '')
            )) ~ '${name}'
-        order by distance, star
+        order by distance
         desc
         limit 30
         offset ${30 * offset}
@@ -292,7 +300,14 @@ module.exports = {
 
       let formatedResults = [];
 
+
       for (let result of results) {
+        let [ { star } ] = await knex.select(
+          knex.raw(`
+            round(avg(stars), 2) as star from reviews where reviews."medicID" = ${result.id};`
+          )
+        )
+
         formatedResults.push({
           ...result,
           password: undefined,
@@ -300,11 +315,9 @@ module.exports = {
           first_name: undefined,
           lastName: result.last_name,
           last_name: undefined,
-          star: result.star ? result.star : "4.0",
+          rating: star ? star : "4.0",
         });
       }
-
-      console.log(formatedResults.map((r) => r.firstName));
 
       res.status(200).send(formatedResults);
     } catch (error) {
