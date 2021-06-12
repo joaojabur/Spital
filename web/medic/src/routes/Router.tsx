@@ -13,6 +13,8 @@ import Profile from "../platform-pages/Profile";
 import Appointments from "../platform-pages/Appointments";
 import Configurations from "../platform-pages/Configurations";
 import ConfigureMedic from "../platform-pages/ConfigureMedic";
+import RecoverPassword from "../pages/RecoverPassword";
+import ForgetPassword from "../pages/ForgetPassword";
 
 function Router() {
   return (
@@ -23,6 +25,8 @@ function Router() {
         <PublicRoute path="/registrar" component={RegisterMedic} />
         <PublicRoute path="/confirmar-email" component={ConfirmEmail} />
         <PublicRoute path="/verificar/:token" component={VerifyEmail} />
+        <PublicRoute path="/recuperar" exact component={ForgetPassword} />
+        <PublicRoute path="/recuperar/:token" component={RecoverPassword} />
 
         <PrivateRoute path="/agenda" component={AgendaComponent} />
         <PrivateRoute path="/pacientes" component={Pacients} />
