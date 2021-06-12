@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./styles.css";
 import { IoStar } from "react-icons/io5";
 import api from "../../services/api";
+import Stars from "../Stars";
 
 interface MedicProfileBoxProps {
   id: string;
   area: string | undefined;
+  rating: number;
   nextPage: () => void;
 }
 
@@ -19,10 +21,9 @@ const MedicProfileBox: React.FC<MedicProfileBoxProps> = ({
   id,
   area,
   nextPage,
+  rating
 }) => {
   const [user, setUser] = useState<UserProps | null>(null);
-
-  const rating = [1, 1, 1, 1, 1];
 
   useEffect(() => {
     api.get(`users?id=${id}`).then((response) => {
@@ -37,9 +38,7 @@ const MedicProfileBox: React.FC<MedicProfileBoxProps> = ({
         <h2>Dr. {user?.firstName}</h2>
         <p>{area}</p>
         <div className="medic-profile-box-rating">
-          {rating.map((star, index) => {
-            return <IoStar key={index} color="#FFC107" size={30} />;
-          })}
+          <Stars rating={rating}/>
         </div>
       </div>
       <button onClick={nextPage} className="medic-profile-box-schedule">

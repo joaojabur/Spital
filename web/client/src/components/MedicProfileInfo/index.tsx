@@ -8,6 +8,7 @@ import {
 import { Link } from "react-router-dom";
 import api from "../../services/api";
 import { MedicProps } from "../MedicProfilePages/Main";
+import Stars from "../Stars";
 import "./styles.css";
 
 interface MedicProfileInfoProps {
@@ -28,8 +29,6 @@ const MedicProfileInfo: React.FC<MedicProfileInfoProps> = ({
   medic,
 }) => {
   const [schedule, setSchedule] = useState([]);
-
-  const rating = [1, 1, 1, 1, 1];
 
   const [isFavorited, setIsFavorited] = useState(false);
 
@@ -108,12 +107,12 @@ const MedicProfileInfo: React.FC<MedicProfileInfoProps> = ({
         className="medic-profile-info-rating"
       >
         <div className="medic-profile-info-rating-stars">
-          {rating.map((star, index) => {
-            return <IoStar key={index} color="#FFC107" size={30} />;
-          })}
+          <Stars 
+            rating={Number(medic!.rating)}
+            />
         </div>
 
-        <h2>{medic?.stars}.0</h2>
+        <h2>{Number(medic?.rating).toFixed(1)}</h2>
 
         <div className="medic-profile-info-assessments">Ver avaliações</div>
       </Link>
