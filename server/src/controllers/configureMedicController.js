@@ -10,14 +10,6 @@ const options = {
 const geocoder = NodeGeocoder(options);
 
 module.exports = {
-  async index(req, res, next) {
-    try {
-      res.status(201).send(accountLink.url);
-    } catch (error) {
-      next(error);
-    }
-  },
-
   async create(req, res, next) {
     const moip = require("moip-sdk-node").default({
       accessToken: "7bd5812b36bd4cc89f69311f8badc7e9_v2",
