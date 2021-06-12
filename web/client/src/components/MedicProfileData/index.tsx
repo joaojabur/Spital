@@ -5,6 +5,7 @@ import "./styles.css";
 interface MedicProfileDataProps {
   id: string;
   medic: {
+    id: string | undefined;
     userID: string;
     area: string;
     birth_date: string;
@@ -14,7 +15,10 @@ interface MedicProfileDataProps {
     rg: string;
     phoneNumber: string;
     master_degree: string;
-    stars: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    rating: string;
   } | null;
 }
 

@@ -27,7 +27,7 @@ export interface MedicProps {
   first_name: string;
   last_name: string;
   email: string;
-  stars: string;
+  rating: string;
 }
 const MainProfileMedic = ({ nextPage }: NamesProps) => {
   const history = useHistory();
@@ -80,6 +80,7 @@ const MainProfileMedic = ({ nextPage }: NamesProps) => {
           <MedicProfileBox
             nextPage={nextPage}
             id={medicID}
+            rating={Number(medic!.rating)}
             area={medic?.area}
           />
           <MedicProfileInfo
