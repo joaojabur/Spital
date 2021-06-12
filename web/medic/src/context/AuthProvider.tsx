@@ -17,8 +17,12 @@ interface Medic {
   graduation: string;
   masterDegree?: string;
   doctorageDegree?: string;
-  address: string;
-  number: number;
+  location: {
+    address: string;
+    lat: string;
+    lon: string;
+    number: number;
+  }
 }
 
 interface MedicData {
@@ -39,6 +43,12 @@ interface MedicData {
   crm: string;
   schedule: Array<Schedule>;
   xp: 0;
+  location: {
+    address: string;
+    lat: string;
+    lon: string;
+    number: number;
+  }
 }
 
 interface Schedule {
@@ -68,12 +78,15 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   const [userID, setUserID] = useState<number | null>(null);
   const [confirmed, setConfirmed] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-
+  
   async function getUserData(id: number) {
     let response = await api.get(`medics?id=${id}`);
 
+    console.log(response.data);
+
     setUser({
       ...response.data,
+      configured: true
     });
 
     setLoading(false);
