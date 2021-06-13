@@ -26,7 +26,7 @@ module.exports = {
           ]);
       }
       if (!scheduleID) {
-        if (medicID !== undefined || date !== undefined) {
+        if (medicID !== undefined && date !== undefined) {
           query
             .where({ medicID: medicID, date: date })
             .join(
@@ -37,6 +37,18 @@ module.exports = {
             )
             .join("medics", "medics.id", "=", "schedules.medicID")
             .select(["appointments.*", "schedules.medicID", "medics.*"]);
+        } else if (medicID !== undefined) {
+          query
+            .where({ medicID: medicID })
+            .join(
+              "appointments",
+              "schedules.id",
+              "=",
+              "appointments.scheduleID"
+            )
+            .join("medics", "medics.id", "=", "schedules.medicID")
+            .join("clients", "clients.id", "=", "appointments.clientID")
+            .select(["appointments.*", "schedules.medicID", "clients.*"]);
         } else {
           query
             .join(
@@ -61,7 +73,7 @@ module.exports = {
   async create(req, res, next) {
     try {
       const { medicID, clientID } = req.query;
-      const { amount, id, appointmentData, date } = req.body;
+      const { amount, id, appointmentData, date, type } = req.body;
 
       const payment = await stripe.paymentIntents.create({
         amount,
@@ -83,6 +95,7 @@ module.exports = {
         price: parseInt(appointmentData.price),
         card_id: id,
         payment_intent: payment.id,
+        type
       });
 
       const [medic] = await knex("medics")
@@ -154,8 +167,6 @@ module.exports = {
         .where("clients.id", "=", appointment.clientID)
         .join("users", "users.id", "=", "clients.userID")
         .select("users.*", "clients.*");
-
-      console.log(appointment, client, medic);
 
       await knex("appointments").where({ payment_intent: id }).del();
 

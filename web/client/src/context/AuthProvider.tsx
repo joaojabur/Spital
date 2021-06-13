@@ -57,6 +57,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         email: email,
         password: password,
       });
+      console.log(response);
+
       let { token, id, confirmed } = response.data;
 
       if (confirmed) {
