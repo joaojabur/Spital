@@ -19,7 +19,8 @@ module.exports = {
 
         return res.status(200).json(results);
       } else {
-        const query = knex("clients");
+        console.log(id);
+        let query = knex("clients");
 
         query
           .where({
@@ -29,6 +30,8 @@ module.exports = {
           .select("users.*", "clients.*");
 
         const [result] = await query;
+
+        console.log(result);
 
         return res.status(200).json({
           email: result.email,
@@ -46,15 +49,13 @@ module.exports = {
   },
 
   async create(req, res, next) {
+    const letters = "abcdefghijklmnopqrstuvwxyz";
+    const plat_id =
+      letters.charAt(Math.floor(Math.random() * letters.length)) +
+      (Math.random() + 1).toString(36).substr(2, 9);
     try {
-      const { 
-        firstName, 
-        lastName, 
-        email, 
-        password, 
-        phoneNumber, 
-        birthDate 
-      } = req.body;
+      const { firstName, lastName, email, password, phoneNumber, birthDate } =
+        req.body;
 
       const hashPassword = await bcrypt.hash(password, 10);
 
@@ -79,9 +80,10 @@ module.exports = {
           userID: parseInt(userID),
         });
 
+        console.log(plat_id);
         moip.customer
           .create({
-            ownId: `${userID}`,
+            ownId: plat_id,
             fullname: `${firstName} ${lastName}`,
             email: email,
             birthDate: birthDate,

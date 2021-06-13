@@ -49,6 +49,7 @@ const FinalizePayment = ({ previousPage }) => {
             id,
             appointmentData,
             date,
+            type: appointmentData.type,
           })
           .then((response) => {
             if (response.data.success) {

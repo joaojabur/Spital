@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.4",
+    "@material-ui/data-grid": "^4.0.0-alpha.31",
     "@material-ui/icons": "^4.11.2",
     "@solluti/bank-account-validator": "^1.1.0",
     "@syncfusion/ej2-react-schedule": "^19.1.66",
@@ -22,6 +23,7 @@
     "br-bank-account-validator": "^0.0.8",
     "js-cookie": "^2.2.1",
     "moip-sdk-js": "^2.1.1",
+    "mui-datatables": "^3.7.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.2.0",

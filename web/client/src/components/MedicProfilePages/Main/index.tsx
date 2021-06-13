@@ -80,7 +80,7 @@ const MainProfileMedic = ({ nextPage }: NamesProps) => {
           <MedicProfileBox
             nextPage={nextPage}
             id={medicID}
-            rating={Number(medic!.rating)}
+            rating={Number(medic?.rating ? medic.rating : 4)}
             area={medic?.area}
           />
           <MedicProfileInfo

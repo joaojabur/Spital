@@ -108,7 +108,7 @@ const MedicProfileInfo: React.FC<MedicProfileInfoProps> = ({
       >
         <div className="medic-profile-info-rating-stars">
           <Stars 
-            rating={Number(medic!.rating)}
+            rating={Number(medic?.rating ? medic.rating : 4)}
             />
         </div>
 

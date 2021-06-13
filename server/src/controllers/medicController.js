@@ -33,7 +33,7 @@ module.exports = {
           on medic."userID" = addresses."userID"
           join users
           on medic."userID" = users.id
-          Order by distance, star
+          Order by distance
           desc
           OFFSET ${offset * 30}
           LIMIT 30
@@ -43,11 +43,10 @@ module.exports = {
         let formatedResults = [];
 
         for (let result of results) {
-          let [ { star } ] = await knex.select(
+          let [{ star }] = await knex.select(
             knex.raw(`
-              round(avg(stars), 2) as star from reviews where reviews."medicID" = ${result.id};`
-            )
-          )
+              round(avg(stars), 2) as star from reviews where reviews."medicID" = ${result.id};`)
+          );
 
           formatedResults.push({
             ...result,
@@ -66,17 +65,14 @@ module.exports = {
           .where("userID", id)
           .join("users", "users.id", "=", "medics.userID")
           .select("medics.*", "users.*");
-        
-        let [ { star } ] = await knex.select(
+
+        let [{ star }] = await knex.select(
           knex.raw(`
-            round(avg(stars), 2) as star from reviews where reviews."medicID" = ${result.id};`
-          )
-        )
+            round(avg(stars), 2) as star from reviews where reviews."medicID" = ${result.id};`)
+        );
 
-        let [ location ] = await knex('addresses')
-          .where("userID", id);
+        let [location] = await knex("addresses").where("userID", id);
 
-        
         result.rating = star;
 
         result = {
@@ -84,12 +80,9 @@ module.exports = {
           password: undefined,
           rg: undefined,
           cpf: undefined,
-          bankAccountID: undefined,
-          configured: undefined,
-          moipAccountID: undefined,
           rating: star ? star : "4.0",
-          location
-        }
+          location,
+        };
 
         return res.status(200).json(result);
       }
@@ -305,13 +298,11 @@ module.exports = {
 
       let formatedResults = [];
 
-
       for (let result of results) {
-        let [ { star } ] = await knex.select(
+        let [{ star }] = await knex.select(
           knex.raw(`
-            round(avg(stars), 2) as star from reviews where reviews."medicID" = ${result.id};`
-          )
-        )
+            round(avg(stars), 2) as star from reviews where reviews."medicID" = ${result.id};`)
+        );
 
         formatedResults.push({
           ...result,
