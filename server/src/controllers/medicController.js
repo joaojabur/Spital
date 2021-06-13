@@ -87,6 +87,10 @@ module.exports = {
           bankAccountID: undefined,
           configured: undefined,
           moipAccountID: undefined,
+          firstName: result.first_name,
+          first_name: undefined,
+          lastName: result.last_name,
+          last_name: undefined,
           rating: star ? star : "4.0",
           location
         }

@@ -17,6 +17,8 @@ interface Medic {
   graduation: string;
   masterDegree?: string;
   doctorageDegree?: string;
+  id: number;
+  rating: string;
   location: {
     address: string;
     lat: string;

@@ -1,7 +1,8 @@
-.config-container {
+.box {
     display: flex;
     flex-direction: column;
     padding: 4rem 5rem;
     background-color: #fff;
     border-radius: 40px;
+    flex: 1;
 }
