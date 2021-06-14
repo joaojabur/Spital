@@ -1,12 +1,12 @@
 const transporter = require("./config");
 require("dotenv").config({ path: "./src/.env" });
 
+/**
+ * @param {string} to Receiver
+ * @param {string} subject Subject
+ * @param {string} text Text
+ */
 module.exports = async function sendMail({ to, subject, html, callback }) {
-  /**
-   * @param {string} to Receiver
-   * @param {string} subject Subject
-   * @param {string} text Text
-   */
   let mailOptions = {
     from: process.env.NODEMAILER_EMAIL,
     to,

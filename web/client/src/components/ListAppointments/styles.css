@@ -1,0 +1,138 @@
+.list-appointments {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 3rem;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.list-appointments-unique {
+  width: 49%;
+  height: 15vh;
+  background-color: #fff;
+  border-radius: 3rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+  cursor: pointer;
+  transition: all ease-in-out 0.2s;
+  text-decoration: none !important;
+  color: #333;
+}
+
+.list-appointments-unique:hover {
+  background-color: rgba(153, 235, 238, 0.2);
+  color: #333;
+}
+
+.list-appoints-unique-information {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.list-appoints-unique-information-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.list-appoints-unique-information-image {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background-color: aqua;
+  margin-top: 1rem;
+  margin-left: 1.5rem;
+}
+
+.list-appoints-unique-information-text h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-left: 1rem;
+  margin-top: 1rem;
+}
+
+.list-appoints-unique-information-text span {
+  font-size: 1rem;
+  color: #818183;
+  margin-left: 1rem;
+  position: relative;
+  top: -1.2rem;
+  font-weight: lighter;
+}
+
+.list-appoints-unique-status {
+  display: flex;
+  flex-direction: column;
+}
+
+.list-appoints-unique-status-value {
+  width: 8rem;
+  height: 2.5rem;
+  margin-right: 2rem;
+  border-radius: 2rem;
+  background-color: #43d90e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 0.8rem;
+  padding: 1rem;
+  color: #fff;
+}
+
+.list-appoints-unique-status-value-false {
+  width: 8rem;
+  height: 2.5rem;
+  margin-right: 2rem;
+  border-radius: 2rem;
+  background-color: #ff1e00;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 0.8rem;
+  padding: 1rem;
+  color: #fff;
+}
+
+.list-appoints-unique-status-text {
+  display: flex;
+  font-size: 1.5rem;
+  font-weight: bold;
+  position: relative;
+  top: 1.4rem;
+  margin-right: 1rem;
+}
+
+.list-appointments-unique footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 34%;
+  background-color: #07b3d6;
+  border-bottom-left-radius: 3rem;
+  border-bottom-right-radius: 3rem;
+}
+
+.list-appointments-unique footer p {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+  margin-top: 0.7rem;
+}
+
+@media (max-width: 800px) {
+  .list-appointments-unique {
+    width: 100%;
+  }
+}

@@ -1,0 +1,45 @@
+.vertical-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5vw;
+  height: 100%;
+  background-color: #ffffff;
+  border-top-right-radius: 5rem;
+  z-index: 1000;
+}
+
+.vertical-header .vertical-header-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex-direction: column;
+}
+
+.vertical-header img {
+  margin-top: 2rem;
+  width: 4.5rem;
+}
+
+@media (max-width: 1200px) {
+  .vertical-header {
+    width: 10vw;
+  }
+}
+
+@media (max-width: 550px) {
+  .vertical-header {
+    width: 15vw;
+  }
+}
+
+@media (max-width: 300px) {
+  .vertical-header {
+    width: 20vw;
+  }
+}

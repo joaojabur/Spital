@@ -7,6 +7,7 @@ exports.up = function (knex) {
     table.string("password").notNullable();
     table.integer("xp").notNullable();
     table.boolean("confirmed").defaultTo(false);
+    table.text("birth_date").notNullable();
     table.timestamp("created_at").defaultTo(knex.fn.now());
   });
 };

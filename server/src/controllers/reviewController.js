@@ -3,22 +3,19 @@ const knex = require("../database");
 module.exports = {
   async index(req, res, next) {
     try {
-      const { medic_id, client_id } = req.query;
+      const { medicID } = req.query;
 
       const query = knex("reviews");
 
-      if (medic_id) {
+      if (medicID) {
         query
           .where({
-            medicID: medic_id,
-            clientID: client_id,
+            medicID,
           })
           .join("medics", "medics.id", "=", "reviews.medicID")
-          .select(
-            "reviews.*",
-            "medics.userID",
-            "clients.userID"
-          );
+          .join("clients", "clients.id", "=", "reviews.clientID")
+          .join("users", "users.id", "=", "clients.userID")
+          .select("reviews.*", "medics.userID", "clients.*", "users.*");
       }
 
       const results = await query;
@@ -32,17 +29,25 @@ module.exports = {
   async create(req, res, next) {
     try {
       const { stars, description } = req.body;
-      const { medic_id, client_id } = req.query;
+      const { medicID, clientID } = req.query;
       await knex("reviews").insert({
         stars,
         description,
-        medic_id,
-        client_id,
+        medicID,
+        clientID,
       });
 
-      res.status(201).send();
+      await knex("appointments").where({ clientID }).update({ rated: true });
+
+      res.status(201).json({
+        message: "Avaliação inserida com sucesso!",
+        success: true,
+      });
     } catch (error) {
-      next(error);
+      res.status(401).json({
+        message: "Erro ao inserir avaliação...",
+        success: false,
+      });
     }
   },
 

@@ -13,6 +13,7 @@ const reviewController = require("./controllers/reviewController");
 const addressController = require("./controllers/addressController");
 const consultTypeController = require("./controllers/consultTypeController");
 const cardController = require("./controllers/cardController");
+const configureMedicController = require("./controllers/configureMedicController");
 
 routes.get("/users", userController.index);
 routes.delete("/users/:id", userController.delete);
@@ -32,17 +33,27 @@ routes.post("/medics", MedicController.create);
 routes.get("/medics", MedicController.index);
 routes.put("/medics/:userID", MedicController.update);
 routes.delete("/medics/:userID", MedicController.delete);
+routes.get("/medics/auth", isAuth, MedicController.auth);
+routes.post("/medics/login", MedicController.login);
 routes.get("/medics/:area", MedicController.list);
+
+routes.post("/configure-medic", configureMedicController.create);
+routes.post(
+  "/configure-medic/:moipAccountId",
+  configureMedicController.createBankAccount
+);
 
 routes.post("/appointments", AppointmentController.create);
 routes.get("/appointments", AppointmentController.index);
-routes.put("/appointments/:id", AppointmentController.update);
+routes.put("/appointments/:scheduleID", AppointmentController.update);
 routes.delete("/appointments/:id", AppointmentController.delete);
+routes.get("/appointments/:clientID", AppointmentController.list);
 
 routes.post("/medic-schedule", MedicScheduleController.create);
 routes.get("/medic-schedule", MedicScheduleController.index);
 routes.put("/medic-schedule/:id", MedicScheduleController.update);
 routes.delete("/medic-schedule/:id", MedicScheduleController.delete);
+routes.get("/medic-schedule/:medicID", MedicScheduleController.list);
 
 routes.post("/reviews", reviewController.create);
 routes.get("/reviews", reviewController.index);

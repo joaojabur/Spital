@@ -1,31 +1,40 @@
 const knex = require("../database");
+const jwt = require("jsonwebtoken");
+const authConfig = require("../configs/authConfig.json");
 const convertHourToMinutes = require("../utils/convertHoursToMinutes");
 const bcrypt = require("bcrypt");
+const verify = require("../services/email/verify");
 
 module.exports = {
   async index(req, res, next) {
     try {
-      let { userID, offset, lat, lon } = req.query;
+      let { id, offset, lat, lon } = req.query;
 
       if (!offset) {
         offset = 1;
       }
 
-      if (!userID) {
+      if (lat === undefined || lon === undefined) {
+        lat = -23.6821604;
+        lon = -46.8754915;
+      }
+
+      if (!id) {
         let results = await knex.select(
-          knex.raw(` 
+          knex.raw(`
             users.*, medic.*, addresses."userID", addresses.number, address, 
             (((acos(sin((${lat} *pi()/180)) * sin((lat * pi()/180)) 
             + cos((${lat}*pi()/180)) * cos((lat*pi()/180))
             * cos(((${lon} - lon) * pi()/180))))
               * 180/pi()) * 60 * 1.1515 * 1.609344) 
-              as distance 
+              as distance
           FROM addresses
           join medics as medic
           on medic."userID" = addresses."userID"
           join users
           on medic."userID" = users.id
           Order by distance
+          desc
           OFFSET ${offset * 30}
           LIMIT 30
         `)
@@ -34,6 +43,11 @@ module.exports = {
         let formatedResults = [];
 
         for (let result of results) {
+          let [{ star }] = await knex.select(
+            knex.raw(`
+              round(avg(stars), 2) as star from reviews where reviews."medicID" = ${result.id};`)
+          );
+
           formatedResults.push({
             ...result,
             password: undefined,
@@ -41,12 +55,38 @@ module.exports = {
             first_name: undefined,
             lastName: result.last_name,
             last_name: undefined,
+            rating: star ? star : "4.0",
           });
         }
 
         res.status(201).json(formatedResults);
       } else {
-        const [result] = await knex("medics").where({ userID });
+        let [result] = await knex("medics")
+          .where("userID", id)
+          .join("users", "users.id", "=", "medics.userID")
+          .select("medics.*", "users.*");
+
+        let [{ star }] = await knex.select(
+          knex.raw(`
+            round(avg(stars), 2) as star from reviews where reviews."medicID" = ${result.id};`)
+        );
+
+        let [location] = await knex("addresses").where("userID", id);
+
+        result.rating = star;
+
+        result = {
+          ...result,
+          password: undefined,
+          rg: undefined,
+          cpf: undefined,
+          firstName: result.first_name,
+          first_name: undefined,
+          lastName: result.last_name,
+          last_name: undefined,
+          rating: star ? star : "4.0",
+          location,
+        };
 
         return res.status(200).json(result);
       }
@@ -72,7 +112,6 @@ module.exports = {
       rg,
       birthDate,
       schedule,
-      address,
     } = req.body;
 
     const hashPassword = await bcrypt.hash(password, 10);
@@ -88,15 +127,16 @@ module.exports = {
       });
 
       if (isTheEmailAlreadyRegistered.length > 0) {
-        res.status(400).send({ error: "E-mail já registrado" });
+        res.json({ success: false, message: "E-mail já registrado" });
       } else if (isTheCPFOrRGAlreadyRegistered.length > 0) {
-        res.status(400).send({ error: "CPF e RG já registrados" });
+        res.json({ success: false, message: "CPF e RG já registrados" });
       } else {
         const userID = await knex("users").returning("id").insert({
           first_name: firstName,
           last_name: lastName,
           email,
           password: hashPassword,
+          birth_date: birthDate,
           xp: 0,
         });
 
@@ -112,9 +152,9 @@ module.exports = {
             crm,
             cpf,
             rg,
-            birth_date: birthDate,
           });
 
+        /*
         await knex("addresses").insert({
           address: address.location,
           number: address.number,
@@ -122,6 +162,7 @@ module.exports = {
           lon: address.lon,
           userID: parseInt(userID),
         });
+        */
 
         const scheduleID = await knex("schedules")
           .returning("id")
@@ -136,7 +177,16 @@ module.exports = {
           });
         }
 
-        res.status(201).send();
+        await verify({
+          id: parseInt(userID),
+          email,
+          name: firstName + " " + lastName,
+        });
+
+        res.status(201).json({
+          success: true,
+          message: "Cadastro realizado com sucesso!",
+        });
       }
     } catch (error) {
       next(error);
@@ -202,10 +252,13 @@ module.exports = {
   },
 
   async list(req, res, next) {
-    const { area } = req.params;
-    let { offset, lat, lon, distance } = req.query;
+    let { area } = req.params;
+    let { offset, lat, lon, distance, name } = req.query;
     const formattedArea = area.replace(/[-]/g, " ");
 
+    if (!name) {
+      name = "";
+    }
     if (!offset) {
       offset = 0;
     }
@@ -215,9 +268,6 @@ module.exports = {
     }
 
     try {
-      console.log(offset);
-      console.log(distance);
-      console.log(formattedArea);
       let results = await knex.select(
         knex.raw(`
         *
@@ -237,7 +287,14 @@ module.exports = {
         join users as "user"
         on medic."userID" = "user".id
         where distance <= ${distance} and area = '${formattedArea}'
+        and lower(
+          (
+              REGEXP_REPLACE("user".first_name, '[^0-9a-zA-Z:,]+', '')
+                   || ' ' ||
+              REGEXP_REPLACE("user".last_name, '[^0-9a-zA-Z:,]+', '')
+           )) ~ '${name}'
         order by distance
+        desc
         limit 30
         offset ${30 * offset}
       `)
@@ -246,6 +303,11 @@ module.exports = {
       let formatedResults = [];
 
       for (let result of results) {
+        let [{ star }] = await knex.select(
+          knex.raw(`
+            round(avg(stars), 2) as star from reviews where reviews."medicID" = ${result.id};`)
+        );
+
         formatedResults.push({
           ...result,
           password: undefined,
@@ -253,6 +315,7 @@ module.exports = {
           first_name: undefined,
           lastName: result.last_name,
           last_name: undefined,
+          rating: star ? star : "4.0",
         });
       }
 
@@ -260,5 +323,68 @@ module.exports = {
     } catch (error) {
       next(error);
     }
+  },
+  async login(req, res, next) {
+    try {
+      const { email, password } = req.body;
+
+      const [user] = await knex("users")
+        .where({ email })
+        .select("password", "id", "confirmed");
+
+      if (user === undefined) {
+        return res.status(401).send({ error: "Usuário não encontrado" });
+      }
+
+      if (await bcrypt.compare(password, user.password)) {
+        const token = jwt.sign({ id: user.id }, authConfig.secret, {
+          expiresIn: 604800,
+        });
+
+        let [medic] = await knex("medics").where("userID", user.id);
+
+        if (!medic) {
+          throw Error("Email não encontrado");
+        }
+
+        res.cookie(
+          "access-token",
+          token,
+          {
+            maxAge: 60 * 60 * 24 * 7 * 1000,
+          },
+          {
+            httpOnly: true,
+          }
+        );
+
+        res.status(201).send({
+          id: user.id,
+          confirmed: user.confirmed,
+          token,
+        });
+      } else {
+        return res.status(401).send({ error: "Senha ou e-mail inválido(s)" });
+      }
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async auth(req, res, next) {
+    const { post } = res.locals;
+
+    let [{ confirmed }] = await knex("users")
+      .where({
+        id: parseInt(post),
+      })
+      .select("confirmed");
+
+    res.status(200).send({
+      auth: true,
+      success: "Logado com sucesso!",
+      userID: post,
+      confirmed,
+    });
   },
 };

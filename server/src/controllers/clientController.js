@@ -3,6 +3,11 @@ const jwt = require("jsonwebtoken");
 const authConfig = require("../configs/authConfig.json");
 const bcrypt = require("bcrypt");
 const verifyEmail = require("../services/email/verify");
+const moip = require("moip-sdk-node").default({
+  token: "U3UJDDW9WKUUUYN4SY5URVIPFMFSBFX1",
+  key: "B0HZCGHREPSALKIP6RUKWRYJS3Z2X0IDJYXJWMIJ",
+  production: false,
+});
 
 module.exports = {
   async index(req, res, next) {
@@ -14,16 +19,19 @@ module.exports = {
 
         return res.status(200).json(results);
       } else {
-        const query = knex("clients");
+        console.log(id);
+        let query = knex("clients");
 
         query
           .where({
             userID: id,
           })
           .join("users", "users.id", "=", "clients.userID")
-          .select("users.*", "clients.phoneNumber");
+          .select("users.*", "clients.*");
 
         const [result] = await query;
+
+        console.log(result);
 
         return res.status(200).json({
           email: result.email,
@@ -31,6 +39,8 @@ module.exports = {
           lastName: result.last_name,
           xp: result.xp,
           phoneNumber: result.phoneNumber,
+          id: result.id,
+          accountID: result.accountID,
         });
       }
     } catch (error) {
@@ -39,8 +49,13 @@ module.exports = {
   },
 
   async create(req, res, next) {
+    const letters = "abcdefghijklmnopqrstuvwxyz";
+    const plat_id =
+      letters.charAt(Math.floor(Math.random() * letters.length)) +
+      (Math.random() + 1).toString(36).substr(2, 9);
     try {
-      const { firstName, lastName, email, password, phoneNumber } = req.body;
+      const { firstName, lastName, email, password, phoneNumber, birthDate } =
+        req.body;
 
       const hashPassword = await bcrypt.hash(password, 10);
 
@@ -49,13 +64,14 @@ module.exports = {
       });
 
       if (isTheEmailAlreadyRegistered.length > 0) {
-        res.status(400).send({ error: "E-mail já registrado" });
+        res.json({ message: "E-mail já registrado", success: false });
       } else {
         const [userID] = await knex("users").returning("id").insert({
           first_name: firstName,
           last_name: lastName,
           email,
           password: hashPassword,
+          birth_date: birthDate,
           xp: 32,
         });
 
@@ -64,7 +80,20 @@ module.exports = {
           userID: parseInt(userID),
         });
 
-        // Tenta enviar o email
+        console.log(plat_id);
+        moip.customer
+          .create({
+            ownId: plat_id,
+            fullname: `${firstName} ${lastName}`,
+            email: email,
+            birthDate: birthDate,
+          })
+          .then(async (response) => {
+            await knex("clients")
+              .where({ userID })
+              .update({ accountID: response.body.id });
+          });
+
         await verifyEmail({
           id: userID,
           email,

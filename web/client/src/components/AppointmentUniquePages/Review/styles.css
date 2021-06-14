@@ -1,0 +1,64 @@
+.appointment-unique-review {
+  margin-top: 2rem;
+  width: 100%;
+  padding: 3rem 4rem 3rem 4rem;
+  background-color: #fff;
+  border-radius: 4rem;
+}
+
+.appointment-unique-review h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.appointment-unique-review h2 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.appointment-unique-review p {
+  font-size: 1.5rem;
+  color: #ccc;
+  font-weight: bold;
+}
+
+.appointment-unique-review-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.appointment-unique-review-flex-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.appointment-unique-review-flex-wrap h3 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-left: 2rem;
+}
+
+.appointment-unique-review-textarea {
+  width: 100%;
+  padding: 2rem;
+  margin-top: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 4rem;
+  outline: 0 !important;
+  resize: none;
+}
+
+input {
+  display: none;
+}
+
+.star {
+  cursor: pointer;
+}
+
+.star + .star {
+  margin-left: 2rem !important;
+}

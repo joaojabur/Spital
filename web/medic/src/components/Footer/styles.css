@@ -1,0 +1,105 @@
+.footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #3c4978;
+  border-top-left-radius: 4rem;
+  border-top-right-radius: 4rem;
+}
+
+.footer-app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.footer-app a {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-color: #fff;
+  border-radius: 2rem;
+}
+
+.footer-app a img {
+  width: 2.5rem;
+}
+
+.footer-app a > div {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 0.5rem;
+  margin-left: 1rem;
+}
+
+.footer-app a > div > h3 {
+  position: relative;
+  top: 0.5rem;
+  font-size: 1rem;
+  color: #cccccc;
+}
+
+.footer-app a > div > p {
+  color: #9b9b9b;
+  font-weight: bold;
+}
+
+.footer-pacients {
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.footer-pacients a {
+  color: #9f9f9f;
+}
+
+.footer-pacients a + a {
+  margin-top: 1rem;
+}
+
+.footer-terms {
+  margin: 0 auto;
+}
+
+.footer-terms button {
+  cursor: pointer;
+  width: 100%;
+  background-color: #06d6a0;
+  border-radius: 3rem;
+  padding: 1rem;
+  border: 0;
+  outline: 0 !important;
+  color: #fff;
+  font-weight: bold;
+  transition: all ease-in-out 0.2s;
+}
+
+.footer-terms button:hover {
+  background-color: #02ffbc;
+  color: #333;
+}
+
+.footer h2 {
+  color: #fff;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+@media (max-width: 430px) {
+  .footer h2 {
+    font-size: 1.5rem;
+  }
+}

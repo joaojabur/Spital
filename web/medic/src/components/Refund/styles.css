@@ -1,0 +1,29 @@
+.refund {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 2rem;
+  background-color: #06d69e81;
+  margin-bottom: 2rem !important;
+  border-bottom-left-radius: 4rem;
+  border-bottom-right-radius: 4rem;
+}
+
+.refund h1 {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+@media (max-width: 850px) {
+  .refund h1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .refund h1 {
+    font-size: 1.5rem;
+  }
+}
