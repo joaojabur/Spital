@@ -5,13 +5,12 @@ import 'package:ionicons/ionicons.dart';
 class AppbarSecundaria extends PreferredSize {
   final String title;
   final bool topleftIcon;
-  final bool topRightIcon;
-  final IconData iconAddRight;
+
+  final IconData iconLeft;
 
   AppbarSecundaria(
       {required this.topleftIcon,
-      required this.iconAddRight,
-      required this.topRightIcon,
+      required this.iconLeft,
       required this.title,
       required double width,
       required double height})
@@ -32,7 +31,7 @@ class AppbarSecundaria extends PreferredSize {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        child: topRightIcon
+                        child: topleftIcon
                             ? IconButton(
                                 icon: Icon(Ionicons.arrow_back),
                                 onPressed: () {},
@@ -48,7 +47,7 @@ class AppbarSecundaria extends PreferredSize {
                       Container(
                         child: topleftIcon
                             ? IconButton(
-                                icon: (Icon(iconAddRight)),
+                                icon: (Icon(iconLeft)),
                                 onPressed: () {},
                               )
                             : null,
