@@ -7,12 +7,12 @@ import {
   ExploreOutlined,
   ListOutlined,
   StraightenOutlined,
-  PinDropOutlined
-}  from '@material-ui/icons';
+  PinDropOutlined,
+} from "@material-ui/icons";
 import { useAuth } from "../../context/AuthProvider";
 import "./styles.css";
 import api from "../../services/api";
-import Stars from '../../components/Stars';
+import Stars from "../../components/Stars";
 interface ScheduleItem {
   week_day: number | undefined;
   from: number;
@@ -55,15 +55,11 @@ const Profile = () => {
     (scheduleItem: ScheduleItem) => scheduleItem.week_day === getWeekday()
   );
 
-  console.log(user);
-
   useEffect(() => {
     api.get(`medic-schedule/${user.id}`).then((response) => {
       setSchedule(response.data);
     });
   }, []);
-
-  console.log(schedule)
 
   return (
     <div className="perfil">
@@ -72,37 +68,47 @@ const Profile = () => {
       <div className="content">
         <div>
           <div className="left-side">
-            <Box style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                padding: '1rem 1rem 1.25rem'
-              }}>
-              <img src={`https://avatars.dicebear.com/api/human/${user.firstName + user.lastName}.svg`} alt="Medic Profile"/>
+            <Box
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                padding: "1rem 1rem 1.25rem",
+              }}
+            >
+              <img
+                src={`https://avatars.dicebear.com/api/human/${
+                  user.firstName + user.lastName
+                }.svg`}
+                alt="Medic Profile"
+              />
               <h2>Dr. {user.firstName}</h2>
               <span>{user.area}</span>
             </Box>
-            <Box style={{
-                display: 'flex',
-                flexDirection: 'column',
-                padding: '2rem'
-              }}>
+            <Box
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "2rem",
+              }}
+            >
               <div className="appointment-button">
                 <span>Agendar Consulta</span>
               </div>
             </Box>
           </div>
-          <Box style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center'
-            }}>
+          <Box
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <div className="right-side">
               <div className="hour">
                 Horário de trabalho hoje:
-                {
-                  today_week_day.length > 0 ? (
-                  today_week_day.map((string: ScheduleItem, index) => {
+                {today_week_day.length > 0 ? (
+                  today_week_day.map((string: ScheduleItem, index: number) => {
                     const formatedFrom = string.from / 60;
                     const formatedTo = string.to / 60;
 
@@ -122,36 +128,46 @@ const Profile = () => {
                       </span>
                     );
                   })
-              ) : (
+                ) : (
                   <span style={{ fontSize: "1.5rem" }}>
                     Médico descansando hoje 😴
                   </span>
-              )}
+                )}
               </div>
               <h1>Onde Estou?</h1>
               <div className="address">
-                <div style={{display: 'flex'}}>
-                  <PinDropOutlined fontSize="large"/>
+                <div style={{ display: "flex" }}>
+                  <PinDropOutlined fontSize="large" />
                   {user.location.address}
                 </div>
-                <div style={{display: 'flex', justifyContent: 'flex-end', cursor: 'pointer'}}>
-                  <ListOutlined fontSize="large"/>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    cursor: "pointer",
+                  }}
+                >
+                  <ListOutlined fontSize="large" />
                 </div>
-                <div style={{display: 'flex'}}>
-                  <StraightenOutlined fontSize="large"/>
+                <div style={{ display: "flex" }}>
+                  <StraightenOutlined fontSize="large" />
                   Lat: {user.location.lat} | Lon: {user.location.lon}
                 </div>
-                <div style={{display: 'flex', alignItems: 'center', color: "var(--color-main)", cursor: 'pointer'}}>
-                  <ExploreOutlined fontSize="large"/>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    color: "var(--color-main)",
+                    cursor: "pointer",
+                  }}
+                >
+                  <ExploreOutlined fontSize="large" />
                   Ver no mapa
                 </div>
               </div>
-              <div
-                className="medic-profile-info-rating">
+              <div className="medic-profile-info-rating">
                 <div className="medic-profile-info-rating-stars">
-                  <Stars 
-                      rating={Number(user.rating)}
-                      />
+                  <Stars rating={Number(user.rating)} />
                 </div>
 
                 <h2>{Number(user.rating).toFixed(1)}</h2>
@@ -160,19 +176,30 @@ const Profile = () => {
           </Box>
         </div>
         <div className="about">
-          <Box style={{
-            display: 'flex',
-            flexDirection: 'column'
-          }}>
+          <Box
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             <h3>Sobre Dr. {user.firstName}:</h3>
             <ul>
-              <li><strong>Graduação: </strong>{user.graduation}</li>
-              {
-                user.masterDegree && <li><strong>Mestrado: </strong>{user.masterDegree}</li>
-              }
-              {
-                user.doctorageDegree && <li><strong>Doutorado: </strong>{user.doctorageDegree}</li>
-              }
+              <li>
+                <strong>Graduação: </strong>
+                {user.graduation}
+              </li>
+              {user.masterDegree && (
+                <li>
+                  <strong>Mestrado: </strong>
+                  {user.masterDegree}
+                </li>
+              )}
+              {user.doctorageDegree && (
+                <li>
+                  <strong>Doutorado: </strong>
+                  {user.doctorageDegree}
+                </li>
+              )}
             </ul>
           </Box>
         </div>

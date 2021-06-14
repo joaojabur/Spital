@@ -15,8 +15,8 @@ interface MedicProfileDataProps {
     rg: string;
     phoneNumber: string;
     master_degree: string;
-    first_name: string;
-    last_name: string;
+    firstName: string;
+    lastName: string;
     email: string;
     rating: string;
   } | null;

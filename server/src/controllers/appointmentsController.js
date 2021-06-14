@@ -48,7 +48,18 @@ module.exports = {
             )
             .join("medics", "medics.id", "=", "schedules.medicID")
             .join("clients", "clients.id", "=", "appointments.clientID")
-            .select(["appointments.*", "schedules.medicID", "clients.*"]);
+            .join("users", "users.id", "=", "clients.userID")
+            .select([
+              "appointments.id",
+              "appointments.type",
+              "appointments.date",
+              "appointments.time",
+              "appointments.price",
+              "appointments.confirmed",
+              "users.first_name",
+              "users.last_name",
+            ])
+            .orderByRaw("id DESC");
         } else {
           query
             .join(
@@ -58,7 +69,9 @@ module.exports = {
               "appointments.scheduleID"
             )
             .join("medics", "medics.id", "=", "schedules.medicID")
-            .select(["appointments.*", "schedules.medicID"]);
+            .join("clients", "clients.id", "=", "appointments.clientID")
+
+            .select(["appointments.*", "schedules.medicID", "clients.*"]);
         }
       }
 
@@ -95,7 +108,7 @@ module.exports = {
         price: parseInt(appointmentData.price),
         card_id: id,
         payment_intent: payment.id,
-        type
+        type,
       });
 
       const [medic] = await knex("medics")

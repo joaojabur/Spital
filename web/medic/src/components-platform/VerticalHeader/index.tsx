@@ -33,21 +33,6 @@ const VerticalHeader = ({ colorIcon }: VerticalHeaderProps) => {
       ),
     },
     {
-      goTo: "/pacientes",
-      name: "pacients",
-      icon: (
-        <IoPeopleOutline
-          style={{
-            cursor: "pointer",
-            marginTop: "1.5rem",
-            transition: "all ease-in-out 0.2s",
-          }}
-          size="3.5rem"
-          color={colorIcon === "pacients" ? "#62A4FB" : "#ccc"}
-        />
-      ),
-    },
-    {
       goTo: "/perfil",
       name: "profile",
       icon: (

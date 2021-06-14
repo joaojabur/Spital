@@ -25,7 +25,7 @@ const RegisterPatientSpitalAccount = () => {
   }
   function previousPage() {
     if (currentPage === 0) {
-      history.replace("/registrar-paciente");
+      history.replace("/entrar-registrar-paciente");
     }
 
     setCurrentPage(currentPage - 1);

@@ -42,7 +42,7 @@ const LoginSpitalAccount = () => {
     <Fragment>
       <div className="header-login">
         <div className="container header-context">
-          <Link className="return-link" to={`/entrar-paciente`}>
+          <Link className="return-link" to={`/entrar-registrar-paciente`}>
             <img src={returnIcon} alt="Retornar" className="return" />
           </Link>
           <div className="header-title">

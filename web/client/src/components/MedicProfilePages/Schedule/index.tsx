@@ -127,7 +127,7 @@ const ScheduleMedicProfile = ({ nextPage, previousPage }: NamesProps) => {
   return (
     <div className="client-platform">
       <SubHeaderPlatform
-        title={`Agendar consulta com Dr(a). ${medic?.first_name}`}
+        title={`Agendar consulta com Dr(a). ${medic?.firstName}`}
         returnFunction={() => previousPage()}
       />
       <div className="container">

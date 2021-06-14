@@ -24,8 +24,8 @@ export interface MedicProps {
   rg: string;
   phoneNumber: string;
   master_degree: string;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   rating: string;
 }
@@ -42,11 +42,10 @@ const MainProfileMedic = ({ nextPage }: NamesProps) => {
 
   useEffect(() => {
     api.get(`medics?id=${medicID}`).then((response) => {
+      console.log(response)
       setMedic(response.data);
     });
   }, [medicID]);
-
-  console.log(medic);
 
   function getWeekday() {
     switch (week_day) {
@@ -72,7 +71,7 @@ const MainProfileMedic = ({ nextPage }: NamesProps) => {
   return (
     <div className="client-platform">
       <SubHeaderPlatform
-        title={`Perfil de Dr(a). ${medic?.first_name}`}
+        title={`Perfil de Dr(a). ${medic?.firstName}`}
         returnFunction={() => history.goBack()}
       />
       <div className="container">

@@ -16,14 +16,14 @@ const LoginAndRegisterPaciente = () => {
         returnFunction={() => history.push('/')}
       />
       <div className="login-and-register-buttons">
-        <Link to="/entrar-paciente">
+        <Link to="/login-spital-paciente">
           <div className="button primary">
             <h1>Já possuo uma conta!</h1>
             <img src={loginIcon} alt="Entrar" />
           </div>
         </Link>
 
-        <Link to="/registrar-paciente">
+        <Link to="/registrar-spital-paciente">
           <div className="button secondary">
             <h1>Gostaria de me cadastar!</h1>
             <img src={registerIcon} alt="Registrar" />

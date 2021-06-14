@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  IoSaveOutline,
-  IoSaveSharp,
-  IoLocationOutline,
-  IoStar,
-} from "react-icons/io5";
+import { IoSaveOutline, IoSaveSharp, IoLocationOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import api from "../../services/api";
 import { MedicProps } from "../MedicProfilePages/Main";
@@ -107,9 +102,7 @@ const MedicProfileInfo: React.FC<MedicProfileInfoProps> = ({
         className="medic-profile-info-rating"
       >
         <div className="medic-profile-info-rating-stars">
-          <Stars 
-            rating={Number(medic?.rating ? medic.rating : 4)}
-            />
+          <Stars rating={Number(medic?.rating ? medic.rating : 4)} />
         </div>
 
         <h2>{Number(medic?.rating).toFixed(1)}</h2>

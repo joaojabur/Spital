@@ -21,7 +21,7 @@ const MedicProfileBox: React.FC<MedicProfileBoxProps> = ({
   id,
   area,
   nextPage,
-  rating
+  rating,
 }) => {
   const [user, setUser] = useState<UserProps | null>(null);
 
@@ -38,7 +38,7 @@ const MedicProfileBox: React.FC<MedicProfileBoxProps> = ({
         <h2>Dr. {user?.firstName}</h2>
         <p>{area}</p>
         <div className="medic-profile-box-rating">
-          <Stars rating={rating}/>
+          <Stars rating={rating} />
         </div>
       </div>
       <button onClick={nextPage} className="medic-profile-box-schedule">

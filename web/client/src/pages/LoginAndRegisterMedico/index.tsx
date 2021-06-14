@@ -13,22 +13,22 @@ const LoginAndRegisterMedico = () => {
       <Header
         title="Que bom que você vai entrar pra nossa equipe!"
         subTitle="Primeiro, nós gostaríamos de saber já possui uma conta ou ainda não"
-        returnFunction={() => history.push('/')}
+        returnFunction={() => history.push("/")}
       />
       <div className="login-and-register-buttons">
-        <Link to="/">
+        <a href="http://localhost:3000/">
           <div className="button primary">
             <h1>Já possuo uma conta!</h1>
             <img src={loginIcon} alt="Entrar" />
           </div>
-        </Link>
+        </a>
 
-        <Link to="/registrar-spital-medico">
+        <a href="http://localhost:3000/">
           <div className="button secondary">
             <h1>Gostaria de me cadastar!</h1>
             <img src={registerIcon} alt="Registrar" />
           </div>
-        </Link>
+        </a>
       </div>
     </div>
   );

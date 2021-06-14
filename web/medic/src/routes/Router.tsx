@@ -8,7 +8,6 @@ import ConfirmEmail from "../pages/ConfirmEmail";
 import VerifyEmail from "../pages/VerifyEmail";
 import PrivateRoute from "./PrivateRoute";
 import AgendaComponent from "../platform-pages/Agenda";
-import Pacients from "../platform-pages/Pacients";
 import Profile from "../platform-pages/Profile";
 import Appointments from "../platform-pages/Appointments";
 import Configurations from "../platform-pages/Configurations";
@@ -29,7 +28,6 @@ function Router() {
         <PublicRoute path="/recuperar/:token" component={RecoverPassword} />
 
         <PrivateRoute path="/agenda" component={AgendaComponent} />
-        <PrivateRoute path="/pacientes" component={Pacients} />
         <PrivateRoute path="/perfil" component={Profile} />
         <PrivateRoute path="/consultas" component={Appointments} />
         <PrivateRoute path="/configuracoes" component={Configurations} />

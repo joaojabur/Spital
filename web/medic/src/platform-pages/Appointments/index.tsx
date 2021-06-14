@@ -12,6 +12,7 @@ const Appointments = () => {
   const history = useHistory();
   const { userID, user } = useAuth();
   const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const columns = [
     { field: "id", headerName: "Identificador", width: 130 },
@@ -19,13 +20,16 @@ const Appointments = () => {
     { field: "price", headerName: "Preço", width: 120 },
     { field: "date", headerName: "Data", width: 140 },
     { field: "time", headerName: "Hora", width: 120 },
-    { field: "pacient", headerName: "Paciente", width: 240 },
+    { field: "first_name", headerName: "Nome paciente", width: 240 },
+    { field: "last_name", headerName: "Sobrenome paciente", width: 240 },
     { field: "confirmed", headerName: "Confirmada", width: 140 },
   ];
 
   useEffect(() => {
+    setLoading(true);
     api.get(`appointments?medicID=${userID}`).then((response: any) => {
       setRows(response.data);
+      setLoading(false);
     });
   }, [setRows, userID]);
 
@@ -47,6 +51,7 @@ const Appointments = () => {
           onCellClick={(e) => {
             console.log(e);
           }}
+          loading={loading}
         />
       </div>
     </div>
