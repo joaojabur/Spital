@@ -5,11 +5,17 @@ import 'app_colors.dart';
 class AppTextStyles {
   static final TextStyle titleBold = GoogleFonts.quicksand(
       color: AppColors.black, fontSize: 33, fontWeight: FontWeight.bold);
+  static final TextStyle titleBoldRegistered = GoogleFonts.quicksand(
+      color: AppColors.verde, fontSize: 28, fontWeight: FontWeight.bold);
   static final TextStyle titleBold2 = GoogleFonts.quicksand(
       color: AppColors.black, fontSize: 28, fontWeight: FontWeight.bold);
   static final TextStyle loginDescription = GoogleFonts.quicksand(
     color: AppColors.gray,
     fontSize: 18,
+  );
+  static final TextStyle information = GoogleFonts.quicksand(
+    color: AppColors.black,
+    fontSize: 15,
   );
 
   static final TextStyle subtitle = GoogleFonts.quicksand(
@@ -20,6 +26,12 @@ class AppTextStyles {
 
   static final TextStyle warningTitle = GoogleFonts.quicksand(
       color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold);
+  static final TextStyle reviewUserTitle = GoogleFonts.quicksand(
+    color: Colors.black,
+    fontSize: 20,
+  );
+  static final TextStyle descriptionRegistered = GoogleFonts.quicksand(
+      color: AppColors.black, fontSize: 20, fontWeight: FontWeight.bold);
 
   static final TextStyle warningDescription = GoogleFonts.quicksand(
       color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400);
