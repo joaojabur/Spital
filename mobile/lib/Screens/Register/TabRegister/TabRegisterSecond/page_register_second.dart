@@ -1,6 +1,6 @@
 import 'package:Spital/Screens/Register/controller/register_controller.dart';
-import 'package:Spital/Screens/Shared/Widgets/Buttom/buttom_widget.dart';
-import 'package:Spital/Screens/Shared/Widgets/TextField/text_form_field.dart';
+import 'package:Spital/Screens/Shared/Widgets/Buttom/button_widget.dart';
+import 'package:Spital/Screens/Shared/Widgets/TextField/text_field.dart';
 import 'package:Spital/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
