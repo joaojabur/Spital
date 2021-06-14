@@ -1,6 +1,4 @@
-import 'dart:io';
-
-import 'package:Spital/screens/Shared/Models/user_model.dart';
+import 'package:Spital/Screens/Shared/Models/user_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart'
     as secureStorage;
@@ -15,7 +13,7 @@ class LoginResponse {
 
 class AuthRepository {
   final storage = new secureStorage.FlutterSecureStorage();
-  final Dio dio = Dio(BaseOptions(baseUrl: "http://192.168.1.7:3333"));
+  final Dio dio = Dio(BaseOptions(baseUrl: "http://192.168.1.5:3333"));
   Future<LoginResponse> login(String email, String password) async {
     try {
       Map<String, String> data = {"email": email, "password": password};
