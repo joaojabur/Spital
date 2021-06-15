@@ -44,12 +44,14 @@ module.exports = {
 
       const formattedDDD = ddd.replace("(", "");
       const formattedPhoneNumber = phoneNumber.replace(/[- ]/g, "");
+      console.log(medicID);
 
       for (let appointment of appointments) {
         await knex("consult_type").insert({
           type: `${appointment.name}`,
           price: `${appointment.price}`,
-          medicID: parseInt(medicID),
+          description: null,
+          medicID: medicID,
         });
       }
 

@@ -88,8 +88,8 @@ const InvoiceAddress = ({ previousPage }: PagesProps) => {
           appointments: medicDataConfigure.appointments,
           address: medicDataConfigure.address,
           number: medicDataConfigure.number,
-          lat: medicDataConfigure.lat,
-          lon: medicDataConfigure.lon,
+          lat: null,
+          lon: null,
           bankData: medicDataConfigure.bankData,
           invoiceAddress: medicDataConfigure.invoiceAddress,
         })

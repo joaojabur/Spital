@@ -21,8 +21,6 @@ const ConfigureMedic = () => {
 
   const { user } = useAuth();
 
-  console.log(user.configured)
-
   if (user.configured) {
     history.replace("/configuracoes");
   }

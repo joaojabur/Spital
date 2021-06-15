@@ -93,46 +93,35 @@ module.exports = {
         .where({ id: clientID })
         .select("accountID");
 
-      moip.order
-        .create({
-          ownId: clientID,
-          amount: {
-            currency: "BRL",
-            subtotals: {
-              shipping: 0,
-            },
+      const request = await moip.order.create({
+        ownId: clientID,
+        amount: {
+          currency: "BRL",
+          subtotals: {
+            shipping: 0,
           },
-          items: [
-            {
-              product: appointmentData.type,
-              quantity: 1,
-              detail: `Consulta médica ${appointmentData.date} - ${appointmentData.time}`,
-              price: Number(appointmentData.price) * 100,
-            },
-          ],
-
-          customer: {
-            id: customerMoipID.accountID,
+        },
+        items: [
+          {
+            product: appointmentData.type,
+            quantity: 1,
+            detail: `Consulta médica ${appointmentData.date} - ${appointmentData.time}`,
+            price: Number(appointmentData.price) * 100,
           },
-        })
-        .then((response) => {
-          console.log(response.body.id);
+        ],
 
-          res.status(201).json({
-            message: "Pedido enviado com sucesso! 🎉",
-            success: true,
-            orderID: response.body.id,
-          });
-        })
-        .catch((err) => {
-          next(err);
-        });
-    } catch (error) {
-      console.log(error);
-      res.status(401).json({
-        message: "Falha ao realizar o pagamento 😪",
-        success: false,
+        customer: {
+          id: customerMoipID.accountID,
+        },
       });
+
+      res.status(201).json({
+        message: "Pedido enviado com sucesso! 🎉",
+        success: true,
+        orderID: request.body.id,
+      });
+    } catch (error) {
+      next(error);
     }
   },
 
@@ -189,10 +178,7 @@ module.exports = {
         success: true,
       });
     } catch (error) {
-      res.send(401).json({
-        message: "Erro ao realizar o reembolso",
-        success: false,
-      });
+      next(error);
     }
   },
 
@@ -224,57 +210,58 @@ module.exports = {
     try {
       const { orderID } = req.params;
       const { medicID, clientID } = req.query;
-      const { date, type, hash } = req.body;
+      const { date, hash, appointmentData } = req.body;
+      console.log(medicID, clientID, date, hash, appointmentData);
 
-      moip.payment
-        .create(orderID, {
-          installmentCount: 1,
-          fundingInstrument: {
-            method: "CREDIT_CARD",
-            creditCard: {
-              hash: hash,
-            },
+      const payment = moip.payment.create(orderID, {
+        installmentCount: 1,
+        fundingInstrument: {
+          method: "CREDIT_CARD",
+          creditCard: {
+            hash: hash,
           },
-        })
-        .then(async (response) => {
-          console.log(response.body);
-          const scheduleID = await knex("schedules").returning("id").insert({
-            medicID,
-          });
+        },
+      });
 
-          await knex("appointments").insert({
-            clientID: parseInt(clientID),
-            scheduleID: parseInt(scheduleID),
-            date,
-            time: appointmentData.time,
-            price: parseInt(appointmentData.price),
-            paymentID: response.data.id,
-            type,
-          });
+      const scheduleID = await knex("schedules").returning("id").insert({
+        medicID,
+      });
 
-          const [medic] = await knex("medics")
-            .where("medics.id", "=", medicID)
-            .join("users", "users.id", "=", "medics.userID")
-            .select("users.*", "medics.*");
-          const [client] = await knex("clients")
-            .where("clients.id", "=", clientID)
-            .join("users", "users.id", "=", "clients.userID")
-            .select("users.*", "clients.*");
+      await knex("appointments").insert({
+        clientID: parseInt(clientID),
+        scheduleID: parseInt(scheduleID),
+        date,
+        time: appointmentData.time,
+        price: parseInt(appointmentData.price),
+        paymentID: payment.body.id,
+        type: appointmentData.type,
+      });
 
-          if (medic && client) {
-            await paymentConfirmation({
-              name: `${client.first_name} ${client.last_name}`,
-              email: client.email,
-              medic: medic,
-              appointment: appointmentData,
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
+      const [medic] = await knex("medics")
+        .where("medics.id", "=", medicID)
+        .join("users", "users.id", "=", "medics.userID")
+        .select("users.*", "medics.*");
+      const [client] = await knex("clients")
+        .where("clients.id", "=", clientID)
+        .join("users", "users.id", "=", "clients.userID")
+        .select("users.*", "clients.*");
+
+      if (medic && client) {
+        await paymentConfirmation({
+          name: `${client.first_name} ${client.last_name}`,
+          email: client.email,
+          medic: medic,
+          appointment: appointmentData,
         });
+      }
 
-      res.send(201).json({ success: true, message: "Pagamento concluído!" });
+      console.log(payment.body);
+
+      res.status(201).json({
+        success: true,
+        message: "Pagamento concluído!",
+        id: payment.body.id,
+      });
     } catch (error) {
       next(error);
     }

@@ -59,8 +59,6 @@ const FinalizePayment = ({ previousPage }) => {
           appointmentData,
         })
         .then((response) => {
-          console.log(response);
-
           if (response.status === 201) {
             MoipCreditCard.setEncrypter(JSEncrypt, "node")
               .setPubKey(pubKey)
@@ -72,16 +70,19 @@ const FinalizePayment = ({ previousPage }) => {
               })
               .hash()
               .then((hash) => {
+                console.log(clientID, medicID);
                 api
                   .post(
-                    `appointments/${response.data.orderID}?clientID=${clientID}medicID=${medicID}`,
+                    `appointments/${response.data.orderID}?clientID=${clientID}&medicID=${medicID}`,
                     {
                       date,
                       time: appointmentData.time,
                       hash,
+                      appointmentData,
                     }
                   )
                   .then((res) => {
+                    console.log(res);
                     if (res.status === 201) {
                       setSuccess(true);
                       setLoading(false);
