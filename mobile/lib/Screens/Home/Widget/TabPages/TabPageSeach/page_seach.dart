@@ -14,12 +14,11 @@ class _PageSeachState extends State<PageSeach> {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppbarSecundaria(
-        iconAddRight: Ionicons.save,
         title: "Chats",
         width: width,
         height: height,
-        topleftIcon: false,
-        topRightIcon: false,
+        topleftIcon: true,
+        iconLeft: Ionicons.chevron_back_outline,
       ),
       body: Center(child: Text("Seach")),
     );

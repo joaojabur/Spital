@@ -2,9 +2,7 @@ import 'package:Spital/Screens/Home/home_page.dart';
 import 'package:Spital/Screens/Login/login_page.dart';
 import 'package:Spital/Screens/Logon/logon.dart';
 import 'package:Spital/Screens/Register/register_page.dart';
-
 import 'package:Spital/Screens/Splash/splash.dart';
-
 import 'package:Spital/screens/Shared/Auth/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';

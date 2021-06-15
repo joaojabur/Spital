@@ -26,12 +26,30 @@ abstract class _LoginControllerBase with Store {
   login() async {
     String response = await authController!.login(email, password);
 
-    if (response.isEmpty){
+    if (response.isEmpty) {
       logged = true;
     }
 
     print(response);
 
     return response;
+  }
+
+  String validateEmail() {
+    if (email.isEmpty) {
+      return "este campo é obrigatório ";
+    } else if (!email.contains("@")) {
+      return "este não é um email valido";
+    }
+    return "";
+  }
+
+  String validatePassWord() {
+    if (password.isEmpty) {
+      return "este campo é obrigatório";
+    } else if (password.length <= 7) {
+      return "A senha precisa conter no minimo 8 caracteres";
+    }
+    return "";
   }
 }

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
+  static final Color verde = Color(0xFF3EB713);
+
   static final Color blue = Color(0xFF07B3D6);
   static final Color darkBlue = Color(0xFF16697A);
   static final Color blueTransparent = Color(0xFF07B3D6).withOpacity(0.3);
   static final Color blueT100 = Color(0xFF07B3D6);
-
+  static final Color blueT10 = Color(0xFF07B3D6).withOpacity(0.1);
   static final Color darkblueTransparent = Color(0xFF16697A);
   static final Color orange = Color(0xFFDB6400);
   static final Color yellow = Color(0xFFFFA62B);
