@@ -48,6 +48,7 @@ routes.get("/appointments", AppointmentController.index);
 routes.put("/appointments/:scheduleID", AppointmentController.update);
 routes.delete("/appointments/:id", AppointmentController.delete);
 routes.get("/appointments/:clientID", AppointmentController.list);
+routes.post("/appointments/:orderID", AppointmentController.pay);
 
 routes.post("/medic-schedule", MedicScheduleController.create);
 routes.get("/medic-schedule", MedicScheduleController.index);

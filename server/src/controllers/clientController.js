@@ -31,8 +31,6 @@ module.exports = {
 
         const [result] = await query;
 
-        console.log(result);
-
         return res.status(200).json({
           email: result.email,
           firstName: result.first_name,
