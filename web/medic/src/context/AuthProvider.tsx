@@ -1,4 +1,5 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import api from "../services/api";
 import Cookies from "js-cookie";
 
@@ -76,17 +77,23 @@ interface AuthProviderProps {
 const AuthContext = createContext({} as AuthContextData);
 
 export default function AuthProvider({ children }: AuthProviderProps) {
+  const history = useHistory();
   const [user, setUser] = useState<Medic | null>(null);
   const [userID, setUserID] = useState<number | null>(null);
   const [confirmed, setConfirmed] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
   async function getUserData(id: number) {
-    let response = await api.get(`medics?id=${id}`);
-
-    setUser({
-      ...response.data,
-    });
+    try {
+      let response = await api.get(`medics?id=${id}`);
+      setUser({
+        ...response.data,
+      });
+    } catch (error) {
+      if (error) {
+        history?.replace("/404");
+      }
+    }
 
     setLoading(false);
   }
@@ -103,6 +110,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         email: email,
         password: password,
       });
+
       let { token, id, confirmed } = response.data;
 
       if (confirmed) {

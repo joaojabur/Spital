@@ -78,7 +78,6 @@ const MedicArea = () => {
 
       permission.onchange = () => {
         console.log("Estado alterado");
-        console.log(permission.state);
       };
     }
   }

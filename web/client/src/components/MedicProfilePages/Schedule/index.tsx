@@ -81,16 +81,16 @@ const ScheduleMedicProfile = ({ nextPage, previousPage }: NamesProps) => {
   const { medicID } = useParams<ParamTypes>();
 
   useEffect(() => {
-    api.get(`consult-type?medicID=${medicID}`).then((response: any) => {
-      setConsultTypes(response.data);
-    });
-  }, [medicID]);
-
-  useEffect(() => {
     api.get(`medics?id=${medicID}`).then((response: any) => {
       setMedic(response.data);
     });
   }, [medicID]);
+
+  useEffect(() => {
+    api.get(`consult-type?medicID=${medic?.id}`).then((response: any) => {
+      setConsultTypes(response.data);
+    });
+  }, [medic, setConsultTypes]);
 
   function transformMonth() {
     switch (month) {
@@ -165,6 +165,7 @@ const ScheduleMedicProfile = ({ nextPage, previousPage }: NamesProps) => {
             getMonth={transformMonth}
             year={year}
             monthDay={month_day}
+            medic_id={medic?.id}
           />
         )}
 

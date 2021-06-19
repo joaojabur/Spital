@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 import { IoStar } from "react-icons/io5";
 
 interface StarsProps {

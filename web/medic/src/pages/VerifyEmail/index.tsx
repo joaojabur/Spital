@@ -25,7 +25,7 @@ export default function VerifyEmail() {
         history.replace("/entrar");
       }, 3000);
     } catch (err) {
-      console.log("Ocorreu um erro");
+      console.log(err);
     }
   }
   useEffect(() => {

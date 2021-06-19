@@ -90,7 +90,7 @@ const HeaderPlatform: React.FC<HeaderPlatformProps> = ({ title }) => {
                 close: () => {
                   location.close();
                 },
-                address: infoData.location,
+                address: infoData?.location,
               });
             }}
             className="header-platform-location-flex"

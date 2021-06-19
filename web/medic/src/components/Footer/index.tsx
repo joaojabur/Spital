@@ -17,7 +17,7 @@ const Footer = () => {
           </div>
         </Link>
 
-        <Link style={{ marginTop: '1rem' }} to="/">
+        <Link style={{ marginTop: "1rem" }} to="/">
           <img src={googlePlay} alt="Google Play" />
           <div>
             <h3>DISPONÍVEL NO</h3>

@@ -28,7 +28,12 @@ export interface MedicProps {
   lastName: string;
   email: string;
   rating: string;
+  location: {
+    address: string;
+    number: number;
+  };
 }
+
 const MainProfileMedic = ({ nextPage }: NamesProps) => {
   const history = useHistory();
 
@@ -41,10 +46,16 @@ const MainProfileMedic = ({ nextPage }: NamesProps) => {
   const { medicID } = useParams<ParamTypes>();
 
   useEffect(() => {
-    api.get(`medics?id=${medicID}`).then((response) => {
-      console.log(response)
-      setMedic(response.data);
-    });
+    api
+      .get(`medics?id=${medicID}`)
+      .then((response) => {
+        setMedic(response.data);
+      })
+      .catch((err) => {
+        if (err.response.status === 404) {
+          history.replace("/404");
+        }
+      });
   }, [medicID]);
 
   function getWeekday() {
@@ -78,7 +89,7 @@ const MainProfileMedic = ({ nextPage }: NamesProps) => {
         <div className="container-perfil">
           <MedicProfileBox
             nextPage={nextPage}
-            id={medicID}
+            medic={medic}
             rating={Number(medic?.rating ? medic.rating : 4)}
             area={medic?.area}
           />
@@ -88,7 +99,7 @@ const MainProfileMedic = ({ nextPage }: NamesProps) => {
             medic={medic}
           />
         </div>
-        <MedicProfileData id={medicID} medic={medic} />
+        <MedicProfileData medic={medic} />
       </div>
     </div>
   );

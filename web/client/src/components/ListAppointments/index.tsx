@@ -1,5 +1,4 @@
-import { CircularProgress } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "react-loader-spinner";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
@@ -13,8 +12,8 @@ export interface AppointmentProps {
   clientID: number;
   cpf: string;
   created_at: string;
-  crm: "233133/SP";
-  date: "5/28/2021";
+  crm: string;
+  date: string;
   doctorate_degree: string;
   graduation: string;
   id: number;
@@ -28,7 +27,7 @@ export interface AppointmentProps {
   email: string;
   first_name: string;
   last_name: string;
-  payment_intent: string;
+  paymentID: string;
   confirmed: boolean;
   rated: boolean;
 }
@@ -49,15 +48,10 @@ const ListAppointments = () => {
 
   useEffect(() => {
     setLoading(true);
-    api
-      .get(`appointments/${clientID}`)
-      .then((response: any) => {
-        setAppointments(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    api.get(`appointments/${clientID}`).then((response: any) => {
+      setAppointments(response.data);
+      setLoading(false);
+    });
   }, [clientID, setAppointments]);
 
   function calculateMonth(month: any) {

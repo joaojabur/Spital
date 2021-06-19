@@ -10,7 +10,7 @@ import api from "../../services/api";
 
 const Appointments = () => {
   const history = useHistory();
-  const { userID, user } = useAuth();
+  const { user } = useAuth();
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -27,11 +27,12 @@ const Appointments = () => {
 
   useEffect(() => {
     setLoading(true);
-    api.get(`appointments?medicID=${userID}`).then((response: any) => {
+    api.get(`appointments?medicID=${user.id}`).then((response: any) => {
+      console.log(response);
       setRows(response.data);
       setLoading(false);
     });
-  }, [setRows, userID]);
+  }, [setRows, user]);
 
   if (!user.configured) {
     history.replace("/configurar");

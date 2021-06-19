@@ -30,7 +30,6 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
 
   async function handleSubmitClient() {
     let response = await signup({ ...userData, xp: 0 });
-    console.log(response.data);
     spinner.close();
 
     if (response.status === 201) {
@@ -64,7 +63,6 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
     e.preventDefault();
     const loopedErrors = Object.values(errors);
     if (loopedErrors.length > 0) {
-      console.log("There's an error");
       setHasError(true);
     } else {
       handleSubmitClient();

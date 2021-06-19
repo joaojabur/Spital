@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
 import { useShareAppointmentForm } from "../../context/ShareAppointmentFormProvider";
-import { ParamTypes } from "../../components/MedicProfilePages/Main";
 import api from "../../services/api";
 import "./styles.css";
 
@@ -9,6 +7,7 @@ export interface DayScheduleProps {
   getMonth: () => number;
   year: string;
   monthDay: string;
+  medic_id: string | undefined;
 }
 
 interface DateProps {
@@ -23,12 +22,16 @@ interface MedicScheduleProps {
   week_day: number;
 }
 
-const DaySchedule = ({ getMonth, year, monthDay }: DayScheduleProps) => {
+const DaySchedule = ({
+  getMonth,
+  year,
+  monthDay,
+  medic_id,
+}: DayScheduleProps) => {
   const { appointmentData, setAppointmentData } = useShareAppointmentForm();
   const [medicSchedule, setMedicSchedule] =
     useState<MedicScheduleProps | null>(null);
   const [appointments, setAppointments] = useState<DateProps[]>([]);
-  const { medicID } = useParams<ParamTypes>();
 
   const month = getMonth();
   const completeDate = `${month}/${monthDay}/${year}`;
@@ -37,13 +40,13 @@ const DaySchedule = ({ getMonth, year, monthDay }: DayScheduleProps) => {
 
   useEffect(() => {
     api
-      .get(`appointments?medicID=${medicID}&date=${completeDate}`)
+      .get(`appointments?medicID=${medic_id}&date=${completeDate}`)
       .then((response: any) => {
         setAppointments(response.data);
       });
 
     api
-      .get(`medic-schedule?medicID=${medicID}&week_day=${newWeekDay}`)
+      .get(`medic-schedule?medicID=${medic_id}&week_day=${newWeekDay}`)
       .then((response: any) => {
         if (!medicSchedule) {
           setAppointmentData({
@@ -54,7 +57,14 @@ const DaySchedule = ({ getMonth, year, monthDay }: DayScheduleProps) => {
         }
         setMedicSchedule(response.data[0]);
       });
-  }, [newWeekDay, completeDate, medicID, setAppointmentData, appointmentData, medicSchedule]);
+  }, [
+    newWeekDay,
+    completeDate,
+    medic_id,
+    setAppointmentData,
+    appointmentData,
+    medicSchedule,
+  ]);
 
   const numberFrom = Number(medicSchedule?.from);
   const numberTo = Number(medicSchedule?.to);
@@ -85,7 +95,11 @@ const DaySchedule = ({ getMonth, year, monthDay }: DayScheduleProps) => {
             for (let appointment of appointments) {
               if (
                 appointment.time ===
-                `${hours}:${isNaN(completeMinutes) ? "00" : completeMinutes}`
+                `${hours}:${
+                  isNaN(completeMinutes)
+                    ? "00"
+                    : completeMinutes.toString().substring(0, 2)
+                }`
               ) {
                 isReserved = true;
               }
@@ -113,7 +127,10 @@ const DaySchedule = ({ getMonth, year, monthDay }: DayScheduleProps) => {
                   });
                 }}
               >
-                {hours}:{isNaN(completeMinutes) ? "00" : completeMinutes}
+                {hours}:
+                {isNaN(completeMinutes)
+                  ? "00"
+                  : completeMinutes.toString().substring(0, 2)}
               </button>
             );
           })}

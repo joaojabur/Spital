@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import verified from "../../assets/images/verified.svg";
 import api from "../../services/api";
@@ -25,7 +25,7 @@ export default function VerifyEmail() {
         history.replace("/entrar-paciente");
       }, 3000);
     } catch (err) {
-      console.log("Ocorreu um erro");
+      console.log(err);
     }
   }
   useEffect(() => {

@@ -19,7 +19,6 @@ module.exports = {
 
         return res.status(200).json(results);
       } else {
-        console.log(id);
         let query = knex("clients");
 
         query
@@ -78,7 +77,6 @@ module.exports = {
           userID: parseInt(userID),
         });
 
-        console.log(plat_id);
         moip.customer
           .create({
             ownId: plat_id,

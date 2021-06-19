@@ -16,7 +16,6 @@ interface MedicScheduleProps {
 
 const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
   const { setMedicData, medicData } = useShareFormMedic();
-  console.log(medicData);
 
   const weekDays = [
     {
@@ -51,9 +50,7 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
 
   function addNewScheduleItem() {
     if (medicData.schedule.length >= 7) {
-      console.log(
-        "Are you living on Earth? Here we have only seven days in a week!"
-      );
+      // Send message
     } else {
       setMedicData({
         ...medicData,

@@ -14,7 +14,7 @@ module.exports = {
       let query = knex("schedules");
 
       if (scheduleID) {
-        query = await knex("appointments")
+        query = knex("appointments")
           .where({ scheduleID })
           .join("schedules", "schedules.id", "=", "appointments.scheduleID")
           .join("medics", "medics.id", "=", "schedules.medicID")
@@ -86,12 +86,16 @@ module.exports = {
 
   async create(req, res, next) {
     try {
-      const { clientID } = req.query;
+      const { clientID, medicID } = req.query;
       const { appointmentData } = req.body;
 
       const [customerMoipID] = await knex("clients")
         .where({ id: clientID })
         .select("accountID");
+
+      const [medicMoipID] = await knex("medics")
+        .where({ id: medicID })
+        .select("*");
 
       const request = await moip.order.create({
         ownId: clientID,
@@ -107,6 +111,19 @@ module.exports = {
             quantity: 1,
             detail: `Consulta médica ${appointmentData.date} - ${appointmentData.time}`,
             price: Number(appointmentData.price) * 100,
+          },
+        ],
+
+        receivers: [
+          {
+            type: "SECONDARY",
+            feePayor: false,
+            moipAccount: {
+              id: medicMoipID.moipAccountID,
+            },
+            amount: {
+              percentual: 90,
+            },
           },
         ],
 
@@ -145,15 +162,14 @@ module.exports = {
   async delete(req, res, next) {
     try {
       const { id } = req.params;
-
-      await stripe.refunds.create({
-        payment_intent: id,
-      });
+      const { userID } = req.query;
 
       const [appointment] = await knex("appointments")
-        .where({ payment_intent: id })
+        .where({ paymentID: id })
         .join("schedules", "schedules.id", "=", "appointments.scheduleID")
         .select("appointments.*", "schedules.medicID");
+
+      await moip.payment.refunds.create(id);
 
       const [medic] = await knex("medics")
         .where("medics.id", "=", appointment.medicID)
@@ -164,13 +180,17 @@ module.exports = {
         .join("users", "users.id", "=", "clients.userID")
         .select("users.*", "clients.*");
 
-      await knex("appointments").where({ payment_intent: id }).del();
+      await knex("appointments").where({ paymentID: id }).del();
+
+      let [location] = await knex("addresses").where("userID", medic.userID);
+      console.log(location);
 
       refundConfirmation({
         name: `${client.first_name} ${client.last_name}`,
         email: client.email,
         medic,
         appointment,
+        location: location,
       });
 
       res.status(201).json({
@@ -209,16 +229,38 @@ module.exports = {
   async pay(req, res, next) {
     try {
       const { orderID } = req.params;
-      const { medicID, clientID } = req.query;
-      const { date, hash, appointmentData } = req.body;
-      console.log(medicID, clientID, date, hash, appointmentData);
+      const { medicID, clientID, userID } = req.query;
+      const { date, hash, appointmentData, cpf } = req.body;
 
-      const payment = moip.payment.create(orderID, {
+      const [client] = await knex("clients")
+        .where("clients.id", "=", clientID)
+        .join("users", "users.id", "=", "clients.userID")
+        .select("users.*", "clients.*");
+
+      const [ddd, phone] = client.phoneNumber.split(")");
+      const formattedDDD = ddd.replace("(", "");
+      const formattedPhoneNumber = phone.replace(/[- ]/g, "");
+
+      const payment = await moip.payment.create(orderID, {
         installmentCount: 1,
+        statementDescriptor: "spital.com.br",
         fundingInstrument: {
           method: "CREDIT_CARD",
           creditCard: {
             hash: hash,
+            holder: {
+              fullname: `${client.first_name} ${client.last_name}`,
+              birthdate: client.birth_date,
+              taxDocument: {
+                type: "CPF",
+                number: cpf,
+              },
+              phone: {
+                countryCode: "55",
+                areaCode: formattedDDD,
+                number: formattedPhoneNumber,
+              },
+            },
           },
         },
       });
@@ -235,16 +277,15 @@ module.exports = {
         price: parseInt(appointmentData.price),
         paymentID: payment.body.id,
         type: appointmentData.type,
+        orderID: orderID,
       });
 
       const [medic] = await knex("medics")
         .where("medics.id", "=", medicID)
         .join("users", "users.id", "=", "medics.userID")
         .select("users.*", "medics.*");
-      const [client] = await knex("clients")
-        .where("clients.id", "=", clientID)
-        .join("users", "users.id", "=", "clients.userID")
-        .select("users.*", "clients.*");
+
+      let [location] = await knex("addresses").where("userID", userID);
 
       if (medic && client) {
         await paymentConfirmation({
@@ -252,10 +293,9 @@ module.exports = {
           email: client.email,
           medic: medic,
           appointment: appointmentData,
+          location: location,
         });
       }
-
-      console.log(payment.body);
 
       res.status(201).json({
         success: true,

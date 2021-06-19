@@ -44,7 +44,6 @@ module.exports = {
 
       const formattedDDD = ddd.replace("(", "");
       const formattedPhoneNumber = phoneNumber.replace(/[- ]/g, "");
-      console.log(medicID);
 
       for (let appointment of appointments) {
         await knex("consult_type").insert({
@@ -95,7 +94,6 @@ module.exports = {
           transparentAccount: true,
         })
         .then(async (response) => {
-          console.log(response.body);
           await knex("medics")
             .update({ moipAccountID: response.body.id })
             .where({ id: medicID });
@@ -108,8 +106,6 @@ module.exports = {
           });
         });
     } catch (error) {
-      console.log(error);
-
       next(error);
     }
   },
@@ -119,8 +115,6 @@ module.exports = {
     const { accessToken, medicID } = req.query;
 
     const { bankData } = req.body;
-
-    console.log(moipAccountId, accessToken, bankData, medicID);
 
     const moip = require("moip-sdk-node").default({
       accessToken: accessToken,
@@ -144,7 +138,6 @@ module.exports = {
           },
         })
         .then(async (response) => {
-          console.log(response.body);
           await knex("medics")
             .update({ bankAccountID: response.body.id, configured: true })
             .where({ id: medicID });

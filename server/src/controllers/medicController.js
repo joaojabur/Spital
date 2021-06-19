@@ -43,6 +43,10 @@ module.exports = {
         let formatedResults = [];
 
         for (let result of results) {
+          if (!result) {
+            return res.status(404).send();
+          }
+
           let [{ star }] = await knex.select(
             knex.raw(`
               round(avg(stars), 2) as star from reviews where reviews."medicID" = ${result.id};`)
@@ -64,7 +68,18 @@ module.exports = {
         let [result] = await knex("medics")
           .where("userID", id)
           .join("users", "users.id", "=", "medics.userID")
-          .select("medics.*", "users.*");
+          .select(
+            "medics.*",
+            "users.first_name",
+            "users.last_name",
+            "users.confirmed",
+            "users.email",
+            "users.xp"
+          );
+
+        if (!result) {
+          return res.status(404).send({ success: false });
+        }
 
         let [{ star }] = await knex.select(
           knex.raw(`
@@ -91,7 +106,6 @@ module.exports = {
         return res.status(200).json(result);
       }
     } catch (error) {
-      console.log(error);
       next(error);
     }
   },
@@ -153,16 +167,6 @@ module.exports = {
             cpf,
             rg,
           });
-
-        /*
-        await knex("addresses").insert({
-          address: address.location,
-          number: address.number,
-          lat: address.lat,
-          lon: address.lon,
-          userID: parseInt(userID),
-        });
-        */
 
         const scheduleID = await knex("schedules")
           .returning("id")

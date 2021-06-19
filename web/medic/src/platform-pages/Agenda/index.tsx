@@ -15,30 +15,33 @@ import VerticalHeader from "../../components-platform/VerticalHeader";
 import "./styles.css";
 import api from "../../services/api";
 import { useAuth } from "../../context/AuthProvider";
-import { useModal } from "../../context/ModalProvider";
 import { useHistory } from "react-router-dom";
 
+interface Appointment {
+  id: number;
+  Subject: string;
+  StartTime: Date;
+  EndTime: Date;
+  isAllDay: boolean;
+}
+
 const AgendaComponent = () => {
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { user } = useAuth();
-  console.log(user.configured);
 
-  const [data, setData] = useState([
-    {
-      id: 1,
-      Subject: "Consulta com João Jabur",
-      StartTime: new Date(2021, 4, 17, 10, 0),
-      EndTime: new Date(2021, 4, 17, 12, 30),
-      isAllDay: false,
-    },
-    {
-      id: 2,
-      Subject: "Consulta com Marcos Amorim",
-      StartTime: new Date(2021, 4, 21, 11, 0),
-      EndTime: new Date(2021, 4, 21, 15, 30),
-      isAllDay: false,
-    },
-  ]);
+  const [appointments, setAppointments] = useState<Array<Appointment>>([]);
+
+  useEffect(() => {
+    setLoading(true);
+    api.get(`appointments?medicID=${user.id}`).then((response: any) => {
+      console.log(response);
+      for (var i = 0; i <= response.data.lenght; i++) {
+        // SetState Appointments
+      }
+      setLoading(false);
+    });
+  }, [user]);
 
   if (!user.configured) {
     history.replace("/configurar");
@@ -51,7 +54,7 @@ const AgendaComponent = () => {
         <VerticalHeader colorIcon="agenda" />
         <div className="content">
           <ScheduleComponent
-            eventSettings={{ dataSource: data }}
+            eventSettings={{ dataSource: appointments }}
             actionBegin={(e: any) => {
               console.log(e.data);
             }}

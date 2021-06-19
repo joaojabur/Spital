@@ -101,8 +101,6 @@ const InvoiceAddress = ({ previousPage }: PagesProps) => {
                 { bankData: medicDataConfigure.bankData }
               )
               .then((res: any) => {
-                console.log(res.status);
-
                 if (res.status === 201) {
                   sucesso.open({
                     name: "Parabéns",

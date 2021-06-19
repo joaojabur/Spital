@@ -42,8 +42,6 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
 
     if (backendError !== null) {
       setIsLoading(false);
-    } else {
-      console.log("Cadastro realizado com sucesso!");
     }
   }
 
@@ -58,7 +56,6 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
   async function handleSubmitForm(e: any) {
     e.preventDefault();
     const loopedErrors = Object.values(errors);
-    console.log(loopedErrors);
     if (loopedErrors.length > 0) {
       setHasError(true);
     } else {

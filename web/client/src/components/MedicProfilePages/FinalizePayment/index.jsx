@@ -11,6 +11,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { MoipCreditCard, MoipValidator } from "moip-sdk-js";
 import JSEncrypt from "node-jsencrypt";
 import mask from "../../../utils/mask";
+import validateCPF from "../../../utils/validateCpf";
 
 const FinalizePayment = ({ previousPage }) => {
   const [card, setCard] = useState({
@@ -18,6 +19,8 @@ const FinalizePayment = ({ previousPage }) => {
     cvc: "",
     expiration: "",
   });
+
+  const [cpf, setCpf] = useState("");
 
   const pubKey = `MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgv+gyND23De2/xrE1HNS
   U0i8mOt2VqA9YHuGsPfbm/hDs/g6s6V3XmufsQnSrjwKn8oA4Y5Y2XD+JU1mNQtT
@@ -31,6 +34,7 @@ const FinalizePayment = ({ previousPage }) => {
   const [success, setSuccess] = useState(false);
   const { appointmentData } = useShareAppointmentForm();
   const [clientID, setClientID] = useState("");
+  const [medic_id, setMedic_id] = useState("");
   const { userID } = useAuth();
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -42,7 +46,12 @@ const FinalizePayment = ({ previousPage }) => {
       setClientID(response.data[0]?.id);
       setLoading(false);
     });
-  }, [userID, setClientID]);
+
+    api.get(`medics?id=${medicID}`).then((response) => {
+      setMedic_id(response.data.id);
+    });
+    api.get();
+  }, [userID, setClientID, medicID, setMedic_id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -55,34 +64,35 @@ const FinalizePayment = ({ previousPage }) => {
       setError("");
       setLoading(true);
       api
-        .post(`appointments?clientID=${clientID}`, {
+        .post(`appointments?clientID=${clientID}&medicID=${medic_id}`, {
           appointmentData,
         })
         .then((response) => {
           if (response.status === 201) {
+            const [month, year] = card.expiration.split("/");
+
             MoipCreditCard.setEncrypter(JSEncrypt, "node")
               .setPubKey(pubKey)
               .setCreditCard({
-                number: "4012001037141112",
-                cvc: "123",
-                expirationMonth: "05",
-                expirationYear: "22",
+                number: card.number,
+                cvc: card.cvc,
+                expirationMonth: month,
+                expirationYear: year,
               })
               .hash()
               .then((hash) => {
-                console.log(clientID, medicID);
                 api
                   .post(
-                    `appointments/${response.data.orderID}?clientID=${clientID}&medicID=${medicID}`,
+                    `appointments/${response.data.orderID}?clientID=${clientID}&medicID=${medic_id}&userID=${medicID}`,
                     {
                       date,
                       time: appointmentData.time,
                       hash,
                       appointmentData,
+                      cpf,
                     }
                   )
                   .then((res) => {
-                    console.log(res);
                     if (res.status === 201) {
                       setSuccess(true);
                       setLoading(false);
@@ -90,15 +100,20 @@ const FinalizePayment = ({ previousPage }) => {
                       setSuccess(false);
                       setLoading(false);
                     }
+                  })
+                  .catch(() => {
+                    setLoading(false);
+                    setError("Erro no servidor, tente mais tarde... 😪")
                   });
               });
           }
         })
-        .catch((err) => {
+        .catch(() => {
           setLoading(false);
+          setError("Erro no servidor, tente mais tarde... 😪");
         });
     } else {
-      setError("Cartão de crédito inválido");
+      setError("Cartão de crédito ou CPF inválido");
     }
   };
 
@@ -111,15 +126,36 @@ const FinalizePayment = ({ previousPage }) => {
       card.cvc
     );
     const expirationIsCorrect = MoipValidator.isExpiryDateValid(month, year);
+    const isCpfCorrect = checkCpf();
 
     if (
       numberIsCorrect &&
       cvcIsCorrect === true &&
-      expirationIsCorrect === true
+      expirationIsCorrect === true &&
+      isCpfCorrect === true
     ) {
       return true;
     } else {
       return false;
+    }
+  }
+
+  function checkCpf() {
+    const cpfNumbers = cpf.replace(/[-. ]/g, "") ?? "0";
+    let errors = {};
+
+    if (!cpfNumbers?.length ?? 0) {
+      errors.cpf = "Campo de CPF é necessário";
+    } else if (isNaN(parseInt(cpfNumbers))) {
+      errors.rg = "Caracteres não aceitos";
+    } else if (validateCPF({ cpf: cpfNumbers })) {
+      errors.cpf = "CPF inválido";
+    }
+
+    if (errors.cpf) {
+      return false;
+    } else {
+      return true;
     }
   }
 
@@ -151,47 +187,63 @@ const FinalizePayment = ({ previousPage }) => {
           />
           <form onSubmit={handleSubmit} className="form-finalize-payment">
             <h1>Insira os dados do cartão</h1>
-            <div className="card-div">
-              <TextField
-                value={card.number}
-                placeholder="Número"
-                label={
-                  <span style={{ fontSize: "1.5rem" }}>Número do cartão</span>
-                }
-                onChange={(e) => {
-                  setCard({ ...card, number: e.target.value });
-                }}
-                style={{ width: "70%" }}
-                variant="outlined"
-              />
+            <>
+              <div className="card-div">
+                <TextField
+                  value={card.number}
+                  placeholder="Número"
+                  label={
+                    <span style={{ fontSize: "1.5rem" }}>Número do cartão</span>
+                  }
+                  onChange={(e) => {
+                    setCard({ ...card, number: e.target.value });
+                  }}
+                  style={{ width: "70%" }}
+                  variant="outlined"
+                />
 
-              <TextField
-                value={card.cvc}
-                placeholder="CVC"
-                onChange={(e) => {
-                  setCard({ ...card, cvc: mask(e.target.value, "###") });
-                }}
-                style={{ width: "12%" }}
-                variant="outlined"
-                label={<span style={{ fontSize: "1.5rem" }}>Cvc</span>}
-              />
+                <TextField
+                  value={card.cvc}
+                  placeholder="CVC"
+                  onChange={(e) => {
+                    setCard({ ...card, cvc: mask(e.target.value, "###") });
+                  }}
+                  style={{ width: "12%" }}
+                  variant="outlined"
+                  label={<span style={{ fontSize: "1.5rem" }}>Cvc</span>}
+                />
 
-              <TextField
-                value={card.expiration}
-                placeholder="MM/YY"
-                onChange={(e) => {
-                  setCard({
-                    ...card,
-                    expiration: mask(e.target.value, "##/##"),
-                  });
-                }}
-                style={{ width: "15%" }}
-                variant="outlined"
-                label={
-                  <span style={{ fontSize: "1.5rem" }}>Data de expiração</span>
-                }
-              />
-            </div>
+                <TextField
+                  value={card.expiration}
+                  placeholder="MM/YY"
+                  onChange={(e) => {
+                    setCard({
+                      ...card,
+                      expiration: mask(e.target.value, "##/##"),
+                    });
+                  }}
+                  style={{ width: "15%" }}
+                  variant="outlined"
+                  label={
+                    <span style={{ fontSize: "1.5rem" }}>
+                      Data de expiração
+                    </span>
+                  }
+                />
+              </div>
+              <div style={{ marginTop: "1rem" }} className="card-div">
+                <TextField
+                  value={cpf}
+                  placeholder="123.456.789-10"
+                  onChange={(e) => {
+                    setCpf(mask(e.target.value, "###.###.###-##"));
+                  }}
+                  fullWidth
+                  variant="outlined"
+                  label={<span style={{ fontSize: "1.5rem" }}>CPF</span>}
+                />
+              </div>
+            </>
             {loading ? (
               <div className="spinner-div">
                 <Loader

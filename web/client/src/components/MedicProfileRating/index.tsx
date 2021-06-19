@@ -24,7 +24,7 @@ const MedicProfileRating = () => {
   useEffect(() => {
     setLoading(true);
     api.get(`medics?id=${medicID}`).then((response: any) => {
-      setMedicName(response.data.first_name);
+      setMedicName(response.data.firstName);
       api.get(`reviews?medicID=${response.data.id}`).then((res: any) => {
         setReviews(res.data);
         setLoading(false);
@@ -43,45 +43,57 @@ const MedicProfileRating = () => {
         style={{ alignItems: "flex-start", marginTop: "2rem" }}
         className="container"
       >
-        <h1
-          style={{ fontSize: "3rem", fontWeight: "bold", marginLeft: "1rem" }}
-        >
-          Avaliações:
-        </h1>
-        {loading ? (
-          <Loader
-            type="TailSpin"
-            color="var(--color-button-primary)"
-            height={100}
-            width={100}
-          />
-        ) : (
-          <div className="review-medic-profile">
-            {reviews.map((review: ReviewProps, index: number) => {
-              return (
-                <div key={index} className="review-medic-profile-wrap">
-                  <div className="review-medic-profile-wrap-flex">
-                    <img
-                      src={`https://avatars.dicebear.com/api/human/${
-                        review.first_name + review.last_name
-                      }.svg`}
-                    />
-                    <h1>
-                      {review.first_name} {review.last_name}
-                    </h1>
-
-                    <span>{review.stars}.0</span>
-                    <FaStar
-                      color="#FFC107"
-                      style={{ marginTop: "1.1rem", marginLeft: "1.5rem" }}
-                      size="3rem"
-                    />
-                  </div>
-                  <p>{review.description}</p>
-                </div>
-              );
-            })}
+        {reviews.length === 0 ? (
+          <div style={{ textAlign: "center", width: "100%", fontSize: '4rem', fontWeight: 'bold', color: "#2ea7a0" }}>
+            Nenhuma avaliação registrada
           </div>
+        ) : (
+          <>
+            <h1
+              style={{
+                fontSize: "3rem",
+                fontWeight: "bold",
+                marginLeft: "1rem",
+              }}
+            >
+              Avaliações:
+            </h1>
+            {loading ? (
+              <Loader
+                type="TailSpin"
+                color="var(--color-button-primary)"
+                height={100}
+                width={100}
+              />
+            ) : (
+              <div className="review-medic-profile">
+                {reviews.map((review: ReviewProps, index: number) => {
+                  return (
+                    <div key={index} className="review-medic-profile-wrap">
+                      <div className="review-medic-profile-wrap-flex">
+                        <img
+                          src={`https://avatars.dicebear.com/api/human/${
+                            review.first_name + review.last_name
+                          }.svg`}
+                        />
+                        <h1>
+                          {review.first_name} {review.last_name}
+                        </h1>
+
+                        <span>{review.stars}.0</span>
+                        <FaStar
+                          color="#FFC107"
+                          style={{ marginTop: "1.1rem", marginLeft: "1.5rem" }}
+                          size="3rem"
+                        />
+                      </div>
+                      <p>{review.description}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

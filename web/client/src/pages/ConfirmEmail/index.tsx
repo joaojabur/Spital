@@ -1,6 +1,4 @@
 import "./styles.css";
-import { Link } from "react-router-dom";
-
 import email from "../../assets/images/email.svg";
 
 const ConfirmEmail = () => {

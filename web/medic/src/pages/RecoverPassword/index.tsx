@@ -75,7 +75,6 @@ export default function RecoverPassword() {
     });
 
     if (response.status === 200) {
-      console.log("Senha Mudada");
       history.replace("/");
     }
 

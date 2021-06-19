@@ -6,6 +6,7 @@ module.exports = async function paymentConfirmation({
   callback,
   medic,
   appointment,
+  location,
 }) {
   const [month, day, year] = appointment.date.split("/");
   let to = email;
@@ -95,7 +96,7 @@ module.exports = async function paymentConfirmation({
               src="https://cdn.discordapp.com/attachments/833874352679813181/848205465083052083/outline_where_to_vote_black_24dp.png"
             />
             <span style="position: relative; top: -15px; font-weight: bold"
-              >ANDROS - SHLS Quadra 716 Cj. C Conjunto L - (HOSPITAL SANTA LÚCIA, BLOCO C, CLINICA 06), Brasilia</span
+              >${location?.address} ${location?.number}</span
             >
           </td>
         </tr>

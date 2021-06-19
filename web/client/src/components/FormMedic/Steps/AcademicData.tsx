@@ -123,10 +123,12 @@ const MedicAcademicData = ({ nextPage, previousPage }: MedicNamesProps) => {
   }, [medicData]);
 
   useEffect(() => {
-    setMedicData((previousState) => ({...previousState, area: areaOptions[0].value}))
-  }, [areaOptions])
+    setMedicData((previousState) => ({
+      ...previousState,
+      area: areaOptions[0].value,
+    }));
+  }, [areaOptions]);
 
-  console.log(medicData);
   return (
     <div className="form-container">
       <h2>Dados Acadêmicos</h2>
@@ -207,9 +209,7 @@ const MedicAcademicData = ({ nextPage, previousPage }: MedicNamesProps) => {
         autoComplete="off"
         name="phone"
         error={errors?.crm ? true : false}
-        helperText={
-          <span style={{ fontSize: "1rem" }}>{errors?.crm}</span>
-        }
+        helperText={<span style={{ fontSize: "1rem" }}>{errors?.crm}</span>}
       />
 
       <button className="secondary" onClick={(e) => previousPage()}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SubHeaderPlatform from "../../SubHeaderPlatform";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import "./styles.css";
@@ -42,7 +42,6 @@ const AppointmentUniqueReview = ({ previousPage }: any) => {
         if (response.data.success) {
           setSuccess(true);
         }
-        console.log(response);
         setLoading(false);
       });
   }

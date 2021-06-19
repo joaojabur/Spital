@@ -12,12 +12,11 @@ interface MedicNamesProps {
 
 const MedicNames = ({ nextPage, previousPage }: MedicNamesProps) => {
   const { medicData, setMedicData } = useShareFormMedic();
-  const [ errors, setErrors ] = useState(validateMedicInfo(medicData));
-
+  const [errors, setErrors] = useState(validateMedicInfo(medicData));
 
   useEffect(() => {
     setErrors(validateMedicInfo(medicData));
-  }, [ medicData ])
+  }, [medicData]);
 
   return (
     <form className="form-container">
@@ -54,7 +53,9 @@ const MedicNames = ({ nextPage, previousPage }: MedicNamesProps) => {
         style={{ marginTop: "1rem" }}
         required
         error={errors?.lastName ? true : false}
-        helperText={<span style={{ fontSize: "1rem" }}>{errors?.lastName}</span>}
+        helperText={
+          <span style={{ fontSize: "1rem" }}>{errors?.lastName}</span>
+        }
       />
 
       <TextField
@@ -65,7 +66,10 @@ const MedicNames = ({ nextPage, previousPage }: MedicNamesProps) => {
         variant="outlined"
         fullWidth
         onChange={(e) => {
-          setMedicData({ ...medicData, phoneNumber: mask(e.target.value, "(##) # ####-####") });
+          setMedicData({
+            ...medicData,
+            phoneNumber: mask(e.target.value, "(##) # ####-####"),
+          });
         }}
         style={{ marginTop: "1rem" }}
         required

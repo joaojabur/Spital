@@ -15,6 +15,7 @@ import MedicReview from "../../components/FormMedic/Steps/Review";
 const RegisterMedicalSpitalNames = () => {
   const history = useHistory();
   const [ currentPage, setCurrentPage ] = useState(0);
+  
   let pages: Array<JSX.Element> = [
     <MedicNames nextPage={nextPage} previousPage={previousPage}/>,
     <MedicCredentials nextPage={nextPage} previousPage={previousPage}/>,

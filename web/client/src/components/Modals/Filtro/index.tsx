@@ -83,8 +83,6 @@ const Filtro = ({
     filter.close();
   }
 
-  console.log(currentDistance);
-
   return (
     <Overlay>
       <form className="filtro">

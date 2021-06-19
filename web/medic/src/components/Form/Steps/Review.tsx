@@ -40,7 +40,6 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
     e.preventDefault();
     const loopedErrors = Object.values(errors);
     if (loopedErrors.length > 0) {
-      console.log("There's an error");
       setHasError(true);
     } else {
       setHasError(false);

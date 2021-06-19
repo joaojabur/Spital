@@ -1,4 +1,3 @@
-import React from "react";
 import "./styles.css";
 import { useAuth } from "../../context/AuthProvider";
 import calcPercentage from "../../utils/calcPercentage";

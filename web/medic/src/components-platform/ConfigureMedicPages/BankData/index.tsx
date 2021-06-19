@@ -29,8 +29,6 @@ const BankData = ({ previousPage, nextPage }: PagesProps) => {
     setErrors(validateConfigureMedic(medicDataConfigure));
   }, [medicDataConfigure]);
 
-  console.log(medicDataConfigure.bankData.birthDate);
-
   return (
     <div
       style={{ justifyContent: "space-between", padding: "2.5rem" }}

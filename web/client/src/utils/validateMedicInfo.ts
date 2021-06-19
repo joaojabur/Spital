@@ -78,21 +78,21 @@ export default function validateMedicInfo(credentials?: Medic) {
     }
 
     if (
-      ((credentials?.masterDegree?.length ?? 0 )>= 1) &&
-      ((credentials?.masterDegree?.length ?? 0 )<= 4)
+      (credentials?.masterDegree?.length ?? 0) >= 1 &&
+      (credentials?.masterDegree?.length ?? 0) <= 4
     ) {
       errors.masterDegree = "Campo de mestrado com poucos caracteres";
     }
 
     if (
-      ((credentials?.doctorateDegree?.length ?? 0 )>= 1) &&
-      ((credentials?.doctorateDegree?.length ?? 0 )<= 4)
+      (credentials?.doctorateDegree?.length ?? 0) >= 1 &&
+      (credentials?.doctorateDegree?.length ?? 0) <= 4
     ) {
       errors.doctorateDegree = "Campo de doutorado com poucos caracteres";
     }
 
     if (!credentials?.crm?.length ?? 0) {
-      errors.crm = "Campo de CRM é necessário"
+      errors.crm = "Campo de CRM é necessário";
     }
 
     const cpfNumbers = credentials?.cpf?.replace(/[-. ]/g, "") ?? "0";
@@ -104,6 +104,7 @@ export default function validateMedicInfo(credentials?: Medic) {
     } else if (validateCPF({ cpf: cpfNumbers })) {
       errors.cpf = "CPF inválido";
     }
+
     const rgNumbers = credentials?.rg?.replace(/[-. ]/g, "") ?? "0";
 
     if (!rgNumbers?.length ?? 0) {

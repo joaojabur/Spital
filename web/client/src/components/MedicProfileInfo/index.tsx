@@ -62,7 +62,8 @@ const MedicProfileInfo: React.FC<MedicProfileInfoProps> = ({
               return (
                 <span key={index}>
                   <span style={{ color: "#3eb713" }}>
-                    {hours}:{min || "00"} - {hoursTo}:{minTo || "00"}
+                    {hours}:{min.toString().substring(0, 2) || "00"} - {hoursTo}:
+                    {minTo.toString().substring(0, 2) || "00"}
                   </span>
                 </span>
               );
@@ -89,7 +90,9 @@ const MedicProfileInfo: React.FC<MedicProfileInfoProps> = ({
         <h2>Onde me encontrar?</h2>
         <div className="medic-profile-info-local-data">
           <IoLocationOutline color="#333" size={30} />
-          <p>Rua Capitão de Costa e Silva 611</p>
+          <p>
+            {medic?.location?.address} {medic?.location?.number}
+          </p>
         </div>
       </div>
 

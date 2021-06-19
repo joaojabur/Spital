@@ -57,7 +57,6 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
   ] as Array<ISchedule>);
 
   useEffect(() => {
-    console.log(scheduleItems);
     setMedicData((previousState) => ({
       ...previousState,
       schedule: scheduleItems,
@@ -66,9 +65,7 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
 
   function addNewScheduleItem() {
     if (scheduleItems.length >= 7) {
-      console.log(
-        "Are you living on Earth? Here we have only seven days in a week!"
-      );
+      // Avisar
     } else {
       setMedicData({
         ...medicData,

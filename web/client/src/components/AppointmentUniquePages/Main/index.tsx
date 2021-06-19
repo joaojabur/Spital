@@ -126,7 +126,7 @@ const AppointmentUniqueMain = ({ previousPage, nextPage }: any) => {
                 async function refund() {
                   setLoading(true);
                   api
-                    .delete(`appointments/${appointment.payment_intent}`)
+                    .delete(`appointments/${appointment.paymentID}`)
                     .then((response: any) => {
                       if (response.data.success) {
                         setSuccess(true);
@@ -169,7 +169,7 @@ const AppointmentUniqueMain = ({ previousPage, nextPage }: any) => {
                       </div>
                       <Link
                         className="see-profile"
-                        to={`/medicos/${appointment.medicID}`}
+                        to={`/medicos/${appointment.id}`}
                       >
                         Ver perfil
                       </Link>
@@ -216,7 +216,7 @@ const AppointmentUniqueMain = ({ previousPage, nextPage }: any) => {
                       </div>
                       <div className="gray-line"></div>
                       <div className="appointment-unique-location">
-                        <p style={{ color: "#818183" }}>Endereço de entrega:</p>
+                        <p style={{ color: "#818183" }}>Endereço da clínica</p>
                         <p
                           style={{
                             color: "#333333",
@@ -238,7 +238,7 @@ const AppointmentUniqueMain = ({ previousPage, nextPage }: any) => {
                           marginTop: "2rem",
                         }}
                       >
-                        {now_totalDate > totalDate ? (
+                        {appointment.confirmed ? (
                           <p
                             onClick={() => {
                               areYouSure.open({

@@ -14,7 +14,6 @@ export interface PaymentMethodProps {
 
 const PaymentMethod = ({ card }: any) => {
   const { paymentMethod } = useModal();
-  console.log(card);
 
   return (
     <Overlay>
