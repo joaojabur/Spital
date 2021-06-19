@@ -24,6 +24,21 @@ mixin _$RegisterController on _RegisterControllerBase, Store {
     });
   }
 
+  final _$obscureTextAtom = Atom(name: '_RegisterControllerBase.obscureText');
+
+  @override
+  bool get obscureText {
+    _$obscureTextAtom.reportRead();
+    return super.obscureText;
+  }
+
+  @override
+  set obscureText(bool value) {
+    _$obscureTextAtom.reportWrite(value, super.obscureText, () {
+      super.obscureText = value;
+    });
+  }
+
   final _$isOpenAtom = Atom(name: '_RegisterControllerBase.isOpen');
 
   @override
@@ -240,6 +255,17 @@ mixin _$RegisterController on _RegisterControllerBase, Store {
   }
 
   @override
+  dynamic changeIsClosed(int i) {
+    final _$actionInfo = _$_RegisterControllerBaseActionController.startAction(
+        name: '_RegisterControllerBase.changeIsClosed');
+    try {
+      return super.changeIsClosed(i);
+    } finally {
+      _$_RegisterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic changeBirthDate(String value) {
     final _$actionInfo = _$_RegisterControllerBaseActionController.startAction(
         name: '_RegisterControllerBase.changeBirthDate');
@@ -254,6 +280,7 @@ mixin _$RegisterController on _RegisterControllerBase, Store {
   String toString() {
     return '''
 firstName: ${firstName},
+obscureText: ${obscureText},
 isOpen: ${isOpen},
 lastName: ${lastName},
 email: ${email},

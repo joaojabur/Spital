@@ -1,12 +1,15 @@
 import 'package:Spital/screens/Shared/Auth/auth_controller.dart';
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 part 'controller.g.dart';
 
 class LoginController = _LoginControllerBase with _$LoginController;
 
 abstract class _LoginControllerBase with Store {
+  GlobalKey<FormState>? form;
   AuthController? authController;
-
+  @observable
+  String error = "";
   @observable
   bool logged = false;
 
@@ -23,14 +26,21 @@ abstract class _LoginControllerBase with Store {
   changePassword(String value) => password = value;
 
   @action
+  setError(String value) => error = value;
+
+  @action
   login() async {
+    setError('');
+
     String response = await authController!.login(email, password);
 
-    if (response.isEmpty){
+    if (response.isEmpty) {
       logged = true;
     }
 
-    print(response);
+    setError(response);
+
+    form?.currentState?.validate();
 
     return response;
   }

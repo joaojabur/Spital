@@ -1,6 +1,4 @@
-import 'dart:io';
-
-import 'package:Spital/screens/Shared/Models/user_model.dart';
+import 'package:Spital/Screens/Shared/Models/user_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart'
     as secureStorage;

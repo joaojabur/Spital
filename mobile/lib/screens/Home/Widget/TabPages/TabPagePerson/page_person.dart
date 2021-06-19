@@ -17,9 +17,8 @@ class _PagePersonState extends State<PagePerson> {
         title: "Meu Perfil",
         width: width,
         height: height,
-        topleftIcon: false,
-        topRightIcon: false,
-        iconAddRight: Ionicons.save,
+        topleftIcon: true,
+        iconLeft: Ionicons.chevron_back_outline,
       ),
       body: Center(child: Text("Perfil")),
     );

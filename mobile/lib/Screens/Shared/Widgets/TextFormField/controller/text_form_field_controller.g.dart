@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'text_field_controller.dart';
+part of 'text_form_field_controller.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -24,6 +24,21 @@ mixin _$TextFieldController on _TextFieldControllerBase, Store {
     });
   }
 
+  final _$obscure2Atom = Atom(name: '_TextFieldControllerBase.obscure2');
+
+  @override
+  bool get obscure2 {
+    _$obscure2Atom.reportRead();
+    return super.obscure2;
+  }
+
+  @override
+  set obscure2(bool value) {
+    _$obscure2Atom.reportWrite(value, super.obscure2, () {
+      super.obscure2 = value;
+    });
+  }
+
   final _$_TextFieldControllerBaseActionController =
       ActionController(name: '_TextFieldControllerBase');
 
@@ -39,9 +54,21 @@ mixin _$TextFieldController on _TextFieldControllerBase, Store {
   }
 
   @override
+  dynamic toggleObscure2() {
+    final _$actionInfo = _$_TextFieldControllerBaseActionController.startAction(
+        name: '_TextFieldControllerBase.toggleObscure2');
+    try {
+      return super.toggleObscure2();
+    } finally {
+      _$_TextFieldControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-obscure: ${obscure}
+obscure: ${obscure},
+obscure2: ${obscure2}
     ''';
   }
 }

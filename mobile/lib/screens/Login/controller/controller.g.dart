@@ -9,6 +9,21 @@ part of 'controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$LoginController on _LoginControllerBase, Store {
+  final _$errorAtom = Atom(name: '_LoginControllerBase.error');
+
+  @override
+  String get error {
+    _$errorAtom.reportRead();
+    return super.error;
+  }
+
+  @override
+  set error(String value) {
+    _$errorAtom.reportWrite(value, super.error, () {
+      super.error = value;
+    });
+  }
+
   final _$loggedAtom = Atom(name: '_LoginControllerBase.logged');
 
   @override
@@ -87,8 +102,20 @@ mixin _$LoginController on _LoginControllerBase, Store {
   }
 
   @override
+  dynamic setError(String value) {
+    final _$actionInfo = _$_LoginControllerBaseActionController.startAction(
+        name: '_LoginControllerBase.setError');
+    try {
+      return super.setError(value);
+    } finally {
+      _$_LoginControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
+error: ${error},
 logged: ${logged},
 email: ${email},
 password: ${password}

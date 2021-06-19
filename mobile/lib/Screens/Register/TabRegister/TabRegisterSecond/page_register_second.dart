@@ -1,9 +1,11 @@
+import 'package:Spital/Screens/Register/TabRegister/TabFinal/tab_final.dart';
 import 'package:Spital/Screens/Register/controller/register_controller.dart';
 import 'package:Spital/Screens/Shared/Widgets/Buttom/button_widget.dart';
-import 'package:Spital/Screens/Shared/Widgets/TextField/text_field.dart';
+import 'package:Spital/Screens/Shared/Widgets/TextFormField/controller/text_form_field_controller.dart';
 import 'package:Spital/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 
 class PageRegisterSecond extends StatefulWidget {
@@ -14,12 +16,19 @@ class PageRegisterSecond extends StatefulWidget {
 }
 
 class _PageRegisterSecondState extends State<PageRegisterSecond> {
+  bool obscureText = true;
+
+  bool obscureText2 = true;
+  final _formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    RegisterController controller = Provider.of<RegisterController>(context);
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    RegisterController registercontroller =
+        Provider.of<RegisterController>(context);
+    TextFieldController obscureControler = TextFieldController();
+
     return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -34,50 +43,142 @@ class _PageRegisterSecondState extends State<PageRegisterSecond> {
             ),
           ),
           Container(
-            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-            child: Observer(builder: (_) {
-              return TextFormFieldPage(
-                // obscureText: false,
-                onchanged: controller.changeEmail,
-                labeltext: "Email",
-                erroText: controller.validateEmail, maxLength: 0,
-              );
-            }),
-          ),
-          Container(
               margin: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
               child: Observer(builder: (_) {
-                return TextFormFieldPage(
-                  obscureText: controller.obscureText,
-                  onchanged: controller.changePassoword,
-                  labeltext: "senha",
-                  erroText: controller.validatePassWord,
-                  maxLength: 0,
+                return Column(
+                  children: [
+                    Form(
+                      key: _formkey,
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            initialValue: registercontroller.email,
+                            validator: registercontroller.validateEmail,
+                            onChanged: registercontroller.changeEmail,
+                            decoration: InputDecoration(
+                              labelText: "Email",
+                              hintText: "Email",
+
+                              //bordas
+                              errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.red)),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.blue),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.blue),
+                              ),
+                              disabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.blue),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            initialValue: registercontroller.password,
+                            validator: registercontroller.validatePassWord,
+                            onChanged: registercontroller.changePassoword,
+                            maxLength: 16,
+                            obscureText:
+                                obscureText ? obscureControler.obscure : false,
+                            decoration: InputDecoration(
+                              labelText: "Senha",
+
+                              hintText: "Senha",
+                              suffixIcon: obscureText
+                                  ? IconButton(
+                                      splashColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      icon: (Icon(obscureControler.obscure
+                                          ? Ionicons.eye_off_outline
+                                          : Ionicons.eye_outline)),
+                                      onPressed: obscureControler.toggleObscure,
+                                    )
+                                  : null,
+
+                              //bordas
+                              errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.red)),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.blue),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.blue),
+                              ),
+                              disabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.blue),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            maxLength: 16,
+                            initialValue: registercontroller.confirmPassword,
+                            validator:
+                                registercontroller.validateConfirmPassWord,
+                            onChanged:
+                                registercontroller.changeConfirmPassoword,
+                            obscureText: obscureText2
+                                ? obscureControler.obscure2
+                                : false,
+                            decoration: InputDecoration(
+                              suffixIcon: obscureText2
+                                  ? IconButton(
+                                      splashColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      icon: (Icon(obscureControler.obscure2
+                                          ? Ionicons.eye_off_outline
+                                          : Ionicons.eye_outline)),
+                                      onPressed:
+                                          obscureControler.toggleObscure2,
+                                    )
+                                  : null,
+                              labelText: "Confirma senha",
+
+                              hintText: "Confirma senha",
+
+                              //bordas
+                              errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.red)),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.blue),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.blue),
+                              ),
+                              disabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.blue),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ButtonWidget(
+                        textButon: "Próximo",
+                        onpressed: () {
+                          if (_formkey.currentState!.validate()) {
+                            registercontroller.tabRegisterIndex == 3
+                                ? Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            TabRegisterFinal()))
+                                : registercontroller.changePageRegister(
+                                    registercontroller.tabRegisterIndex! + 1);
+                          }
+                        })
+                  ],
                 );
-              })
-
-              //controller:
-              ),
-          Container(
-              margin: EdgeInsets.only(top: 10, left: 30, right: 30),
-              child: Observer(builder: (_) {
-                return TextFormFieldPage(
-//obscureText: true,
-
-                  onchanged: controller.changeConfirmPassoword,
-                  labeltext: "Confirma senha",
-                  erroText: controller.validateConfirmPassWord,
-
-                  obscureText: true, maxLength: 0,
-                );
-              })
-
-              //controller:
-              ),
-          ButtuomWidget(
-            textButom: "Próximo",
-            erroText: controller.validateCredenciais,
-          )
+              }))
         ],
       ),
     );

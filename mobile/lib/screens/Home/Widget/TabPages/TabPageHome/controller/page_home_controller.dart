@@ -1,4 +1,4 @@
-import 'package:Spital/screens/Shared/Auth/auth_controller.dart';
+import 'package:Spital/Screens/Shared/Auth/auth_controller.dart';
 import 'package:mobx/mobx.dart';
 part 'page_home_controller.g.dart';
 

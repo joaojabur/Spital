@@ -15,12 +15,11 @@ class _PageCalendarState extends State<PageCalendar> {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: AppbarSecundaria(
-        iconAddRight: Ionicons.save,
         title: "Calendario",
         width: width,
         height: height,
-        topleftIcon: false,
-        topRightIcon: false,
+        topleftIcon: true,
+        iconLeft: Ionicons.chevron_back_outline,
       ),
     );
   }
