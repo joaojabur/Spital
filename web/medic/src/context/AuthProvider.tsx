@@ -19,6 +19,7 @@ interface Medic {
   masterDegree?: string;
   doctorageDegree?: string;
   id: number;
+  userID: number;
   rating: string;
   location: {
     address: string;
@@ -86,6 +87,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   async function getUserData(id: number) {
     try {
       let response = await api.get(`medics?id=${id}`);
+
       setUser({
         ...response.data,
       });

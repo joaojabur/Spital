@@ -40,16 +40,16 @@ module.exports = {
   async update(req, res, next) {
     try {
       const { id } = req.params;
-      const { type, price, description } = req.body;
+      const { type, price } = req.body;
+
       await knex("consult_type")
         .update({
           type,
           price,
-          description,
         })
         .where({ id });
 
-      res.status(200).send();
+      res.status(200).send({ message: "Consulta atualizada com sucesso!" });
     } catch (error) {
       next(error);
     }
@@ -61,6 +61,18 @@ module.exports = {
       await knex("consult_type").where({ id }).del();
 
       res.status(200).send();
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async getSpecificType(req, res, next) {
+    try {
+      const { id } = req.params;
+
+      const [result] = await knex("consult_type").where({ id }).select("*");
+
+      res.status(200).send(result);
     } catch (error) {
       next(error);
     }

@@ -55,6 +55,7 @@ routes.get("/medic-schedule", MedicScheduleController.index);
 routes.put("/medic-schedule/:id", MedicScheduleController.update);
 routes.delete("/medic-schedule/:id", MedicScheduleController.delete);
 routes.get("/medic-schedule/:medicID", MedicScheduleController.list);
+routes.post("/medic-schedule/:id", MedicScheduleController.getSpecificSchedule);
 
 routes.post("/reviews", reviewController.create);
 routes.get("/reviews", reviewController.index);
@@ -63,13 +64,14 @@ routes.delete("/reviews", reviewController.delete);
 
 routes.post("/addresses", addressController.create);
 routes.get("/addresses", addressController.index);
-routes.put("/addresses", addressController.update);
-routes.delete("/addresses", addressController.delete);
+routes.put("/addresses/:id", addressController.update);
+routes.delete("/addresses/:id", addressController.delete);
 
 routes.post("/consult-type", consultTypeController.create);
 routes.get("/consult-type", consultTypeController.index);
 routes.put("/consult-type/:id", consultTypeController.update);
 routes.delete("/consult-type/:id", consultTypeController.delete);
+routes.get("/consult-type/:id", consultTypeController.getSpecificType);
 
 routes.post("/cards", cardController.create);
 routes.get("/cards", cardController.index);

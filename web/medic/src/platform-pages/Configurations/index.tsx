@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import HorizontalHeader from "../../components-platform/HorizontalHeader";
 import VerticalHeader from "../../components-platform/VerticalHeader";
@@ -15,11 +15,18 @@ import Loader from "react-loader-spinner";
 import { useAuth } from "../../context/AuthProvider";
 import api from "../../services/api";
 
-import config from "../../assets/images/information_tab.svg";
-
 import "./styles.css";
+import { Link } from "react-router-dom";
+
+interface MedicSchedule {
+  id: number;
+  week_day: number;
+  from: string;
+  to: string;
+}
 
 interface Consult {
+  id: number;
   type: string;
   price: number;
   description: string;
@@ -27,8 +34,9 @@ interface Consult {
 
 const Configurations = () => {
   const history = useHistory();
-  const { userID, user } = useAuth();
+  const { user } = useAuth();
   const [consults, setConsults] = useState<Array<Consult> | null>(null);
+  const [medicSchedule, setMedicSchedule] = useState<Array<MedicSchedule>>([]);
   const [loadingConsults, setLoadingConsults] = useState<boolean>(true);
 
   useEffect(() => {
@@ -39,6 +47,32 @@ const Configurations = () => {
     });
   }, [user.id]);
 
+  useEffect(() => {
+    setLoadingConsults(true);
+    api.get(`medic-schedule?medicID=${user.id}`).then((response: any) => {
+      setMedicSchedule(response.data);
+    });
+  }, [user.id]);
+
+  function getWeekDay(dayNumber: number) {
+    switch (dayNumber) {
+      case 0:
+        return "Domingo";
+      case 1:
+        return "Segunda-feira";
+      case 2:
+        return "Terça-feira";
+      case 3:
+        return "Quarta-feira";
+      case 4:
+        return "Quinta-feira";
+      case 5:
+        return "Sexta-feira";
+      case 6:
+        return "Sábado";
+    }
+  }
+
   if (!user.configured) {
     history.replace("/configurar");
   }
@@ -47,7 +81,7 @@ const Configurations = () => {
     <div className="config">
       <HorizontalHeader title="Configurações" />
       <VerticalHeader colorIcon="configurations" />
-      <div className="content">
+      <div style={{ marginBottom: "2rem" }} className="content">
         <Box style={{ position: "relative" }}>
           <h3>Dados da Clínica</h3>
           <div className="data">
@@ -59,14 +93,17 @@ const Configurations = () => {
               <strong>Número:</strong>
               {user?.location?.number}
             </p>
-            <div className="clinic-data-edit-icon">
+            <Link
+              to="/configuracoes/endereco"
+              className="clinic-data-edit-icon"
+            >
               <EditIcon
                 fontSize="large"
                 style={{
                   color: "#fff",
                 }}
               />
-            </div>
+            </Link>
           </div>
         </Box>
         <Box>
@@ -93,7 +130,7 @@ const Configurations = () => {
             ) : (
               consults!.map((consult, i) => {
                 return (
-                  <Accordion>
+                  <Accordion key={i}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                       <span>{consult?.type}</span>
                     </AccordionSummary>
@@ -114,13 +151,89 @@ const Configurations = () => {
                         }}
                       >
                         <p>Preço: {consult?.price}</p>
-                        <div className="consult-edit-icon">
+                        <Link
+                          to={`/configuracoes/consultas/${consult?.id}`}
+                          className="consult-edit-icon"
+                        >
                           <EditIcon
                             style={{
                               color: "#fff",
                             }}
                           />
-                        </div>
+                        </Link>
+                      </div>
+                    </AccordionDetails>
+                  </Accordion>
+                );
+              })
+            )}
+          </div>
+        </Box>
+        <Box style={{ marginTop: "1rem" }}>
+          <h3>Horários semanais</h3>
+          <div className="data">
+            {loadingConsults ? (
+              <Loader
+                type="TailSpin"
+                color="var(--color-button-primary)"
+                height={100}
+                width={100}
+              />
+            ) : (
+              medicSchedule.map((schedule, i) => {
+                const week_day = getWeekDay(schedule?.week_day);
+                // FROM
+                const totalFrom = Number(schedule?.from) / 60;
+                const [totalFromHour, totalFromMinute] = totalFrom
+                  .toString()
+                  .split(".");
+                const totalStringFromMinute = `${totalFromMinute}`;
+                const formattedTotalFromMinute =
+                  totalStringFromMinute.substring(0, 1);
+                const FromMinute = Number(formattedTotalFromMinute) * 6;
+
+                // TO
+                const totalTo = Number(schedule?.to) / 60;
+                const [totalToHour, totalToMinute] = totalTo
+                  .toString()
+                  .split(".");
+                const totalStringToMinute = `${totalToMinute}`;
+                const formattedTotalToMinute = totalStringToMinute.substring(
+                  0,
+                  1
+                );
+                const ToMinute = Number(formattedTotalToMinute) * 6;
+
+                return (
+                  <Accordion key={i}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                      <span>{week_day}</span>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <p>
+                        {totalFromHour}:{isNaN(FromMinute) ? "00" : FromMinute}{" "}
+                        - {totalToHour}:{isNaN(ToMinute) ? "00" : ToMinute}
+                      </p>
+                    </AccordionDetails>
+                    <AccordionDetails>
+                      <div
+                        style={{
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Link
+                          to={`/configuracoes/horarios/${schedule?.id}`}
+                          className="consult-edit-icon"
+                        >
+                          <EditIcon
+                            style={{
+                              color: "#fff",
+                            }}
+                          />
+                        </Link>
                       </div>
                     </AccordionDetails>
                   </Accordion>
@@ -130,7 +243,6 @@ const Configurations = () => {
           </div>
         </Box>
       </div>
-      <img src={config} alt="Config" className="config-image" />
     </div>
   );
 };

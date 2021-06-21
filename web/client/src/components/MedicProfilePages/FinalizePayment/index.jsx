@@ -86,7 +86,10 @@ const FinalizePayment = ({ previousPage }) => {
                     `appointments/${response.data.orderID}?clientID=${clientID}&medicID=${medic_id}&userID=${medicID}`,
                     {
                       date,
-                      time: appointmentData.time,
+                      time:
+                        appointmentData.time.length > 6
+                          ? appointmentData.time.substring(0, 4)
+                          : appointmentData.time.substring(0, 5),
                       hash,
                       appointmentData,
                       cpf,
@@ -103,7 +106,7 @@ const FinalizePayment = ({ previousPage }) => {
                   })
                   .catch(() => {
                     setLoading(false);
-                    setError("Erro no servidor, tente mais tarde... 😪")
+                    setError("Erro no servidor, tente mais tarde... 😪");
                   });
               });
           }
@@ -168,7 +171,11 @@ const FinalizePayment = ({ previousPage }) => {
           <p>
             Coloque em sua agenda a consulta:<br></br>{" "}
             <span className="date-text">{appointmentData.date}</span>
-            <span className="time-text">{appointmentData.time}</span>
+            <span className="time-text">
+              {appointmentData.time.length > 6
+                ? appointmentData.time.substring(0, 4)
+                : appointmentData.time.substring(0, 5)}
+            </span>
           </p>
           <button
             onClick={() => {

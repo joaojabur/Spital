@@ -11,15 +11,17 @@ interface MedicCredentialsProps {
   previousPage: () => void;
 }
 
-const MedicCredentials = ({ nextPage, previousPage}: MedicCredentialsProps) => {
-
+const MedicCredentials = ({
+  nextPage,
+  previousPage,
+}: MedicCredentialsProps) => {
   const [showPassword, setShowPassword] = useState(false);
-  const { medicData, setMedicData }= useShareFormMedic();
-  const [ errors, setErrors ] = useState(validateMedicInfo(medicData));
+  const { medicData, setMedicData } = useShareFormMedic();
+  const [errors, setErrors] = useState(validateMedicInfo(medicData));
 
   useEffect(() => {
     setErrors(validateMedicInfo(medicData));
-  }, [ medicData ])
+  }, [medicData]);
 
   function handleShowPassword() {
     setShowPassword(!showPassword);
@@ -70,7 +72,9 @@ const MedicCredentials = ({ nextPage, previousPage}: MedicCredentialsProps) => {
           setMedicData({ ...medicData, password: e.target.value });
         }}
         error={errors?.password ? true : false}
-        helperText={<span style={{ fontSize: "1rem" }}>{errors?.password}</span>}
+        helperText={
+          <span style={{ fontSize: "1rem" }}>{errors?.password}</span>
+        }
       />
 
       <TextField
@@ -91,13 +95,11 @@ const MedicCredentials = ({ nextPage, previousPage}: MedicCredentialsProps) => {
         }
       />
 
-      <button className="secondary" 
-        onClick={(e) => previousPage()}>
-          Anterior
+      <button className="secondary" onClick={(e) => previousPage()}>
+        Anterior
       </button>
-      <button className="primary"
-        onClick={(e) => nextPage()}>
-          Próximo
+      <button className="primary" onClick={(e) => nextPage()}>
+        Próximo
       </button>
     </div>
   );

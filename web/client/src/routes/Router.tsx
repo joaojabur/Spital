@@ -23,6 +23,7 @@ import RecoverPassword from "../pages/RecoverPassword";
 import AppointmentUnique from "../platform-pages/AppointmentUnique";
 import MedicProfileRating from "../components/MedicProfileRating";
 import ShareInfoDataProvider from "../context/InfoProvider";
+import Page404 from "../platform-pages/404";
 
 function Router() {
   return (
@@ -55,6 +56,7 @@ function Router() {
         <PublicRoute path="/verificar/:token" component={VerifyEmail} />
         <PublicRoute path="/recuperar" exact component={ForgetPassword} />
         <PublicRoute path="/recuperar/:token" component={RecoverPassword} />
+        <PublicRoute path="/404" exact component={Page404} />
 
         <ShareInfoDataProvider>
           <PrivateRoute path="/principal" component={HomeClient} />
@@ -81,6 +83,7 @@ function Router() {
             exact
             component={MedicProfileRating}
           />
+          <PrivateRoute path="/404" exact component={Page404} />
         </ShareInfoDataProvider>
 
         <PublicRoute path="*" component={NotFound} />

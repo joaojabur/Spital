@@ -123,7 +123,7 @@ const Profile = () => {
                     return (
                       <span key={index}>
                         <span style={{ color: "#3eb713" }}>
-                          {hours}:{min || "00"} - {hoursTo}:{minTo || "00"}
+                          {hours}:{min.toString().substring(0, 2) || "00"} - {hoursTo}:{minTo.toString().substring(0, 2) || "00"}
                         </span>
                       </span>
                     );

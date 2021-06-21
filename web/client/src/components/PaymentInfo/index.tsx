@@ -26,7 +26,10 @@ const PaymentInfo = ({ error }: any) => {
       <h1>Informações</h1>
       <div className="line-global"></div>
       <h2 className="payment-info-date">
-        Dia {appointmentData?.date}, {appointmentData?.time} AM
+        Dia {appointmentData?.date},{" "}
+        {appointmentData.time.length > 6
+          ? appointmentData.time.substring(0, 4)
+          : appointmentData.time.substring(0, 5)}
       </h2>
       <div className="line-global"></div>
       {loading ? (

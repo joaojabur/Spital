@@ -230,7 +230,7 @@ module.exports = {
     try {
       const { orderID } = req.params;
       const { medicID, clientID, userID } = req.query;
-      const { date, hash, appointmentData, cpf } = req.body;
+      const { date, hash, appointmentData, cpf, time } = req.body;
 
       const [client] = await knex("clients")
         .where("clients.id", "=", clientID)
@@ -273,7 +273,7 @@ module.exports = {
         clientID: parseInt(clientID),
         scheduleID: parseInt(scheduleID),
         date,
-        time: appointmentData.time,
+        time: time,
         price: parseInt(appointmentData.price),
         paymentID: payment.body.id,
         type: appointmentData.type,
@@ -293,6 +293,7 @@ module.exports = {
           email: client.email,
           medic: medic,
           appointment: appointmentData,
+          time: time,
           location: location,
         });
       }

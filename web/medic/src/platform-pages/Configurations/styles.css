@@ -1,54 +1,57 @@
+.config {
+  overflow-y: auto;
+}
+
 .config .content {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    column-gap: 2rem;
-    overflow-y: scroll;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 2rem;
 }
 
 .config .content .consult-edit-icon {
-    transition: filter 0.2s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    background-color: var(--color-button-primary);
-    padding: 0.5rem;
-    border-radius: 50%;
+  transition: filter 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: var(--color-button-primary);
+  padding: 0.5rem;
+  border-radius: 50%;
 }
 
 .config .content .consult-edit-icon:hover {
-   filter: brightness(0.9);
+  filter: brightness(0.9);
 }
 
-.config .content .clinic-data-edit-icon  {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    cursor: pointer;
-    background-color: var(--color-button-primary);
-    padding: 0.5rem;
-    border-radius: 50%;
-    right: 0;
-    bottom: 0;
-    margin: 0 2rem 2rem 0;
+.config .content .clinic-data-edit-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  cursor: pointer;
+  background-color: var(--color-button-primary);
+  padding: 0.5rem;
+  border-radius: 50%;
+  right: 0;
+  bottom: 0;
+  margin: 0 2rem 2rem 0;
 }
 
 .config-image {
-    position: absolute;
-    top: 50%;
-    left: 15vmin;
-    height: 45vmin;
+  position: absolute;
+  top: 50%;
+  left: 15vmin;
+  height: 45vmin;
 }
 
 @media only screen and (max-width: 900px) {
-    .config .content {
-        display: grid;
-        grid-template-columns: 1fr;
-        column-gap: 2rem;
-    }
+  .config .content {
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: 2rem;
+  }
 
-    .config-image {
-        display: none;
-    }
+  .config-image {
+    display: none;
+  }
 }

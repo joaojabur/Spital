@@ -173,6 +173,7 @@ module.exports = {
           .insert({ medicID: parseInt(medicID) });
 
         for (let sche of schedule) {
+          console.log(sche.from, convertHourToMinutes(sche.from));
           await knex("medic_schedule").insert({
             scheduleID: parseInt(scheduleID),
             week_day: sche.week_day,

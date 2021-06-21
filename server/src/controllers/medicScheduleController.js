@@ -8,9 +8,19 @@ module.exports = {
 
       const query = knex("schedules");
 
-      if (medicID !== undefined) {
+      if (medicID !== undefined && week_day !== undefined) {
         query
           .where({ medicID: medicID, week_day: week_day })
+          .join(
+            "medic_schedule",
+            "schedules.id",
+            "=",
+            "medic_schedule.scheduleID"
+          )
+          .select(["schedules.*", "medic_schedule.*"]);
+      } else if (medicID !== undefined) {
+        query
+          .where({ medicID: medicID })
           .join(
             "medic_schedule",
             "schedules.id",
@@ -49,14 +59,17 @@ module.exports = {
   },
 
   async update(req, res, next) {
-    const { week_day, from, to } = req.body;
+    const { from, to } = req.body;
     const { id } = req.params;
+
+    const formattedFrom = convertHourToMinutes(from);
+    const formattedTo = convertHourToMinutes(to);
+    
     try {
       await knex("medic_schedule")
         .update({
-          week_day,
-          from,
-          to,
+          from: formattedFrom,
+          to: formattedTo,
         })
         .where({ id });
 
@@ -96,6 +109,23 @@ module.exports = {
       }
 
       const results = await query;
+
+      res.status(200).send(results);
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async getSpecificSchedule(req, res, next) {
+    try {
+      const { id } = req.params;
+      const query = knex("medic_schedule");
+
+      if (id) {
+        query.where({ id }).select("*");
+      }
+
+      const [results] = await query;
 
       res.status(200).send(results);
     } catch (error) {

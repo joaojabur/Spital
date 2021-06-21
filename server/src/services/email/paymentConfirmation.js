@@ -7,6 +7,7 @@ module.exports = async function paymentConfirmation({
   medic,
   appointment,
   location,
+  time
 }) {
   const [month, day, year] = appointment.date.split("/");
   let to = email;
@@ -86,7 +87,7 @@ module.exports = async function paymentConfirmation({
               src="https://cdn.discordapp.com/attachments/833874352679813181/848201050849673234/outline_event_available_black_24dp.png"
             />
             <span style="position: relative; top: -15px; font-weight: bold"
-              >Consulta dia ${day}/${month}/${year} às ${appointment.time}</span
+              >Consulta dia ${day}/${month}/${year} às ${time}</span
             >
           </td>
         </tr>

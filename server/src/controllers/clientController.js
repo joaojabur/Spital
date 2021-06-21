@@ -30,6 +30,10 @@ module.exports = {
 
         const [result] = await query;
 
+        if (!result) {
+          res.status(404).send({ success: false });
+        }
+
         return res.status(200).json({
           email: result.email,
           firstName: result.first_name,

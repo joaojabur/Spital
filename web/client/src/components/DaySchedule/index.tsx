@@ -138,7 +138,12 @@ const DaySchedule = ({
       )}
 
       <div className="chosenTime">
-        Horário escolhido: <span>{appointmentData?.time}</span>
+        Horário escolhido:{" "}
+        <span>
+          {appointmentData.time.length > 6
+            ? appointmentData.time.substring(0, 4)
+            : appointmentData.time.substring(0, 5)}
+        </span>
       </div>
     </>
   );

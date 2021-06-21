@@ -1,20 +1,29 @@
 const knex = require("../database");
+const NodeGeocoder = require("node-geocoder");
+
+const options = {
+  provider: "google",
+  apiKey: "AIzaSyDanmMSOYTtyp-Lbu43BVKiSW5EP8FRS9Y",
+  formatter: null,
+};
+
+const geocoder = NodeGeocoder(options);
 
 module.exports = {
   async index(req, res, next) {
     try {
-      const { user_id } = req.query;
+      const { userID } = req.query;
 
       const query = knex("addresses");
 
-      if (user_id) {
+      if (userID) {
         query
-          .where("userID", user_id)
+          .where("userID", userID)
           .join("users", "users.id", "=", "addresses.userID")
-          .select("addresses.*", "users.id");
+          .select("addresses.*");
       }
 
-      const results = await query;
+      const [results] = await query;
 
       res.status(201).json(results);
     } catch (error) {
@@ -25,14 +34,14 @@ module.exports = {
   async create(req, res, next) {
     try {
       const { address, number, lat, lon } = req.body;
-      const { user_id } = req.query;
+      const { userID } = req.query;
 
       await knex("addresses").insert({
         address,
         number,
         lat,
         lon,
-        userID: user_id,
+        userID: userID,
       });
 
       res.status(201).send();
@@ -42,16 +51,23 @@ module.exports = {
   },
 
   async update(req, res, next) {
+    let lat;
+    let lon;
+
     try {
       const { id } = req.params;
-      const { address, number, lat, long } = req.body;
+      const { address, number } = req.body;
+      const [response] = await geocoder.geocode(address);
+      lat = response.latitude;
+      lon = response.longitude;
+      console.log(lat, lon);
 
       await knex("addresses")
         .update({
           address,
           number,
           lat,
-          long,
+          lon,
         })
         .where({ id });
 

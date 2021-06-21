@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from "react";
 import "./styles.css";
 
 import Select from "../../Select";
 import { useShareFormMedic } from "../../../context/ShareMedicFormProvider";
+import { useEffect, useState } from "react";
+import validateSchedule from "../../../utils/validateSchedule";
 
-interface ISchedule {
-  week_day: number;
-  from: string;
-  to: string;
-}
 interface MedicScheduleProps {
   nextPage: () => void;
   previousPage: () => void;
@@ -16,6 +12,7 @@ interface MedicScheduleProps {
 
 const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
   const { setMedicData, medicData } = useShareFormMedic();
+  const [error, setError] = useState(false);
 
   const weekDays = [
     {
@@ -58,8 +55,8 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
           ...medicData.schedule,
           {
             week_day: medicData.schedule.length,
-            from: "",
-            to: "",
+            from: "13:00",
+            to: "20:30",
           },
         ],
       });
@@ -90,6 +87,7 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
 
     setMedicData({ ...medicData, schedule: newScheduleItems });
   }
+  
   return (
     <form className="form-container">
       <div className="form-container-flex">
@@ -152,6 +150,17 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
           </div>
         );
       })}
+
+      <p
+        style={{
+          fontSize: "2rem",
+          color: "#f00",
+          fontWeight: "bold",
+          textAlign: "center",
+        }}
+      >
+        {error && "Algum campo digitado incorretamente"}
+      </p>
 
       <button className="secondary" onClick={previousPage}>
         Anterior

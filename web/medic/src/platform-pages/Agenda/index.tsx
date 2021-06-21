@@ -35,9 +35,33 @@ const AgendaComponent = () => {
   useEffect(() => {
     setLoading(true);
     api.get(`appointments?medicID=${user.id}`).then((response: any) => {
-      console.log(response);
-      for (var i = 0; i <= response.data.lenght; i++) {
-        // SetState Appointments
+      for (let i = 0; i < response.data.length; i++) {
+        const [month, day, year] = response.data[i].date.split("/");
+
+        const [hour, minutes] = response.data[i].time.split(":");
+
+        let appointmentsCopy = appointments;
+        appointmentsCopy[i] = {
+          ...appointmentsCopy[i],
+          id: response.data[i].id,
+          Subject: response.data[i].type,
+          StartTime: new Date(
+            Number(year),
+            Number(month),
+            Number(day),
+            Number(hour),
+            Number(minutes)
+          ),
+          EndTime: new Date(
+            Number(year),
+            Number(month),
+            Number(day),
+            Number(hour),
+            Number(minutes) + 30
+          ),
+        };
+
+        setAppointments(appointmentsCopy);
       }
       setLoading(false);
     });

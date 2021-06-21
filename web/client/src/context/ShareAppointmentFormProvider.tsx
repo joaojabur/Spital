@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useState } from "react";
 
 interface AppointmentData {
-  date: string | undefined;
-  time: string | undefined;
-  doctorName: string | undefined;
-  type: string | undefined;
-  price: string | undefined;
+  date: string;
+  time: string;
+  doctorName: string;
+  type: string;
+  price: string;
 }
 
 interface ShareAppointmentFormContextData {
@@ -26,7 +26,13 @@ export const ShareAppointmentFormContext = createContext(
 export default function ShareAppointmentFormProvider({
   children,
 }: ShareClientFormProviderProps) {
-  const [appointmentData, setAppointmentData] = useState<AppointmentData>();
+  const [appointmentData, setAppointmentData] = useState<AppointmentData>({
+    time: "",
+    price: "",
+    date: "",
+    doctorName: "",
+    type: "",
+  });
   const [error, setError] = useState<any>(null);
 
   let value = {

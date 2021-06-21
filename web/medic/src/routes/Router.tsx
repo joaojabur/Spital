@@ -14,6 +14,10 @@ import Configurations from "../platform-pages/Configurations";
 import ConfigureMedic from "../platform-pages/ConfigureMedic";
 import RecoverPassword from "../pages/RecoverPassword";
 import ForgetPassword from "../pages/ForgetPassword";
+import Page404 from "../platform-pages/404";
+import ConfigurationsConsult from "../platform-pages/ConfigurationsConsult";
+import ConfigurationsAddress from "../platform-pages/ConfigurationsAddress";
+import ConfigurationsMedicSchedule from "../platform-pages/ConfigurationsMedicSchedule";
 
 function Router() {
   return (
@@ -30,8 +34,12 @@ function Router() {
         <PrivateRoute path="/agenda" component={AgendaComponent} />
         <PrivateRoute path="/perfil" component={Profile} />
         <PrivateRoute path="/consultas" component={Appointments} />
-        <PrivateRoute path="/configuracoes" component={Configurations} />
+        <PrivateRoute path="/configuracoes" exact component={Configurations} />
+        <PrivateRoute path="/configuracoes/consultas/:id" component={ConfigurationsConsult} />
+        <PrivateRoute path="/configuracoes/endereco" component={ConfigurationsAddress} />
+        <PrivateRoute path="/configuracoes/horarios/:id" component={ConfigurationsMedicSchedule} />
         <PrivateRoute path="/configurar" component={ConfigureMedic} />
+        <PrivateRoute path="/404" component={Page404} />
       </Switch>
     </BrowserRouter>
   );
