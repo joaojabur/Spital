@@ -17,8 +17,11 @@ abstract class _RegisterControllerBase with Store {
   @observable
   bool obscureText = true;
   @observable
-  ObservableList<bool> isOpen =
-      ObservableList<bool>.of([false, false, false, false]);
+  ObservableList<bool> isOpen = ObservableList<bool>.of([
+    false,
+    false,
+    false,
+  ]);
   @observable
   String lastName = "";
   @observable
@@ -74,90 +77,75 @@ abstract class _RegisterControllerBase with Store {
   }
 
   @action
+  changeIsClosed(int i) {
+    isOpen[i] = false;
+  }
+
+  @action
   changeBirthDate(String value) {
     birthdate = value;
   }
 
-  String validateFirstName() {
+  String? validateFirstName(String? value) {
     if (firstName.isEmpty) {
-      return "este campo é obrigatório";
+      return "Este campo é obrigatorio";
+    } else if (firstName.length <= 2) {
+      return ("O nome deve conter no mínimo 3 letras");
     }
-    return "";
+    return null;
   }
 
-  String validateLastName() {
+  String? validateLastName(String? value) {
     if (lastName.isEmpty) {
-      return "este campo é obrigatório";
+      return "Este campo é obrigatorio";
+    } else if (lastName.length <= 2) {
+      return ("O nome deve conter no mínimo 3 letras");
     }
-    return "";
+    return null;
   }
 
-  String validateNameCompleted() {
-    if ((firstName == "") && (lastName == "")) {
-      return "true";
-    }
-    return "Erro";
-  }
-
-  String validateEmail() {
+  String? validateEmail(String? value) {
     if (email.isEmpty) {
-      return "este campo é obrigatório ";
+      return "Este campo é obrigatorio";
     } else if (!email.contains("@")) {
       return "este não é um email valido";
     }
-    return "";
+    return null;
   }
 
-  String validatePassWord() {
+  String? validatePassWord(String? value) {
     if (password!.isEmpty) {
-      return "este campo é obrigatório";
+      return "Este campo é obrigatorio";
     } else if (password!.length <= 7) {
-      return "A senha precisa conter no minimo 8 caracteres";
+      return "A senha devem conter no mínimo 8 caracteres";
     }
-    return "";
+    return null;
   }
 
-  String validateConfirmPassWord() {
-    if (confirmPassword == password) {
-      return "";
+  String? validateConfirmPassWord(String? value) {
+    if ((confirmPassword == password) && (confirmPassword != "")) {
+      return null;
     } else if (confirmPassword!.isEmpty) {
-      return "este campo é obrigatório";
+      return "Este campo é obrigatorio";
     }
-    return "senha não coincide";
+    return "As senhas devem ser iguais";
   }
 
-  String validateCredenciais() {
-    if ((validateEmail() == "") &&
-        (validatePassWord() == "") &&
-        (validateConfirmPassWord() == "")) {
-      return "";
-    }
-    return "Erro";
-  }
-
-  String validatePhoneNumber() {
+  String? validatePhoneNumber(String? value) {
     if (phoneNumber.isEmpty) {
       return "este campo é obrigatório";
-    } else if (phoneNumber.length < 11) {
-      return "Número de telefone invalido";
+    } else if (phoneNumber.length < 15) {
+      return "O número é inválido ";
     }
-    return "";
+    return null;
   }
 
-  String validateBirthDate() {
+  String? validateBirthDate(String? value) {
     if (birthdate.isEmpty) {
-      return "este campo é obrigatório";
+      return "Este campo é obrigatorio";
+    } else if ((birthdate.length < 10) || (birthdate.length < 1)) {
+      return "Esta data é inválida";
     }
-    return "";
-  }
-
-  String validateCadastro() {
-    if ((validateCredenciais() == "") &&
-        (validateNameCompleted() == "") &&
-        (validatePhoneNumber() == "") &&
-        (validateBirthDate() == "")) {
-      return "";
-    }
-    return "Erro";
+    return null;
   }
 }

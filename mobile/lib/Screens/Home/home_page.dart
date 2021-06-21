@@ -15,14 +15,16 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
   late HomeController controller;
 
   @override
   void initState() {
     super.initState();
-    controller = HomeController(length: 4, tickerProvider: this);
+    controller = HomeController(
+        length: 4,
+        tickerProvider: this
+    );
   }
 
   @override
@@ -31,7 +33,7 @@ class _HomePageState extends State<HomePage>
       DeviceOrientation.portraitUp,
     ]);
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+    SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -45,30 +47,35 @@ class _HomePageState extends State<HomePage>
           PagePerson(),
         ],
         controller: controller.tabController,
-      ),
-      bottomNavigationBar: Observer(builder: (_) {
-        int? index = controller.tabIndex;
-        return Container(
+        ),
+        bottomNavigationBar: Observer( builder: (_){
+          int? index = controller.tabIndex;
+          return Container(
             padding: EdgeInsets.only(
-                bottom: height * 0.02,
-                right: width * 0.060,
-                left: width * 0.060),
+              bottom: height * 0.02, 
+              right: width * 0.060, 
+              left: width * 0.060
+            ),
             child: Container(
-                padding: EdgeInsets.only(
-                    right: width * 0.01,
-                    left: width * 0.01,
-                    top: height * 0.01,
-                    bottom: height * 0.01),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.white,
-                  border: Border.all(width: 1, color: Colors.black26),
-                ),
-                child: TabBar(
-                  unselectedLabelColor: AppColors
-                      .darkblueTransparent, //cor quando não selecionado
-                  indicator: UnderlineTabIndicator(
-                      borderSide: BorderSide(color: Colors.transparent)),
+              padding: EdgeInsets.only(
+                right: width * 0.01,
+                left: width * 0.01,
+                top: height * 0.01,
+                bottom: height * 0.01
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+                border: Border.all(width: 1, color: Colors.black26),
+              ),
+              child: TabBar(
+                    unselectedLabelColor:
+                    AppColors.darkblueTransparent, //cor quando não selecionado
+                    indicator: UnderlineTabIndicator(
+                    borderSide: BorderSide(
+                      color: Colors.transparent
+                    )
+                  ),
                   labelColor: Colors.white,
                   tabs: <Widget>[
                     Tab(
@@ -76,10 +83,9 @@ class _HomePageState extends State<HomePage>
                         height: height * 0.5,
                         width: width * 0.3,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: index == 0
-                                ? AppColors.darkblueTransparent
-                                : Colors.white),
+                        borderRadius: BorderRadius.circular(100),
+                          color: index == 0 ? AppColors.darkblueTransparent : Colors.white
+                        ),
                         child: Icon(
                           Ionicons.home,
                           size: 24,
@@ -91,10 +97,9 @@ class _HomePageState extends State<HomePage>
                         height: height * 0.5,
                         width: width * 0.3,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: index == 1
-                                ? AppColors.darkblueTransparent
-                                : Colors.white),
+                          borderRadius: BorderRadius.circular(100),
+                          color: index == 1 ? AppColors.darkblueTransparent : Colors.white
+                        ),
                         child: Icon(
                           Ionicons.search,
                           size: 24,
@@ -103,14 +108,13 @@ class _HomePageState extends State<HomePage>
                     ),
                     Tab(
                       child: Container(
-                        height: height * 0.5,
-                        width: width * 0.3,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: index == 2
-                                ? AppColors.darkblueTransparent
-                                : Colors.white),
-                        child: Icon(
+                      height: height * 0.5,
+                      width: width * 0.3,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: index == 2 ? AppColors.darkblueTransparent : Colors.white
+                      ),
+                      child: Icon(
                           Ionicons.calendar,
                           size: 24,
                         ),
@@ -118,14 +122,13 @@ class _HomePageState extends State<HomePage>
                     ),
                     Tab(
                       child: Container(
-                        height: height * 0.5,
-                        width: width * 0.3,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: index == 3
-                                ? AppColors.darkblueTransparent
-                                : Colors.white),
-                        child: Icon(
+                      height: height * 0.5,
+                      width: width * 0.3,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: index == 3 ? AppColors.darkblueTransparent : Colors.white
+                      ),
+                      child: Icon(
                           Ionicons.person,
                           size: 24,
                         ),
@@ -134,7 +137,9 @@ class _HomePageState extends State<HomePage>
                   ],
                   controller: controller.tabController,
                   onTap: controller.changeTabIndex,
-                )));
+                )
+            )
+          );
       }),
     );
   }

@@ -1,64 +1,40 @@
-import 'package:Spital/Screens/Register/TabRegister/TabFinal/tab_final.dart';
-import 'package:Spital/Screens/Register/controller/register_controller.dart';
 import 'package:Spital/core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class ButtuomWidget extends StatelessWidget {
-  const ButtuomWidget(
-      {Key? key, required, this.textButom, required this.erroText})
-      : super(key: key);
-  final textButom;
-  final String Function() erroText;
+class ButtonWidget extends StatelessWidget {
+  final void Function()? onpressed;
+  final String textButon;
+  const ButtonWidget({
+    Key? key,
+    required this.textButon,
+    required this.onpressed,
+  }) : super(key: key);
+
+  //final String Function() validateNext;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    RegisterController controller = Provider.of<RegisterController>(context);
-    return GestureDetector(
-      onTap: () {
-        if (erroText == "") {
-          controller.tabRegisterIndex == 4
-              ? Navigator.pop(context,
-                  MaterialPageRoute(builder: (context) => TabRegisterFinal()))
-              : controller.changePageRegister(controller.tabRegisterIndex! + 1);
-        } else {
-          return print("erro");
-        }
-      },
-      child: Container(
+    return Container(
         margin: EdgeInsets.only(
           top: height * 0.05,
         ),
-        padding: EdgeInsets.symmetric(
-          horizontal: width * 0.27,
-        ),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15), color: AppColors.blueT100),
-        child: TextButton(
-          onPressed: () {
-            controller.tabRegisterIndex == 4
-                ? Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => TabRegisterFinal()))
-                : controller
-                    .changePageRegister(controller.tabRegisterIndex! + 1);
-            //print(erroText);
-            /*if (erroText == "true") {
-              controller.tabRegisterIndex == 4
-                  ? Navigator.pop(context,
-                      MaterialPageRoute(builder: (context) => TabFinal()))
-                  : controller
-                      .changePageRegister(controller.tabRegisterIndex! + 1);
-            } else {
-              return print(erroText);
-            }*/
-          },
-          child: Text(
-            textButom,
-            style: AppTextStyles.warningTitle,
-          ),
-        ),
-      ),
-    );
+        child: SizedBox(
+          width: 280,
+          height: 50,
+          child: ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(AppColors.blueT100),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ))),
+              onPressed: onpressed,
+              child: Text(
+                textButon,
+                style: AppTextStyles.warningTitle,
+              )),
+        ));
   }
 }

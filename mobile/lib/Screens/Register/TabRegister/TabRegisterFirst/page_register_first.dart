@@ -1,6 +1,6 @@
+import 'package:Spital/Screens/Register/TabRegister/TabFinal/tab_final.dart';
 import 'package:Spital/Screens/Register/controller/register_controller.dart';
 import 'package:Spital/Screens/Shared/Widgets/Buttom/button_widget.dart';
-import 'package:Spital/Screens/Shared/Widgets/TextField/text_field.dart';
 import 'package:Spital/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -14,55 +14,103 @@ class PageRegisterFirst extends StatefulWidget {
 }
 
 class _PageRegisterFirstState extends State<PageRegisterFirst> {
+  final _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    RegisterController controller = Provider.of<RegisterController>(context);
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    RegisterController registercontroller =
+        Provider.of<RegisterController>(context);
+
     return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 100),
-            child: Container(
-              margin: EdgeInsets.only(right: 80, bottom: 30),
-              child: Text(
-                "1.Quem é você",
-                style: AppTextStyles.titleBold,
-              ),
+      physics: BouncingScrollPhysics(),
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 100),
+          child: Container(
+            margin: EdgeInsets.only(right: 80, bottom: 30),
+            child: Text(
+              "1.Quem é você",
+              style: AppTextStyles.titleBold,
             ),
           ),
-          Container(
+        ),
+        Container(
             margin: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
             child: Observer(builder: (_) {
-              return TextFormFieldPage(
-                // obscureText: false,
-                onchanged: controller.changeFirstname,
-                labeltext: "Nome",
-                erroText: controller.validateFirstName, maxLength: 0,
-              );
-            }),
-          ),
-          Container(
-              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-              child: Observer(builder: (_) {
-                return TextFormFieldPage(
-                  onchanged: controller.changelastName,
-                  labeltext: "Sobrenome",
-                  erroText: controller.validateLastName,
-                  maxLength: 0,
-                );
-              })
+              return Column(
+                children: [
+                  Form(
+                    key: _formkey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          initialValue: registercontroller.firstName,
+                          validator: registercontroller.validateFirstName,
+                          onChanged: registercontroller.changeFirstname,
+                          decoration: InputDecoration(
+                            labelText: "Nome",
 
-              //controller:
-              ),
-          ButtuomWidget(
-            textButom: "Próximo",
-            erroText: controller.validateNameCompleted,
-          )
-        ],
-      ),
+                            hintText: "Nome",
+
+                            //bordas
+                            errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red)),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                            disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          initialValue: registercontroller.lastName,
+                          validator: registercontroller.validateLastName,
+                          onChanged: registercontroller.changelastName,
+                          decoration: InputDecoration(
+                            labelText: "Sobrenome",
+
+                            hintText: "Sobrenome",
+
+                            //bordas
+                            errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red)),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                            disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  ButtonWidget(
+                      textButon: "Próximo",
+                      onpressed: () {
+                        if (_formkey.currentState!.validate()) {
+                          registercontroller.tabRegisterIndex == 3
+                              ? Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TabRegisterFinal()))
+                              : registercontroller.changePageRegister(
+                                  registercontroller.tabRegisterIndex! + 1);
+                        }
+                      })
+                ],
+              );
+            }))
+      ]),
     );
   }
 }
