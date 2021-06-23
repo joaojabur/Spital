@@ -46,20 +46,21 @@ module.exports = {
       const formattedPhoneNumber = phoneNumber.replace(/[- ]/g, "");
 
       for (let appointment of appointments) {
+        console.log("Estou aqui!");
         await knex("consult_type").insert({
           type: `${appointment.name}`,
           price: `${appointment.price}`,
           description: null,
-          medicID: medicID,
+          medicID: parseInt(medicID),
         });
       }
 
       await knex("addresses").insert({
         address,
-        number,
+        number: parseInt(number),
         lat,
         lon,
-        userID: userID.toString(),
+        userID: parseInt(userID),
       });
 
       moip.account
@@ -98,6 +99,8 @@ module.exports = {
             .update({ moipAccountID: response.body.id })
             .where({ id: medicID });
 
+          console.log("Chegamos até aqui!");
+
           res.json({
             success: true,
             message: "Sucesso!",
@@ -107,6 +110,7 @@ module.exports = {
         });
     } catch (error) {
       next(error);
+      console.log(error);
     }
   },
 
