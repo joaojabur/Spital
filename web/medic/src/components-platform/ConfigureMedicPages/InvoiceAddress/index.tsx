@@ -115,6 +115,10 @@ const InvoiceAddress = ({ previousPage }: PagesProps) => {
               });
           }
           spinner.close();
+        })
+        .catch((err) => {
+          console.log(err);
+          spinner.close();
         });
     }
   }
