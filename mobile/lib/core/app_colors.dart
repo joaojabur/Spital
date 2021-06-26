@@ -4,6 +4,7 @@ class AppColors {
   static final Color verde = Color(0xFF3EB713);
 
   static final Color blue = Color(0xFF07B3D6);
+  static final Color texfield = Color(0xFF87e0f2).withOpacity(0.5);
   static final Color darkBlue = Color(0xFF16697A);
   static final Color blueTransparent = Color(0xFF07B3D6).withOpacity(0.3);
   static final Color blueT100 = Color(0xFF07B3D6);

@@ -9,6 +9,10 @@ class AppTextStyles {
       color: AppColors.verde, fontSize: 28, fontWeight: FontWeight.bold);
   static final TextStyle titleBold2 = GoogleFonts.quicksand(
       color: AppColors.black, fontSize: 28, fontWeight: FontWeight.bold);
+  static final TextStyle titleBold3 = GoogleFonts.quicksand(
+      color: AppColors.black, fontSize: 20, fontWeight: FontWeight.bold);
+  static final TextStyle titleBold4 = GoogleFonts.quicksand(
+      color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold);
   static final TextStyle loginDescription = GoogleFonts.quicksand(
     color: AppColors.gray,
     fontSize: 18,
@@ -37,7 +41,9 @@ class AppTextStyles {
       color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400);
 
   static final TextStyle categoriesTitle = GoogleFonts.roboto(
-      color: AppColors.black, fontSize: 8, fontWeight: FontWeight.w300);
+      color: AppColors.black, fontSize: 10, fontWeight: FontWeight.w300);
+  static final TextStyle categoriesTitle2 = GoogleFonts.roboto(
+      color: AppColors.black, fontSize: 15, fontWeight: FontWeight.w300);
 
   static final TextStyle topicTitle = GoogleFonts.roboto(
       color: AppColors.black, fontSize: 20, fontWeight: FontWeight.bold);
