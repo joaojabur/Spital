@@ -20,7 +20,7 @@ class _ListDoctorsState extends State<ListDoctors> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            /* Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
@@ -41,16 +41,16 @@ class _ListDoctorsState extends State<ListDoctors> {
                   ),
                 ),
               ],
-            ),
+            ),arrumar isso na home*/
             Expanded(
               child: ListView.separated(
-                physics: NeverScrollableScrollPhysics(),
+                physics: BouncingScrollPhysics(),
                 // physics: BouncingScrollPhysics(),
                 separatorBuilder: (context, index) => Divider(
                   height: 5,
                   color: Colors.white,
                 ),
-                itemCount: 2,
+                itemCount: 6,
                 itemBuilder: (context, index) {
                   return Container(
                     margin: EdgeInsets.only(

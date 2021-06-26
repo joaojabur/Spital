@@ -1,4 +1,3 @@
-import 'package:Spital/Screens/Register/controller/register_controller.dart';
 import 'package:Spital/Screens/Shared/Widgets/AppBarSliver/controller/controller.dart';
 import 'package:Spital/core/app_colors.dart';
 import 'package:Spital/core/app_text_styles.dart';

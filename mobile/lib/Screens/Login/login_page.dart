@@ -36,6 +36,7 @@ class _LoginPageState extends State<LoginPage> {
                 borderRadius:
                     BorderRadius.only(bottomRight: Radius.circular(40)),
               ),
+              shadowColor: Colors.transparent,
               backgroundColor: AppColors.blueTransparent,
               expandedHeight: 200,
               pinned: true,
@@ -137,9 +138,9 @@ class _LoginPageState extends State<LoginPage> {
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return "Este campo é obrigatorio";
-                                    } else if (value.length <= 7) {
-                                      return "A senha deve conter no mínimo 8 caracteres";
-                                    }
+                                    } //else if (value.length <= 7) {
+                                    //return "A senha deve conter no mínimo 8 caracteres";
+                                    // }
                                   },
                                   onChanged: loginController.changePassword,
                                   obscureText: obscureText
@@ -191,8 +192,7 @@ class _LoginPageState extends State<LoginPage> {
                             onpressed: () {
                               if (_formKey.currentState!.validate()) {
                                 print("cadastro");
-                                //loginController.login();
-
+                                loginController.login();
                               }
                             })
                       ],

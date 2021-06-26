@@ -13,11 +13,12 @@ class AppbarSecundaria extends PreferredSize {
       required this.iconLeft,
       required this.title,
       required double width,
+      required double value,
       required double height})
       : super(
           preferredSize: Size.fromHeight(height * 0.34),
           child: Container(
-            height: height * 0.1,
+            height: height * value,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                   bottomRight: Radius.circular(80),
@@ -26,9 +27,9 @@ class AppbarSecundaria extends PreferredSize {
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: height * 0.03),
+                  padding: EdgeInsets.only(top: height * 0.05),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
                         child: topleftIcon
@@ -38,20 +39,12 @@ class AppbarSecundaria extends PreferredSize {
                               )
                             : null,
                       ),
-                      Center(
-                        child: Text(
-                          title,
-                          style: AppTextStyles.titleAppBarSecundaria,
-                        ),
+                      Text(
+                        title,
+                        style: AppTextStyles.titleAppBarSecundaria,
+                        textAlign: TextAlign.center,
                       ),
-                      Container(
-                        child: topleftIcon
-                            ? IconButton(
-                                icon: (Icon(iconLeft)),
-                                onPressed: () {},
-                              )
-                            : null,
-                      ),
+                      Container(),
                     ],
                   ),
                 ),
