@@ -1,0 +1,35 @@
+{
+  "files": {
+    "main.css": "/static/css/main.f6fcf788.chunk.css",
+    "main.js": "/static/js/main.b2b50edb.chunk.js",
+    "main.js.map": "/static/js/main.b2b50edb.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.adb8273c.js",
+    "runtime-main.js.map": "/static/js/runtime-main.adb8273c.js.map",
+    "static/js/2.d9e53564.chunk.js": "/static/js/2.d9e53564.chunk.js",
+    "static/js/2.d9e53564.chunk.js.map": "/static/js/2.d9e53564.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.f6fcf788.chunk.css.map": "/static/css/main.f6fcf788.chunk.css.map",
+    "static/js/2.d9e53564.chunk.js.LICENSE.txt": "/static/js/2.d9e53564.chunk.js.LICENSE.txt",
+    "static/media/404.19ed6e41.svg": "/static/media/404.19ed6e41.svg",
+    "static/media/apple.0aeeb631.svg": "/static/media/apple.0aeeb631.svg",
+    "static/media/booking.15be5999.svg": "/static/media/booking.15be5999.svg",
+    "static/media/checkbox.ccc094eb.svg": "/static/media/checkbox.ccc094eb.svg",
+    "static/media/doctor.ff187400.svg": "/static/media/doctor.ff187400.svg",
+    "static/media/email.04b807a4.svg": "/static/media/email.04b807a4.svg",
+    "static/media/google-play.a93cfd50.svg": "/static/media/google-play.a93cfd50.svg",
+    "static/media/happy.f7283db7.svg": "/static/media/happy.f7283db7.svg",
+    "static/media/interview.3baf685a.svg": "/static/media/interview.3baf685a.svg",
+    "static/media/logo.644ebe89.svg": "/static/media/logo.644ebe89.svg",
+    "static/media/medicine.3eaa6bec.png": "/static/media/medicine.3eaa6bec.png",
+    "static/media/return.6e875963.svg": "/static/media/return.6e875963.svg",
+    "static/media/schedule-meeting.43eabbc8.svg": "/static/media/schedule-meeting.43eabbc8.svg",
+    "static/media/verified.640e4d6a.svg": "/static/media/verified.640e4d6a.svg",
+    "static/media/wallet.e6765ac8.svg": "/static/media/wallet.e6765ac8.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.adb8273c.js",
+    "static/js/2.d9e53564.chunk.js",
+    "static/css/main.f6fcf788.chunk.css",
+    "static/js/main.b2b50edb.chunk.js"
+  ]
+}
