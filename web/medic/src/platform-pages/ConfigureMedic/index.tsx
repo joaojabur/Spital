@@ -31,7 +31,7 @@ const ConfigureMedic = () => {
     <ClinicAddress previousPage={previousPage} nextPage={nextPage} />,
     <BankData previousPage={previousPage} nextPage={nextPage} />,
     <InvoiceAddress previousPage={previousPage} nextPage={nextPage} />,
-    <Success previousPage={previousPage} nextPage={nextPage} />,
+    <Success />,
   ];
 
   function previousPage() {

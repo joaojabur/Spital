@@ -37,7 +37,6 @@ const AgendaComponent = () => {
     api.get(`appointments?medicID=${user.id}`).then((response: any) => {
       for (let i = 0; i < response.data.length; i++) {
         const [month, day, year] = response.data[i].date.split("/");
-
         const [hour, minutes] = response.data[i].time.split(":");
 
         let appointmentsCopy = appointments;
@@ -47,14 +46,14 @@ const AgendaComponent = () => {
           Subject: response.data[i].type,
           StartTime: new Date(
             Number(year),
-            Number(month),
+            Number(month) - 1,
             Number(day),
             Number(hour),
             Number(minutes)
           ),
           EndTime: new Date(
             Number(year),
-            Number(month),
+            Number(month) - 1,
             Number(day),
             Number(hour),
             Number(minutes) + 30
@@ -66,6 +65,8 @@ const AgendaComponent = () => {
       setLoading(false);
     });
   }, [user]);
+
+  console.log(appointments);
 
   if (!user.configured) {
     history.replace("/configurar");

@@ -21,9 +21,10 @@ export interface InvoiceAddressProps {
   state: string;
 }
 
-const InvoiceAddress = ({ previousPage }: PagesProps) => {
+const InvoiceAddress = ({ previousPage, nextPage }: PagesProps) => {
+  const [error, setError] = useState("");
   const history = useHistory();
-  const { spinner, sucesso } = useModal();
+  const { spinner } = useModal();
 
   const estados = [
     { value: "AC", label: "Acre" },
@@ -85,11 +86,6 @@ const InvoiceAddress = ({ previousPage }: PagesProps) => {
       setHasError(false);
       api
         .post(`configure-medic?medicID=${medicID}&userID=${userID}`, {
-          appointments: medicDataConfigure.appointments,
-          address: medicDataConfigure.address,
-          number: medicDataConfigure.number,
-          lat: null,
-          lon: null,
           bankData: medicDataConfigure.bankData,
           invoiceAddress: medicDataConfigure.invoiceAddress,
         })
@@ -97,17 +93,24 @@ const InvoiceAddress = ({ previousPage }: PagesProps) => {
           if (response.status === 200) {
             api
               .post(
-                `configure-medic/${response.data.moipAccountId}?accessToken=${response.data.accessToken}&medicID=${medicID}`,
-                { bankData: medicDataConfigure.bankData }
+                `configure-medic/${response.data.moipAccountId}?accessToken=${response.data.accessToken}&medicID=${medicID}&userID=${userID}`,
+                {
+                  bankData: medicDataConfigure.bankData,
+                  appointments: medicDataConfigure.appointments,
+                  number: medicDataConfigure.number,
+                  address: medicDataConfigure.address,
+                  lat: null,
+                  lon: null,
+                }
               )
               .then((res: any) => {
                 if (res.status === 201) {
-                  sucesso.open({
-                    name: "Parabéns",
-                    description:
-                      "Você terminou de configurar sua conta e está pronto para atrair pacientes!",
-                    close: () => sucesso.close(),
-                  });
+                  nextPage();
+                } else {
+                  spinner.close();
+                  setError(
+                    "Erro ao realizar o cadastro, revise seus dados ou tente novamente mais tarde..."
+                  );
                 }
               })
               .then(() => {
@@ -273,6 +276,9 @@ const InvoiceAddress = ({ previousPage }: PagesProps) => {
           Existem erros no formulário
         </span>
       )}
+      <span style={{ color: "#f00", fontWeight: "bold", fontSize: "2rem" }}>
+        {error}
+      </span>
       <div className="landing-buttons">
         <button
           onClick={previousPage}

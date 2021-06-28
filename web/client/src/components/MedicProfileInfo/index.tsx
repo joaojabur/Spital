@@ -62,8 +62,8 @@ const MedicProfileInfo: React.FC<MedicProfileInfoProps> = ({
               return (
                 <span key={index}>
                   <span style={{ color: "#3eb713" }}>
-                    {hours}:{min.toString().substring(0, 2) || "00"} - {hoursTo}:
-                    {minTo.toString().substring(0, 2) || "00"}
+                    {hours}:{isNaN(min) ? "00" : min.toString().substring(0, 2)}{" "}
+                    - {hoursTo}:{isNaN(minTo) ? "00" : minTo.toString().substring(0, 2)}
                   </span>
                 </span>
               );
