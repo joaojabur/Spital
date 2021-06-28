@@ -19,20 +19,11 @@ module.exports = {
     try {
       const { medicID, userID } = req.query;
       let {
-        appointments,
-        address,
-        number,
-        lat,
-        lon,
         bankData,
         invoiceAddress,
       } = req.body;
 
-      if (lat === null || lon === null) {
-        const [res] = await geocoder.geocode(address);
-        lat = res.latitude;
-        lon = res.longitude;
-      }
+     
 
       const [firstName, lastName] = bankData.fullName.split(" ");
 
@@ -44,23 +35,6 @@ module.exports = {
 
       const formattedDDD = ddd.replace("(", "");
       const formattedPhoneNumber = phoneNumber.replace(/[- ]/g, "");
-
-      for (let appointment of appointments) {
-        await knex("consult_type").insert({
-          type: `${appointment.name}`,
-          price: `${appointment.price}`,
-          description: null,
-          medicID: medicID,
-        });
-      }
-
-      await knex("addresses").insert({
-        address,
-        number,
-        lat,
-        lon,
-        userID: userID.toString(),
-      });
 
       moip.account
         .create({
@@ -112,9 +86,15 @@ module.exports = {
 
   async createBankAccount(req, res, next) {
     const { moipAccountId } = req.params;
-    const { accessToken, medicID } = req.query;
+    const { accessToken, medicID, userID } = req.query;
 
-    const { bankData } = req.body;
+    let { bankData, appointments, number, address, lat, lon } = req.body;
+
+    if (lat === null || lon === null) {
+      const [res] = await geocoder.geocode(address);
+      lat = res.latitude;
+      lon = res.longitude;
+    }
 
     const moip = require("moip-sdk-node").default({
       accessToken: accessToken,
@@ -142,6 +122,23 @@ module.exports = {
             .update({ bankAccountID: response.body.id, configured: true })
             .where({ id: medicID });
         });
+
+      for (let appointment of appointments) {
+        await knex("consult_type").insert({
+          type: `${appointment.name}`,
+          price: `${appointment.price}`,
+          description: null,
+          medicID: medicID,
+        });
+      }
+
+      await knex("addresses").insert({
+        address,
+        number,
+        lat,
+        lon,
+        userID: userID.toString(),
+      });
 
       res.status(201).send();
     } catch (error) {
