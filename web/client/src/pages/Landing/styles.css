@@ -11,12 +11,12 @@
 }
 
 .logo-container img {
-  height: 10rem;
+  height: 7rem;
 }
 
 .hero-image {
   display: block;
-  width: 100%;
+  width: 30%;
 }
 
 .logo-container {
@@ -25,14 +25,15 @@
 }
 
 .logo-container h2 {
-  font-size: 2.4rem;
-  line-height: 4.6rem;
+  font-size: 2rem;
+  line-height: 2.6rem;
   margin-top: 0.8rem;
   font-weight: 500;
 }
 
 .buttons-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   margin: 3.2rem 0;
 }
@@ -84,6 +85,7 @@
 .total-connections {
   font-size: 2rem;
   font-weight: 700;
+  text-align: center;
 
   display: flex;
   align-items: center;
@@ -116,6 +118,7 @@
   .logo-container h2 {
     text-align: initial;
     font-size: 3.6rem;
+    line-height: 4.6rem;
   }
 
   .logo-container img {
@@ -130,8 +133,12 @@
   }
 
   .buttons-container {
+    display: flex;
     grid-area: buttons;
+    flex-direction: row;
     justify-content: flex-start;
+    justify-content: flex-start;
+    margin: 3.2rem 0;
   }
 
   .buttons-container a {
@@ -146,13 +153,17 @@
 
 @media (min-width: 620px) {
   .hero-image {
-    width: 60%;
+    width: 30%;
     margin: 0 auto;
   }
 }
 
 @media (min-width: 900px) {
   .hero-image {
-    width: 50%;
+    width: 40%;
+  }
+
+  .buttons-container {
+    flex-direction: row;
   }
 }
