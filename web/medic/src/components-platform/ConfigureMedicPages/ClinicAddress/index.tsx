@@ -22,12 +22,8 @@ const ClinicAddress = ({ previousPage, nextPage }: PagesProps) => {
   }, [medicDataConfigure]);
 
   const handleSelect = async (value: any) => {
-    const results = await geocodeByAddress(medicDataConfigure.address);
-    const latLng = await getLatLng(results[0]);
     setMedicDataConfigure({
       ...medicDataConfigure,
-      lat: latLng.lat,
-      lon: latLng.lng,
       address: value,
     });
   };
@@ -91,8 +87,6 @@ const ClinicAddress = ({ previousPage, nextPage }: PagesProps) => {
                     );
                   })}
                 </div>
-                <h1>Latitude: {medicDataConfigure.lat}</h1>
-                <h1>Longitude: {medicDataConfigure.lon}</h1>
               </div>
             )}
           </PlacesAutocomplete>

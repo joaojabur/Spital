@@ -11,7 +11,7 @@ const LoginAndRegisterPaciente = () => {
   return (
     <div className="login-and-register">
       <Header
-        title="Que bom que você vai entrar pra nossa equipe!"
+        title="Estávamos ansiosos pela sua chegada!"
         subTitle="Primeiro, nós gostaríamos de saber já possui uma conta ou ainda não"
         returnFunction={() => history.push('/')}
       />
