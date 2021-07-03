@@ -16,7 +16,6 @@ class _PageSeachDoctorsState extends State<PageSeachDoctors> {
   @override
   Widget build(BuildContext context) {
     String texto = widget.texto;
-    String image = widget.texto;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -27,7 +26,7 @@ class _PageSeachDoctorsState extends State<PageSeachDoctors> {
               return <Widget>[
                 AppBarSliverPageSeachDoctors(
                   title: "$texto",
-                  image: "${image}",
+                  image: "${widget.image}",
                   width: width,
                   height: height,
                 ),
