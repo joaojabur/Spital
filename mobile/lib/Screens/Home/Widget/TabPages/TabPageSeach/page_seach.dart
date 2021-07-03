@@ -1,12 +1,8 @@
 import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/page_seach_doctors.dart';
-import 'package:Spital/Screens/Shared/Widgets/AppBarSliver/sliver_appbar.dart';
-
 import 'package:Spital/Screens/Shared/Widgets/AppbarThird/sliver_appbar_bottom.dart';
 import 'package:Spital/core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:ionicons/ionicons.dart';
 
 class PageSeach extends StatefulWidget {
   @override

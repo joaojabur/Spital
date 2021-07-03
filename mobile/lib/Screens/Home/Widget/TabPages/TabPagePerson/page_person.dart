@@ -14,12 +14,14 @@ class _PagePersonState extends State<PagePerson> {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppbarSecundaria(
-          title: "Meu Perfil",
-          width: width,
-          height: height,
-          topleftIcon: false,
-          iconLeft: Ionicons.chevron_back_outline,
-          value: 0.12),
+        title: "Meu Perfil",
+        width: width,
+        height: height,
+        topleftIcon: false,
+        iconLeft: Ionicons.chevron_back_outline,
+        value: 0.12,
+        onpressed: () {},
+      ),
       body: Center(child: Text("Perfil")),
     );
   }

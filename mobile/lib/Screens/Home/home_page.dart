@@ -1,4 +1,4 @@
-import 'package:Spital/Screens/Home/Widget/TabPages/TabPageCalendar/page_calendar.dart';
+import 'package:Spital/Screens/Home/Widget/TabPages/TabPageCalendar/page_consulta.dart';
 import 'package:Spital/Screens/Home/Widget/TabPages/TabPageHome/page_home.dart';
 import 'package:Spital/Screens/Home/Widget/TabPages/TabPagePerson/page_person.dart';
 import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/page_seach.dart';
@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage>
         children: <Widget>[
           PageHome(),
           PageSeach(),
-          PageCalendar(),
+          PageConsulta(),
           PagePerson(),
         ],
         controller: controller.tabController,
