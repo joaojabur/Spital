@@ -1,3 +1,4 @@
+import 'package:Spital/Screens/Shared/Widgets/Medicos/medic.dart';
 import 'package:Spital/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
@@ -8,6 +9,7 @@ class ListDoctors extends StatefulWidget {
 }
 
 class _ListDoctorsState extends State<ListDoctors> {
+  Medic _medic = Medic();
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -92,11 +94,13 @@ class _ListDoctorsState extends State<ListDoctors> {
                                     padding:
                                         EdgeInsets.only(bottom: height * 0.015),
                                     child: Text.rich(TextSpan(
-                                        text: "Dr. Jaison",
+                                        text:
+                                            "Dr. ${_medic.medicModel.firstName}",
                                         style: AppTextStyles.topicNameDoctor,
                                         children: [
                                           TextSpan(
-                                              text: "\nPulmonologist",
+                                              text:
+                                                  "\n${_medic.medicModel.area}",
                                               style: AppTextStyles
                                                   .topicDescriptionDoctor)
                                         ])),
