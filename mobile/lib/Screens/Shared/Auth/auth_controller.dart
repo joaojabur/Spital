@@ -20,19 +20,23 @@ abstract class _AuthControllerBase with Store {
   @observable
   bool isAuthenticated = false;
 
-  Future<void> getToken() async {
+  Future<String> getToken() async {
     var token = await storage.read(key: 'access-token');
 
     if (token?.isNotEmpty ?? false) {
       var response = await _authRepository.loginWithToken(token!);
 
       if (response.error) {
-        return;
+        return 'Cannot Login With Token';
       }
 
       user = response.user;
       isAuthenticated = true;
+
+      return '';
     }
+
+    return 'Cannot Login With Token';
   }
 
   Future<String> login(String email, String password) async {
