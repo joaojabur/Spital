@@ -13,6 +13,8 @@ class AppTextStyles {
       color: AppColors.black, fontSize: 20, fontWeight: FontWeight.bold);
   static final TextStyle titleBold4 = GoogleFonts.quicksand(
       color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold);
+  static final TextStyle titleBold5 = GoogleFonts.quicksand(
+      color: AppColors.black, fontSize: 14, fontWeight: FontWeight.bold);
   static final TextStyle loginDescription = GoogleFonts.quicksand(
     color: AppColors.gray,
     fontSize: 18,
