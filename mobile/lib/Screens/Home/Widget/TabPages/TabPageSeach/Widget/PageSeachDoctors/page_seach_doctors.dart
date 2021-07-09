@@ -1,4 +1,4 @@
-import 'package:Spital/Screens/Home/Widget/TabPages/TabPageHome/Widgets/list_doctors.dart';
+import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/Widgets/list_doctor_by_area.dart';
 import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/sliver_app_bar_seach_doctors.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +35,7 @@ class _PageSeachDoctorsState extends State<PageSeachDoctors> {
             body: Column(
               children: [
                 Expanded(
-                  child: ListDoctors(),
+                  child: ListDoctors(area: texto, page: 0),
                 ),
               ],
             )));
