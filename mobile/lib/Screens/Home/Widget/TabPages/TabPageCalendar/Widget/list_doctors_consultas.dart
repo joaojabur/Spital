@@ -1,5 +1,4 @@
 import 'package:Spital/Screens/Home/Widget/TabPages/TabPageCalendar/Widget/detalhe_consulta.dart';
-import 'package:Spital/Screens/Shared/Widgets/Medicos/medic.dart';
 import 'package:Spital/core/core.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +10,6 @@ class ListDoctorsConsultas extends StatefulWidget {
 }
 
 class _ListDoctorsConsultasState extends State<ListDoctorsConsultas> {
-  Medic medic = Medic();
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -62,11 +60,11 @@ class _ListDoctorsConsultasState extends State<ListDoctorsConsultas> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text.rich(TextSpan(
-                                  text: "Dr. ${medic.medicModel.firstName} ",
+                                  text: "Dr. ",
                                   style: AppTextStyles.topicNameDoctor,
                                   children: [
                                     TextSpan(
-                                        text: "\n ${medic.medicModel.area}",
+                                        text: "\n",
                                         style: AppTextStyles
                                             .topicDescriptionDoctor)
                                   ])),
