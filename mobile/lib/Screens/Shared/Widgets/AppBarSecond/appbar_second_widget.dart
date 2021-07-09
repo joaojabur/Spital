@@ -1,9 +1,9 @@
 import 'package:Spital/core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
 
 class AppbarSecundaria extends PreferredSize {
   final String title;
+  final void Function()? onpressed;
   final bool topleftIcon;
 
   final IconData iconLeft;
@@ -11,6 +11,7 @@ class AppbarSecundaria extends PreferredSize {
   AppbarSecundaria(
       {required this.topleftIcon,
       required this.iconLeft,
+      required this.onpressed,
       required this.title,
       required double width,
       required double value,
@@ -27,16 +28,40 @@ class AppbarSecundaria extends PreferredSize {
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: height * 0.05),
+                  padding:
+                      EdgeInsets.only(top: height * 0.05, left: 15, right: 0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
+                      Padding(
+                        padding: const EdgeInsets.only(right: 5),
                         child: topleftIcon
-                            ? IconButton(
-                                icon: Icon(Ionicons.arrow_back),
-                                onPressed: () {},
-                              )
+                            ? Container(
+                                height: 40,
+                                width: 45,
+                                child: ElevatedButton(
+                                    style: ButtonStyle(
+                                        padding: MaterialStateProperty.all<
+                                                EdgeInsets>(
+                                            EdgeInsets.only(right: 20)),
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                Colors.white),
+                                        shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ))),
+                                    onPressed: topleftIcon ? onpressed : null,
+                                    child: IconButton(
+                                      icon: Icon(
+                                        iconLeft,
+                                        size: 25,
+                                        color: Colors.black,
+                                      ),
+                                      onPressed: () {},
+                                    )))
                             : null,
                       ),
                       Text(
@@ -44,7 +69,9 @@ class AppbarSecundaria extends PreferredSize {
                         style: AppTextStyles.titleAppBarSecundaria,
                         textAlign: TextAlign.center,
                       ),
-                      Container(),
+                      Container(
+                        padding: EdgeInsets.only(right: 50),
+                      ),
                     ],
                   ),
                 ),

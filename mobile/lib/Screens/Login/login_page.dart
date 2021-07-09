@@ -1,8 +1,8 @@
+import 'package:Spital/Screens/Login/controller/controller.dart';
+import 'package:Spital/Screens/Shared/Auth/auth_controller.dart';
 import 'package:Spital/Screens/Shared/Widgets/Buttom/button_widget.dart';
 import 'package:Spital/Screens/Shared/Widgets/TextFormField/controller/text_form_field_controller.dart';
 import 'package:Spital/core/core.dart';
-import 'package:Spital/screens/Shared/Auth/auth_controller.dart';
-import 'package:Spital/screens/Login/controller/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ionicons/ionicons.dart';
@@ -188,11 +188,12 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         ButtonWidget(
-                            textButon: "Próximo",
-                            onpressed: () {
+                            textButon: "Login",
+                            onpressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                print("cadastro");
-                                loginController.login();
+                                if (await loginController.login() == ''){
+                                  Navigator.pushReplacementNamed(context, '/');
+                                }
                               }
                             })
                       ],

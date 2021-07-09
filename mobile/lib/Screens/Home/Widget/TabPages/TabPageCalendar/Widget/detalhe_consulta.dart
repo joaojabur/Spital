@@ -2,27 +2,31 @@ import 'package:Spital/Screens/Shared/Widgets/AppBarSecond/appbar_second_widget.
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
-class PagePerson extends StatefulWidget {
+class DetalheConsulta extends StatefulWidget {
+  const DetalheConsulta({Key? key}) : super(key: key);
+
   @override
-  _PagePersonState createState() => _PagePersonState();
+  _DetalheConsultaState createState() => _DetalheConsultaState();
 }
 
-class _PagePersonState extends State<PagePerson> {
+class _DetalheConsultaState extends State<DetalheConsulta> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppbarSecundaria(
-        title: "Meu Perfil",
+        title: "Detalhes da Consulta",
         width: width,
         height: height,
-        topleftIcon: false,
+        topleftIcon: true,
         iconLeft: Ionicons.chevron_back_outline,
         value: 0.12,
-        onpressed: () {},
+        onpressed: () {
+          Navigator.pop(context);
+        },
       ),
-      body: Center(child: Text("Perfil")),
+      body: Container(),
     );
   }
 }
