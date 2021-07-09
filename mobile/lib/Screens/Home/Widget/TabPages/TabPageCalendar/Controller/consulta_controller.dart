@@ -1,4 +1,3 @@
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 part 'consulta_controller.g.dart';
 
