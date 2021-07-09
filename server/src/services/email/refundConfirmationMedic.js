@@ -1,13 +1,10 @@
 const sendMail = require("./core");
 
-module.exports = async function paymentConfirmation({
-  name,
+module.exports = async function refundConfirmationMedic({
   email,
   callback,
-  medic,
   appointment,
-  location,
-  time
+  time,
 }) {
   const [month, day, year] = appointment.date.split("/");
   let to = email;
@@ -48,24 +45,8 @@ module.exports = async function paymentConfirmation({
           >
             <a
               style="text-decoration: none; color: #fff"
-              href="https://spital.com.br/principal"
+              href="https://medico.spital.com.br/principal"
               >Spital</a
-            >
-          </td>
-        </tr>
-        <tr>
-          <td style="padding: 20px 20px 20px 20px; font-size: 26px">
-            <img
-              style="width: 50px; height: 50px; border-radius: 50%"
-              src="https://avatars.dicebear.com/api/human/${
-                medic.first_name + medic.last_name
-              }.svg"
-            />
-            <span style="font-size: 20px; position: relative; top: -15px"
-              >Consulta marcada com
-              <span style="color: #07b3d6; font-weight: bold"
-                >Dr(a). ${medic.first_name} ${medic.last_name}</span
-              ></span
             >
           </td>
         </tr>
@@ -73,39 +54,35 @@ module.exports = async function paymentConfirmation({
         <tr>
           <td
             style="
-              width: 70%;
-              height: 1px;
-              background-color: #ccc;
-              margin: 20px auto 0 auto;
+              font-size: 2rem;
+              color: #f00;
+              font-weight: bold;
+              padding: 1rem 0 0 0;
             "
-          ></td>
-        </tr>
-  
-        <tr style="margin-top: 20px">
-          <td style="padding: 20px 20px 20px 20px; font-size: 18px">
-            <img
-              src="https://cdn.discordapp.com/attachments/833874352679813181/848201050849673234/outline_event_available_black_24dp.png"
-            />
-            <span style="position: relative; top: -15px; font-weight: bold"
-              >Consulta dia ${day}/${month}/${year} às ${time}</span
-            >
+            align="center"
+          >
+            Consulta cancelada...
           </td>
         </tr>
-        <tr>
-          <td style="padding: 20px 20px 20px 20px; font-size: 18px">
-            <img
-              src="https://cdn.discordapp.com/attachments/833874352679813181/848205465083052083/outline_where_to_vote_black_24dp.png"
-            />
-            <span style="position: relative; top: -15px; font-weight: bold"
-              >${location?.address} ${location?.number}</span
-            >
+  
+        <tr style="margin-top: 40px">
+          <td
+            style="
+              font-size: 1.2rem;
+              color: #333;
+              font-weight: bold;
+              padding: 2rem 2rem 1rem 2rem;
+            "
+            align="center"
+          >
+            ${time} horas do dia ${day}/${month}/${year} está livre em sua agenda!
           </td>
         </tr>
   
         <tr align="center">
           <td>
             <a
-              href="https://spital.com.br/consultas"
+              href="https://medico.spital.com.br/agenda"
               style="
                 margin: 20px auto 0 auto;
                 background-color: #07b3d6;
@@ -126,6 +103,8 @@ module.exports = async function paymentConfirmation({
       </table>
     </body>
   </html>
+  
+
   
     `;
 

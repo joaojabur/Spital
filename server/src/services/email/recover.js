@@ -1,9 +1,9 @@
-const sendMail = require("./core");;
+const sendMail = require("./core");
 const generateForgetPassToken = require("../../middlewares/generateForgetPassToken");
 
 module.exports = async function recoverEmail({ id, name, email, callback }) {
   const token = generateForgetPassToken(id);
-  const link = `http://localhost:3000/recuperar/${token}`;
+  const link = `https://spital.com.br/recuperar/${token}`;
 
   let to = email;
   let subject = "Recuperação de Senha";
@@ -25,7 +25,7 @@ module.exports = async function recoverEmail({ id, name, email, callback }) {
       <table width="600" align="center" cellpadding="0" cellspacing="0">
         <tr>
           <td style="padding: 15px 0 15px 0; color: white; font-size: 30px; font-weight: bold;" bgcolor="#24daff" align="center">
-            <a style="text-decoration: none; color: #fff;" href="http://localhost:3000">Spital</a>
+            <a style="text-decoration: none; color: #fff;" href="https://spital.com.br/principal">Spital</a>
           </td>
         </tr>
         <tr>

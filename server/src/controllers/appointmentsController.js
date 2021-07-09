@@ -1,6 +1,8 @@
 const knex = require("../database");
 const paymentConfirmation = require("../services/email/paymentConfirmation");
+const paymentConfirmationMedic = require("../services/email/paymentConfirmationMedic");
 const refundConfirmation = require("../services/email/refundConfirmation");
+const refundConfirmationMedic = require("../services/email/refundConfirmationMedic");
 const moip = require("moip-sdk-node").default({
   accessToken: "7bd5812b36bd4cc89f69311f8badc7e9_v2",
   production: false,
@@ -162,7 +164,6 @@ module.exports = {
   async delete(req, res, next) {
     try {
       const { id } = req.params;
-      const { userID } = req.query;
 
       const [appointment] = await knex("appointments")
         .where({ paymentID: id })
@@ -183,7 +184,6 @@ module.exports = {
       await knex("appointments").where({ paymentID: id }).del();
 
       let [location] = await knex("addresses").where("userID", medic.userID);
-      console.log(location);
 
       refundConfirmation({
         name: `${client.first_name} ${client.last_name}`,
@@ -191,6 +191,14 @@ module.exports = {
         medic,
         appointment,
         location: location,
+      });
+
+      console.log(appointment);
+
+      refundConfirmationMedic({
+        email: medic.email,
+        appointment: appointment,
+        time: appointment.time,
       });
 
       res.status(201).json({
@@ -287,16 +295,20 @@ module.exports = {
 
       let [location] = await knex("addresses").where("userID", userID);
 
-      if (medic && client) {
-        await paymentConfirmation({
-          name: `${client.first_name} ${client.last_name}`,
-          email: client.email,
-          medic: medic,
-          appointment: appointmentData,
-          time: time,
-          location: location,
-        });
-      }
+      await paymentConfirmation({
+        name: `${client.first_name} ${client.last_name}`,
+        email: client.email,
+        medic: medic,
+        appointment: appointmentData,
+        time: time,
+        location: location,
+      });
+
+      await paymentConfirmationMedic({
+        email: medic.email,
+        appointment: appointmentData,
+        time: time,
+      });
 
       res.status(201).json({
         success: true,

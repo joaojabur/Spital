@@ -47,7 +47,7 @@ module.exports = async function refundConfirmation({
           >
             <a
               style="text-decoration: none; color: #fff"
-              href="http://localhost:3000"
+              href="https://spital.com.br/principal"
               >Spital</a
             >
           </td>
@@ -106,7 +106,7 @@ module.exports = async function refundConfirmation({
         <tr align="center">
           <td>
             <a
-              href="http://localhost:3000/consultas"
+              href="https://spital.com.br/consultas"
               style="
                 margin: 20px auto 0 auto;
                 background-color: #07b3d6;
