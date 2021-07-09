@@ -188,11 +188,12 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         ButtonWidget(
-                            textButon: "Próximo",
-                            onpressed: () {
+                            textButon: "Login",
+                            onpressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                print("cadastro");
-                                loginController.login();
+                                if (await loginController.login() == ''){
+                                  Navigator.pushReplacementNamed(context, '/');
+                                }
                               }
                             })
                       ],
