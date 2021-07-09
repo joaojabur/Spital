@@ -13,11 +13,20 @@ class LoginResponse {
 
 class AuthRepository {
   final storage = new secureStorage.FlutterSecureStorage();
-  final Dio dio = Dio(BaseOptions(baseUrl: "http://192.168.1.6:3333"));
+  final Dio dio = Dio(BaseOptions(baseUrl: "http://192.168.1.10:3333"));
   Future<LoginResponse> login(String email, String password) async {
     try {
       Map<String, String> data = {"email": email, "password": password};
-      final response = await dio.post('/clients/login', data: data);
+      final response = await dio.post(
+          '/clients/login', 
+          data: data, 
+          options: Options(
+            followRedirects: false,
+            validateStatus: (status) {
+              return status! < 500;
+            },
+          )
+      );
 
       int userID = response.data["id"];
       String token = response.data["token"];
@@ -34,8 +43,16 @@ class AuthRepository {
 
   Future<LoginResponse> loginWithToken(String token) async {
     try {
-      final response = await dio.get('/clients/auth',
-          options: Options(headers: {'authorization': token}));
+      final response = await dio.get(
+          '/clients/auth',
+          options: Options(
+            followRedirects: false,
+            validateStatus: (status) {
+              return status! < 500;
+            },
+            headers: {'authorization': token}
+          )
+      );
 
       int userID = response.data["userID"];
       bool auth = response.data["auth"];
