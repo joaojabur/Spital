@@ -3,9 +3,9 @@ import 'package:Spital/Screens/Login/login_page.dart';
 import 'package:Spital/Screens/Logon/logon.dart';
 import 'package:Spital/Screens/Register/register_page.dart';
 import 'package:Spital/Screens/Shared/Auth/auth_controller.dart';
+import 'package:Spital/Screens/Shared/controllers/location_controller.dart';
 import 'package:Spital/Screens/Splash/splash.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +16,9 @@ class AppWidget extends StatelessWidget {
       providers: [
         Provider<AuthController>(
           create: (context) => AuthController(),
+        ),
+        Provider<LocationController>(
+          create: (context) => LocationController()
         )
       ],
       child: MaterialApp(
