@@ -3,7 +3,7 @@ import "./styles.css";
 import Select from "../../Select";
 import { useShareFormMedic } from "../../../context/ShareMedicFormProvider";
 import { useEffect, useState } from "react";
-import validateSchedule from "../../../utils/validateSchedule";
+import validateMedicInfo from "../../../utils/validateMedicInfo";
 
 interface MedicScheduleProps {
   nextPage: () => void;
@@ -13,6 +13,13 @@ interface MedicScheduleProps {
 const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
   const { setMedicData, medicData } = useShareFormMedic();
   const [error, setError] = useState(false);
+  const [errors, setErrors] = useState(validateMedicInfo(medicData));
+
+  useEffect(() => {
+    setErrors(validateMedicInfo(medicData));
+  }, [medicData]);
+
+  console.log(errors);
 
   const weekDays = [
     {
@@ -87,7 +94,7 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
 
     setMedicData({ ...medicData, schedule: newScheduleItems });
   }
-  
+
   return (
     <form className="form-container">
       <div className="form-container-flex">
@@ -138,7 +145,17 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
                 />
               </div>
             </div>
-
+            <p
+              style={{
+                margin: "2rem 0",
+                color: "#f00",
+                fontSize: "2rem",
+                fontWeight: "bold",
+                textAlign: "center",
+              }}
+            >
+              {errors.schedule.length >= index ? errors.schedule[index] : null}
+            </p>
             <div
               onClick={(e: any) => {
                 deleteScheduleItem(index);
@@ -159,8 +176,10 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
           textAlign: "center",
         }}
       >
-        {error && "Algum campo digitado incorretamente"}
+        {medicData.schedule.length === 0 ? "Você precisa informar pelo menos um dia da semana." : null}
       </p>
+
+
 
       <button className="secondary" onClick={previousPage}>
         Anterior

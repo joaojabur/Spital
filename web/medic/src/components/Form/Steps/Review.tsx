@@ -14,7 +14,6 @@ import EditIcon from "@material-ui/icons/Edit";
 import getPasswordAsterisk from "../../../utils/HashPassword";
 import validateMedicInfo from "../../../utils/validateMedicInfo";
 import { useShareFormMedic } from "../../../context/ShareMedicFormProvider";
-import { useAuth } from "../../../context/AuthProvider";
 import { useModal } from "../../../context/ModalProvider";
 
 interface MedicReviewProps {
@@ -34,10 +33,16 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
 
   const [agreement, setAgreement] = useState(false);
 
-
   async function handleSubmitForm(e: any) {
     setIsLoading(true);
     e.preventDefault();
+    if (!errors?.schedule?.length) {
+      //@ts-ignore
+      delete errors.schedule;
+    }
+
+    console.log(errors);
+
     const loopedErrors = Object.values(errors);
     if (loopedErrors.length > 0) {
       setHasError(true);
@@ -76,7 +81,7 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
 
   const hashedPassword = getPasswordAsterisk(medicData?.password ?? "");
 
-  const [errors, setErrors] = useState(validateMedicInfo(medicData));
+  let [errors, setErrors] = useState(validateMedicInfo(medicData));
 
   const formatedBirthDate = medicData?.birthDate?.replace(/[-]/g, "/");
 
@@ -168,7 +173,12 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
       <button className="secondary" onClick={(e) => previousPage()}>
         Anterior
       </button>
-      <button style={!agreement ? { cursor: 'not-allowed'} : {}} className="primary" onClick={handleSubmitForm} disabled={!agreement}>
+      <button
+        style={!agreement ? { cursor: "not-allowed" } : {}}
+        className="primary"
+        onClick={handleSubmitForm}
+        disabled={!agreement}
+      >
         {isLoading ? (
           <Loader
             type="Circles"

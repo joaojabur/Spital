@@ -1,0 +1,22 @@
+.location-message {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  background-color: #fff;
+  width: 70vw;
+  height: 70vh;
+  border-radius: 4rem;
+  text-align: center;
+}
+
+.location-message h1 {
+  font-size: 3rem;
+  margin-bottom: 5rem;
+}
+
+.location-message p {
+  font-size: 2rem;
+  padding: 5rem;
+}

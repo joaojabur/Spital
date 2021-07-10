@@ -1,14 +1,22 @@
 import { TextField } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoAddOutline } from "react-icons/io5";
 import { useShareFormMedicConfigure } from "../../../context/ShareMedicConfigureFormProvider";
 import { PagesProps } from "../../../platform-pages/ConfigureMedic";
+import validateConfigureMedic from "../../../utils/validateConfigureMedic";
 import "./styles.css";
 
 const AppointmentInfo = ({ previousPage, nextPage }: PagesProps) => {
   const [appointmentError, setAppointmentError] = useState("");
   const { medicDataConfigure, setMedicDataConfigure } =
     useShareFormMedicConfigure();
+  const [errors, setErrors] = useState(
+    validateConfigureMedic(medicDataConfigure)
+  );
+
+  useEffect(() => {
+    setErrors(validateConfigureMedic(medicDataConfigure));
+  }, [medicDataConfigure]);
 
   function addNewAppointmentItem() {
     if (medicDataConfigure.appointments.length >= 3) {
@@ -46,6 +54,8 @@ const AppointmentInfo = ({ previousPage, nextPage }: PagesProps) => {
       appointments: newAppointmentItems,
     });
   }
+
+  console.log(errors);
 
   return (
     <div
@@ -88,8 +98,22 @@ const AppointmentInfo = ({ previousPage, nextPage }: PagesProps) => {
                   onChange={(e: any) => {
                     setAppointmentItemValue(index, "price", e.target.value);
                   }}
+                  type="number"
                 />
               </div>
+              <p
+                style={{
+                  margin: "2rem 0",
+                  color: "#f00",
+                  fontSize: "2rem",
+                  fontWeight: "bold",
+                  textAlign: "center",
+                }}
+              >
+                {errors.appointments.length >= index
+                  ? errors.appointments[index]
+                  : null}
+              </p>
             </>
           );
         })}

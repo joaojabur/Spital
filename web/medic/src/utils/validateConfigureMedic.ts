@@ -1,7 +1,25 @@
 import { BankData } from "../components-platform/ConfigureMedicPages/BankData";
 import { InvoiceAddressProps } from "../components-platform/ConfigureMedicPages/InvoiceAddress";
+import convertHourToMinutes from "./convertHourToMinute";
 import validateCPF from "./validateCpf";
+
+interface Appointment {
+  name: string;
+  price: string;
+}
+
 interface MedicConfigureData {
+  appointments: Array<Appointment>;
+  address: string;
+  number: string;
+  lat: number | null;
+  lon: number | null;
+  bankData: BankData;
+  invoiceAddress: InvoiceAddressProps;
+}
+
+interface MedicConfigureDataErrors {
+  appointments: Array<string>;
   address: string;
   number: string;
   lat: number | null;
@@ -11,9 +29,38 @@ interface MedicConfigureData {
 }
 
 export default function refreshUserValidate(credentials: MedicConfigureData) {
-  let errors = {} as MedicConfigureData;
+  let errors = {
+    appointments: new Array<string>(),
+  } as MedicConfigureDataErrors;
 
   if (credentials !== null) {
+    if (!credentials?.appointments?.length) {
+      if (errors.appointments.length > 0) {
+        errors.appointments[0] =
+          "Você precisa informar pelo menos um dia da semana.";
+      } else {
+        errors.appointments.push(
+          "Você precisa informar pelo menos um dia da semana."
+        );
+      }
+    } else if (typeof credentials.appointments !== "string") {
+      let i = 0;
+      for (let appointment of credentials?.appointments) {
+        console.log(appointment);
+        if (
+          appointment.name.length === 0 ||
+          appointment.price.length === 0 ||
+          Number(appointment.price) < 0
+        ) {
+          if (errors?.appointments?.length < i) {
+            errors.appointments[i] = "Preço ou nome vazios";
+          } else {
+            errors.appointments.push("Preço ou nome vazios");
+          }
+        }
+      }
+    }
+
     if (!credentials?.address?.length ?? 0) {
       errors.address = "Campo de endereço é necessário.";
     }

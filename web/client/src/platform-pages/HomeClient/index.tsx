@@ -10,6 +10,7 @@ import { useInfoData } from "../../context/InfoProvider";
 
 const HomeClient = () => {
   const { setInfoData, infoData } = useInfoData();
+  const [isLocationActivated, setIsLocationActivated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [medics, setMedics] = useState<Array<Medic>>([]);
@@ -46,6 +47,7 @@ const HomeClient = () => {
       });
 
       if (permission.state === "granted" || permission.state === "prompt") {
+        setIsLocationActivated(true);
         navigator.geolocation.getCurrentPosition(
           (pos: GeolocationPosition) => {
             setLocation(pos);
@@ -55,6 +57,7 @@ const HomeClient = () => {
         );
       } else if (permission.state === "denied") {
         console.log("Você precisa ativar sua localização");
+        setIsLocationActivated(false);
       }
 
       permission.onchange = () => {
@@ -81,14 +84,32 @@ const HomeClient = () => {
   Geocode.enableDebug();
 
   return (
-    <div className="client-platform">
-      <HeaderPlatform />
-      <div className="container">
-        <Categories />
-        <DoctorList loading={loading} medics={medics} />
-        <LoadMoreButton onClick={loadMore} />
-      </div>
-    </div>
+    <>
+      {isLocationActivated ? (
+        <div className="client-platform">
+          <HeaderPlatform />
+          <div className="container">
+            <Categories />
+            <DoctorList loading={loading} medics={medics} />
+            <LoadMoreButton onClick={loadMore} />
+          </div>
+        </div>
+      ) : (
+        <div className="location-message">
+          <h1>Você precisa ativar sua localização para continuarmos</h1>
+          <p>
+            Caso tenha dificuldades, isso pode de ajudar:{" "}
+            <a
+              href="https://support.google.com/chrome/answer/142065?co=GENIE.Platform%3DDesktop&hl=pt"
+              rel="noreferrer"
+              target="_blank"
+            >
+              https://support.google.com/chrome/answer/142065?co=GENIE.Platform%3DDesktop&hl=pt
+            </a>
+          </p>
+        </div>
+      )}
+    </>
   );
 };
 
