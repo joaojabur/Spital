@@ -77,6 +77,10 @@ const InvoiceAddress = ({ previousPage, nextPage }: PagesProps) => {
 
   function handleConfigureProfile() {
     spinner.open();
+    if (!errors?.appointments?.length) {
+      //@ts-ignore
+      delete errors.appointments;
+    }
     const loopedErrors = Object.values(errors);
 
     if (loopedErrors.length > 0) {
