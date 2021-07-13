@@ -80,7 +80,6 @@ class _PageRegisterSecondState extends State<PageRegisterSecond> {
                             initialValue: registercontroller.password,
                             validator: registercontroller.validatePassWord,
                             onChanged: registercontroller.changePassoword,
-                            maxLength: 16,
                             obscureText:
                                 obscureText ? obscureControler.obscure : false,
                             decoration: InputDecoration(
@@ -118,7 +117,6 @@ class _PageRegisterSecondState extends State<PageRegisterSecond> {
                             height: 20,
                           ),
                           TextFormField(
-                            maxLength: 16,
                             initialValue: registercontroller.confirmPassword,
                             validator:
                                 registercontroller.validateConfirmPassWord,
