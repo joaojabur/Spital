@@ -81,6 +81,12 @@ const InvoiceAddress = ({ previousPage, nextPage }: PagesProps) => {
       //@ts-ignore
       delete errors.appointments;
     }
+
+    if (!errors?.schedule?.length) {
+      //@ts-ignore
+      delete errors.schedule;
+    }
+    
     const loopedErrors = Object.values(errors);
 
     if (loopedErrors.length > 0) {
@@ -105,6 +111,7 @@ const InvoiceAddress = ({ previousPage, nextPage }: PagesProps) => {
                   address: medicDataConfigure.address,
                   lat: null,
                   lon: null,
+                  schedule: medicDataConfigure.schedule,
                 }
               )
               .then((res: any) => {

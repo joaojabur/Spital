@@ -9,7 +9,7 @@ import { useHistory } from "react-router-dom";
 import MedicCredentials from "../../components/Form/Steps/Credentials";
 import MedicAcademicData from "../../components/Form/Steps/AcademicData";
 import MedicPersonalData from "../../components/Form/Steps/PersonalData";
-import MedicSchedule from "../../components/Form/Steps/Schedule";
+import MedicSchedule from "../../components-platform/ConfigureMedicPages/Schedule";
 import MedicReview from "../../components/Form/Steps/Review";
 
 const RegisterMedicalSpitalNames = () => {
@@ -20,7 +20,6 @@ const RegisterMedicalSpitalNames = () => {
     <MedicCredentials nextPage={nextPage} previousPage={previousPage}/>,
     <MedicAcademicData nextPage={nextPage} previousPage={previousPage}/>,
     <MedicPersonalData nextPage={nextPage} previousPage={previousPage}/>,
-    <MedicSchedule nextPage={nextPage} previousPage={previousPage}/>,
     <MedicReview changePage={changePage} previousPage={previousPage}/>
   ]
 

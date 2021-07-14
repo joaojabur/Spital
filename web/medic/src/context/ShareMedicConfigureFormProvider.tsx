@@ -10,6 +10,13 @@ interface MedicConfigureData {
   lon: number | null;
   bankData: BankData;
   invoiceAddress: InvoiceAddressProps;
+  schedule: Array<Schedule>;
+}
+
+interface Schedule {
+  week_day: number;
+  from: string;
+  to: string;
 }
 
 interface Appointment {
@@ -63,6 +70,13 @@ export default function ShareClientFormProvider({
         city: "",
         state: "SP",
       },
+      schedule: [
+        {
+          week_day: 0,
+          from: "08:30",
+          to: "17:00",
+        },
+      ],
     } as MedicConfigureData);
 
   let value = {

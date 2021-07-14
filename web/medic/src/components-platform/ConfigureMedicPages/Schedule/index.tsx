@@ -1,9 +1,9 @@
 import "./styles.css";
 
-import Select from "../../Select";
-import { useShareFormMedic } from "../../../context/ShareMedicFormProvider";
+import Select from "../../../components/Select";
 import { useEffect, useState } from "react";
-import validateMedicInfo from "../../../utils/validateMedicInfo";
+import { useShareFormMedicConfigure } from "../../../context/ShareMedicConfigureFormProvider";
+import validateConfigureMedic from "../../../utils/validateConfigureMedic";
 
 interface MedicScheduleProps {
   nextPage: () => void;
@@ -11,15 +11,15 @@ interface MedicScheduleProps {
 }
 
 const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
-  const { setMedicData, medicData } = useShareFormMedic();
-  const [error, setError] = useState(false);
-  const [errors, setErrors] = useState(validateMedicInfo(medicData));
+  const { medicDataConfigure, setMedicDataConfigure } =
+    useShareFormMedicConfigure();
+  const [errors, setErrors] = useState(
+    validateConfigureMedic(medicDataConfigure)
+  );
 
   useEffect(() => {
-    setErrors(validateMedicInfo(medicData));
-  }, [medicData]);
-
-  console.log(errors);
+    setErrors(validateConfigureMedic(medicDataConfigure));
+  }, [medicDataConfigure]);
 
   const weekDays = [
     {
@@ -53,15 +53,15 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
   ];
 
   function addNewScheduleItem() {
-    if (medicData.schedule.length >= 7) {
+    if (medicDataConfigure.schedule.length >= 7) {
       // Send message
     } else {
-      setMedicData({
-        ...medicData,
+      setMedicDataConfigure({
+        ...medicDataConfigure,
         schedule: [
-          ...medicData.schedule,
+          ...medicDataConfigure.schedule,
           {
-            week_day: medicData.schedule.length,
+            week_day: medicDataConfigure.schedule.length,
             from: "13:00",
             to: "20:30",
           },
@@ -75,7 +75,7 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
     field: string,
     value: string
   ) {
-    const newScheduleItem = medicData.schedule.map((scheduleItem, index) => {
+    const newScheduleItem = medicDataConfigure.schedule.map((scheduleItem, index) => {
       if (index === position) {
         return { ...scheduleItem, [field]: value };
       }
@@ -83,16 +83,16 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
       return scheduleItem;
     });
 
-    setMedicData({ ...medicData, schedule: newScheduleItem });
+    setMedicDataConfigure({ ...medicDataConfigure, schedule: newScheduleItem });
   }
 
   function deleteScheduleItem(position: number) {
-    let newScheduleItems = [...medicData.schedule];
+    let newScheduleItems = [...medicDataConfigure.schedule];
     const index = newScheduleItems.findIndex((item: any) => item === position);
 
     newScheduleItems.splice(index, 1);
 
-    setMedicData({ ...medicData, schedule: newScheduleItems });
+    setMedicDataConfigure({ ...medicDataConfigure, schedule: newScheduleItems });
   }
 
   return (
@@ -107,7 +107,7 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
 
       <div className="line"></div>
 
-      {medicData.schedule.map((scheduleItem, index) => {
+      {medicDataConfigure.schedule.map((scheduleItem, index) => {
         return (
           <div key={scheduleItem.week_day} className="schedule-item">
             <span className="schedule-item-label">Dia da semana</span>
@@ -154,7 +154,7 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
                 textAlign: "center",
               }}
             >
-              {errors.schedule.length >= index ? errors.schedule[index] : null}
+              {errors?.schedule?.length >= index ? errors?.schedule[index] : null}
             </p>
             <div
               onClick={(e: any) => {
@@ -176,10 +176,10 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
           textAlign: "center",
         }}
       >
-        {medicData.schedule.length === 0 ? "Você precisa informar pelo menos um dia da semana." : null}
+        {medicDataConfigure.schedule.length === 0
+          ? "Você precisa informar pelo menos um dia da semana."
+          : null}
       </p>
-
-
 
       <button className="secondary" onClick={previousPage}>
         Anterior

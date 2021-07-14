@@ -36,10 +36,12 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
   async function handleSubmitForm(e: any) {
     setIsLoading(true);
     e.preventDefault();
+    /*
     if (!errors?.schedule?.length) {
       //@ts-ignore
       delete errors.schedule;
     }
+    */
 
     console.log(errors);
 
@@ -64,7 +66,7 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
                 sucesso.close();
                 history.push("/confirmar-email");
               },
-              description: "Conta criada com sucesso.",
+              description: "Dados enviados com sucesso.",
             });
             setIsLoading(false);
           } else {
@@ -157,6 +159,19 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
       >
         {backendError}
       </p>
+
+      {isThereBackendError && (
+        <p
+          style={{
+            color: "red",
+            position: "relative",
+            top: "1rem",
+            left: "1rem",
+          }}
+        >
+          Erro no servidor...
+        </p>
+      )}
 
       <FormControlLabel
         control={

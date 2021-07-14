@@ -18,12 +18,7 @@ module.exports = {
 
     try {
       const { medicID, userID } = req.query;
-      let {
-        bankData,
-        invoiceAddress,
-      } = req.body;
-
-     
+      let { bankData, invoiceAddress } = req.body;
 
       const [firstName, lastName] = bankData.fullName.split(" ");
 
@@ -88,7 +83,8 @@ module.exports = {
     const { moipAccountId } = req.params;
     const { accessToken, medicID, userID } = req.query;
 
-    let { bankData, appointments, number, address, lat, lon } = req.body;
+    let { bankData, appointments, number, address, lat, lon, schedule } =
+      req.body;
 
     if (lat === null || lon === null) {
       const [res] = await geocoder.geocode(address);
@@ -129,6 +125,22 @@ module.exports = {
           price: `${appointment.price}`,
           description: null,
           medicID: medicID,
+        });
+      }
+
+      console.log(schedule);
+
+      const scheduleID = await knex("schedules")
+        .returning("id")
+        .insert({ medicID: parseInt(medicID) });
+
+      for (let sche of schedule) {
+        console.log(sche.from, convertHourToMinutes(sche.from));
+        await knex("medic_schedule").insert({
+          scheduleID: parseInt(scheduleID),
+          week_day: sche.week_day,
+          from: convertHourToMinutes(sche.from),
+          to: convertHourToMinutes(sche.to),
         });
       }
 

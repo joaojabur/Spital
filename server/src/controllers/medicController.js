@@ -125,7 +125,6 @@ module.exports = {
       cpf,
       rg,
       birthDate,
-      schedule,
     } = req.body;
 
     const hashPassword = await bcrypt.hash(password, 10);
@@ -154,7 +153,7 @@ module.exports = {
           xp: 0,
         });
 
-        const medicID = await knex("medics")
+        await knex("medics")
           .returning("id")
           .insert({
             userID: parseInt(userID),
@@ -168,20 +167,6 @@ module.exports = {
             rg,
           });
 
-        const scheduleID = await knex("schedules")
-          .returning("id")
-          .insert({ medicID: parseInt(medicID) });
-
-        for (let sche of schedule) {
-          console.log(sche.from, convertHourToMinutes(sche.from));
-          await knex("medic_schedule").insert({
-            scheduleID: parseInt(scheduleID),
-            week_day: sche.week_day,
-            from: convertHourToMinutes(sche.from),
-            to: convertHourToMinutes(sche.to),
-          });
-        }
-
         await verify({
           id: parseInt(userID),
           email,
@@ -190,7 +175,7 @@ module.exports = {
 
         res.status(201).json({
           success: true,
-          message: "Cadastro realizado com sucesso!",
+          message: "Informações enviadas com sucesso!",
         });
       }
     } catch (error) {
