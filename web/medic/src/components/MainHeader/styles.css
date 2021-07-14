@@ -29,12 +29,14 @@
 
 .main-header-title {
   margin: 0 20px;
+  text-align: center;
 }
 
 .main-header-title h1 {
   font-size: 3rem;
   color: var(--color-button-light-text);
   font-weight: 700;
+  text-align: center;
 }
 
 .main-header-title h3 {

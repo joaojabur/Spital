@@ -86,7 +86,7 @@ const InvoiceAddress = ({ previousPage, nextPage }: PagesProps) => {
       //@ts-ignore
       delete errors.schedule;
     }
-    
+
     const loopedErrors = Object.values(errors);
 
     if (loopedErrors.length > 0) {
@@ -116,7 +116,7 @@ const InvoiceAddress = ({ previousPage, nextPage }: PagesProps) => {
               )
               .then((res: any) => {
                 if (res.status === 201) {
-                  nextPage();
+                  window.location.reload();
                 } else {
                   spinner.close();
                   setError(

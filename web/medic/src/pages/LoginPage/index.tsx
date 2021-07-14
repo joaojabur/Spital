@@ -30,8 +30,6 @@ export default function LoginPage() {
     setError(error);
   }
 
-  const [isLoading, setIsLoading] = useState(false);
-
   const [showPassword, setShowPassword] = useState(false);
 
   function handleShowPassword() {

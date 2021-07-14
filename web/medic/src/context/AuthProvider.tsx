@@ -113,9 +113,9 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         password: password,
       });
 
-      let { token, id, confirmed } = response.data;
+      let { token, id, confirmed, accepted } = response.data;
 
-      if (confirmed) {
+      if (confirmed && accepted) {
         Cookies.set("access-token", token);
         setUserID(id);
 

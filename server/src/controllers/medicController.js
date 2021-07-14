@@ -1,7 +1,6 @@
 const knex = require("../database");
 const jwt = require("jsonwebtoken");
 const authConfig = require("../configs/authConfig.json");
-const convertHourToMinutes = require("../utils/convertHoursToMinutes");
 const bcrypt = require("bcrypt");
 const verify = require("../services/email/verify");
 
@@ -351,6 +350,7 @@ module.exports = {
         res.status(201).send({
           id: user.id,
           confirmed: user.confirmed,
+          accepted: medic.accepted,
           token,
         });
       } else {

@@ -1,0 +1,19 @@
+.form-container {
+  padding: 2 !important;
+  height: 95vh;
+  margin-top: 20rem !important;
+  background-color: transparent !important;
+}
+
+.form-container-flex {
+  background-color: #fff !important;
+  padding: 4rem;
+  border-top-left-radius: 4rem;
+  border-top-right-radius: 4rem;
+}
+
+.schedule-item {
+  padding: 5rem;
+  background-color: #fff;
+  border-radius: 0;
+}

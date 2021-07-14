@@ -38,10 +38,6 @@ const MedicAcademicData = ({ nextPage, previousPage }: MedicNamesProps) => {
       value: "Endocrinologista",
     },
     {
-      label: "Endoscopista",
-      value: "Endoscopista",
-    },
-    {
       label: "Gastroenterologista",
       value: "Gastroenterologista",
     },
@@ -80,6 +76,10 @@ const MedicAcademicData = ({ nextPage, previousPage }: MedicNamesProps) => {
     {
       label: "Oftalmologista",
       value: "Oftalmologista",
+    },
+    {
+      label: "Odontologista",
+      value: "Odontologista",
     },
     {
       label: "Ortopedista",
@@ -134,7 +134,7 @@ const MedicAcademicData = ({ nextPage, previousPage }: MedicNamesProps) => {
       <h2>Dados Acadêmicos</h2>
       <div className="line"></div>
       <Select
-        name="week_day"
+        name="area"
         onChange={(e: any) =>
           setMedicData({ ...medicData, area: e.target.value })
         }
@@ -199,7 +199,7 @@ const MedicAcademicData = ({ nextPage, previousPage }: MedicNamesProps) => {
       <TextField
         value={medicData?.crm}
         placeholder="010201/SP"
-        label={<span style={{ fontSize: "1.5rem" }}>CRM</span>}
+        label={<span style={{ fontSize: "1.5rem" }}>CRM, CRO, etc...</span>}
         style={{ marginTop: "1rem" }}
         variant="outlined"
         fullWidth
