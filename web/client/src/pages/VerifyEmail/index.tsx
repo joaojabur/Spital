@@ -22,7 +22,7 @@ export default function VerifyEmail() {
       }
 
       setTimeout(() => {
-        history.replace("/entrar-paciente");
+        history.replace("/login-spital-paciente");
       }, 3000);
     } catch (err) {
       console.log(err);

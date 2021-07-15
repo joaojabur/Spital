@@ -16,7 +16,6 @@ interface MedicError {
   rg: string;
   birthDate: string;
   crm: string;
-  schedule: Array<string>;
 }
 
 interface Medic {
@@ -34,17 +33,10 @@ interface Medic {
   rg: string;
   birthDate: string;
   crm: string;
-  schedule: Array<Schedule>;
-}
-
-interface Schedule {
-  week_day: number;
-  from: string;
-  to: string;
 }
 
 export default function validateMedicInfo(credentials?: Medic) {
-  let errors = { schedule: new Array<string>() } as MedicError;
+  let errors = {} as MedicError;
 
   if (credentials !== null) {
     if (!credentials?.firstName?.length ?? 0) {
@@ -151,39 +143,6 @@ export default function validateMedicInfo(credentials?: Medic) {
         }
       } else {
         errors.birthDate = "Você precisa ser maior de 18 anos";
-      }
-    }
-
-    if (!credentials?.schedule?.length ?? 0) {
-      if (errors.schedule.length > 0) {
-        errors.schedule[0] =
-          "Você precisa informar pelo menos um dia da semana.";
-      } else {
-        errors.schedule.push(
-          "Você precisa informar pelo menos um dia da semana."
-        );
-      }
-    } else if (typeof credentials.schedule !== "string") {
-      let i = 0;
-      for (let appointment of credentials?.schedule) {
-        if (appointment.from.length === 0 || appointment.to.length === 0) {
-          if (errors?.schedule?.length < i) {
-            errors.schedule[i] = "Campo não pode ser vazio";
-          } else {
-            errors.schedule.push("Campo não pode ser vazio");
-          }
-        } else {
-          const from = convertHourToMinutes(appointment.from);
-          const to = convertHourToMinutes(appointment.to);
-
-          if (from > to) {
-            if (errors?.schedule?.length < i) {
-              errors.schedule[i] = "Carga horária inválida";
-            } else {
-              errors.schedule.push("Carga horária inválida");
-            }
-          }
-        }
       }
     }
   }

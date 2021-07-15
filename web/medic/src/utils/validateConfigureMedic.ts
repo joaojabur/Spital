@@ -16,6 +16,13 @@ interface MedicConfigureData {
   lon: number | null;
   bankData: BankData;
   invoiceAddress: InvoiceAddressProps;
+  schedule: Array<Schedule>;
+}
+
+interface Schedule {
+  week_day: number;
+  from: string;
+  to: string;
 }
 
 interface MedicConfigureDataErrors {
@@ -26,14 +33,49 @@ interface MedicConfigureDataErrors {
   lon: number | null;
   bankData: BankData;
   invoiceAddress: InvoiceAddressProps;
+  schedule: Array<string>;
 }
 
 export default function refreshUserValidate(credentials: MedicConfigureData) {
   let errors = {
     appointments: new Array<string>(),
+    schedule: new Array<string>(),
   } as MedicConfigureDataErrors;
 
   if (credentials !== null) {
+    if (!credentials?.schedule?.length ?? 0) {
+      if (errors.schedule.length > 0) {
+        errors.schedule[0] =
+          "Você precisa informar pelo menos um dia da semana.";
+      } else {
+        errors.schedule.push(
+          "Você precisa informar pelo menos um dia da semana."
+        );
+      }
+    } else if (typeof credentials.schedule !== "string") {
+      let i = 0;
+      for (let appointment of credentials?.schedule) {
+        if (appointment.from.length === 0 || appointment.to.length === 0) {
+          if (errors?.schedule?.length < i) {
+            errors.schedule[i] = "Campo não pode ser vazio";
+          } else {
+            errors.schedule.push("Campo não pode ser vazio");
+          }
+        } else {
+          const from = convertHourToMinutes(appointment.from);
+          const to = convertHourToMinutes(appointment.to);
+
+          if (from > to) {
+            if (errors?.schedule?.length < i) {
+              errors.schedule[i] = "Carga horária inválida";
+            } else {
+              errors.schedule.push("Carga horária inválida");
+            }
+          }
+        }
+      }
+    }
+
     if (!credentials?.appointments?.length) {
       if (errors.appointments.length > 0) {
         errors.appointments[0] =

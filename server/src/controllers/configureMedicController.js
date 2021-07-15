@@ -1,5 +1,6 @@
 const knex = require("../database");
 const NodeGeocoder = require("node-geocoder");
+const convertHourToMinutes = require("../utils/convertHoursToMinutes");
 
 const options = {
   provider: "google",
@@ -18,12 +19,8 @@ module.exports = {
 
     try {
       const { medicID, userID } = req.query;
-      let {
-        bankData,
-        invoiceAddress,
-      } = req.body;
-
-     
+      let { bankData, invoiceAddress } = req.body;
+      console.log(medicID, userID, bankData, invoiceAddress);
 
       const [firstName, lastName] = bankData.fullName.split(" ");
 
@@ -85,10 +82,14 @@ module.exports = {
   },
 
   async createBankAccount(req, res, next) {
+    console.log("I am here!")
     const { moipAccountId } = req.params;
     const { accessToken, medicID, userID } = req.query;
 
-    let { bankData, appointments, number, address, lat, lon } = req.body;
+    let { bankData, appointments, number, address, lat, lon, schedule } =
+      req.body;
+
+    console.log(schedule);
 
     if (lat === null || lon === null) {
       const [res] = await geocoder.geocode(address);
@@ -129,6 +130,20 @@ module.exports = {
           price: `${appointment.price}`,
           description: null,
           medicID: medicID,
+        });
+      }
+
+      const scheduleID = await knex("schedules")
+        .returning("id")
+        .insert({ medicID: parseInt(medicID) });
+
+      for (let sche of schedule) {
+        console.log(sche.from, convertHourToMinutes(sche.from));
+        await knex("medic_schedule").insert({
+          scheduleID: parseInt(scheduleID),
+          week_day: sche.week_day,
+          from: convertHourToMinutes(sche.from),
+          to: convertHourToMinutes(sche.to),
         });
       }
 

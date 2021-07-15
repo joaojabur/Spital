@@ -1,4 +1,3 @@
-import React from "react";
 import Benefits from "../../components/Benefits";
 import Header from "../../components/Header";
 import LeftSideBenefit from "../../components/LeftSideBenefit";
@@ -13,12 +12,14 @@ import RightSideBenefit from "../../components/RightSideBenefit";
 import Tax from "../../components/Tax";
 import Refund from "../../components/Refund";
 import Footer from "../../components/Footer";
+import Video from "../../components/Video";
 
 const LandingPage = () => {
   return (
     <div className="landing-page">
       <Header />
       <Presentation />
+      <Video />
       <Benefits />
       <Title />
       <LeftSideBenefit
@@ -39,7 +40,7 @@ const LandingPage = () => {
       <RightSideBenefit
         title="Sistema de pagamento"
         image={wallet}
-        description="No Spital, utilizamos um sistema de pagamento desenvolvido pela Stripe. Com um clique você consegue sacar seu dinheiro das consultas!"
+        description="Na Spital utilizamos um sistema de pagamento desenvolvido pela PagSeguro. Com um clique você consegue sacar seu dinheiro das consultas!"
       />
       <Tax />
       <Refund />

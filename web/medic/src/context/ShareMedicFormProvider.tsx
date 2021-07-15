@@ -15,13 +15,6 @@ interface MedicData {
   rg: string;
   birthDate: string;
   crm: string;
-  schedule: Array<Schedule>;
-}
-
-interface Schedule {
-  week_day: number;
-  from: string;
-  to: string;
 }
 
 interface ShareMedicFormContextData {
@@ -55,13 +48,6 @@ export default function ShareClientFormProvider({
     rg: "",
     birthDate: "",
     crm: "",
-    schedule: [
-      {
-        week_day: 0,
-        from: "08:30",
-        to: "17:00",
-      },
-    ],
   } as MedicData);
 
   let value = {

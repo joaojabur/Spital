@@ -9,34 +9,32 @@ import { useHistory } from "react-router-dom";
 import MedicCredentials from "../../components/Form/Steps/Credentials";
 import MedicAcademicData from "../../components/Form/Steps/AcademicData";
 import MedicPersonalData from "../../components/Form/Steps/PersonalData";
-import MedicSchedule from "../../components/Form/Steps/Schedule";
 import MedicReview from "../../components/Form/Steps/Review";
 
 const RegisterMedicalSpitalNames = () => {
   const history = useHistory();
-  const [ currentPage, setCurrentPage ] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
   let pages: Array<JSX.Element> = [
-    <MedicNames nextPage={nextPage} previousPage={previousPage}/>,
-    <MedicCredentials nextPage={nextPage} previousPage={previousPage}/>,
-    <MedicAcademicData nextPage={nextPage} previousPage={previousPage}/>,
-    <MedicPersonalData nextPage={nextPage} previousPage={previousPage}/>,
-    <MedicSchedule nextPage={nextPage} previousPage={previousPage}/>,
-    <MedicReview changePage={changePage} previousPage={previousPage}/>
-  ]
+    <MedicNames nextPage={nextPage} previousPage={previousPage} />,
+    <MedicCredentials nextPage={nextPage} previousPage={previousPage} />,
+    <MedicAcademicData nextPage={nextPage} previousPage={previousPage} />,
+    <MedicPersonalData nextPage={nextPage} previousPage={previousPage} />,
+    <MedicReview changePage={changePage} previousPage={previousPage} />,
+  ];
 
-  function changePage(index: number){
+  function changePage(index: number) {
     setCurrentPage(index);
   }
-  function previousPage(){
-    if (currentPage === 0){
-      history.replace('/');
+  function previousPage() {
+    if (currentPage === 0) {
+      history.replace("/");
     }
 
-    setCurrentPage(currentPage - 1)
+    setCurrentPage(currentPage - 1);
   }
 
-  function nextPage(){
-    if (currentPage + 1 < pages.length){
+  function nextPage() {
+    if (currentPage + 1 < pages.length) {
       setCurrentPage(currentPage + 1);
     }
   }
@@ -45,13 +43,11 @@ const RegisterMedicalSpitalNames = () => {
     <div className="register-spital-container">
       <ShareMedicFormProvider>
         <MainHeader
-          title="Insira suas informações para que a gente consiga realizar seu cadastro"
+          title="Insira suas informações para analizarmos seus dados"
           returnFunction={previousPage}
         />
 
-        {
-          pages[currentPage]
-        }
+        {pages[currentPage]}
       </ShareMedicFormProvider>
     </div>
   );

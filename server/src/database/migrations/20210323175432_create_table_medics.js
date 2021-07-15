@@ -17,6 +17,7 @@ exports.up = function (knex) {
     table.text("bankAccountID");
 
     table.boolean("configured").defaultTo(false);
+    table.boolean("accepted").defaultTo(false);
 
     table
       .integer("userID")

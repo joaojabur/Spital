@@ -6,6 +6,7 @@ import ClinicAddress from "../../components-platform/ConfigureMedicPages/ClinicA
 import InvoiceAddress from "../../components-platform/ConfigureMedicPages/InvoiceAddress";
 import Landing from "../../components-platform/ConfigureMedicPages/Landing";
 import Success from "../../components-platform/ConfigureMedicPages/Success";
+import MedicSchedule from "../../components-platform/ConfigureMedicPages/Schedule";
 import { useAuth } from "../../context/AuthProvider";
 import ShareMedicConfigureFormProvider from "../../context/ShareMedicConfigureFormProvider";
 import "./styles.css";
@@ -28,6 +29,7 @@ const ConfigureMedic = () => {
   let pages: Array<JSX.Element> = [
     <Landing previousPage={previousPage} nextPage={nextPage} />,
     <AppointmentInfo previousPage={previousPage} nextPage={nextPage} />,
+    <MedicSchedule nextPage={nextPage} previousPage={previousPage}/>,
     <ClinicAddress previousPage={previousPage} nextPage={nextPage} />,
     <BankData previousPage={previousPage} nextPage={nextPage} />,
     <InvoiceAddress previousPage={previousPage} nextPage={nextPage} />,

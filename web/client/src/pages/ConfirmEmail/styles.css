@@ -38,6 +38,14 @@
   text-align: center;
 }
 
+.confirm-email h3 {
+  font-size: 3rem;
+  color: #f00;
+  font-weight: bold;
+  margin-bottom: 4rem;
+  text-align: center;
+}
+
 .confirm-email p {
   font-size: 2rem;
   color: #000;
@@ -51,6 +59,10 @@
 
   .confirm-email h2 {
     margin-top: 0rem;
+  }
+
+  .confirm-email h3 {
+    margin-bottom: 2rem;
   }
 
   .confirm-email img {
