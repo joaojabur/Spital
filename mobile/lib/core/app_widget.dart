@@ -1,3 +1,4 @@
+import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/Widgets/profile/profile_agend.dart';
 import 'package:Spital/Screens/Home/home_page.dart';
 import 'package:Spital/Screens/Login/login_page.dart';
 import 'package:Spital/Screens/Logon/logon.dart';
@@ -13,26 +14,25 @@ class AppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        Provider<AuthController>(
-          create: (context) => AuthController(),
-        ),
-        Provider<LocationController>(
-          create: (context) => LocationController()
-        )
-      ],
-      child: MaterialApp(
-        title: "Spital",
-        debugShowCheckedModeBanner: false,
-        initialRoute: '/splash',
-        routes: {
-          '/splash': (context) => SplashPage(),
-          '/': (context) => HomePage(),
-          '/logon': (context) => LogonPage(),
-          '/login': (context) => LoginPage(),
-          '/resgister': (context) => RegisterPage(),
-        },
-      )
-    );
+        providers: [
+          Provider<AuthController>(
+            create: (context) => AuthController(),
+          ),
+          Provider<LocationController>(
+              create: (context) => LocationController())
+        ],
+        child: MaterialApp(
+          title: "Spital",
+          debugShowCheckedModeBanner: false,
+          initialRoute: '/splash',
+          routes: {
+            '/splash': (context) => SplashPage(),
+            '/': (context) => HomePage(),
+            '/logon': (context) => LogonPage(),
+            '/login': (context) => LoginPage(),
+            '/resgister': (context) => RegisterPage(),
+            '/profile': (context) => ProfileAgend(),
+          },
+        ));
   }
 }
