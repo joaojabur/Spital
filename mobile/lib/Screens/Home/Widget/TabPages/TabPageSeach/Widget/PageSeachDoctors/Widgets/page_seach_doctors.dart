@@ -1,6 +1,7 @@
-import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/Widgets/list_doctor_by_area.dart';
-import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/sliver_app_bar_seach_doctors.dart';
+import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/Widgets/list/list_doctor_by_area.dart';
 import 'package:flutter/material.dart';
+
+import 'appbar/sliver_app_bar_seach_doctors.dart';
 
 class PageSeachDoctors extends StatefulWidget {
   const PageSeachDoctors({Key? key, required this.texto, required this.image})
