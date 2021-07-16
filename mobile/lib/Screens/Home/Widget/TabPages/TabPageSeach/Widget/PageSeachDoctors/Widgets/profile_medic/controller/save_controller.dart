@@ -9,5 +9,6 @@ abstract class _SaveControllerBase with Store {
   @action
   changeValue() {
     save = !save;
+    print(save);
   }
 }

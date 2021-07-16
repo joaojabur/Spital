@@ -1,9 +1,9 @@
-import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/Widgets/profile/controller/save_controller.dart';
+import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/Widgets/profile_medic/controller/save_controller.dart';
+import 'package:Spital/Screens/Shared/Models/medic_model.dart';
 import 'package:Spital/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:ionicons/ionicons.dart';
-
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class AppbarProfileMedic extends PreferredSize {
   final void Function()? onpressed;
@@ -17,8 +17,10 @@ class AppbarProfileMedic extends PreferredSize {
   final IconData iconLeft;
   final IconData iconRight;
   final SaveController saveController;
+  final MedicModel medicModel;
   AppbarProfileMedic(
       {required this.nome,
+      required this.medicModel,
       required this.saveController,
       required this.area,
       required this.image,
@@ -64,72 +66,76 @@ class AppbarProfileMedic extends PreferredSize {
                                           height: 40,
                                           width: 45,
                                           child: ElevatedButton(
-                                              style: ButtonStyle(
-                                                  padding: MaterialStateProperty
-                                                      .all<EdgeInsets>(
-                                                          EdgeInsets.only(
-                                                              right: 20)),
-                                                  backgroundColor:
-                                                      MaterialStateProperty.all<
-                                                          Color>(Colors.white),
-                                                  shape: MaterialStateProperty
-                                                      .all<RoundedRectangleBorder>(
-                                                          RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                  ))),
-                                              onPressed: topleftIcon
-                                                  ? onpressed
-                                                  : null,
-                                              child: IconButton(
-                                                icon: Icon(
-                                                  iconLeft,
-                                                  size: 25,
-                                                  color: Colors.black,
-                                                ),
-                                                onPressed: () {},
-                                              )))
+                                            style: ButtonStyle(
+                                                padding: MaterialStateProperty
+                                                    .all<EdgeInsets>(
+                                                        EdgeInsets.only(
+                                                            right: 20)),
+                                                backgroundColor:
+                                                    MaterialStateProperty.all<
+                                                        Color>(Colors.white),
+                                                shape: MaterialStateProperty.all<
+                                                        RoundedRectangleBorder>(
+                                                    RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                ))),
+                                            onPressed:
+                                                topleftIcon ? onpressed : null,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 7),
+                                              child: Icon(
+                                                iconLeft,
+                                                size: 25,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ))
                                       : null,
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 20),
+                                  padding:
+                                      const EdgeInsets.only(right: 20, top: 5),
                                   child: topRightIcon
                                       ? Observer(builder: (_) {
                                           return Container(
                                               height: 40,
                                               width: 40,
                                               child: ElevatedButton(
-                                                  style: ButtonStyle(
-                                                      padding: MaterialStateProperty
-                                                          .all<EdgeInsets>(
-                                                              EdgeInsets.only(
-                                                                  right: 20)),
-                                                      backgroundColor:
-                                                          MaterialStateProperty
-                                                              .all<Color>(
-                                                                  Colors.white),
-                                                      shape: MaterialStateProperty.all<
-                                                              RoundedRectangleBorder>(
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10.0),
-                                                      ))),
-                                                  onPressed: topRightIcon
-                                                      ? onpressed2
-                                                      : null,
-                                                  child: IconButton(
-                                                    icon: Icon(
-                                                      saveController.save
-                                                          ? Icons.bookmark
-                                                          : iconRight,
-                                                      size: 25,
-                                                      color: AppColors.darkBlue,
-                                                    ),
-                                                    onPressed: saveController
-                                                        .changeValue,
-                                                  )));
+                                                style: ButtonStyle(
+                                                    padding:
+                                                        MaterialStateProperty
+                                                            .all<EdgeInsets>(
+                                                                EdgeInsets.only(
+                                                                    right: 20)),
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all<Color>(
+                                                                Colors.white),
+                                                    shape: MaterialStateProperty
+                                                        .all<RoundedRectangleBorder>(
+                                                            RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                    ))),
+                                                onPressed:
+                                                    saveController.changeValue,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 7),
+                                                  child: Icon(
+                                                    saveController.save
+                                                        ? Icons.bookmark
+                                                        : iconRight,
+                                                    size: 25,
+                                                    color: AppColors.darkBlue,
+                                                  ),
+                                                ),
+                                              ));
                                         })
                                       : null,
                                 ),
@@ -170,25 +176,24 @@ class AppbarProfileMedic extends PreferredSize {
                                         padding: const EdgeInsets.only(top: 3),
                                         child: Row(
                                           children: [
-                                            Icon(
-                                              Ionicons.star,
-                                              color: Colors.yellow,
-                                            ),
-                                            Icon(
-                                              Ionicons.star,
-                                              color: Colors.yellow,
-                                            ),
-                                            Icon(
-                                              Ionicons.star,
-                                              color: Colors.yellow,
-                                            ),
-                                            Icon(
-                                              Ionicons.star,
-                                              color: Colors.yellow,
-                                            ),
-                                            Icon(
-                                              Ionicons.star,
-                                              color: Colors.yellow,
+                                            RatingBar.builder(
+                                              ignoreGestures: true,
+                                              initialRating: double.parse(
+                                                  medicModel.rating),
+                                              minRating: 1,
+                                              direction: Axis.horizontal,
+                                              allowHalfRating: true,
+                                              itemCount: 5,
+                                              itemSize: 20,
+                                              itemPadding: EdgeInsets.symmetric(
+                                                  horizontal: 2.0),
+                                              itemBuilder: (context, _) => Icon(
+                                                Icons.star,
+                                                color: Colors.amber,
+                                              ),
+                                              onRatingUpdate: (rating) {
+                                                print(rating);
+                                              },
                                             ),
                                           ],
                                         ),

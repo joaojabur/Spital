@@ -1,4 +1,4 @@
-import 'package:Spital/Screens/Home/Widget/TabPages/TabPageCalendar/Widget/detalhe_consulta.dart';
+import 'package:Spital/Screens/Home/Widget/TabPages/TabPageConsulta/Widget/detalhe_consulta.dart';
 import 'package:Spital/core/core.dart';
 import 'package:flutter/material.dart';
 

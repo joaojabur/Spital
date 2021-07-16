@@ -1,4 +1,5 @@
-import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/Widgets/profile/profile_agend.dart';
+import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/Widgets/profile_medic/profile_agend.dart';
+import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/page_seach.dart';
 import 'package:Spital/Screens/Home/home_page.dart';
 import 'package:Spital/Screens/Login/login_page.dart';
 import 'package:Spital/Screens/Logon/logon.dart';
@@ -31,7 +32,9 @@ class AppWidget extends StatelessWidget {
             '/logon': (context) => LogonPage(),
             '/login': (context) => LoginPage(),
             '/resgister': (context) => RegisterPage(),
-            '/profile': (context) => ProfileAgend(),
+            '/medic': (context) => ProfileAgend(),
+            '/client': (context) => ProfileAgend(),
+            '/seach': (context) => PageSeach(),
           },
         ));
   }

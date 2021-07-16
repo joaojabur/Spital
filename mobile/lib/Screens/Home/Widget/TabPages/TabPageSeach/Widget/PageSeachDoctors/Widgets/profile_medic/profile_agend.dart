@@ -1,5 +1,5 @@
-import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/Widgets/profile/appbar_profile_medic/appbar_profile_medic.dart';
-import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/Widgets/profile/controller/save_controller.dart';
+import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/Widgets/profile_medic/appbar_profile_medic/appbar_profile_medic.dart';
+import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/Widgets/profile_medic/controller/save_controller.dart';
 import 'package:Spital/Screens/Shared/Models/medic_model.dart';
 import 'package:Spital/core/core.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +31,6 @@ class _ProfileAgendState extends State<ProfileAgend> {
   Widget build(BuildContext context) {
     SaveController saveController = SaveController();
     final medic = ModalRoute.of(context)!.settings.arguments as MedicModel;
-    var endereco = medic.address;
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -62,6 +61,7 @@ class _ProfileAgendState extends State<ProfileAgend> {
             nome: medic.firstName,
             nota: '',
             saveController: saveController,
+            medicModel: medic,
           ),
           body: Container(
             child: Column(
@@ -140,13 +140,10 @@ class _ProfileAgendState extends State<ProfileAgend> {
                                             Icons.explore,
                                             color: AppColors.darkBlue,
                                           ),
-                                          TextButton(
-                                            onPressed: abrirGoogleMaps,
-                                            child: Text(
-                                              "Ver no mapa",
-                                              style: TextStyle(
-                                                  color: AppColors.darkBlue),
-                                            ),
+                                          InkWell(
+                                            child: new Text('Ver no mapa'),
+                                            onTap: () => launch(
+                                                'https://www.google.com/maps/place/${medic.address} ${medic.number}'),
                                           ),
                                         ],
                                       ),
