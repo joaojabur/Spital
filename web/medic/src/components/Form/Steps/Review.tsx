@@ -36,14 +36,6 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
   async function handleSubmitForm(e: any) {
     setIsLoading(true);
     e.preventDefault();
-    /*
-    if (!errors?.schedule?.length) {
-      //@ts-ignore
-      delete errors.schedule;
-    }
-    */
-
-    console.log(errors);
 
     const loopedErrors = Object.values(errors);
     if (loopedErrors.length > 0) {

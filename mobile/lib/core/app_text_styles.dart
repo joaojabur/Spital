@@ -5,14 +5,21 @@ import 'app_colors.dart';
 class AppTextStyles {
   static final TextStyle titleBold = GoogleFonts.quicksand(
       color: AppColors.black, fontSize: 33, fontWeight: FontWeight.bold);
+  static final TextStyle titleBoldWriteMaiorPlus = GoogleFonts.quicksand(
+      color: Colors.white, fontSize: 33, fontWeight: FontWeight.bold);
   static final TextStyle titleBoldRegistered = GoogleFonts.quicksand(
       color: AppColors.verde, fontSize: 28, fontWeight: FontWeight.bold);
+  static final TextStyle titleBoldWrite = GoogleFonts.quicksand(
+      color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold);
+  static final TextStyle titleBoldWriteMaior = GoogleFonts.quicksand(
+      color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold);
   static final TextStyle titleBold2 = GoogleFonts.quicksand(
       color: AppColors.black, fontSize: 28, fontWeight: FontWeight.bold);
   static final TextStyle titleBold3 = GoogleFonts.quicksand(
       color: AppColors.black, fontSize: 20, fontWeight: FontWeight.bold);
   static final TextStyle titleBold4 = GoogleFonts.quicksand(
       color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold);
+
   static final TextStyle titleBold5 = GoogleFonts.quicksand(
       color: AppColors.black, fontSize: 14, fontWeight: FontWeight.bold);
   static final TextStyle loginDescription = GoogleFonts.quicksand(
@@ -54,6 +61,8 @@ class AppTextStyles {
 
   static final TextStyle topicName = GoogleFonts.roboto(
       color: AppColors.black, fontSize: 20, fontWeight: FontWeight.bold);
+  static final TextStyle topicNameDoctorMaior = GoogleFonts.roboto(
+      color: AppColors.black, fontSize: 20, fontWeight: FontWeight.bold);
   static final TextStyle topicNameDoctor = GoogleFonts.roboto(
       color: AppColors.black, fontSize: 14, fontWeight: FontWeight.bold);
 
@@ -61,6 +70,8 @@ class AppTextStyles {
       color: AppColors.lighGray, fontSize: 12, fontWeight: FontWeight.w500);
   static final TextStyle topicDescriptionDoctor = GoogleFonts.roboto(
       color: AppColors.gray, fontSize: 12, fontWeight: FontWeight.w500);
+  static final TextStyle topicDescriptionDoctorMaior = GoogleFonts.roboto(
+      color: AppColors.gray, fontSize: 16, fontWeight: FontWeight.w500);
 
   static final TextStyle topicDistance = GoogleFonts.roboto(
     color: AppColors.lighGray,

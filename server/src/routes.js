@@ -15,6 +15,9 @@ const addressController = require("./controllers/addressController");
 const consultTypeController = require("./controllers/consultTypeController");
 const cardController = require("./controllers/cardController");
 const configureMedicController = require("./controllers/configureMedicController");
+const acceptMedicController = require("./controllers/acceptMedicController");
+
+routes.post("/accept-medic/:medicID", acceptMedicController.create);
 
 routes.get("/users", userController.index);
 routes.delete("/users/:id", userController.delete);

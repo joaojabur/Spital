@@ -1,6 +1,7 @@
 const knex = require("../database");
 const NodeGeocoder = require("node-geocoder");
 const { uploadS3 } = require('../services/s3');
+const convertHourToMinutes = require("../utils/convertHoursToMinutes");
 
 const options = {
   provider: "google",
@@ -20,6 +21,7 @@ module.exports = {
     try {
       const { medicID, userID } = req.query;
       let { bankData, invoiceAddress } = req.body;
+      console.log(medicID, userID, bankData, invoiceAddress);
 
       const [firstName, lastName] = bankData.fullName.split(" ");
 
@@ -105,11 +107,14 @@ module.exports = {
   },
 
   async createBankAccount(req, res, next) {
+    console.log("I am here!")
     const { moipAccountId } = req.params;
     const { accessToken, medicID, userID } = req.query;
 
     let { bankData, appointments, number, address, lat, lon, schedule } =
       req.body;
+
+    console.log(schedule);
 
     if (lat === null || lon === null) {
       const [res] = await geocoder.geocode(address);
@@ -152,8 +157,6 @@ module.exports = {
           medicID: medicID,
         });
       }
-
-      console.log(schedule);
 
       const scheduleID = await knex("schedules")
         .returning("id")

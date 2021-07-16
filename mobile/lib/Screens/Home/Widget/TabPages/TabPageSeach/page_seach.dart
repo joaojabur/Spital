@@ -1,4 +1,4 @@
-import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/page_seach_doctors.dart';
+import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/Widgets/page_seach_doctors.dart';
 import 'package:Spital/Screens/Shared/Widgets/AppbarThird/sliver_appbar_bottom.dart';
 import 'package:Spital/core/core.dart';
 import 'package:flutter/material.dart';

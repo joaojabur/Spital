@@ -75,13 +75,15 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
     field: string,
     value: string
   ) {
-    const newScheduleItem = medicDataConfigure.schedule.map((scheduleItem, index) => {
-      if (index === position) {
-        return { ...scheduleItem, [field]: value };
-      }
+    const newScheduleItem = medicDataConfigure.schedule.map(
+      (scheduleItem, index) => {
+        if (index === position) {
+          return { ...scheduleItem, [field]: value };
+        }
 
-      return scheduleItem;
-    });
+        return scheduleItem;
+      }
+    );
 
     setMedicDataConfigure({ ...medicDataConfigure, schedule: newScheduleItem });
   }
@@ -92,102 +94,107 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
 
     newScheduleItems.splice(index, 1);
 
-    setMedicDataConfigure({ ...medicDataConfigure, schedule: newScheduleItems });
+    setMedicDataConfigure({
+      ...medicDataConfigure,
+      schedule: newScheduleItems,
+    });
   }
 
   return (
-    <form className="form-container">
-      <div className="form-container-flex">
-        <h2>Horários disponíveis</h2>
+    <>
+      <form className="form-container">
+        <div className="form-container-flex">
+          <h2>Horários disponíveis</h2>
 
-        <div className="add-button" onClick={addNewScheduleItem}>
-          + Novo horário
-        </div>
-      </div>
-
-      <div className="line"></div>
-
-      {medicDataConfigure.schedule.map((scheduleItem, index) => {
-        return (
-          <div key={scheduleItem.week_day} className="schedule-item">
-            <span className="schedule-item-label">Dia da semana</span>
-            <Select
-              name="week_day"
-              onChange={(e: any) =>
-                setScheduleItemValue(index, "week_day", e.target.value)
-              }
-              value={scheduleItem.week_day}
-              options={weekDays}
-            />
-
-            <div className="schedule-item-horizontal">
-              <div className="schedule-item-input">
-                <span className="schedule-item-label">Das</span>
-                <input
-                  value={scheduleItem.from}
-                  name="from"
-                  type="time"
-                  onChange={(e: any) => {
-                    setScheduleItemValue(index, "from", e.target.value);
-                  }}
-                />
-              </div>
-
-              <div className="schedule-item-input">
-                <span className="schedule-item-label">Até</span>
-                <input
-                  value={scheduleItem.to}
-                  name="to"
-                  type="time"
-                  onChange={(e: any) => {
-                    setScheduleItemValue(index, "to", e.target.value);
-                  }}
-                />
-              </div>
-            </div>
-            <p
-              style={{
-                margin: "2rem 0",
-                color: "#f00",
-                fontSize: "2rem",
-                fontWeight: "bold",
-                textAlign: "center",
-              }}
-            >
-              {errors?.schedule?.length >= index ? errors?.schedule[index] : null}
-            </p>
-            <div
-              onClick={(e: any) => {
-                deleteScheduleItem(index);
-              }}
-              className="line-gray"
-            >
-              <span>Excluir horário</span>
-            </div>
+          <div className="add-button" onClick={addNewScheduleItem}>
+            + Novo horário
           </div>
-        );
-      })}
+        </div>
 
-      <p
-        style={{
-          fontSize: "2rem",
-          color: "#f00",
-          fontWeight: "bold",
-          textAlign: "center",
-        }}
-      >
-        {medicDataConfigure.schedule.length === 0
-          ? "Você precisa informar pelo menos um dia da semana."
-          : null}
-      </p>
+        {medicDataConfigure.schedule.map((scheduleItem, index) => {
+          return (
+            <div key={scheduleItem.week_day} className="schedule-item">
+              <span className="schedule-item-label">Dia da semana</span>
+              <Select
+                name="week_day"
+                onChange={(e: any) =>
+                  setScheduleItemValue(index, "week_day", e.target.value)
+                }
+                value={scheduleItem.week_day}
+                options={weekDays}
+              />
 
-      <button className="secondary" onClick={previousPage}>
-        Anterior
-      </button>
-      <button className="primary" onClick={nextPage}>
-        Próximo
-      </button>
-    </form>
+              <div className="schedule-item-horizontal">
+                <div className="schedule-item-input">
+                  <span className="schedule-item-label">Das</span>
+                  <input
+                    value={scheduleItem.from}
+                    name="from"
+                    type="time"
+                    onChange={(e: any) => {
+                      setScheduleItemValue(index, "from", e.target.value);
+                    }}
+                  />
+                </div>
+
+                <div className="schedule-item-input">
+                  <span className="schedule-item-label">Até</span>
+                  <input
+                    value={scheduleItem.to}
+                    name="to"
+                    type="time"
+                    onChange={(e: any) => {
+                      setScheduleItemValue(index, "to", e.target.value);
+                    }}
+                  />
+                </div>
+              </div>
+              <p
+                style={{
+                  margin: "2rem 0",
+                  color: "#f00",
+                  fontSize: "2rem",
+                  fontWeight: "bold",
+                  textAlign: "center",
+                }}
+              >
+                {errors?.schedule?.length >= index
+                  ? errors?.schedule[index]
+                  : null}
+              </p>
+              <div
+                onClick={(e: any) => {
+                  deleteScheduleItem(index);
+                }}
+                className="line-gray"
+              >
+                <span>Excluir horário</span>
+              </div>
+            </div>
+          );
+        })}
+
+        <p
+          style={{
+            fontSize: "2rem",
+            color: "#f00",
+            fontWeight: "bold",
+            textAlign: "center",
+          }}
+        >
+          {medicDataConfigure.schedule.length === 0
+            ? "Você precisa informar pelo menos um dia da semana."
+            : null}
+        </p>
+
+        <button className="secondary" onClick={previousPage}>
+          Anterior
+        </button>
+        <button style={{ marginBottom: '2rem' }} className="primary" onClick={nextPage}>
+          Próximo
+        </button>
+      </form>
+    </>
   );
 };
 

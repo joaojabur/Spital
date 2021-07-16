@@ -1,5 +1,3 @@
-import React from "react";
-import { PagesProps } from "../../../platform-pages/ConfigureMedic";
 import happyImg from "../../../assets/images/happy.svg";
 import "./styles.css";
 
