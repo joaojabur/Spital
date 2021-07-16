@@ -1,5 +1,6 @@
 const knex = require("../database");
 const NodeGeocoder = require("node-geocoder");
+const { uploadS3 } = require('../services/s3');
 
 const options = {
   provider: "google",
@@ -67,6 +68,30 @@ module.exports = {
             .update({ moipAccountID: response.body.id })
             .where({ id: medicID });
 
+          let [
+            profile,
+            ...identification
+          ] = req.files;
+          
+          let profileExtension = profile.originalname.substring(profile.originalname.lastIndexOf('.'), profile.originalname.length);
+
+          await uploadS3({
+            filename: `${medicID}/profile${profileExtension}`,
+            bucket: 'spital.medics.profile',
+            data: profile.buffer
+          });
+
+          for (let i in identification){
+            let file = identification[i];
+            let fileExtension = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
+
+            await uploadS3({
+              filename: `${medicID}/identificacion/identificacion_i${profileExtension}`,
+              bucket: 'spital.medics.profile',
+              data: file.buffer
+            });
+          }
+          
           res.json({
             success: true,
             message: "Sucesso!",
