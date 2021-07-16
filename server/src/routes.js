@@ -1,6 +1,7 @@
 const express = require("express");
 
 const routes = express.Router();
+const multer = require('multer');
 
 const ClientController = require("./controllers/clientController");
 const AppointmentController = require("./controllers/appointmentsController");
@@ -37,7 +38,7 @@ routes.get("/medics/auth", isAuth, MedicController.auth);
 routes.post("/medics/login", MedicController.login);
 routes.get("/medics/:area", MedicController.list);
 
-routes.post("/configure-medic", configureMedicController.create);
+routes.post("/configure-medic", multer().array('files'), configureMedicController.create);
 routes.post(
   "/configure-medic/:moipAccountId",
   configureMedicController.createBankAccount
