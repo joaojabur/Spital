@@ -1,3 +1,4 @@
+import 'package:Spital/Screens/Home/Widget/TabPages/TabPagePerson/profile_cleinte/profile_cliente.dart';
 import 'package:Spital/Screens/Shared/Widgets/AppBarSecond/appbar_second_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
@@ -13,8 +14,9 @@ class _PagePersonState extends State<PagePerson> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppbarSecundaria(
-        title: "Meu Perfil",
+        title: "Editar Perfil",
         width: width,
         height: height,
         topleftIcon: false,
@@ -22,7 +24,7 @@ class _PagePersonState extends State<PagePerson> {
         value: 0.12,
         onpressed: () {},
       ),
-      body: Center(child: Text("Perfil")),
+      body: ProfileCliente(),
     );
   }
 }
