@@ -141,7 +141,7 @@ class _AppBarSliverPageSeachDoctorsState
                                 color: Colors.white),
                             child: IconButton(
                                 icon: Icon(Ionicons.chevron_back_outline),
-                                color: AppColors.darkBlue,
+                                color: AppColors.black,
                                 onPressed: () {
                                   Navigator.pop(context);
                                 }),

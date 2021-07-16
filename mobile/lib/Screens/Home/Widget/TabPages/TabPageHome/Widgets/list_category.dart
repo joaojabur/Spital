@@ -1,3 +1,4 @@
+import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/Widgets/page_seach_doctors.dart';
 import 'package:Spital/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -69,7 +70,7 @@ class _ListCategoryState extends State<ListCategory> {
     return Expanded(
         child: ListView.builder(
       scrollDirection: Axis.horizontal,
-      itemCount: _categorias.length,
+      itemCount: 5,
       itemBuilder: (context, index) {
         return Container(
           margin: EdgeInsets.only(left: width * 0.05, bottom: height * 0.02),
@@ -89,6 +90,15 @@ class _ListCategoryState extends State<ListCategory> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PageSeachDoctors(
+                                      texto: _categorias[index],
+                                      image: _imagesCatergorias[index],
+                                    )));
+                      },
                       child: SvgPicture.asset(
                         _imagesCatergorias[index],
                         height: height * 0.053,

@@ -1,9 +1,8 @@
 import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/Widgets/controller/controller.dart';
-import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/Widgets/profile/profile_agend.dart';
 import 'package:Spital/Screens/Shared/controllers/location_controller.dart';
-import 'package:Spital/core/core.dart';
+
 import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
+
 import 'package:provider/provider.dart';
 
 import 'item_list_doctor.dart';
@@ -54,7 +53,7 @@ class _ListDoctorsState extends State<ListDoctors> {
                       return ItemListDoctors(
                           medic: medic,
                           onpressed: () => Navigator.pushNamed(
-                              context, "/profile",
+                              context, "/medic",
                               arguments: medic));
                     },
                   );

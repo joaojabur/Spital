@@ -1,4 +1,3 @@
-import 'package:Spital/Screens/Home/Widget/TabPages/TabPageCalendar/page_consulta.dart';
 import 'package:Spital/Screens/Home/Widget/TabPages/TabPageHome/page_home.dart';
 import 'package:Spital/Screens/Home/Widget/TabPages/TabPagePerson/page_person.dart';
 import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/page_seach.dart';
@@ -9,6 +8,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ionicons/ionicons.dart';
 
 import 'package:flutter/material.dart';
+
+import 'Widget/TabPages/TabPageConsulta/page_consulta.dart';
 
 class HomePage extends StatefulWidget {
   @override
