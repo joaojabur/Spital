@@ -1,4 +1,4 @@
-import 'package:Spital/Screens/Home/Widget/TabPages/TabPagePerson/profile_cleinte/profile_cliente.dart';
+import 'package:Spital/Screens/Home/Widget/TabPages/TabPagePerson/profile_client/profile_client.dart';
 import 'package:Spital/Screens/Shared/Widgets/AppBarSecond/appbar_second_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
@@ -24,7 +24,7 @@ class _PagePersonState extends State<PagePerson> {
         value: 0.12,
         onpressed: () {},
       ),
-      body: ProfileCliente(),
+      body: ProfileClient(),
     );
   }
 }

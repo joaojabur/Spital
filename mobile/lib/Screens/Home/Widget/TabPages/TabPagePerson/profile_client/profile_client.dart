@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-class ProfileCliente extends StatefulWidget {
-  const ProfileCliente({Key? key}) : super(key: key);
+class ProfileClient extends StatefulWidget {
+  const ProfileClient({Key? key}) : super(key: key);
 
   @override
-  _ProfileClienteState createState() => _ProfileClienteState();
+  _ProfileClientState createState() => _ProfileClientState();
 }
 
-class _ProfileClienteState extends State<ProfileCliente> {
+class _ProfileClientState extends State<ProfileClient> {
   final _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
