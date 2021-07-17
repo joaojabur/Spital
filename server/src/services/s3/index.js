@@ -1,10 +1,10 @@
-require('dotenv').config({ path: "../.env" });
-const AWS = require('aws-sdk');
+require("dotenv").config({ path: "../.env" });
+const AWS = require("aws-sdk");
 
 AWS.config.update({
   accessKeyId: process.env.AWS_S3_ACESSKEY,
   secretAccessKey: process.env.AWS_S3_SECRET_ACESS,
-  region: process.env.AWS_DEFAULT_REGION
+  region: process.env.AWS_DEFAULT_REGION,
 });
 
 var s3 = new AWS.S3();
