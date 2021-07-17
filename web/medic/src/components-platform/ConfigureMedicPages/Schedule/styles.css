@@ -4,21 +4,9 @@
   height: 95vh;
   margin-top: 20rem !important;
   background-color: transparent !important;
-}
-
-.form-container-flex-schedule {
-  display: flex;
-  justify-content: space-between;
-  background-color: #fff !important;
-  padding: 4rem;
-  border-top-left-radius: 4rem;
-  border-top-right-radius: 4rem;
-}
-
-.schedule-item {
-  padding: 5rem;
-  background-color: #fff;
-  border-radius: 0;
+  position: relative;
+  top: -6rem;
+  border-radius: 1.8rem;
 }
 
 .form-container-schedule button {
@@ -33,4 +21,23 @@
   cursor: pointer;
   margin-top: 1.5rem;
   transition: all ease-in-out 0.2s;
+}
+
+.form-container-flex-schedule {
+  justify-content: space-between;
+  display: flex;
+  background-color: #fff !important;
+  padding: 4rem;
+  border-top-left-radius: 4rem;
+  border-top-right-radius: 4rem;
+}
+
+.schedule-item {
+  padding: 5rem;
+  background-color: #fff;
+  border-radius: 0;
+}
+
+.line-gray > span {
+  cursor: pointer;
 }

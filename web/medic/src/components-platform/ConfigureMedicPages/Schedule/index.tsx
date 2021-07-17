@@ -106,11 +106,7 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
         <div className="form-container-flex-schedule">
           <h2>Horários disponíveis</h2>
 
-          <div
-            style={{ marginTop: "2rem" }}
-            className="add-button"
-            onClick={addNewScheduleItem}
-          >
+          <div style={{ marginTop: '2.3rem' }} className="add-button" onClick={addNewScheduleItem}>
             + Novo horário
           </div>
         </div>
