@@ -17,6 +17,7 @@ interface MedicConfigureData {
   bankData: BankData;
   invoiceAddress: InvoiceAddressProps;
   schedule: Array<Schedule>;
+  file: File;
 }
 
 interface Schedule {
@@ -34,6 +35,7 @@ interface MedicConfigureDataErrors {
   bankData: BankData;
   invoiceAddress: InvoiceAddressProps;
   schedule: Array<string>;
+  file: string;
 }
 
 export default function refreshUserValidate(credentials: MedicConfigureData) {
@@ -113,6 +115,11 @@ export default function refreshUserValidate(credentials: MedicConfigureData) {
       errors.number = "Campo de número é inválido";
     }
 
+    // Profile
+
+    if (!credentials?.file){
+      errors.file = "Foto de perfil é necessária."
+    }
     // Bank Data
 
     if (!credentials?.bankData?.bankNumber?.length ?? 0) {
