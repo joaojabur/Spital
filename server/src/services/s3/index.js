@@ -15,7 +15,8 @@ module.exports = {
           s3.putObject({
             Key: filename,
             Bucket: bucket,
-            Body: data
+            Body: data,
+            ACL: 'public-read'
           }, (err, data) => {
             if (err){
               reject(err)
