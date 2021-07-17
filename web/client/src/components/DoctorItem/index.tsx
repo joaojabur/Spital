@@ -15,6 +15,7 @@ interface Medic {
   userID: number;
   distance: number;
   star: string;
+  url: string;
 }
 
 const DoctorItem = ({ medic }: DoctorItemProps) => {
@@ -25,10 +26,9 @@ const DoctorItem = ({ medic }: DoctorItemProps) => {
       <div className="doctor-item-first">
         <div className="doctor-item-image">
           <img
-            src={`https://avatars.dicebear.com/api/human/${
-              medic.firstName + medic.lastName
-            }.svg`}
+            src={medic.url}
             alt="Medic Profile"
+            style={{width: "100%",height: "100%"}}
           />
         </div>
         <div className="doctor-item-data">

@@ -17,6 +17,7 @@ export interface Medic {
   userID: number;
   distance: number;
   star: string;
+  url: string;
 }
 
 const DoctorList = ({ medics, loading }: DoctorListProps) => {
