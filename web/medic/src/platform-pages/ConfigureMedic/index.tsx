@@ -10,6 +10,7 @@ import MedicSchedule from "../../components-platform/ConfigureMedicPages/Schedul
 import { useAuth } from "../../context/AuthProvider";
 import ShareMedicConfigureFormProvider from "../../context/ShareMedicConfigureFormProvider";
 import "./styles.css";
+import ProfileConfig from "../../components-platform/ConfigureMedicPages/ProfileConfig";
 
 export interface PagesProps {
   nextPage: () => void;
@@ -31,6 +32,7 @@ const ConfigureMedic = () => {
     <AppointmentInfo previousPage={previousPage} nextPage={nextPage} />,
     <MedicSchedule nextPage={nextPage} previousPage={previousPage}/>,
     <ClinicAddress previousPage={previousPage} nextPage={nextPage} />,
+    <ProfileConfig previousPage={previousPage} nextPage={nextPage}/>,
     <BankData previousPage={previousPage} nextPage={nextPage} />,
     <InvoiceAddress previousPage={previousPage} nextPage={nextPage} />,
     <Success />,
