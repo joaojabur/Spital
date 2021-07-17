@@ -94,11 +94,14 @@ const InvoiceAddress = ({ previousPage, nextPage }: PagesProps) => {
       spinner.close();
     } else {
       setHasError(false);
+      let data = new FormData();
+
+      data.append('bankData', JSON.stringify(medicDataConfigure.bankData));
+      data.append('invoiceAddress', JSON.stringify(medicDataConfigure.invoiceAddress))
+      data.append('file', medicDataConfigure.file);
+
       api
-        .post(`configure-medic?medicID=${medicID}&userID=${userID}`, {
-          bankData: medicDataConfigure.bankData,
-          invoiceAddress: medicDataConfigure.invoiceAddress,
-        })
+        .post(`configure-medic?medicID=${medicID}&userID=${userID}`, data)
         .then((response: any) => {
           if (response.status === 200) {
             api
