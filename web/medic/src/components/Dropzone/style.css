@@ -1,0 +1,21 @@
+.drop-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    width: 80%;
+    height: 80%;
+    border: 4px dashed #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+
+    transition: height 0.2s ease;
+}
+
+.drop-container-drag-active { 
+    border-color: #78e5d5 !important;
+}
+
+.drop-container-drag-rejected {
+    border-color: #e57878 !important;
+}
