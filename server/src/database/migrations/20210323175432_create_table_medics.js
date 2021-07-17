@@ -15,7 +15,8 @@ exports.up = function (knex) {
 
     table.text("moipAccountID");
     table.text("bankAccountID");
-
+    table.text('url');
+    
     table.boolean("configured").defaultTo(false);
     table.boolean("accepted").defaultTo(false);
 
