@@ -11,6 +11,7 @@ interface MedicConfigureData {
   bankData: BankData;
   invoiceAddress: InvoiceAddressProps;
   schedule: Array<Schedule>;
+  file: File;
 }
 
 interface Schedule {
