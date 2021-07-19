@@ -44,8 +44,8 @@ class ItemListDoctors extends StatelessWidget {
                       child: CircleAvatar(
                         radius: 20,
                         backgroundColor: Colors.black,
-                        child: Image.asset(
-                          "images/doctor.jpeg",
+                        child: Image.network(
+                          medic.url,
                         ),
                       ),
                     ),
