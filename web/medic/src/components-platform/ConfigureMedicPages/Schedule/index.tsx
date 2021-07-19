@@ -102,11 +102,11 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
 
   return (
     <>
-      <form className="form-container">
-        <div className="form-container-flex">
+      <form className="form-container-schedule">
+        <div className="form-container-flex-schedule">
           <h2>Horários disponíveis</h2>
 
-          <div className="add-button" onClick={addNewScheduleItem}>
+          <div style={{ marginTop: '2.3rem' }} className="add-button" onClick={addNewScheduleItem}>
             + Novo horário
           </div>
         </div>
@@ -168,7 +168,7 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
                 }}
                 className="line-gray"
               >
-                <span>Excluir horário</span>
+                <span style={{ cursor: "pointer" }}>Excluir horário</span>
               </div>
             </div>
           );
@@ -190,7 +190,11 @@ const MedicSchedule = ({ nextPage, previousPage }: MedicScheduleProps) => {
         <button className="secondary" onClick={previousPage}>
           Anterior
         </button>
-        <button style={{ marginBottom: '2rem' }} className="primary" onClick={nextPage}>
+        <button
+          style={{ marginBottom: "2rem" }}
+          className="primary"
+          onClick={nextPage}
+        >
           Próximo
         </button>
       </form>

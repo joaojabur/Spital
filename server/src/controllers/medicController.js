@@ -275,7 +275,8 @@ module.exports = {
         on medic."userID" = address."userID"
         join users as "user"
         on medic."userID" = "user".id
-        where distance <= ${distance} and area = '${formattedArea}'
+        where distance <= ${distance} and area = '${formattedArea}' 
+        and configured = TRUE and accepted = TRUE
         and lower(
           (
               REGEXP_REPLACE("user".first_name, '[^0-9a-zA-Z:,]+', '')

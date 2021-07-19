@@ -34,14 +34,15 @@ const MedicReview = ({ changePage, previousPage }: MedicReviewProps) => {
   const [agreement, setAgreement] = useState(false);
 
   async function handleSubmitForm(e: any) {
-    setIsLoading(true);
     e.preventDefault();
 
     const loopedErrors = Object.values(errors);
     if (loopedErrors.length > 0) {
       setHasError(true);
+      setIsLoading(false);
     } else {
       setHasError(false);
+      setIsLoading(true);
       await api
         .post("medics", {
           ...medicData,

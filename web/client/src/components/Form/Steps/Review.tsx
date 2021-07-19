@@ -29,21 +29,26 @@ const Review = ({ previousPage, changePage }: ReviewProps) => {
   const history = useHistory();
 
   async function handleSubmitClient() {
-    let response = await signup({ ...userData, xp: 0 });
-    spinner.close();
-
-    if (response.status === 201) {
-      setBackendError("");
-      sucesso.open({
-        name: "Parabéns " + userData.firstName + " " + userData.lastName,
-        close: () => {
-          sucesso.close();
-          history.push("/confirmar-email");
-        },
-        description: "Conta criada com sucesso.",
-      });
+    const loopedErrors = Object.values(errors);
+    if (loopedErrors.length > 0) {
+      setHasError(true);
     } else {
-      setBackendError(response.data.message);
+      let response = await signup({ ...userData, xp: 0 });
+      spinner.close();
+
+      if (response.status === 201) {
+        setBackendError("");
+        sucesso.open({
+          name: "Parabéns " + userData.firstName + " " + userData.lastName,
+          close: () => {
+            sucesso.close();
+            history.push("/confirmar-email");
+          },
+          description: "Conta criada com sucesso.",
+        });
+      } else {
+        setBackendError(response.data.message);
+      }
     }
   }
 

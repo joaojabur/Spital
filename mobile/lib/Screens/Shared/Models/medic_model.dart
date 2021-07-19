@@ -25,6 +25,7 @@ class MedicModel {
   final String firstName;
   final String lastName;
   final String rating;
+  final String url;
 
   MedicModel({
       required  this.userID,
@@ -50,7 +51,8 @@ class MedicModel {
       required  this.createdAt,
       required  this.firstName,
       required  this.lastName,
-      required  this.rating
+      required  this.rating,
+      required  this.url
   });
 
   Map<String, dynamic> toMap() {
@@ -79,6 +81,7 @@ class MedicModel {
       'firstName': firstName,
       'lastName': lastName,
       'rating': rating,
+      'url': url
     };
   }
 
@@ -108,6 +111,7 @@ class MedicModel {
       firstName: map['firstName'],
       lastName: map['lastName'],
       rating: map['rating'],
+      url: map['url']
     );
   }
 

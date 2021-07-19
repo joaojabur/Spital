@@ -21,6 +21,8 @@ module.exports = {
     try {
       const { medicID, userID } = req.query;
       let { bankData, invoiceAddress } = req.body;
+      bankData = JSON.parse(bankData);
+      invoiceAddress = JSON.parse(invoiceAddress);
       console.log(medicID, userID, bankData, invoiceAddress);
 
       const [firstName, lastName] = bankData.fullName.split(" ");
@@ -66,33 +68,22 @@ module.exports = {
           transparentAccount: true,
         })
         .then(async (response) => {
-          await knex("medics")
-            .update({ moipAccountID: response.body.id })
-            .where({ id: medicID });
-
-          let [
-            profile,
-            ...identification
-          ] = req.files;
+          let profile = req.file;
           
           let profileExtension = profile.originalname.substring(profile.originalname.lastIndexOf('.'), profile.originalname.length);
-
+          
           await uploadS3({
-            filename: `${medicID}/profile${profileExtension}`,
-            bucket: 'spital.medics.profile',
-            data: profile.buffer
-          });
-
-          for (let i in identification){
-            let file = identification[i];
-            let fileExtension = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
-
-            await uploadS3({
-              filename: `${medicID}/identificacion/identificacion_i${profileExtension}`,
+              filename: `${medicID}/profile${profileExtension}`,
               bucket: 'spital.medics.profile',
-              data: file.buffer
-            });
-          }
+              data: profile.buffer
+          });
+          
+          await knex("medics")
+            .update({ 
+              moipAccountID: response.body.id,
+              url: `http://spital.medics.profile.s3.amazonaws.com/${medicID}/profile${profileExtension}`
+            })
+            .where({ id: medicID });
           
           res.json({
             success: true,

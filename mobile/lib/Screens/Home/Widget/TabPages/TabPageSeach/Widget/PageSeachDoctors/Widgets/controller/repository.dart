@@ -1,4 +1,5 @@
 import 'package:Spital/Screens/Shared/Models/medic_model.dart';
+import 'package:Spital/Screens/Shared/services/dio_instance.dart';
 import 'package:dio/dio.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -11,7 +12,7 @@ class ResponseListDoctor {
 }
 
 class ListDoctorRepository {
-  final Dio dio = Dio(BaseOptions(baseUrl: "http://192.168.1.7:3333"));
+  final Dio dio = DioInstace.dio;
 
   Future<ResponseListDoctor> loadMedicsByArea(String area, Position location,
       int maxDistance, String? name, int offset) async {
