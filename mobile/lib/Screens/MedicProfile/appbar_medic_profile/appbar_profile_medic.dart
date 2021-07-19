@@ -1,11 +1,11 @@
-import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/Widgets/profile_medic/controller/save_controller.dart';
+import 'package:Spital/Screens/MedicProfile/controller/save_controller.dart';
 import 'package:Spital/Screens/Shared/Models/medic_model.dart';
 import 'package:Spital/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class AppbarProfileMedic extends PreferredSize {
+class AppBarMedicProfile extends PreferredSize {
   final void Function()? onpressed;
   final void Function()? onpressed2;
   final bool topleftIcon;
@@ -18,7 +18,7 @@ class AppbarProfileMedic extends PreferredSize {
   final IconData iconRight;
   final SaveController saveController;
   final MedicModel medicModel;
-  AppbarProfileMedic(
+  AppBarMedicProfile(
       {required this.nome,
       required this.medicModel,
       required this.saveController,
@@ -151,8 +151,8 @@ class AppbarProfileMedic extends PreferredSize {
                                   child: Container(
                                     height: 100,
                                     width: 100,
-                                    child: Image.asset(
-                                      "images/doctor.jpeg",
+                                    child: Image.network(
+                                      medicModel.url,
                                     ),
                                   ),
                                 ),

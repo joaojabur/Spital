@@ -1,5 +1,5 @@
-import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/Widgets/profile_medic/appbar_profile_medic/appbar_profile_medic.dart';
-import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/Widget/PageSeachDoctors/Widgets/profile_medic/controller/save_controller.dart';
+import 'package:Spital/Screens/MedicProfile/appbar_medic_profile/appbar_profile_medic.dart';
+import 'package:Spital/Screens/MedicProfile/controller/save_controller.dart';
 import 'package:Spital/Screens/Shared/Models/medic_model.dart';
 import 'package:Spital/core/core.dart';
 import 'package:flutter/material.dart';
@@ -7,17 +7,17 @@ import 'package:ionicons/ionicons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ProfileAgend extends StatefulWidget {
-  const ProfileAgend({
+class MedicProfile extends StatefulWidget {
+  const MedicProfile({
     Key? key,
   }) : super(key: key);
 
   @override
-  _ProfileAgendState createState() => _ProfileAgendState();
+  _MedicProfileState createState() => _MedicProfileState();
 }
 
-class _ProfileAgendState extends State<ProfileAgend> {
-  abrirGoogleMaps() async {
+class _MedicProfileState extends State<MedicProfile> {
+  openGoogleMaps(String address) async {
     const endereco = "joão zacarias";
     const urlMap = "https://www.google.com/maps/place/${endereco}";
     if (await canLaunch(urlMap)) {
@@ -34,6 +34,8 @@ class _ProfileAgendState extends State<ProfileAgend> {
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    print(medic.masterDegree);
+    print(medic.masterDegree.runtimeType);
     return SingleChildScrollView(
       child: SizedBox(
         height: 1100,
@@ -46,7 +48,7 @@ class _ProfileAgendState extends State<ProfileAgend> {
                 "Agendar",
                 style: AppTextStyles.titleBoldWrite,
               )),*/
-          appBar: AppbarProfileMedic(
+          appBar: AppBarMedicProfile(
             topleftIcon: true,
             iconLeft: Ionicons.chevron_back_outline,
             onpressed: () => Navigator.pop(context),
@@ -113,7 +115,10 @@ class _ProfileAgendState extends State<ProfileAgend> {
                                 Row(
                                   children: [
                                     Icon(Icons.location_on),
-                                    Text("${medic.address} ${medic.number}")
+                                    Container(
+                                      width: width * 0.8,
+                                      child: Text("${medic.address} ${medic.number}",textAlign: TextAlign.left)
+                                    )
                                   ],
                                 ),
                                 Row(
@@ -205,7 +210,10 @@ class _ProfileAgendState extends State<ProfileAgend> {
                                     )),
                                 GestureDetector(
                                   onTap: () {
-                                    print("veirifacado");
+                                    Navigator.pushNamed(
+                                      context, "/reviews",
+                                      arguments: medic.id
+                                    );
                                   },
                                   child: Container(
                                     padding: EdgeInsets.only(
@@ -271,66 +279,42 @@ class _ProfileAgendState extends State<ProfileAgend> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "Pós-graduação: ",
-                                      style: AppTextStyles.titleBold3,
-                                    ),
-                                    Text(
-                                      "faltando",
-                                      style: AppTextStyles.information,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "Especialização: ",
-                                      style: AppTextStyles.titleBold3,
-                                    ),
-                                    Text(
-                                      "faltando",
-                                      style: AppTextStyles.information,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "Mestrado: ",
-                                      style: AppTextStyles.titleBold3,
-                                    ),
-                                    Text(
-                                      "${medic.masterDegree}",
-                                      style: AppTextStyles.information,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "Doutorado: ",
-                                      style: AppTextStyles.titleBold3,
-                                    ),
-                                    Text(
-                                      "${medic.doctorateDegree}",
-                                      style: AppTextStyles.information,
-                                    ),
-                                  ],
-                                ),
+                                if (medic.masterDegree != null)
+                                  if (medic.masterDegree!.isNotEmpty) ...([
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Mestrado: ",
+                                        style: AppTextStyles.titleBold3,
+                                      ),
+                                      Text(
+                                        "${medic.masterDegree}",
+                                        style: AppTextStyles.information,
+                                      ),
+                                    ],
+                                  )
+                                ]),
+                                if (medic.doctorateDegree != null)
+                                  if(medic.doctorateDegree!.isNotEmpty) ...([
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Doutorado: ",
+                                            style: AppTextStyles.titleBold3,
+                                          ),
+                                          Text(
+                                            "${medic.doctorateDegree}",
+                                            style: AppTextStyles.information,
+                                          ),
+                                        ],
+                                      ),
+                                  ])
                               ],
                             ),
                           ),
