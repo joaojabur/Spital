@@ -39,6 +39,8 @@ class AppTextStyles {
 
   static final TextStyle warningTitle = GoogleFonts.quicksand(
       color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold);
+  static final TextStyle warningTitleblue = GoogleFonts.quicksand(
+      color: AppColors.blueT100, fontSize: 20, fontWeight: FontWeight.bold);
   static final TextStyle reviewUserTitle = GoogleFonts.quicksand(
     color: Colors.black,
     fontSize: 20,
