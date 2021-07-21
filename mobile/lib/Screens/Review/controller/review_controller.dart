@@ -14,12 +14,13 @@ abstract class _ReviewControllerBase with Store {
   Future<String> loadReviews(int medicID) async {
     ResponseReview response = await repository.loadReviews(medicID);
 
-    if (response.error){
+    if (response.error) {
       return response.message!;
     }
 
-    reviews = reviews.asObservable();
+    reviews = response.reviews!.asObservable();
 
+    print(response.reviews!.asObservable());
     return "";
   }
 }
