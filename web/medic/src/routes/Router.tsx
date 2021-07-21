@@ -18,6 +18,9 @@ import Page404 from "../platform-pages/404";
 import ConfigurationsConsult from "../platform-pages/ConfigurationsConsult";
 import ConfigurationsAddress from "../platform-pages/ConfigurationsAddress";
 import ConfigurationsMedicSchedule from "../platform-pages/ConfigurationsMedicSchedule";
+import Revenue from "../platform-pages/Revenue";
+import Marketing from "../platform-pages/Marketing";
+import Pacients from "../platform-pages/Pacients";
 
 function Router() {
   return (
@@ -34,11 +37,23 @@ function Router() {
         <PrivateRoute path="/agenda" component={AgendaComponent} />
         <PrivateRoute path="/perfil" component={Profile} />
         <PrivateRoute path="/consultas" component={Appointments} />
+        <PrivateRoute path="/pacientes" component={Pacients} />
         <PrivateRoute path="/configuracoes" exact component={Configurations} />
-        <PrivateRoute path="/configuracoes/consultas/:id" component={ConfigurationsConsult} />
-        <PrivateRoute path="/configuracoes/endereco" component={ConfigurationsAddress} />
-        <PrivateRoute path="/configuracoes/horarios/:id" component={ConfigurationsMedicSchedule} />
+        <PrivateRoute
+          path="/configuracoes/consultas/:id"
+          component={ConfigurationsConsult}
+        />
+        <PrivateRoute
+          path="/configuracoes/endereco"
+          component={ConfigurationsAddress}
+        />
+        <PrivateRoute
+          path="/configuracoes/horarios/:id"
+          component={ConfigurationsMedicSchedule}
+        />
         <PrivateRoute path="/configurar" component={ConfigureMedic} />
+        <PrivateRoute path="/faturamento" component={Revenue} />
+        <PrivateRoute path="/marketing" component={Marketing} />
         <PrivateRoute path="/404" component={Page404} />
       </Switch>
     </BrowserRouter>

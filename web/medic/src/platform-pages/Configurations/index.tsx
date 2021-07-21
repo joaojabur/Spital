@@ -18,14 +18,14 @@ import api from "../../services/api";
 import "./styles.css";
 import { Link } from "react-router-dom";
 
-interface MedicSchedule {
+export interface MedicSchedule {
   id: number;
   week_day: number;
   from: string;
   to: string;
 }
 
-interface Consult {
+export interface Consult {
   id: number;
   type: string;
   price: number;
