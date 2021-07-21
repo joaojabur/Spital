@@ -29,7 +29,7 @@ class AppbarSecundaria extends PreferredSize {
               children: [
                 Padding(
                   padding:
-                      EdgeInsets.only(top: height * 0.05, left: 40, right: 0),
+                      EdgeInsets.only(top: height * 0.05, left: 20, right: 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -40,28 +40,29 @@ class AppbarSecundaria extends PreferredSize {
                                 height: 40,
                                 width: 45,
                                 child: ElevatedButton(
-                                    style: ButtonStyle(
-                                        padding: MaterialStateProperty.all<
-                                                EdgeInsets>(
-                                            EdgeInsets.only(right: 20)),
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Colors.white),
-                                        shape: MaterialStateProperty.all<
-                                                RoundedRectangleBorder>(
-                                            RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                        ))),
-                                    onPressed: topleftIcon ? onpressed : null,
-                                    child: IconButton(
-                                      icon: Icon(
-                                        iconLeft,
-                                        size: 25,
-                                        color: Colors.black,
-                                      ),
-                                      onPressed: () {},
-                                    )))
+                                  style: ButtonStyle(
+                                      padding:
+                                          MaterialStateProperty.all<EdgeInsets>(
+                                              EdgeInsets.only(right: 20)),
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.white),
+                                      shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ))),
+                                  onPressed: topleftIcon ? onpressed : null,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 7),
+                                    child: Icon(
+                                      iconLeft,
+                                      size: 25,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ))
                             : null,
                       ),
                       Text(
