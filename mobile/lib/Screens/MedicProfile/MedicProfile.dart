@@ -100,7 +100,7 @@ class _MedicProfileState extends State<MedicProfile> {
                           padding: const EdgeInsets.only(top: 30),
                           child: Container(
                             padding: EdgeInsets.only(
-                                top: 20, bottom: 20, right: 30, left: 20),
+                                top: 20, bottom: 20, right: 20, left: 20),
                             decoration: BoxDecoration(
                                 border:
                                     Border.all(color: Colors.black38, width: 1),
@@ -116,9 +116,10 @@ class _MedicProfileState extends State<MedicProfile> {
                                   children: [
                                     Icon(Icons.location_on),
                                     Container(
-                                      width: width * 0.8,
-                                      child: Text("${medic.address} ${medic.number}",textAlign: TextAlign.left)
-                                    )
+                                        width: width * 0.6,
+                                        child: Text(
+                                            "${medic.address} ${medic.number}",
+                                            textAlign: TextAlign.left))
                                   ],
                                 ),
                                 Row(
@@ -172,8 +173,8 @@ class _MedicProfileState extends State<MedicProfile> {
                               children: [
                                 Container(
                                     padding: EdgeInsets.only(
-                                        left: 40,
-                                        right: 40,
+                                        left: 30,
+                                        right: 30,
                                         top: 15,
                                         bottom: 10),
                                     decoration: BoxDecoration(
@@ -210,14 +211,12 @@ class _MedicProfileState extends State<MedicProfile> {
                                     )),
                                 GestureDetector(
                                   onTap: () {
-                                    Navigator.pushNamed(
-                                      context, "/reviews",
-                                      arguments: medic.id
-                                    );
+                                    Navigator.pushNamed(context, "/reviews",
+                                        arguments: medic.id);
                                   },
                                   child: Container(
                                     padding: EdgeInsets.only(
-                                        left: 89.5, right: 89.5, bottom: 10),
+                                        left: 80, right: 80, bottom: 10),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.only(
@@ -280,25 +279,27 @@ class _MedicProfileState extends State<MedicProfile> {
                                   ],
                                 ),
                                 if (medic.masterDegree != null)
-                                  if (medic.masterDegree!.isNotEmpty) ...([
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "Mestrado: ",
-                                        style: AppTextStyles.titleBold3,
+                                  if (medic.masterDegree!.isNotEmpty)
+                                    ...([
+                                      SizedBox(
+                                        height: 10,
                                       ),
-                                      Text(
-                                        "${medic.masterDegree}",
-                                        style: AppTextStyles.information,
-                                      ),
-                                    ],
-                                  )
-                                ]),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Mestrado: ",
+                                            style: AppTextStyles.titleBold3,
+                                          ),
+                                          Text(
+                                            "${medic.masterDegree}",
+                                            style: AppTextStyles.information,
+                                          ),
+                                        ],
+                                      )
+                                    ]),
                                 if (medic.doctorateDegree != null)
-                                  if(medic.doctorateDegree!.isNotEmpty) ...([
+                                  if (medic.doctorateDegree!.isNotEmpty)
+                                    ...([
                                       SizedBox(
                                         height: 10,
                                       ),
@@ -314,7 +315,7 @@ class _MedicProfileState extends State<MedicProfile> {
                                           ),
                                         ],
                                       ),
-                                  ])
+                                    ])
                               ],
                             ),
                           ),
