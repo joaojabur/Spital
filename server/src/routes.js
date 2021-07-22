@@ -1,7 +1,7 @@
 const express = require("express");
 
 const routes = express.Router();
-const multer = require('multer');
+const multer = require("multer");
 
 const ClientController = require("./controllers/clientController");
 const AppointmentController = require("./controllers/appointmentsController");
@@ -16,6 +16,12 @@ const consultTypeController = require("./controllers/consultTypeController");
 const cardController = require("./controllers/cardController");
 const configureMedicController = require("./controllers/configureMedicController");
 const acceptMedicController = require("./controllers/acceptMedicController");
+const pacientsController = require("./controllers/pacientsController");
+const bankaccountController = require("./controllers/bankaccountController");
+
+routes.get("/bankaccount", bankaccountController.index);
+
+routes.get("/pacients", pacientsController.index);
 
 routes.post("/accept-medic/:medicID", acceptMedicController.create);
 
@@ -41,7 +47,11 @@ routes.get("/medics/auth", isAuth, MedicController.auth);
 routes.post("/medics/login", MedicController.login);
 routes.get("/medics/:area", MedicController.list);
 
-routes.post("/configure-medic", multer().single('file'), configureMedicController.create);
+routes.post(
+  "/configure-medic",
+  multer().single("file"),
+  configureMedicController.create
+);
 routes.post(
   "/configure-medic/:moipAccountId",
   configureMedicController.createBankAccount

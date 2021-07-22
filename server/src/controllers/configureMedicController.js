@@ -1,6 +1,6 @@
 const knex = require("../database");
 const NodeGeocoder = require("node-geocoder");
-const { uploadS3 } = require('../services/s3');
+const { uploadS3 } = require("../services/s3");
 const convertHourToMinutes = require("../utils/convertHoursToMinutes");
 
 const options = {
@@ -31,6 +31,7 @@ module.exports = {
         .where({ userID })
         .join("users", "users.id", "=", "medics.userID")
         .select("users.email", "medics.phoneNumber", "users.birth_date");
+      console.log(result, userID);
       const [ddd, phoneNumber] = result.phoneNumber.split(")");
 
       const formattedDDD = ddd.replace("(", "");
@@ -69,22 +70,25 @@ module.exports = {
         })
         .then(async (response) => {
           let profile = req.file;
-          
-          let profileExtension = profile.originalname.substring(profile.originalname.lastIndexOf('.'), profile.originalname.length);
-          
+
+          let profileExtension = profile.originalname.substring(
+            profile.originalname.lastIndexOf("."),
+            profile.originalname.length
+          );
+
           await uploadS3({
-              filename: `${medicID}/profile${profileExtension}`,
-              bucket: 'spital.medics.profile',
-              data: profile.buffer
+            filename: `${medicID}/profile${profileExtension}`,
+            bucket: "spital.medics.profile",
+            data: profile.buffer,
           });
-          
+
           await knex("medics")
-            .update({ 
+            .update({
               moipAccountID: response.body.id,
-              url: `http://spital.medics.profile.s3.amazonaws.com/${medicID}/profile${profileExtension}`
+              url: `http://spital.medics.profile.s3.amazonaws.com/${medicID}/profile${profileExtension}`,
             })
             .where({ id: medicID });
-          
+
           res.json({
             success: true,
             message: "Sucesso!",
@@ -98,7 +102,7 @@ module.exports = {
   },
 
   async createBankAccount(req, res, next) {
-    console.log("I am here!")
+    console.log("I am here!");
     const { moipAccountId } = req.params;
     const { accessToken, medicID, userID } = req.query;
 

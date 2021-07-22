@@ -338,7 +338,10 @@ class _MedicProfileState extends State<MedicProfile> {
                                         RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15.0),
                                     ))),
-                                onPressed: () {},
+                                onPressed: () {
+                                   Navigator.pushNamed(context, "/schedule",
+                                        arguments: medic.id);
+                                },
                                 child: Text(
                                   "Agendar consulta",
                                   style: AppTextStyles.titleBoldWriteMaior,

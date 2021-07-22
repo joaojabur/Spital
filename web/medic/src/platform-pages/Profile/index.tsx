@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import HorizontalHeader from "../../components-platform/HorizontalHeader";
 import VerticalHeader from "../../components-platform/VerticalHeader";
-import Box from "../../components/Box";
-import {
-  ExploreOutlined,
-  ListOutlined,
-  StraightenOutlined,
-  PinDropOutlined,
-} from "@material-ui/icons";
 import { useAuth } from "../../context/AuthProvider";
 import "./styles.css";
 import api from "../../services/api";
-import Stars from "../../components/Stars";
+import MedicProfileBox from "../../components-platform/MedicProfileBox";
+import MedicProfileInfo from "../../components-platform/MedicProfileInfo";
+import MedicProfileData from "../../components-platform/MedicProfileData";
 interface ScheduleItem {
   week_day: number | undefined;
   from: number;
@@ -62,147 +57,18 @@ const Profile = () => {
   }, []);
 
   return (
-    <div className="perfil">
+    <div className="agenda">
       <HorizontalHeader title="Meu Perfil" />
       <VerticalHeader colorIcon="profile" />
-      <div className="content">
-        <div>
-          <div className="left-side">
-            <Box
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                padding: "1rem 1rem 1.25rem",
-              }}
-            >
-              <img
-                src={`https://avatars.dicebear.com/api/human/${
-                  user.firstName + user.lastName
-                }.svg`}
-                alt="Medic Profile"
-              />
-              <h2>Dr. {user.firstName}</h2>
-              <span>{user.area}</span>
-            </Box>
-            <Box
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                padding: "2rem",
-              }}
-            >
-              <div className="appointment-button">
-                <span>Agendar Consulta</span>
-              </div>
-            </Box>
-          </div>
-          <Box
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <div className="right-side">
-              <div className="hour">
-                Horário de trabalho hoje:
-                {today_week_day.length > 0 ? (
-                  today_week_day.map((string: ScheduleItem, index: number) => {
-                    const formatedFrom = string.from / 60;
-                    const formatedTo = string.to / 60;
-
-                    const formatedFromString = formatedFrom.toString();
-                    const [hours, minutes] = formatedFromString.split(".");
-                    const min = Number(minutes) * 6;
-
-                    const formatedToString = formatedTo.toString();
-                    const [hoursTo, minutesTo] = formatedToString.split(".");
-                    const minTo = Number(minutesTo) * 6;
-
-                    return (
-                      <span key={index}>
-                        <span style={{ color: "#3eb713" }}>
-                          {hours}:{min.toString().substring(0, 2) || "00"} - {hoursTo}:{minTo.toString().substring(0, 2) || "00"}
-                        </span>
-                      </span>
-                    );
-                  })
-                ) : (
-                  <span style={{ fontSize: "1.5rem" }}>
-                    Médico descansando hoje 😴
-                  </span>
-                )}
-              </div>
-              <h1>Onde Estou?</h1>
-              <div className="address">
-                <div style={{ display: "flex" }}>
-                  <PinDropOutlined fontSize="large" />
-                  {user.location.address}
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    cursor: "pointer",
-                  }}
-                >
-                  <ListOutlined fontSize="large" />
-                </div>
-                <div style={{ display: "flex" }}>
-                  <StraightenOutlined fontSize="large" />
-                  Lat: {user.location.lat} | Lon: {user.location.lon}
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    color: "var(--color-main)",
-                    cursor: "pointer",
-                  }}
-                >
-                  <ExploreOutlined fontSize="large" />
-                  Ver no mapa
-                </div>
-              </div>
-              <div className="medic-profile-info-rating">
-                <div className="medic-profile-info-rating-stars">
-                  <Stars rating={Number(user.rating)} />
-                </div>
-
-                <h2>{Number(user.rating).toFixed(1)}</h2>
-              </div>
-            </div>
-          </Box>
+      <div
+        style={{ display: "flex", flexDirection: "column" }}
+        className="content"
+      >
+        <div className="container-perfil">
+          <MedicProfileBox />
+          <MedicProfileData />
         </div>
-        <div className="about">
-          <Box
-            style={{
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <h3>Sobre Dr. {user.firstName}:</h3>
-            <ul>
-              <li>
-                <strong>Graduação: </strong>
-                {user.graduation}
-              </li>
-              {user.masterDegree && (
-                <li>
-                  <strong>Mestrado: </strong>
-                  {user.masterDegree}
-                </li>
-              )}
-              {user.doctorageDegree && (
-                <li>
-                  <strong>Doutorado: </strong>
-                  {user.doctorageDegree}
-                </li>
-              )}
-            </ul>
-          </Box>
-        </div>
+        <MedicProfileInfo />
       </div>
     </div>
   );

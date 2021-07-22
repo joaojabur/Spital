@@ -86,7 +86,7 @@ const AppointmentUniqueReview = ({ previousPage }: any) => {
           />
           <div className="container">
             <div className="appointment-unique-review">
-              <h1>Avalie seu pedido</h1>
+              <h1>Avalie sua consulta</h1>
               <div style={{ marginTop: "1rem" }} className="line-gray"></div>
               <h2>O que você achou da consulta?</h2>
               {[...Array(5)].map((star, index: any) => {

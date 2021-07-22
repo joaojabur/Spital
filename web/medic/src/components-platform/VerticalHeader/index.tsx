@@ -1,13 +1,14 @@
-import React, { useState } from "react";
 import "./styles.css";
 
 import medicine from "../../assets/icons/medicine.png";
 import {
   IoCalendarOutline,
-  IoPeopleOutline,
   IoMedicalOutline,
   IoPlayBackOutline,
   IoSettingsOutline,
+  IoCash,
+  IoMailOutline,
+  IoPeopleOutline,
 } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
@@ -59,6 +60,51 @@ const VerticalHeader = ({ colorIcon }: VerticalHeaderProps) => {
           }}
           size="3.5rem"
           color={colorIcon === "appointments" ? "#62A4FB" : "#ccc"}
+        />
+      ),
+    },
+    {
+      goTo: "/pacientes",
+      name: "pacients",
+      icon: (
+        <IoPeopleOutline
+          style={{
+            cursor: "pointer",
+            marginTop: "1.5rem",
+            transition: "all ease-in-out 0.2s",
+          }}
+          size="3.5rem"
+          color={colorIcon === "pacients" ? "#62A4FB" : "#ccc"}
+        />
+      ),
+    },
+    {
+      goTo: "/faturamento",
+      name: "revenue",
+      icon: (
+        <IoCash
+          style={{
+            cursor: "pointer",
+            marginTop: "1.5rem",
+            transition: "all ease-in-out 0.2s",
+          }}
+          size="3.5rem"
+          color={colorIcon === "revenue" ? "#62A4FB" : "#ccc"}
+        />
+      ),
+    },
+    {
+      goTo: "/marketing",
+      name: "marketing",
+      icon: (
+        <IoMailOutline
+          style={{
+            cursor: "pointer",
+            marginTop: "1.5rem",
+            transition: "all ease-in-out 0.2s",
+          }}
+          size="3.5rem"
+          color={colorIcon === "marketing" ? "#62A4FB" : "#ccc"}
         />
       ),
     },

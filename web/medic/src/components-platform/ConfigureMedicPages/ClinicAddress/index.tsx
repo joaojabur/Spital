@@ -2,10 +2,7 @@ import { TextField } from "@material-ui/core";
 import { useShareFormMedicConfigure } from "../../../context/ShareMedicConfigureFormProvider";
 import { PagesProps } from "../../../platform-pages/ConfigureMedic";
 import "./styles.css";
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng,
-} from "react-places-autocomplete";
+import PlacesAutocomplete from "react-places-autocomplete";
 import Loader from "react-loader-spinner";
 import { useEffect, useState } from "react";
 import validateConfigureMedic from "../../../utils/validateConfigureMedic";

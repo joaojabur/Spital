@@ -5,6 +5,7 @@ import 'package:Spital/Screens/Logon/logon.dart';
 import 'package:Spital/Screens/MedicProfile/MedicProfile.dart';
 import 'package:Spital/Screens/Register/register_page.dart';
 import 'package:Spital/Screens/Review/ReviewPage.dart';
+import 'package:Spital/Screens/Schedule/SchedulePage.dart';
 import 'package:Spital/Screens/Shared/Auth/auth_controller.dart';
 import 'package:Spital/Screens/Shared/controllers/location_controller.dart';
 import 'package:Spital/Screens/Splash/splash.dart';
@@ -35,6 +36,7 @@ class AppWidget extends StatelessWidget {
             '/resgister': (context) => RegisterPage(),
             '/medic': (context) => MedicProfile(),
             '/reviews': (context) => ReviewPage(),
+            '/schedule': (context) => SchedulePage(),
             '/seach': (context) => PageSeach(),
           },
         ));
