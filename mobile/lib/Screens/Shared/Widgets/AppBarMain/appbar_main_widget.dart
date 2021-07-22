@@ -43,20 +43,17 @@ class AppbarWidget extends PreferredSize {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                          margin: EdgeInsets.only(
-                              top: height * 0.01,
-                              left: width * 0.1,
-                              right: width * 0.01),
+                      SizedBox(
+                        width: width * 0.1,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Container(
                           height: 55,
                           width: 55,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(100),
-                              image: DecorationImage(
-                                fit: BoxFit.fill,
-                                image: NetworkImage(image),
-                              ))),
+                          child: Image.asset(image),
+                        ),
+                      ),
                       Text.rich(TextSpan(
                           text: "Olá",
                           style: AppTextStyles.topicName,

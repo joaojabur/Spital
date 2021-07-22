@@ -115,6 +115,7 @@ class _ProfileClientState extends State<ProfileClient> {
                                   borderRadius: BorderRadius.circular(100),
                                   child: ChangeImage(
                                     change: true,
+                                    authController: authController,
                                   ),
                                 )),
                           ),
@@ -288,11 +289,8 @@ class _ProfileClientState extends State<ProfileClient> {
                             onChanged: null,
                             decoration: InputDecoration(
                                 labelText: "Email",
-                                labelStyle: TextStyle(
-                                    color: ativo == false
-                                        ? Colors.black
-                                        : AppColors.blue),
-                                enabled: ativo,
+                                labelStyle: TextStyle(color: Colors.black),
+                                enabled: false,
                                 //bordas
                                 errorBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(color: Colors.red)),
@@ -303,16 +301,10 @@ class _ProfileClientState extends State<ProfileClient> {
                                           : AppColors.blue),
                                 ),
                                 enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: ativo == false
-                                          ? Colors.grey
-                                          : AppColors.blue),
+                                  borderSide: BorderSide(color: Colors.grey),
                                 ),
                                 disabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: ativo == false
-                                          ? Colors.grey
-                                          : AppColors.blue),
+                                  borderSide: BorderSide(color: Colors.grey),
                                 ),
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(

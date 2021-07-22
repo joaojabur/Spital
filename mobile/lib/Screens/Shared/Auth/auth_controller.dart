@@ -15,6 +15,21 @@ abstract class _AuthControllerBase with Store {
   final _authRepository = new AuthRepository();
 
   @observable
+  ObservableList<String> dataimages = ObservableList<String>.of([
+    "images/perfil/1.jpg",
+    "images/perfil/2.jpg",
+    "images/perfil/3.jpg",
+    "images/perfil/4.jpg",
+    "images/perfil/5.jpg",
+    "images/perfil/6.jpg",
+  ]);
+
+  @observable
+  String imagePadrao = "images/perfil/7.png";
+  @observable
+  String imageActual = "images/perfil/7.png";
+
+  @observable
   UserModel? user;
 
   @observable
@@ -49,5 +64,13 @@ abstract class _AuthControllerBase with Store {
       isAuthenticated = true;
       return '';
     }
+  }
+
+  @action
+  changeImage(int i) {
+    imagePadrao = imageActual;
+    imageActual = dataimages[i];
+    dataimages[i] = imagePadrao;
+    print("mudado");
   }
 }
