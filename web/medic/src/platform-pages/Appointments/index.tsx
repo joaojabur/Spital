@@ -55,6 +55,14 @@ const Appointments = () => {
     history.replace("/configurar");
   }
 
+  const newDataArray = data.filter((obj) => {
+    return (
+      obj.time.toLowerCase().includes(hour.toLowerCase()) &&
+      obj.date.toLowerCase().includes(day.toLowerCase()) &&
+      obj.id.toString().toLowerCase().includes(id.toLowerCase())
+    );
+  });
+
   return (
     <div className="agenda">
       <HorizontalHeader title="Consultas" />
@@ -69,7 +77,7 @@ const Appointments = () => {
           />
         ) : (
           <Table
-            data={data}
+            data={newDataArray}
             head={{
               confirmed: "Status",
               id: "ID da consulta",

@@ -48,7 +48,6 @@ const ConfigurationsAddress = () => {
   }, [refreshAddress]);
 
   const handleSelect = async (value: any) => {
-    const results = await geocodeByAddress(refreshAddress.street);
     setRefreshAddress({
       ...refreshAddress,
       street: value,

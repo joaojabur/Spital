@@ -25,10 +25,9 @@ interface InputProps {
 }
 
 const Table = ({ title, inputs, switches, head, data }: TableProps) => {
-  console.log(data);
   let keys;
 
-  if (data) {
+  if (data.length !== 0) {
     keys = Object.keys(data[0]);
   }
 

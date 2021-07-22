@@ -8,7 +8,7 @@ export default function validateNewPassword(credentials: newPassword) {
 
   if (!credentials?.password && 0) {
     errors.password = "Campo de senha é necessário";
-  } else if (!((credentials?.password?.length ?? 0) > 7)) {
+  } else if (!((credentials?.password?.length ?? 0) > 5)) {
     errors.password = "Senha muito pequena";
   }
 

@@ -8,8 +8,8 @@ import "./styles.css";
 
 interface MedicProfileInfoProps {
   week_day: number;
-  id: string | undefined;
-  medic: MedicProps | null;
+  id?: string | undefined;
+  medic?: MedicProps | null;
 }
 
 export interface MedicProps {
@@ -39,10 +39,9 @@ interface ScheduleItemProps {
   to: number;
 }
 
-const MedicProfileData: React.FC<MedicProfileInfoProps> = ({
-  week_day,
-  id
-}) => {
+const MedicProfileData: React.FC<MedicProfileInfoProps> = ({ week_day }) => {
+  const today = new Date();
+  console.log(today);
   const [schedule, setSchedule] = useState([]);
 
   const { user } = useAuth();
@@ -123,10 +122,7 @@ const MedicProfileData: React.FC<MedicProfileInfoProps> = ({
         <div className="line-global"></div>
       </div>
 
-      <Link
-        to={`/medicos/${id}/avaliacoes`}
-        className="medic-profile-info-rating"
-      >
+      <button className="medic-profile-info-rating">
         <div className="medic-profile-info-rating-stars">
           <Stars rating={Number(user.rating ? user.rating : 4)} />
         </div>
@@ -134,7 +130,7 @@ const MedicProfileData: React.FC<MedicProfileInfoProps> = ({
         <h2>{Number(user.rating).toFixed(1)}</h2>
 
         <div className="medic-profile-info-assessments">Ver avaliações</div>
-      </Link>
+      </button>
     </div>
   );
 };

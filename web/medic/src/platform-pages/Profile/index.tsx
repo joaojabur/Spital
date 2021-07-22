@@ -46,9 +46,6 @@ const Profile = () => {
         return 0;
     }
   }
-  const today_week_day = schedule.filter(
-    (scheduleItem: ScheduleItem) => scheduleItem.week_day === getWeekday()
-  );
 
   useEffect(() => {
     api.get(`medic-schedule/${user.id}`).then((response) => {
@@ -66,7 +63,7 @@ const Profile = () => {
       >
         <div className="container-perfil">
           <MedicProfileBox />
-          <MedicProfileData />
+          <MedicProfileData week_day={getWeekday()} />
         </div>
         <MedicProfileInfo />
       </div>

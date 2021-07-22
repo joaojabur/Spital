@@ -1,11 +1,70 @@
-import { TextField } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import HorizontalHeader from "../../components-platform/HorizontalHeader";
 import VerticalHeader from "../../components-platform/VerticalHeader";
 import Select from "../../components/Select";
+import validateEmailData from "../../utils/validateEmailData";
 import "./styles.css";
 
+interface EmailDataProps {
+  pacients: string;
+  subject: string;
+  state: string;
+  city: string;
+  age: string;
+  type: string;
+  date: string;
+  porcentage: string;
+  message: string;
+}
+
+interface CardProps {
+  number: string;
+  cvc: string;
+  expirationDate: string;
+  cpf: string;
+}
+
 const Marketing = () => {
+  const [hasError, setHasError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [emailData, setEmailData] = useState<EmailDataProps>({
+    pacients: "500",
+    subject: "Promoção",
+    state: "São Paulo",
+    city: "",
+    age: "all",
+    type: "",
+    date: "",
+    porcentage: "0",
+    message: "",
+  });
+  const [card, setCard] = useState<CardProps>({
+    number: "",
+    cvc: "",
+    expirationDate: "",
+    cpf: "",
+  });
+
+  const [errors, setErrors] = useState(validateEmailData(emailData));
+
+  useEffect(() => {
+    setErrors(validateEmailData(emailData));
+  }, [emailData]);
+
+  function promoteCampaign() {
+    setLoading(true);
+    const loopedErrors = Object.values(errors);
+    if (loopedErrors.length > 0) {
+      setHasError(true);
+      setLoading(false);
+    } else {
+      setHasError(false);
+      console.log(emailData);
+      console.log(card);
+      setLoading(false);
+    }
+  }
+
   return (
     <div className="agenda">
       <HorizontalHeader title="E-mail marketing" />
@@ -17,6 +76,10 @@ const Marketing = () => {
           <form className="email-form">
             <div className="select-div">
               <Select
+                value={emailData.pacients}
+                onChange={(e) => {
+                  setEmailData({ ...emailData, pacients: e.target.value });
+                }}
                 name="Número de pacientes (remetentes)"
                 options={[
                   { label: "Até 500", value: "500" },
@@ -28,6 +91,10 @@ const Marketing = () => {
             </div>
             <div className="select-div">
               <Select
+                value={emailData.subject}
+                onChange={(e) => {
+                  setEmailData({ ...emailData, subject: e.target.value });
+                }}
                 name="Assunto do e-mail"
                 options={[
                   { label: "Promoção", value: "Promoção" },
@@ -38,6 +105,10 @@ const Marketing = () => {
             </div>
             <div className="select-div">
               <Select
+                value={emailData.state}
+                onChange={(e) => {
+                  setEmailData({ ...emailData, state: e.target.value });
+                }}
                 name="Estado"
                 options={[
                   { value: "AC", label: "Acre" },
@@ -75,15 +146,24 @@ const Marketing = () => {
                 Cidade
               </label>
               <input
+                value={emailData.city}
+                onChange={(e) => {
+                  setEmailData({ ...emailData, city: e.target.value });
+                }}
                 type="text"
                 className="form-control"
                 id="exampleFormControlInput1"
                 placeholder="Ex: Ribeirão Preto"
                 style={{ height: "5.5rem" }}
               />
+              <p className="error">{errors.city}</p>
             </div>
             <div className="select-div">
               <Select
+                value={emailData.age}
+                onChange={(e) => {
+                  setEmailData({ ...emailData, age: e.target.value });
+                }}
                 name="Faixa etária"
                 options={[
                   { label: "Todas as idades", value: "all" },
@@ -106,33 +186,49 @@ const Marketing = () => {
                 Tipo de consulta
               </label>
               <input
+                value={emailData.type}
+                onChange={(e) => {
+                  setEmailData({ ...emailData, type: e.target.value });
+                }}
                 type="text"
                 className="form-control"
                 id="exampleFormControlInput1"
                 placeholder="Ex: Consulta simples"
                 style={{ height: "5.5rem" }}
               />
+              <p className="error">{errors.type}</p>
             </div>
             <div className="select-div">
               <label htmlFor="exampleFormControlInput1" className="form-label">
                 Data de envio de e-mails
               </label>
               <input
+                value={emailData.date}
+                onChange={(e) => {
+                  setEmailData({ ...emailData, date: e.target.value });
+                }}
                 type="date"
                 className="form-control"
                 id="exampleFormControlInput1"
                 placeholder="Ex: Ribeirão Preto"
                 style={{ height: "5.5rem" }}
               />
+              <p className="error">{errors.date}</p>
             </div>
             <div className="select-div">
               <Select
+                value={emailData.porcentage}
+                onChange={(e) => {
+                  setEmailData({ ...emailData, porcentage: e.target.value });
+                }}
                 name="Porcentagem de promoção"
                 options={[
+                  { label: "0%", value: "10" },
                   { label: "10%", value: "10" },
-                  { label: "Até 1500", value: "1500" },
-                  { label: "Até 3000", value: "3000" },
-                  { label: "Até 5000", value: "5000" },
+                  { label: "20%", value: "20" },
+                  { label: "30%", value: "30" },
+                  { label: "40%", value: "40" },
+                  { label: "50%", value: "50" },
                 ]}
               />
             </div>
@@ -145,10 +241,15 @@ const Marketing = () => {
                 Mensagem
               </label>
               <textarea
+                value={emailData.message}
+                onChange={(e) => {
+                  setEmailData({ ...emailData, message: e.target.value });
+                }}
                 className="form-control"
                 id="exampleFormControlTextarea1"
                 placeholder="Ex: Para meus pacientes da Spital ofereço 20% de desconto em minha consulta simples!"
               ></textarea>
+              <p className="error">{errors.message}</p>
             </div>
 
             <div className="select-div">
@@ -172,6 +273,10 @@ const Marketing = () => {
                 Número do cartão
               </label>
               <input
+                value={card.number}
+                onChange={(e) => {
+                  setCard({ ...card, number: e.target.value });
+                }}
                 type="text"
                 className="form-control"
                 id="exampleFormControlInput1"
@@ -184,6 +289,10 @@ const Marketing = () => {
                 CVC
               </label>
               <input
+                value={card.cvc}
+                onChange={(e) => {
+                  setCard({ ...card, number: e.target.value });
+                }}
                 type="text"
                 className="form-control"
                 id="exampleFormControlInput1"
@@ -196,6 +305,10 @@ const Marketing = () => {
                 Data de expiração
               </label>
               <input
+                value={card.expirationDate}
+                onChange={(e) => {
+                  setCard({ ...card, number: e.target.value });
+                }}
                 type="text"
                 className="form-control"
                 id="exampleFormControlInput1"
@@ -208,6 +321,10 @@ const Marketing = () => {
                 CPF
               </label>
               <input
+                value={card.cpf}
+                onChange={(e) => {
+                  setCard({ ...card, number: e.target.value });
+                }}
                 type="text"
                 className="form-control"
                 id="exampleFormControlInput1"
@@ -216,7 +333,20 @@ const Marketing = () => {
               />
             </div>
           </form>
-          <button className="email-marketing-button">Promover campanha</button>
+          <p
+            style={{
+              color: "#f00",
+              fontSize: "2rem",
+              fontWeight: "bold",
+              textAlign: "center",
+              marginTop: "2rem",
+            }}
+          >
+            {hasError && "O formulário possui erros"}
+          </p>
+          <button onClick={promoteCampaign} className="email-marketing-button">
+            Promover campanha
+          </button>
         </div>
       </div>
     </div>

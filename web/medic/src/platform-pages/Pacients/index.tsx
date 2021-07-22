@@ -40,6 +40,17 @@ const Pacients = () => {
     history.replace("/configurar");
   }
 
+  const newDataArray = data.filter((obj) => {
+    return (
+      obj.phoneNumber
+        .replace(/[- ()]/g, "")
+        .toLowerCase()
+        .includes(phone.toLowerCase()) &&
+      obj.last_name.toLowerCase().includes(surname.toLowerCase()) &&
+      obj.id.toString().toLowerCase().includes(id.toLowerCase())
+    );
+  });
+
   return (
     <div className="agenda">
       <HorizontalHeader title="Pacientes" />
@@ -54,7 +65,7 @@ const Pacients = () => {
           />
         ) : (
           <Table
-            data={data}
+            data={newDataArray}
             head={{
               id: "ID do usuário",
               phoneNumber: "Telefone celular",
