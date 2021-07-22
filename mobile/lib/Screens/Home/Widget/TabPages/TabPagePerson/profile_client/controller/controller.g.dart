@@ -43,6 +43,19 @@ mixin _$ControllerEditdataBaseProfileClient
   }
 
   @override
+  dynamic changeOff() {
+    final _$actionInfo =
+        _$_ControllerEditdataBaseProfileClientBaseActionController.startAction(
+            name: '_ControllerEditdataBaseProfileClientBase.changeOff');
+    try {
+      return super.changeOff();
+    } finally {
+      _$_ControllerEditdataBaseProfileClientBaseActionController
+          .endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 edit: ${edit}

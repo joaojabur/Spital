@@ -12,4 +12,9 @@ abstract class _ControllerEditdataBaseProfileClientBase with Store {
     edit = true;
     print(edit);
   }
+
+  @action
+  changeOff() {
+    edit = false;
+  }
 }
