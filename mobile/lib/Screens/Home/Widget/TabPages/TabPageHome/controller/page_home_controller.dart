@@ -9,5 +9,5 @@ abstract class _PageHomeControllerBase with Store {
   AuthController? authController;
 
   getUserFirstName() => authController!.user!.firstName;
-  getUserImage() => authController!.user!.image;
+  getUserImage() => authController!.imageActual;
 }
