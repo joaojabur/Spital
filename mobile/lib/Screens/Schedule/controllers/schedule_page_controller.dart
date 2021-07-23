@@ -9,6 +9,10 @@ class SchedulePageController = _SchedulePageControllerBase with _$SchedulePageCo
 
 abstract class _SchedulePageControllerBase with Store {
   final SchedulePageRepository repository = SchedulePageRepository();
+
+  @observable
+  DateTime focusedDay = DateTime.now();
+
   @observable
   ObservableList<ScheduleModel> medicSchedule = ObservableList<ScheduleModel>();
 
@@ -17,6 +21,11 @@ abstract class _SchedulePageControllerBase with Store {
 
   @observable
   ObservableList<ConsultModel> consultsType = ObservableList<ConsultModel>();
+
+  @action
+  changeFocusedDay(DateTime value){
+    focusedDay = value;
+  }
 
   Future<String> loadSchedule(int medicID, WeekDay weekDay) async {
     final response = await repository.loadSchedule(medicID, weekDay);
