@@ -1,5 +1,7 @@
 import 'package:Spital/Screens/Schedule/controllers/schedule_page_controller.dart';
 import 'package:Spital/Screens/Schedule/controllers/schedule_page_repository.dart';
+import 'package:Spital/Screens/Shared/Models/consult_model.dart';
+import 'package:Spital/Screens/Shared/Models/schedule_model.dart';
 import 'package:Spital/Screens/Shared/Widgets/AppBarSecond/appbar_second_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -15,14 +17,6 @@ class SchedulePage extends StatefulWidget {
 
 class _SchedulePageState extends State<SchedulePage> {
   SchedulePageController controller = SchedulePageController();
-  convert() {
-    String dia = controller.focusedDay.day.toString();
-    String mes = controller.focusedDay.month.toString();
-    String ano = controller.focusedDay.year.toString();
-    String datatime = "${mes}/${dia}/${ano}";
-    print(datatime);
-    return datatime;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,44 +37,101 @@ class _SchedulePageState extends State<SchedulePage> {
             value: 0.13,
             height: height),
         body: FutureBuilder(
-            future: controller.loadInitialData(medicID, WeekDay.Friday),
-            builder: (context, snapshot) {
-              return SafeArea(child: Observer(builder: (context) {
-                return Column(
-                  children: [
-                    TableCalendar(
-                      firstDay: DateTime.utc(2021, 1, 1),
-                      lastDay: DateTime.utc(2030, 3, 14),
-                      focusedDay: controller.focusedDay,
-                      onDaySelected: (selectedDay, _) {
-                        if (!isSameDay(controller.focusedDay, selectedDay)) {
-                          controller.changeFocusedDay(selectedDay);
-                        }
-                      },
-                      selectedDayPredicate: (day) {
-                        return isSameDay(controller.focusedDay, day);
-                      },
-                      onPageChanged: (focusedDay) {
-                        controller.changeFocusedDay(focusedDay);
-                        controller.loadCurrentAppointment(medicID, convert());
-                      },
-                    ),
+          future: controller.loadInitialData(medicID),
+          builder: (context, snapshot){
+            if (snapshot.connectionState == ConnectionState.done){
+                return Observer(builder: (context) {
+                  return Column(
+                    children: [
+                      TableCalendar(
+                        firstDay: DateTime.utc(2021, 1, 1),
+                        lastDay: DateTime.utc(2030, 3, 14),
+                        focusedDay: controller.focusedDay,
+                        onDaySelected: (selectedDay, _) {
+                          if (!isSameDay(controller.focusedDay, selectedDay)) {
+                            controller.changeFocusedDay(selectedDay);
+                          }
+                        },
+                        selectedDayPredicate: (day) {
+                          return isSameDay(controller.focusedDay, day);
+                        },
+                        onPageChanged: (focusedDay) {
+                          controller.changeFocusedDay(focusedDay);
+                        },
+                      ),
+                      FutureBuilder(
+                        future: controller.loadCurrentAppointment(medicID, controller.formatTime()),
+                        builder: (context, snapshot){
+                          if (snapshot.connectionState == ConnectionState.done){
+                            print(controller.medicSchedule);
+                            print(controller.currentAppointment);
+                            try {
+                              ScheduleModel currentSchedule = controller.medicSchedule.firstWhere(
+                                (element) => element.weekDay == controller.getWeekDay()
+                              );
+                             
+                              List<String> timeRange = controller.scheduleToTimeRange(currentSchedule);
+                              return Expanded(
+                                child: GridView.builder(
+                                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 5
+                                  ),
+                                  itemCount: timeRange.length,
+                                  itemBuilder: (context, index){
+                                    String range = timeRange[index];
+                                    bool isReserved = false;
+                                    try {
+                                      var reserve = controller.currentAppointment.firstWhere((element) => element.time == range);
+                                      isReserved = true;
+                                    } catch(err){
+                                      
+                                    }
+                                    print(isReserved);
 
-                    //  ElevatedButton(onPressed: convert, child: Text("Converte")),
-                    Expanded(
-                      child: ListView.builder(
-                          itemCount: controller.consultsType.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              child: Row(
-                                children: [Text("Aaaaaaaaaaaaa")],
-                              ),
-                            );
-                          }),
-                    )
-                  ],
-                );
-              }));
-            }));
+                                    return Container(
+                                      child: isReserved ? Text("$range - Reservado") : Text(range)
+                                    );
+                                  },
+                                ),
+                              );
+
+                            } catch(err){
+                              return Text("Não possui consultas nesse dia");
+                            }                            
+                          }
+
+                          return Center(
+                            child: CircularProgressIndicator()
+                          );
+                        },
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                            itemCount: controller.consultsType.length,
+                            itemBuilder: (context, index) {
+                              ConsultModel consult = controller.consultsType[index];
+                              return Container(
+                                child: Row(
+                                  children: [
+                                    Text("${consult.type}")
+                                  ],
+                                ),
+                              );
+                            }
+                          ),
+                      )
+                    ],
+                  );
+                }
+              );
+            }
+
+            return Center(
+              child: CircularProgressIndicator()
+            );
+        }
+      )
+    );
   }
 }
