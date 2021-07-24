@@ -35,7 +35,7 @@ class AppointmentModel {
     return {
       'date': date,
       'time': time,
-      'doctorName': doctorName,
+      'medicFirstName': doctorName,
       'type': type,
       'price': price,
     };
@@ -45,7 +45,7 @@ class AppointmentModel {
     return AppointmentModel(
       map['date'],
       map['time'],
-      map['doctorName'],
+      map['medicFirstName'],
       map['type'],
       map['price'],
     );
