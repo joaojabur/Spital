@@ -71,6 +71,7 @@ class _SchedulePageState extends State<SchedulePage> {
                               );
                              
                               List<String> timeRange = controller.scheduleToTimeRange(currentSchedule);
+                              String date = controller.formatTime();
                               return Expanded(
                                 child: GridView.builder(
                                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -82,12 +83,12 @@ class _SchedulePageState extends State<SchedulePage> {
                                     String range = timeRange[index];
                                     bool isReserved = false;
                                     try {
-                                      var reserve = controller.currentAppointment.firstWhere((element) => element.time == range);
+                                      var reserve = controller.currentAppointment.firstWhere((element) => element.time == range && element.date == date );
                                       isReserved = true;
                                     } catch(err){
                                       
                                     }
-                                    print(isReserved);
+                                    
 
                                     return Container(
                                       child: isReserved ? Text("$range - Reservado") : Text(range)
