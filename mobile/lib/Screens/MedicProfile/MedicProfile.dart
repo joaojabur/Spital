@@ -1,4 +1,4 @@
-import 'package:Spital/Screens/MedicProfile/appbar_medic_profile/appbar_profile_medic.dart';
+import 'package:Spital/Screens/MedicProfile/Widget/appbar_medic_profile/appbar_profile_medic.dart';
 import 'package:Spital/Screens/MedicProfile/controller/save_controller.dart';
 import 'package:Spital/Screens/Shared/Models/medic_model.dart';
 import 'package:Spital/core/core.dart';
@@ -17,16 +17,6 @@ class MedicProfile extends StatefulWidget {
 }
 
 class _MedicProfileState extends State<MedicProfile> {
-  openGoogleMaps(String address) async {
-    const endereco = "joão zacarias";
-    const urlMap = "https://www.google.com/maps/place/${endereco}";
-    if (await canLaunch(urlMap)) {
-      await launch(urlMap);
-    } else {
-      throw 'Could not launch Maps';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     SaveController saveController = SaveController();
@@ -64,6 +54,7 @@ class _MedicProfileState extends State<MedicProfile> {
             nota: '',
             saveController: saveController,
             medicModel: medic,
+            context: context,
           ),
           body: Container(
             child: Column(
@@ -339,8 +330,8 @@ class _MedicProfileState extends State<MedicProfile> {
                                       borderRadius: BorderRadius.circular(15.0),
                                     ))),
                                 onPressed: () {
-                                   Navigator.pushNamed(context, "/schedule",
-                                        arguments: medic.id);
+                                  Navigator.pushNamed(context, "/schedule",
+                                      arguments: medic.id);
                                 },
                                 child: Text(
                                   "Agendar consulta",

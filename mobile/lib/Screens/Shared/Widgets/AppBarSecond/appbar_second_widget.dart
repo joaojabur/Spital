@@ -31,7 +31,7 @@ class AppbarSecundaria extends PreferredSize {
                   padding:
                       EdgeInsets.only(top: height * 0.05, left: 20, right: 0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(right: 5),
@@ -65,13 +65,13 @@ class AppbarSecundaria extends PreferredSize {
                                 ))
                             : null,
                       ),
-                      Text(
-                        title,
-                        style: AppTextStyles.titleBold2,
-                        textAlign: TextAlign.center,
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(right: 50),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20),
+                        child: Text(
+                          title,
+                          style: AppTextStyles.titleBold2,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ],
                   ),
