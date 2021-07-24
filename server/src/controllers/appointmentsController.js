@@ -30,6 +30,7 @@ module.exports = {
       }
       if (!scheduleID) {
         if (medicID !== undefined && date !== undefined) {
+          console.log("CERTA");
           query
             .where({ medicID: medicID, date: date })
             .join(
@@ -39,7 +40,8 @@ module.exports = {
               "appointments.scheduleID"
             )
             .join("medics", "medics.id", "=", "schedules.medicID")
-            .select(["appointments.*", "schedules.medicID", "medics.*"]);
+            .join("users", "users.id", "=", "medics.userID")
+            .select(["appointments.*", "schedules.medicID", "medics.*", "users.first_name as medicFirstName"]);
         } else if (medicID !== undefined) {
           query
             .where({ medicID: medicID })
