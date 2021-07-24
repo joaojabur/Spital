@@ -24,19 +24,40 @@ enum WeekDay {
   Monday,
   Tuesday,
   Wednesday,
-  Thrusday,
+  Thursday,
   Friday,
   Saturday,
   Sunday
 }
 
+extension intToWeekDay on WeekDay {
+  WeekDay fromInt(int weekDay){
+    switch (weekDay){
+      case 1:
+        return WeekDay.Monday;
+      case 2:
+        return WeekDay.Tuesday;
+      case 3:
+        return WeekDay.Wednesday;
+      case 4:
+        return WeekDay.Thursday;
+      case 5:
+        return WeekDay.Friday;
+      case 6:
+        return WeekDay.Saturday;
+      default:
+        return WeekDay.Sunday;
+    }
+  }
+}
+
 class SchedulePageRepository {
   final dio = DioInstace.dio;
 
-  Future<ScheduleRepositoryResponse> loadSchedule(int medicID, WeekDay weekDay ) async {
+  Future<ScheduleRepositoryResponse> loadSchedule(int medicID) async {
     try {
       List<ScheduleModel> schedules = [];
-      final response = await dio.get('/medic-schedule?medicID=$medicID&week_day=$weekDay', 
+      final response = await dio.get('/medic-schedule?medicID=$medicID', 
         options: Options(
           followRedirects: false,
           validateStatus: (status) {
@@ -44,7 +65,7 @@ class SchedulePageRepository {
           },
         )
       );
-
+      
       for (var schedule in List.from(response.data)) {
         schedules.add(ScheduleModel.fromMap(schedule));
       }
