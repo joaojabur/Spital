@@ -3,7 +3,7 @@ import 'dart:convert';
 class ScheduleModel {
   final String from;
   final String to;
-  final String weekDay;
+  final int weekDay;
 
   ScheduleModel(
     this.from,
@@ -14,7 +14,7 @@ class ScheduleModel {
   ScheduleModel copyWith({
     String? from,
     String? to,
-    String? weekDay,
+    int? weekDay,
   }) {
     return ScheduleModel(
       from ?? this.from,
