@@ -6,6 +6,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class AppBarMedicProfile extends PreferredSize {
+  final BuildContext context;
   final void Function()? onpressed;
   final void Function()? onpressed2;
   final bool topleftIcon;
@@ -20,6 +21,7 @@ class AppBarMedicProfile extends PreferredSize {
   final MedicModel medicModel;
   AppBarMedicProfile(
       {required this.nome,
+      required this.context,
       required this.medicModel,
       required this.saveController,
       required this.area,
@@ -227,7 +229,10 @@ class AppBarMedicProfile extends PreferredSize {
                                   RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15.0),
                           ))),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/schedule",
+                            arguments: medicModel.id);
+                      },
                       child: Text(
                         "Agendar consulta",
                         style: AppTextStyles.titleBoldWriteMaior,
