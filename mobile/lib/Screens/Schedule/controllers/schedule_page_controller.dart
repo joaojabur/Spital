@@ -24,9 +24,25 @@ abstract class _SchedulePageControllerBase with Store {
   @observable
   ObservableList<ConsultModel> consultsType = ObservableList<ConsultModel>();
 
+  @observable
+  String? selectedTime;
+
+  @observable
+  String? selectedType;
+
   @action
   changeFocusedDay(DateTime value) {
     focusedDay = value;
+  }
+
+  @action
+  changedSelectedTime(String value){
+    selectedTime = value;
+  }
+
+  @action
+  changeSelectedType(String value){
+    selectedType = value;
   }
 
   Future<String> loadSchedule(int medicID) async {
