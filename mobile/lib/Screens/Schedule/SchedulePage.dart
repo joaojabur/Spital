@@ -1,3 +1,4 @@
+import 'package:Spital/Screens/Schedule/Widget/TimeButton.dart';
 import 'package:Spital/Screens/Schedule/controllers/schedule_page_controller.dart';
 import 'package:Spital/Screens/Schedule/controllers/schedule_page_repository.dart';
 import 'package:Spital/Screens/Shared/Models/consult_model.dart';
@@ -41,88 +42,115 @@ class _SchedulePageState extends State<SchedulePage> {
           builder: (context, snapshot){
             if (snapshot.connectionState == ConnectionState.done){
                 return Observer(builder: (context) {
-                  return Column(
-                    children: [
-                      TableCalendar(
-                        firstDay: DateTime.utc(2021, 1, 1),
-                        lastDay: DateTime.utc(2030, 3, 14),
-                        focusedDay: controller.focusedDay,
-                        onDaySelected: (selectedDay, _) {
-                          if (!isSameDay(controller.focusedDay, selectedDay)) {
-                            controller.changeFocusedDay(selectedDay);
-                          }
-                        },
-                        selectedDayPredicate: (day) {
-                          return isSameDay(controller.focusedDay, day);
-                        },
-                        onPageChanged: (focusedDay) {
-                          controller.changeFocusedDay(focusedDay);
-                        },
-                      ),
-                      FutureBuilder(
-                        future: controller.loadCurrentAppointment(medicID, controller.formatTime()),
-                        builder: (context, snapshot){
-                          if (snapshot.connectionState == ConnectionState.done){
-                            print(controller.medicSchedule);
-                            print(controller.currentAppointment);
-                            try {
-                              ScheduleModel currentSchedule = controller.medicSchedule.firstWhere(
-                                (element) => element.weekDay == controller.getWeekDay()
-                              );
-                             
-                              List<String> timeRange = controller.scheduleToTimeRange(currentSchedule);
-                              String date = controller.formatTime();
-                              return Expanded(
-                                child: GridView.builder(
-                                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    childAspectRatio: 5
-                                  ),
-                                  itemCount: timeRange.length,
-                                  itemBuilder: (context, index){
-                                    String range = timeRange[index];
-                                    bool isReserved = false;
-                                    try {
-                                      var reserve = controller.currentAppointment.firstWhere((element) => element.time == range && element.date == date );
-                                      isReserved = true;
-                                    } catch(err){
-                                      
-                                    }
-                                    
-
-                                    return Container(
-                                      child: isReserved ? Text("$range - Reservado") : Text(range)
-                                    );
-                                  },
-                                ),
-                              );
-
-                            } catch(err){
-                              return Text("Não possui consultas nesse dia");
-                            }                            
-                          }
-
-                          return Center(
-                            child: CircularProgressIndicator()
-                          );
-                        },
-                      ),
-                      Expanded(
-                        child: ListView.builder(
-                            itemCount: controller.consultsType.length,
-                            itemBuilder: (context, index) {
-                              ConsultModel consult = controller.consultsType[index];
-                              return Container(
-                                child: Row(
-                                  children: [
-                                    Text("${consult.type}")
-                                  ],
-                                ),
-                              );
-                            }
+                  return Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          TableCalendar(
+                            firstDay: DateTime.utc(2021, 1, 1),
+                            lastDay: DateTime.utc(2030, 3, 14),
+                            focusedDay: controller.focusedDay,
+                            onDaySelected: (selectedDay, _) {
+                              if (!isSameDay(controller.focusedDay, selectedDay)) {
+                                controller.changeFocusedDay(selectedDay);
+                              }
+                            },
+                            selectedDayPredicate: (day) {
+                              return isSameDay(controller.focusedDay, day);
+                            },
+                            onPageChanged: (focusedDay) {
+                              controller.changeFocusedDay(focusedDay);
+                            },
                           ),
-                      )
-                    ],
+                          FutureBuilder(
+                            future: controller.loadCurrentAppointment(medicID, controller.formatTime()),
+                            builder: (context, snapshot){
+                              if (snapshot.connectionState == ConnectionState.done){
+                                print(controller.medicSchedule);
+                                print(controller.currentAppointment);
+                                try {
+                                  ScheduleModel currentSchedule = controller.medicSchedule.firstWhere(
+                                    (element) => element.weekDay == controller.getWeekDay()
+                                  );
+                                 
+                                  List<String> timeRange = controller.scheduleToTimeRange(currentSchedule);
+                                  String date = controller.formatTime();
+                                  return ConstrainedBox(
+                                    constraints: BoxConstraints(
+                                      maxHeight: controller.medicSchedule.length * 75,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                                      child: GridView.builder(
+                                        physics: BouncingScrollPhysics(),
+                                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          childAspectRatio: 4.5,
+                                          crossAxisSpacing: 10,
+                                          mainAxisSpacing: 20
+                                        ),
+                                        itemCount: timeRange.length,
+                                        itemBuilder: (context, index){
+                                          String range = timeRange[index];
+                                          bool isReserved = false;
+                                          try {
+                                            var reserve = controller.currentAppointment.firstWhere((element) => element.time == range && element.date == date );
+                                            isReserved = true;
+                                          } catch(err){
+                                            
+                                          } 
+                                  
+                                          return Container(
+                                            child: TimeButton(
+                                              text: range,
+                                              onPressed: (){
+                                                controller.changedSelectedTime(range);
+                                              },
+                                              reserved: isReserved,
+                                              selected: controller.selectedTime == range,
+                                            )
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  );
+
+                                } catch(err){
+                                  return Text("Não possui consultas nesse dia");
+                                }                            
+                              }
+
+                              return Center(
+                                child: CircularProgressIndicator()
+                              );
+                            },
+                          ),
+                          ConstrainedBox(
+                            constraints: BoxConstraints(
+                              maxHeight: controller.consultsType.length * 75
+                            ),
+                            child: ListView.builder(
+                              itemCount: controller.consultsType.length,
+                              itemBuilder: (context, index) {
+                                ConsultModel consult = controller.consultsType[index];
+                                return Container(
+                                  child: Row(
+                                    children: [
+                                      ElevatedButton(
+                                        onPressed: (){
+                                          controller.changeSelectedType(consult.type);
+                                        }, 
+                                        child:  Text("${consult.type}")
+                                      )                                     
+                                    ],
+                                  ),
+                                );
+                              }
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                   );
                 }
               );
