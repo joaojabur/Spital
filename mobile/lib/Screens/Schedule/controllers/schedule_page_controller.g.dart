@@ -72,6 +72,38 @@ mixin _$SchedulePageController on _SchedulePageControllerBase, Store {
     });
   }
 
+  final _$selectedTimeAtom =
+      Atom(name: '_SchedulePageControllerBase.selectedTime');
+
+  @override
+  String? get selectedTime {
+    _$selectedTimeAtom.reportRead();
+    return super.selectedTime;
+  }
+
+  @override
+  set selectedTime(String? value) {
+    _$selectedTimeAtom.reportWrite(value, super.selectedTime, () {
+      super.selectedTime = value;
+    });
+  }
+
+  final _$selectedTypeAtom =
+      Atom(name: '_SchedulePageControllerBase.selectedType');
+
+  @override
+  String? get selectedType {
+    _$selectedTypeAtom.reportRead();
+    return super.selectedType;
+  }
+
+  @override
+  set selectedType(String? value) {
+    _$selectedTypeAtom.reportWrite(value, super.selectedType, () {
+      super.selectedType = value;
+    });
+  }
+
   final _$_SchedulePageControllerBaseActionController =
       ActionController(name: '_SchedulePageControllerBase');
 
@@ -87,12 +119,36 @@ mixin _$SchedulePageController on _SchedulePageControllerBase, Store {
   }
 
   @override
+  dynamic changedSelectedTime(String value) {
+    final _$actionInfo = _$_SchedulePageControllerBaseActionController
+        .startAction(name: '_SchedulePageControllerBase.changedSelectedTime');
+    try {
+      return super.changedSelectedTime(value);
+    } finally {
+      _$_SchedulePageControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic changeSelectedType(String value) {
+    final _$actionInfo = _$_SchedulePageControllerBaseActionController
+        .startAction(name: '_SchedulePageControllerBase.changeSelectedType');
+    try {
+      return super.changeSelectedType(value);
+    } finally {
+      _$_SchedulePageControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 focusedDay: ${focusedDay},
 medicSchedule: ${medicSchedule},
 currentAppointment: ${currentAppointment},
-consultsType: ${consultsType}
+consultsType: ${consultsType},
+selectedTime: ${selectedTime},
+selectedType: ${selectedType}
     ''';
   }
 }
