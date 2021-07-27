@@ -24,11 +24,13 @@ class _PageHomeState extends State<PageHome> {
     bool serviceEnabled;
     LocationPermission permission;
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    print("ServicesEnabled: $serviceEnabled");
     if (!serviceEnabled) {
       return Future.error('Location services are disabled.');
     }
 
     permission = await Geolocator.checkPermission();
+    print("Services Permissions: $permission");
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
@@ -40,8 +42,16 @@ class _PageHomeState extends State<PageHome> {
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
+    print("Getting Position");
+    var position = await Geolocator.getCurrentPosition(
+      forceAndroidLocationManager: true
+    );
+    print("Position: $position");
 
-    controller.setPosition(await Geolocator.getCurrentPosition());
+    controller.setPosition(await Geolocator.getCurrentPosition(
+      forceAndroidLocationManager: true
+    ));
+    print('Position: ${controller.position}');
   }
 
   @override
@@ -50,7 +60,7 @@ class _PageHomeState extends State<PageHome> {
     LocationController location = Provider.of<LocationController>(context);
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-
+    print("Location");
     getLocationPermission(location);
 
     return Scaffold(
