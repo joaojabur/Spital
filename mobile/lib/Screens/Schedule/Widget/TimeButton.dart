@@ -26,13 +26,21 @@ class TimeButton extends StatelessWidget {
                   RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               )))
-          : ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.all<Color>(AppColors.darkBlue),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ))),
+          : selected == true
+              ? ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(AppColors.blueT100),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  )))
+              : ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(AppColors.darkBlue),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ))),
     );
   }
 }
