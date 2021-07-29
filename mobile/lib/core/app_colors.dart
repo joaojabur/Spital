@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class AppColors {
   static final Color verde = Color(0xFF3EB713);
 
+  static final Color indigo = Color(0xFFB0C7EF);
   static final Color blue = Color(0xFF07B3D6);
   static final Color texfield = Color(0xFF87e0f2).withOpacity(0.5);
   static final Color darkBlue = Color(0xFF16697A);

@@ -17,9 +17,13 @@ class AppTextStyles {
       color: AppColors.black, fontSize: 28, fontWeight: FontWeight.bold);
   static final TextStyle titleBold3 = GoogleFonts.quicksand(
       color: AppColors.black, fontSize: 20, fontWeight: FontWeight.bold);
+  static final TextStyle titleBold3Cinza = GoogleFonts.quicksand(
+      color: Colors.grey[400], fontSize: 14, fontWeight: FontWeight.bold);
   static final TextStyle titleBold4 = GoogleFonts.quicksand(
       color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold);
 
+  static final TextStyle calendarDayAndWeekend = GoogleFonts.quicksand(
+      color: AppColors.indigo, fontSize: 14, fontWeight: FontWeight.bold);
   static final TextStyle titleBold5 = GoogleFonts.quicksand(
       color: AppColors.black, fontSize: 14, fontWeight: FontWeight.bold);
   static final TextStyle loginDescription = GoogleFonts.quicksand(
