@@ -1,4 +1,3 @@
-import { Switch } from "@material-ui/core";
 import React from "react";
 import Row from "../Row";
 import TableHead from "../TableHead";
@@ -6,16 +5,9 @@ import "./styles.css";
 
 interface TableProps {
   title: string;
-  inputs: Array<InputProps>;
-  switches?: Array<SwitchesProps>;
-  data: any;
-  head: any;
-}
-
-interface SwitchesProps {
-  label: string;
-  value: boolean;
-  setValue: React.Dispatch<React.SetStateAction<boolean>>;
+  inputs?: Array<InputProps>;
+  head?: any;
+  data?: any;
 }
 
 interface InputProps {
@@ -24,7 +16,7 @@ interface InputProps {
   setValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Table = ({ title, inputs, switches, head, data }: TableProps) => {
+const Table = ({ title, inputs, data, head }: TableProps) => {
   let keys;
 
   if (data.length !== 0) {
@@ -33,16 +25,16 @@ const Table = ({ title, inputs, switches, head, data }: TableProps) => {
 
   return (
     <div className="table">
-      <h1 className="title-revenue">{title}</h1>
-      <p className="subtitle-revenue">Filtros para busca</p>
+      <h1>{title}</h1>
+      <p>Filtros para busca:</p>
       <div className="table-inputs">
-        {inputs.map((input) => {
+        {inputs?.map((input: InputProps) => {
           return (
             <div style={{ width: "95%" }} className="table-input-wrap">
               <label htmlFor="exampleFormControlInput1" className="form-label">
                 {input.label}
               </label>
-              <div className="table-input-flex">
+              <div style={{ width: "95%" }} className="table-input-flex">
                 <input
                   type="text"
                   className="form-control"
@@ -57,26 +49,9 @@ const Table = ({ title, inputs, switches, head, data }: TableProps) => {
             </div>
           );
         })}
-
-        {switches?.map((switche) => {
-          return (
-            <div className="switches-flex">
-              <Switch
-                checked={switche.value}
-                onChange={(e) => {
-                  switche.setValue(e.target.checked);
-                }}
-                color="primary"
-                inputProps={{ "aria-label": "primary checkbox" }}
-              />
-              <p>{switche.label}</p>
-            </div>
-          );
-        })}
       </div>
-      <h1 className="results-h1">Resultados:</h1>
-      <table className="table-content">
-        <TableHead keys={keys} head={head} />
+      <div className="table-content">
+        <TableHead head={head} keys={keys} />
         <tbody style={{ width: "100%" }}>
           {data?.map((record: any) => (
             <>
@@ -84,7 +59,7 @@ const Table = ({ title, inputs, switches, head, data }: TableProps) => {
             </>
           ))}
         </tbody>
-      </table>
+      </div>
     </div>
   );
 };

@@ -1,0 +1,121 @@
+.dashboard-statistics {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 95%;
+  height: 100%;
+}
+
+.dashboard-statistics > h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.dashboard-statistics > .dashboard-statistics-content {
+  width: 100%;
+  display: grid;
+  padding: 1rem;
+  grid-template-columns: 2fr 2fr 2fr 2fr 2fr 2fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+    "statistics statistics statistics chart chart chart"
+    "clients clients orders orders orders orders";
+  grid-gap: 2rem;
+  justify-content: center;
+  justify-items: center;
+  align-content: center;
+}
+
+.dashboard-statistics > .dashboard-statistics-content > .pattern {
+  width: 100%;
+  background-color: #fff;
+  padding: 2rem;
+  -webkit-box-shadow: 0px 1px 4px -1px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 1px 4px -1px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 1px 4px -1px rgba(0, 0, 0, 0.75);
+  border-radius: 2rem;
+}
+
+.dashboard-statistics > .dashboard-statistics-content > .numbers {
+  background-color: transparent !important;
+  grid-area: statistics;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 2rem;
+  justify-content: center;
+  justify-items: center;
+  align-content: center;
+  padding: 0 !important;
+  -webkit-box-shadow: 0px 0px 0px 0px !important;
+  -moz-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.75) !important;
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.75) !important;
+}
+
+.dashboard-statistics
+  > .dashboard-statistics-content
+  > .numbers
+  > .numbers-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  padding: 3rem;
+  border-radius: 2rem;
+  background-color: #fff;
+  -webkit-box-shadow: 0px 1px 4px -1px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 1px 4px -1px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 1px 4px -1px rgba(0, 0, 0, 0.75);
+}
+
+.dashboard-statistics
+  > .dashboard-statistics-content
+  > .numbers
+  > .numbers-wrap
+  > .numbers-wrap-data {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  flex-direction: column;
+}
+
+.dashboard-statistics
+  > .dashboard-statistics-content
+  > .numbers
+  > .numbers-wrap
+  > .numbers-wrap-data
+  > h2 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #333;
+  font-family: Roboto;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.dashboard-statistics
+  > .dashboard-statistics-content
+  > .numbers
+  > .numbers-wrap
+  > .numbers-wrap-data
+  > h4 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #333;
+  margin-top: 0.2rem;
+  text-align: center;
+}
+
+.dashboard-statistics > .dashboard-statistics-content > .chart {
+  grid-area: chart;
+}
+
+.dashboard-statistics > .dashboard-statistics-content > .clients {
+  grid-area: clients;
+}
+
+.dashboard-statistics > .dashboard-statistics-content > .orders {
+  grid-area: orders;
+}

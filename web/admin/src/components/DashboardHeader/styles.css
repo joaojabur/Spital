@@ -1,0 +1,29 @@
+.dashboard-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dashboard-header > .profile-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 2rem;
+}
+
+.dashboard-header > .profile-section > img {
+  background-color: #333;
+  border-radius: 50%;
+  width: 4rem;
+  height: 4rem;
+}
+
+.dashboard-header > .profile-section > p {
+  position: relative;
+  top: 0.5rem;
+  margin-right: 3rem;
+  margin-left: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
