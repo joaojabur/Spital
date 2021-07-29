@@ -1,6 +1,5 @@
 import 'package:Spital/Screens/Schedule/Widget/TimeButton.dart';
 import 'package:Spital/Screens/Schedule/controllers/schedule_page_controller.dart';
-import 'package:Spital/Screens/Schedule/controllers/schedule_page_repository.dart';
 import 'package:Spital/Screens/Shared/Models/consult_model.dart';
 import 'package:Spital/Screens/Shared/Models/schedule_model.dart';
 import 'package:Spital/Screens/Shared/Widgets/AppBarSecond/appbar_second_widget.dart';
@@ -51,7 +50,8 @@ class _SchedulePageState extends State<SchedulePage> {
                           lastDay: DateTime.utc(2030, 3, 14),
                           focusedDay: controller.focusedDay,
                           onDaySelected: (selectedDay, _) {
-                            if (!isSameDay(controller.focusedDay, selectedDay)) {
+                            if (!isSameDay(
+                                controller.focusedDay, selectedDay)) {
                               controller.changeFocusedDay(selectedDay);
                             }
                           },
@@ -82,11 +82,13 @@ class _SchedulePageState extends State<SchedulePage> {
                                 String date = controller.formatTime();
                                 return Column(
                                   children: [
-                                    Text("Horários Disponíveis"),
+                                    Text(
+                                      "Horários Disponíveis",
+                                      style: AppTextStyles.titleBold3,
+                                    ),
                                     ConstrainedBox(
                                       constraints: BoxConstraints(
-                                        maxHeight: timeRange.length * 31
-                                      ),
+                                          maxHeight: timeRange.length * 31),
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 10, vertical: 15),
@@ -102,8 +104,10 @@ class _SchedulePageState extends State<SchedulePage> {
                                           itemBuilder: (context, index) {
                                             String range = timeRange[index];
                                             bool isReserved = false;
-                                            print(controller.currentAppointment);
-                                            print("controller.currentAppointment");
+                                            print(
+                                                controller.currentAppointment);
+                                            print(
+                                                "controller.currentAppointment");
                                             try {
                                               var reserve = controller
                                                   .currentAppointment
@@ -112,16 +116,18 @@ class _SchedulePageState extends State<SchedulePage> {
                                                       element.date == date);
                                               isReserved = true;
                                             } catch (err) {}
-                                    
+
                                             return Container(
                                                 child: TimeButton(
                                               text: range,
                                               onPressed: () {
-                                                controller.changedSelectedTime(range);
+                                                controller
+                                                    .changedSelectedTime(range);
                                               },
                                               reserved: isReserved,
                                               selected:
-                                                  controller.selectedTime == range,
+                                                  controller.selectedTime ==
+                                                      range,
                                             ));
                                           },
                                         ),
@@ -137,81 +143,89 @@ class _SchedulePageState extends State<SchedulePage> {
                             return Center(child: CircularProgressIndicator());
                           },
                         ),
-                        Container(
-                          height: controller.consultsType.length * 90,
-                          child: Expanded(
-                            child: ListView.builder(
-                                itemCount: controller.consultsType.length,
-                                itemBuilder: (context, index) {
-                                  ConsultModel consult =
-                                      controller.consultsType[index];
-                                  return Padding(
-                                    padding: const EdgeInsets.all(15),
-                                    child: PhysicalModel(
-                                      color: Colors.black,
-                                      elevation: 2,
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10),
-                                          child: Column(
-                                            children: [
-                                              ElevatedButton(
-                                                  style: ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStateProperty.all<
-                                                                  Color>(
-                                                              AppColors.darkBlue),
-                                                      shape: MaterialStateProperty
-                                                          .all<RoundedRectangleBorder>(
-                                                              RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                10.0),
-                                                      ))),
-                                                  onPressed: () {
-                                                    controller.changeSelectedType(
-                                                        consult.type);
-                                                  },
-                                                  child: Container(
-                                                    margin: EdgeInsets.only(
-                                                        left: 10,
-                                                        right: 0,
-                                                        top: 10,
-                                                        bottom: 10),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.start,
-                                                      children: [
-                                                        Text(
-                                                          "${consult.type}",
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            "Tipos de consultas",
+                            style: AppTextStyles.titleBold3,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Container(
+                            height: controller.consultsType.length * 90,
+                            child: Expanded(
+                              child: ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: controller.consultsType.length,
+                                  itemBuilder: (context, index) {
+                                    ConsultModel consult =
+                                        controller.consultsType[index];
+                                    return Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child: PhysicalModel(
+                                        color: Colors.black,
+                                        elevation: 2,
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10),
+                                            child: ElevatedButton(
+                                                style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all<Color>(
+                                                                AppColors
+                                                                    .darkBlue),
+                                                    shape: MaterialStateProperty
+                                                        .all<RoundedRectangleBorder>(
+                                                            RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                    ))),
+                                                onPressed: () {
+                                                  controller.changeSelectedType(
+                                                      consult.type);
+                                                },
+                                                child: Container(
+                                                  margin: EdgeInsets.only(
+                                                      left: 10,
+                                                      right: 0,
+                                                      top: 10,
+                                                      bottom: 10),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        "${consult.type}",
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(left: 90),
+                                                        child: Text(
+                                                          "R\$: 150,00",
                                                           textAlign:
                                                               TextAlign.start,
                                                         ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets.only(
-                                                                  left: 90),
-                                                          child: Text(
-                                                            "R\$: 150,00",
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )),
-                                            ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                }),
+                                    );
+                                  }),
+                            ),
                           ),
                         )
                       ],
