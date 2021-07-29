@@ -33,7 +33,7 @@ const DoctorList = ({ medics, loading }: DoctorListProps) => {
       <div className="doctors-list-content">
         {medics?.map((medic, index) => {
           return (
-            <div key={index} className="doctors-list-unique">
+            <div data-aos="fade-up" key={index} className="doctors-list-unique">
               <DoctorItem medic={medic}/>
             </div>
           );

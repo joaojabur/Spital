@@ -39,6 +39,16 @@ const Pacients = () => {
     },
   ];
 
+  const newDataArray = data.filter((obj) => {
+    return (
+      obj.id
+        .replace(/[- ()]/g, "")
+        .toLowerCase()
+        .includes(id.toLowerCase()) &&
+      obj.last_name.toLowerCase().includes(surname.toLowerCase())
+    );
+  });
+
   return (
     <div className="main">
       <Header />
@@ -52,7 +62,7 @@ const Pacients = () => {
             first_name: "Nome do paciente",
             last_name: "Sobrenome do paciente",
           }}
-          data={data}
+          data={newDataArray}
           inputs={[
             { label: "ID", value: id, setValue: setId },
             { label: "Sobrenome", value: surname, setValue: setSurname },

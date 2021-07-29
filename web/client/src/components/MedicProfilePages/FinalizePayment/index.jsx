@@ -213,7 +213,7 @@ const FinalizePayment = ({ previousPage }) => {
                   value={card.cvc}
                   placeholder="CVC"
                   onChange={(e) => {
-                    setCard({ ...card, cvc: mask(e.target.value, "###") });
+                    setCard({ ...card, cvc: mask(e.target.value, "####") });
                   }}
                   style={{ width: "12%" }}
                   variant="outlined"

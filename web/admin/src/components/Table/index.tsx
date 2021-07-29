@@ -25,12 +25,12 @@ const Table = ({ title, inputs, data, head }: TableProps) => {
 
   return (
     <div className="table">
-      <h1>{title}</h1>
-      <p>Filtros para busca:</p>
+      <h1 data-aos="zoom-out">{title}</h1>
+      <p data-aos="fade-up">Filtros para busca:</p>
       <div className="table-inputs">
         {inputs?.map((input: InputProps) => {
           return (
-            <div style={{ width: "95%" }} className="table-input-wrap">
+            <div data-aos="fade-out" style={{ width: "95%" }} className="table-input-wrap">
               <label htmlFor="exampleFormControlInput1" className="form-label">
                 {input.label}
               </label>

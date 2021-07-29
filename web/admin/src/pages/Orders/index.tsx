@@ -39,13 +39,24 @@ const Orders = () => {
       last_name: "Jabur",
     },
   ];
+
+  const newDataArray = data.filter((obj) => {
+    return (
+      obj.id
+        .replace(/[- ()]/g, "")
+        .toLowerCase()
+        .includes(id.toLowerCase()) &&
+      obj.created_at.toLowerCase().includes(created_at.toLowerCase())
+    );
+  });
+
   return (
     <div className="main">
       <Header />
       <div className="orders">
         <DashboardHeader />
         <Table
-          data={data}
+          data={newDataArray}
           head={{
             id: "ID",
             created_at: "Data",

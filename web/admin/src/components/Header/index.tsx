@@ -52,7 +52,7 @@ const headerData = [
 const Header = () => {
   return (
     <div className="header">
-      <h1>Logo</h1>
+      <h1>Spital Admin</h1>
       <ul>
         {headerData.map((item, key) => {
           return (

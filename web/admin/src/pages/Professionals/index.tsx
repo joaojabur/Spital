@@ -6,7 +6,7 @@ import "./styles.css";
 
 const Professionals = () => {
   const [id, setId] = useState("");
-  const [created_at, setCreated_at] = useState("");
+  const [email, setEmail] = useState("");
 
   const data = [
     {
@@ -50,13 +50,28 @@ const Professionals = () => {
       accepted: false,
     },
   ];
+
+  const newDataArray = data.filter((obj) => {
+    return (
+      obj.id
+        .replace(/[- ()]/g, "")
+        .toLowerCase()
+        .includes(id.toLowerCase()) &&
+      obj.email.toLowerCase().includes(email.toLowerCase())
+    );
+  });
+
   return (
     <div className="main">
       <Header />
       <div className="professionals">
         <DashboardHeader />
         <Table
-          data={data}
+          data={newDataArray}
+          inputs={[
+            { label: "ID", value: id, setValue: setId },
+            { label: "E-mail", value: email, setValue: setEmail },
+          ]}
           head={{
             id: "ID",
             confirmed: "Confirmado",

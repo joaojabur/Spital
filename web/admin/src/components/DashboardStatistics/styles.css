@@ -114,8 +114,52 @@
 
 .dashboard-statistics > .dashboard-statistics-content > .clients {
   grid-area: clients;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.dashboard-statistics > .dashboard-statistics-content > .clients > h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.dashboard-statistics
+  > .dashboard-statistics-content
+  > .clients
+  > .clients-content {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: center;
+  align-items: center;
 }
 
 .dashboard-statistics > .dashboard-statistics-content > .orders {
   grid-area: orders;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.dashboard-statistics > .dashboard-statistics-content > .orders > h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.dashboard-statistics
+  > .dashboard-statistics-content
+  > .orders
+  > .orders-content {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  justify-content: center;
+  align-items: center;
 }

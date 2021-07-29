@@ -7,7 +7,7 @@ interface LoadMoreButtonProps {
 const LoadMoreButton = ({ onClick }: LoadMoreButtonProps) => {
   return (
     <button onClick={onClick} type="button" className="load-more-button">
-      Load more
+      Carregar mais
     </button>
   );
 };

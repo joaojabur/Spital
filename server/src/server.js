@@ -7,7 +7,7 @@ const cors = require("cors");
 const baseURL =
   process.env.NODE_ENV === "production"
     ? "https://spital.com.br"
-    : "http://localhost:3000"
+    : "*"
       
 
 const routes = require("./routes");
