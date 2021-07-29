@@ -4,6 +4,12 @@ var fs = require("fs");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
+const baseURL =
+  process.env.NODE_ENV === "production"
+    ? "https://spital.com.br"
+    : "http://localhost:3000"
+      
+
 const routes = require("./routes");
 
 var privateKey = fs.readFileSync(__dirname + "/keys/spital.pem");
@@ -13,11 +19,11 @@ var credentials = { key: privateKey, cert: certificate };
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: baseURL }));
 app.use(express.json());
 app.use(routes);
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
   const error = new Error("Not Found");

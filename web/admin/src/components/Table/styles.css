@@ -1,0 +1,27 @@
+.table {
+  display: flex;
+  width: 95%;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: 100%;
+}
+
+.table > h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.table > .table-inputs {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.table > .table-content {
+  margin-top: 1rem;
+  width: 100%;
+  overflow-x: scroll;
+}
