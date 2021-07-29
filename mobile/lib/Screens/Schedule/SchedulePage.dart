@@ -45,22 +45,101 @@ class _SchedulePageState extends State<SchedulePage> {
                   return SingleChildScrollView(
                     child: Column(
                       children: [
-                        TableCalendar(
-                          firstDay: DateTime.utc(2021, 1, 1),
-                          lastDay: DateTime.utc(2030, 3, 14),
-                          focusedDay: controller.focusedDay,
-                          onDaySelected: (selectedDay, _) {
-                            if (!isSameDay(
-                                controller.focusedDay, selectedDay)) {
-                              controller.changeFocusedDay(selectedDay);
-                            }
-                          },
-                          selectedDayPredicate: (day) {
-                            return isSameDay(controller.focusedDay, day);
-                          },
-                          onPageChanged: (focusedDay) {
-                            controller.changeFocusedDay(focusedDay);
-                          },
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20, bottom: 10),
+                          child: PhysicalModel(
+                            color: Colors.black,
+                            elevation: 2,
+                            borderRadius: BorderRadius.circular(50),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(50)),
+                              child: SizedBox(
+                                height: 390,
+                                width: 320,
+                                child: TableCalendar(
+                                    locale: "pt-br",
+                                    availableCalendarFormats: {
+                                      CalendarFormat.month: 'Mês',
+                                    },
+                                    firstDay: DateTime.utc(2021, 1, 1),
+                                    lastDay: DateTime.utc(2030, 3, 14),
+                                    focusedDay: controller.focusedDay,
+                                    onDaySelected: (selectedDay, _) {
+                                      if (!isSameDay(
+                                          controller.focusedDay, selectedDay)) {
+                                        controller
+                                            .changeFocusedDay(selectedDay);
+                                      }
+                                    },
+                                    selectedDayPredicate: (day) {
+                                      return isSameDay(
+                                          controller.focusedDay, day);
+                                    },
+                                    onPageChanged: (focusedDay) {
+                                      controller.changeFocusedDay(focusedDay);
+                                    },
+                                    calendarBuilders: CalendarBuilders(
+
+                                        //  outsideBuilder: (context, day, focusedDay) => Text(""),
+                                        ),
+                                    calendarStyle: CalendarStyle(
+                                        outsideTextStyle:
+                                            AppTextStyles.titleBold3Cinza,
+                                        weekendTextStyle:
+                                            AppTextStyles.titleBold5,
+                                        defaultTextStyle:
+                                            AppTextStyles.titleBold5,
+                                        cellMargin: EdgeInsets.all(7)),
+                                    headerStyle: HeaderStyle(
+                                        leftChevronIcon: Container(
+                                            padding: EdgeInsets.all(5),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: AppColors.darkBlue),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 5),
+                                              child: Icon(
+                                                Ionicons.chevron_back_outline,
+                                                color: Colors.white,
+                                              ),
+                                            )),
+                                        rightChevronIcon: Container(
+                                            padding: EdgeInsets.all(5),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: AppColors.darkBlue),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 5),
+                                              child: Icon(
+                                                Ionicons
+                                                    .chevron_forward_outline,
+                                                color: Colors.white,
+                                              ),
+                                            )),
+                                        //   titleTextFormatter: (date, locale) {
+                                        //       return "";
+                                        //   }, lugar onde fiz nome do mês
+                                        formatButtonVisible: true,
+                                        formatButtonShowsNext: true,
+                                        titleTextStyle:
+                                            AppTextStyles.titleBold3,
+                                        headerPadding: EdgeInsets.all(0),
+                                        titleCentered: true),
+                                    daysOfWeekStyle: DaysOfWeekStyle(
+                                      weekdayStyle:
+                                          AppTextStyles.calendarDayAndWeekend,
+                                      weekendStyle:
+                                          AppTextStyles.calendarDayAndWeekend,
+                                    )),
+                              ),
+                            ),
+                          ),
                         ),
                         FutureBuilder(
                           future: controller.loadCurrentAppointment(
@@ -154,8 +233,8 @@ class _SchedulePageState extends State<SchedulePage> {
                           padding: const EdgeInsets.only(bottom: 10),
                           child: Container(
                             height: controller.consultsType.length * 90,
-                            child: Expanded(
-                              child: ListView.builder(
+                            child: Observer(builder: (_) {
+                              return ListView.builder(
                                   physics: NeverScrollableScrollPhysics(),
                                   itemCount: controller.consultsType.length,
                                   itemBuilder: (context, index) {
@@ -224,8 +303,8 @@ class _SchedulePageState extends State<SchedulePage> {
                                         ),
                                       ),
                                     );
-                                  }),
-                            ),
+                                  });
+                            }),
                           ),
                         )
                       ],

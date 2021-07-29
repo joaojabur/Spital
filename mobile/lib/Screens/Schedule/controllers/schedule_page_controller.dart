@@ -36,12 +36,12 @@ abstract class _SchedulePageControllerBase with Store {
   }
 
   @action
-  changedSelectedTime(String value){
+  changedSelectedTime(String value) {
     selectedTime = value;
   }
 
   @action
-  changeSelectedType(String value){
+  changeSelectedType(String value) {
     selectedType = value;
   }
 
@@ -51,7 +51,7 @@ abstract class _SchedulePageControllerBase with Store {
     if (response.error) {
       return response.message!;
     }
-    
+
     medicSchedule = response.schedule!.asObservable();
 
     return '';
@@ -91,7 +91,7 @@ abstract class _SchedulePageControllerBase with Store {
     String month = focusedDay.month.toString();
     String year = focusedDay.year.toString();
     String dataFormatted = "${month}/${day}/${year}";
-    
+
     return dataFormatted;
   }
 
@@ -100,13 +100,15 @@ abstract class _SchedulePageControllerBase with Store {
 
     int initialHour = int.parse(schedule.from) ~/ 60;
     int initialMinutes = int.parse(schedule.from) % 60;
-    int lastHour =  int.parse(schedule.to) ~/ 60;
+    int lastHour = int.parse(schedule.to) ~/ 60;
     int lastMinutes = int.parse(schedule.to) % 60;
-    int rangeSize = ((int.parse(schedule.to) - int.parse(schedule.from)) / 60 * 2 - 1).toInt();
+    int rangeSize =
+        ((int.parse(schedule.to) - int.parse(schedule.from)) / 60 * 2 - 1)
+            .toInt();
     print('range: $rangeSize');
 
     hours.add('$initialHour:${initialMinutes.toString().padLeft(2, '0')}');
-    for (int i = 0; i < rangeSize; i++){
+    for (int i = 0; i < rangeSize; i++) {
       int currentTime = int.parse(schedule.from) + 30 * (i + 1);
       int currentHour = currentTime ~/ 60;
       int currentMinutes = currentTime % 60;
@@ -117,10 +119,10 @@ abstract class _SchedulePageControllerBase with Store {
     return hours;
   }
 
-  getWeekDay(){
+  getWeekDay() {
     int weekDay = focusedDay.weekday;
-    
-    if (weekDay == 7){
+
+    if (weekDay == 7) {
       return 0;
     }
 

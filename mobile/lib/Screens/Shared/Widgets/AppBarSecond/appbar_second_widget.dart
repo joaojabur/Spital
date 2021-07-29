@@ -34,7 +34,7 @@ class AppbarSecundaria extends PreferredSize {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(right: 5),
+                        padding: const EdgeInsets.only(right: 15),
                         child: topleftIcon
                             ? Container(
                                 height: 40,
