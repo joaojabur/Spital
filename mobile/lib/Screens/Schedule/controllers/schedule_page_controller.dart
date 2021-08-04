@@ -28,20 +28,21 @@ abstract class _SchedulePageControllerBase with Store {
   String? selectedTime;
 
   @observable
-  String? selectedType;
+  ConsultModel? selectedType;
 
   @action
   changeFocusedDay(DateTime value) {
     focusedDay = value;
+    changeSelectedTime(null);
   }
 
   @action
-  changedSelectedTime(String value) {
+  changeSelectedTime(String? value) {
     selectedTime = value;
   }
 
   @action
-  changeSelectedType(String value) {
+  changeSelectedType(ConsultModel value) {
     selectedType = value;
   }
 
