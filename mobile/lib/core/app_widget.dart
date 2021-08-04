@@ -3,6 +3,7 @@ import 'package:Spital/Screens/Home/home_page.dart';
 import 'package:Spital/Screens/Login/login_page.dart';
 import 'package:Spital/Screens/Logon/logon.dart';
 import 'package:Spital/Screens/MedicProfile/MedicProfile.dart';
+import 'package:Spital/Screens/Payment/PaymentPage.dart';
 import 'package:Spital/Screens/Register/register_page.dart';
 import 'package:Spital/Screens/Review/ReviewPage.dart';
 import 'package:Spital/Screens/Schedule/SchedulePage.dart';
@@ -38,6 +39,7 @@ class AppWidget extends StatelessWidget {
             '/reviews': (context) => ReviewPage(),
             '/schedule': (context) => SchedulePage(),
             '/seach': (context) => PageSeach(),
+            '/payment': (context) => PaymentPage()
           },
         ));
   }
