@@ -30,7 +30,6 @@ module.exports = {
       }
       if (!scheduleID) {
         if (medicID !== undefined && date !== undefined) {
-          console.log("CERTA");
           query
             .where({ medicID: medicID, date: date })
             .join(
