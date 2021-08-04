@@ -61,7 +61,7 @@ module.exports = {
               district: invoiceAddress.district,
               zipCode: invoiceAddress.zipCode,
               city: invoiceAddress.city,
-              state: invoiceAddress.state,
+              state: invoiceAddress.state.value,
               country: "BRA",
             },
           },
