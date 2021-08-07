@@ -88,9 +88,9 @@ class MedicModel {
   factory MedicModel.fromMap(Map<String, dynamic> map) {
     return MedicModel(
       userID: map['userID'],
-      number: map['number'],
-      address: map['address'],
-      distance: map['distance'],
+      number: map['number'] ?? 0,
+      address: map['address'] ?? '',
+      distance: map['distance'] ?? 0.0,
       id: map['id'],
       phoneNumber: map['phoneNumber'],
       area: map['area'],
@@ -108,9 +108,9 @@ class MedicModel {
       confirmed: map['confirmed'],
       birthDate: map['birth_date'],
       createdAt: map['created_at'],
-      firstName: map['firstName'],
-      lastName: map['lastName'],
-      rating: map['rating'],
+      firstName: map['firstName'] ?? map['first_name'],
+      lastName: map['lastName'] ?? map['last_name'],
+      rating: map['rating'] ?? '4.5',
       url: map['url']
     );
   }
