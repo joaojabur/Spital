@@ -1,7 +1,9 @@
+import 'package:Spital/Screens/Home/Widget/TabPages/TabPageConsulta/Widget/appointment_details.dart';
 import 'package:Spital/Screens/Home/Widget/TabPages/TabPageSeach/page_seach.dart';
 import 'package:Spital/Screens/Home/home_page.dart';
 import 'package:Spital/Screens/Login/login_page.dart';
 import 'package:Spital/Screens/Logon/logon.dart';
+import 'package:Spital/Screens/MakeReview/MakeReviewPage.dart';
 import 'package:Spital/Screens/MedicProfile/MedicProfile.dart';
 import 'package:Spital/Screens/Payment/PaymentPage.dart';
 import 'package:Spital/Screens/Register/register_page.dart';
@@ -39,7 +41,9 @@ class AppWidget extends StatelessWidget {
             '/reviews': (context) => ReviewPage(),
             '/schedule': (context) => SchedulePage(),
             '/seach': (context) => PageSeach(),
-            '/payment': (context) => PaymentPage()
+            '/payment': (context) => PaymentPage(),
+            '/appointmentDetails': (context) => AppointmentDetails(),
+            '/makeReview': (context) => MakeReviewPage()
           },
         ));
   }
