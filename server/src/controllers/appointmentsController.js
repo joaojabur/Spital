@@ -222,12 +222,13 @@ module.exports = {
         .join("schedules", "schedules.id", "=", "appointments.scheduleID")
         .join("medics", "medics.id", "=", "schedules.medicID")
         .join("users", "users.id", "=", "medics.userID")
-        .select(["appointments.*", "schedules.medicID", "medics.*", "users.*"])
+        .join("addresses", "addresses.userID", "=", "users.id")
+        .select(["appointments.*", "schedules.medicID", "medics.*", "users.*", "addresses.*"])
         .orderBy([{ column: "appointments.created_at", order: "desc" }]);
     }
 
     const results = await query;
-    res.status(200).send(results);
+    res.status(200).send(results.map((result) => ({ ...result, password: undefined})));
 
     try {
     } catch (error) {
