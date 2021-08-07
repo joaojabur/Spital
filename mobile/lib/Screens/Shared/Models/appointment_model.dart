@@ -6,13 +6,16 @@ class AppointmentModel {
   final String doctorName;
   final String type;
   final String price;
+  final int? scheduleID;
+  final String? createdAt;
 
   AppointmentModel(
     this.date,
     this.time,
     this.doctorName,
     this.type,
-    this.price,
+    this.price, 
+    { this.scheduleID, this.createdAt }
   );
 
   AppointmentModel copyWith({
@@ -21,6 +24,7 @@ class AppointmentModel {
     String? doctorName,
     String? type,
     String? price,
+    int? scheduleID
   }) {
     return AppointmentModel(
       date ?? this.date,
@@ -28,6 +32,8 @@ class AppointmentModel {
       doctorName ?? this.doctorName,
       type ?? this.type,
       price ?? this.price,
+      scheduleID: scheduleID ?? this.scheduleID,
+      createdAt: createdAt ?? this.createdAt
     );
   }
 
@@ -45,9 +51,11 @@ class AppointmentModel {
     return AppointmentModel(
       map['date'],
       map['time'],
-      map['medicFirstName'],
+      map['medicFirstName'] ?? map['first_name'] ,
       map['type'],
       map['price'],
+      scheduleID: map['scheduleID'],
+      createdAt: map['created_at']
     );
   }
 
