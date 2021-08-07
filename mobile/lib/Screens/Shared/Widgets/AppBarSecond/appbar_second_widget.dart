@@ -31,7 +31,7 @@ class AppbarSecundaria extends PreferredSize {
                   padding:
                       EdgeInsets.only(top: height * 0.05, left: 20, right: 0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(right: 15),
