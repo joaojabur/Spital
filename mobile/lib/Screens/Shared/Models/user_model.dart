@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 class UserModel {
+  final int? id;
   final String firstName;
   final String lastName;
   final String email;
@@ -16,7 +17,8 @@ class UserModel {
     required this.phoneNumber,
     required this.image,
     required this.xp,
-    required this.confirmed
+    required this.confirmed,
+    this.id
   });
   
   Map<String, dynamic> toMap() {
@@ -40,6 +42,7 @@ class UserModel {
       image: map['image'],
       xp: map['xp'],
       confirmed: map['confirmed'],
+      id: map['id']
     );
   }
 
