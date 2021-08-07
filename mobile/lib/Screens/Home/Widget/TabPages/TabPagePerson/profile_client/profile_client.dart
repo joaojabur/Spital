@@ -22,6 +22,7 @@ class _ProfileClientState extends State<ProfileClient> {
 
   @override
   Widget build(BuildContext context) {
+    AuthController auth = Provider.of<AuthController>(context);
     ControllerEditdataBaseProfileClient editcontroller =
         ControllerEditdataBaseProfileClient();
     AuthController authController = Provider.of<AuthController>(context);
@@ -135,7 +136,11 @@ class _ProfileClientState extends State<ProfileClient> {
                                         borderRadius:
                                             BorderRadius.circular(50)),
                                     child: IconButton(
-                                        onPressed: () {},
+                                        onPressed: () async {
+                                          await auth.logout();
+
+                                          Navigator.pushReplacementNamed(context, '/splash');
+                                        },
                                         icon: Icon(
                                           Icons.logout_outlined,
                                           size: 30,
