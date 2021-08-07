@@ -75,4 +75,8 @@ class AuthRepository {
     data['confirmed'] = confirmed;
     return UserModel.fromMap(data);
   }
+
+  Future<void> logout() async {
+    await storage.deleteAll();
+  }
 }
