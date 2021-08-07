@@ -66,6 +66,12 @@ abstract class _AuthControllerBase with Store {
     }
   }
 
+  Future<void> logout() async {
+    await _authRepository.logout();
+
+    user = null;
+  }
+
   @action
   changeImage(int i) {
     imagePadrao = imageActual;
