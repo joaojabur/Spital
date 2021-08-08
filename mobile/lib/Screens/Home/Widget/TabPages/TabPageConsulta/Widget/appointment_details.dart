@@ -20,7 +20,6 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
     final AppointmentsResponse appointmentResponse =  ModalRoute.of(context)!.settings.arguments as AppointmentsResponse;
     final MedicModel medic = appointmentResponse.medic;
 
-    print(medic.address);
     final AppointmentModel appointment = appointmentResponse.appointment;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -87,7 +86,7 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
               width: width,
               child: ElevatedButton(
                 onPressed: () => {},
-                child: Text("Consulta Paga às${formatDate(appointment.createdAt!, FormatDateType.fromIsoTohhmm)}"),
+                child: Text("Consulta paga às${formatDate(appointment.createdAt!, FormatDateType.fromIsoTohhmm)}"),
                 style: ButtonStyle(
                   padding: MaterialStateProperty.all<EdgeInsets>(
                     EdgeInsets.symmetric(horizontal: 8, vertical: 16)
@@ -158,10 +157,10 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () => {
+                    onPressed: appointment.rated! ? () => {} : () => {
                       Navigator.pushNamed(context, '/makeReview', arguments: appointmentResponse)
                     }, 
-                    child: Text("Avalie a sua consulta"),
+                    child: Text(appointment.rated! ? "Você já avaliou essa consulta!" : "Avalie a sua consulta"),
                     style:  ButtonStyle(
                       padding:MaterialStateProperty.all<EdgeInsets>(
                         EdgeInsets.only(right: 0)
