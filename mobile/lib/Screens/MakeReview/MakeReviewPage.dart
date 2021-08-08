@@ -1,5 +1,6 @@
 import 'package:Spital/Screens/Home/Widget/TabPages/TabPageConsulta/Widget/controller/list_doctor_repository.dart';
 import 'package:Spital/Screens/MakeReview/controller/make_review_page_controller.dart';
+import 'package:Spital/Screens/Shared/Auth/auth_controller.dart';
 import 'package:Spital/Screens/Shared/Models/appointment_model.dart';
 import 'package:Spital/Screens/Shared/Models/medic_model.dart';
 import 'package:Spital/Screens/Shared/Widgets/AppBarSecond/appbar_second_widget.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:provider/provider.dart';
 
 class MakeReviewPage extends StatefulWidget {
   MakeReviewPage({Key? key}) : super(key: key);
@@ -25,6 +27,7 @@ class _MakeReviewPageState extends State<MakeReviewPage> {
     final AppointmentsResponse appointmentResponse =  ModalRoute.of(context)!.settings.arguments as AppointmentsResponse;
     final MedicModel medic = appointmentResponse.medic;
     final AppointmentModel appointment = appointmentResponse.appointment;
+    final AuthController authController = Provider.of<AuthController>(context);
 
     
     double width = MediaQuery.of(context).size.width;
@@ -144,37 +147,6 @@ class _MakeReviewPageState extends State<MakeReviewPage> {
                 Divider(thickness: 1),
                 Text("Você gostou do médico ?", style: AppTextStyles.titleBold3.merge(TextStyle(fontSize: 16))),
                 Divider(thickness: 1),
-                Observer(
-                  builder: (_) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Sim, gostei"),
-                        Radio(
-                          value: 0,                        
-                          groupValue: controller.liked, 
-                          onChanged: (value) => controller.changeLiked(0),
-                        ),
-                      ],
-                    );
-                  }
-                ),
-                Divider(thickness: 1),
-                Observer(builder: (_) {
-                  return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Não, esperava mais..."),
-                        Radio(
-                          value: 1, 
-                          groupValue: controller.liked, 
-                          onChanged: (value) => controller.changeLiked(1)
-                        ),
-                      ],
-                    );
-                  }
-                ),
-                Divider(thickness: 1),
                 Text("Aproveite e avalie o Spital também!", style: AppTextStyles.titleBold3.merge(TextStyle(fontSize:  16)),),
                 Text("Nós informe o que achou em uma escala de 0 a 10", style: AppTextStyles.titleBold3Cinza.merge(TextStyle(fontSize: 12))),
                  Observer(
@@ -201,7 +173,34 @@ class _MakeReviewPageState extends State<MakeReviewPage> {
                   margin: EdgeInsets.only(top: 16),
                   width: width,
                   child: ElevatedButton(
-                    onPressed: () => {},
+                    onPressed: () async {
+                      bool success = await controller.makeReview(medic.id, authController.user!.id!);
+
+                      if (success){
+                        Widget alert = AlertDialog(
+                          title: Text("Avaliação bem sucedida"),
+                          content: Text("Sua avaliação foi inserida com sucesso"),
+                        );
+
+                        await showDialog(
+                          context: context, 
+                          builder: (_) => alert
+                        );
+
+                        Navigator.pushReplacementNamed(context, '/');
+                      } else {
+                        Widget alert = AlertDialog(
+                          title: Text("Ocorreu um erro ao Avaliar"),
+                          content: Text("Por alguma razão sua avaliação não pode ser inserida, tente novamente!"),
+                        );
+
+                        showDialog(
+                          context: context, 
+                          builder: (_) => alert,
+                        );
+                      }
+
+                    },
                     child: Text("Avaliar"),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(AppColors.darkBlue),
