@@ -40,7 +40,12 @@ module.exports = {
             )
             .join("medics", "medics.id", "=", "schedules.medicID")
             .join("users", "users.id", "=", "medics.userID")
-            .select(["appointments.*", "schedules.medicID", "medics.*", "users.first_name as medicFirstName"]);
+            .select([
+              "appointments.*",
+              "schedules.medicID",
+              "medics.*",
+              "users.first_name as medicFirstName",
+            ]);
         } else if (medicID !== undefined) {
           query
             .where({ medicID: medicID })
@@ -269,6 +274,15 @@ module.exports = {
                 countryCode: "55",
                 areaCode: formattedDDD,
                 number: formattedPhoneNumber,
+              },
+              billingAddress: {
+                city: "Ribeirão Preto",
+                district: "Bonfim Paulista",
+                street: "Capitão Waldemar de Figueiredo",
+                streetNumber: "650",
+                zipCode: "14027600",
+                state: "SP",
+                country: "BRA",
               },
             },
           },
