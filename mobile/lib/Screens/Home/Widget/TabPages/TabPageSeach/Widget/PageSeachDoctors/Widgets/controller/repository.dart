@@ -17,10 +17,11 @@ class ListDoctorRepository {
   Future<ResponseListDoctor> loadMedicsByArea(String area, Position location,
       int maxDistance, String? name, int offset) async {
     try {
+      name = name != null ? name.trim().isEmpty ? null : name : name;
       List<MedicModel> medics = [];
       area = area.replaceAll(' ', '-').replaceAll('\n', '');
       final response = await dio.get(
-          '/medics/$area/?offset=$offset&lat=${location.latitude}&lon=${location.longitude}&distance=${99999999}',
+          '/medics/$area/?offset=$offset&lat=${location.latitude}&lon=${location.longitude}&distance=$maxDistance&${name != null ? "name=$name" : ""}',
           options: Options(
             followRedirects: false,
             validateStatus: (status) {
