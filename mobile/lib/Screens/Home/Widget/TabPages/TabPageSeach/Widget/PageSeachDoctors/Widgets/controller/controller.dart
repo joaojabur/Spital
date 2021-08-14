@@ -14,12 +14,22 @@ abstract class _ListDoctorControllerBase with Store {
 
   @action
   loadMedics(String area, Position location, int maxDistance, String? name, int offset) async {
-    ResponseListDoctor response = await _repository.loadMedicsByArea(area, location, maxDistance, name, offset);
+    List<MedicModel> tempMedics = [];
+    for (var i = 0; i <= offset; i++){
+      if (medics.length > (i + 1) * 30){
+        tempMedics = medics;
+      }
+      ResponseListDoctor response = await _repository.loadMedicsByArea(area, location, maxDistance, name, 0);
 
-    if (response.error){
+      if (response.error){
 
-    } else {
-      medics = response.medics!.asObservable();
+      } else {
+        tempMedics = [...response.medics!, ...tempMedics];
+      }
     }
+
+    medics = tempMedics.asObservable();
+
+    print(tempMedics);
   }
 }
