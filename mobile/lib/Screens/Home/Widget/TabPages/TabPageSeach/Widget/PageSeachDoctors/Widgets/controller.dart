@@ -8,7 +8,7 @@ abstract class _PageSearchControllerBase with Store {
   int lastSize = 0;
 
   @observable
-  int pages = 1;
+  int pages = 0;
 
   @observable
   int distance = 9999;
