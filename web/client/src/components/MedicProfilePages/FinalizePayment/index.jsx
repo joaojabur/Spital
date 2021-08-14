@@ -8,27 +8,20 @@ import { useShareAppointmentForm } from "../../../context/ShareAppointmentFormPr
 import Loader from "react-loader-spinner";
 import finish from "../../../assets/images/finish.svg";
 import { useHistory, useParams } from "react-router-dom";
-import { MoipCreditCard, MoipValidator } from "moip-sdk-js";
-import JSEncrypt from "node-jsencrypt";
+import { MoipValidator } from "moip-sdk-js";
 import mask from "../../../utils/mask";
 import validateCPF from "../../../utils/validateCpf";
+const pagarme = require("pagarme");
 
 const FinalizePayment = ({ previousPage }) => {
   const [card, setCard] = useState({
+    holder_name: "",
     number: "",
     cvc: "",
     expiration: "",
   });
 
   const [cpf, setCpf] = useState("");
-
-  const pubKey = `MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgv+gyND23De2/xrE1HNS
-  U0i8mOt2VqA9YHuGsPfbm/hDs/g6s6V3XmufsQnSrjwKn8oA4Y5Y2XD+JU1mNQtT
-  2uZFmQKySlMnTouNfdosnaHllqL4vDDem6SxkkLwOXFioC5728AOb/+kyDuZbYrE
-  CyDTUSK8g21sNgG7XCKofqndfvjnMxMaPgLvd0dRoE50lBA1awJ95AN3UjQL0CsF
-  8KiT5S/T1CQPDJPhuGvcgURgTsdWVqO4E/4XgGg9jnCDhOfhX2Oomwd2ZBmooZSI
-  ENQuscrxYikmcA0qaLmsRJnTlHDunpjfUSyVSJCst0IrcB/52/Y6DHNOJlW7cKjb
-  WwIDAQAB`;
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -39,6 +32,7 @@ const FinalizePayment = ({ previousPage }) => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { medicID } = useParams();
+  console.log(medicID);
 
   useEffect(() => {
     setLoading(true);
@@ -63,60 +57,45 @@ const FinalizePayment = ({ previousPage }) => {
     if (isCardCorrect) {
       setError("");
       setLoading(true);
+
+      let card_hash = await pagarme.client
+        .connect({
+          encryption_key: "ek_test_kABVUutCQIYlU7GHmNVsjotvnTY3bc",
+        })
+        .then((client) =>
+          client.security.encrypt({
+            card_number: card.number.replace(" ", ""),
+            card_cvv: card.cvc,
+            card_expiration_date: card.expiration.replace("/", ""),
+            card_holder_name: card.holder_name,
+          })
+        );
+
       api
         .post(`appointments?clientID=${clientID}&medicID=${medic_id}`, {
+          card: card_hash,
           appointmentData,
+          cpf,
+          time:
+            appointmentData.time.length > 6
+              ? appointmentData.time.substring(0, 4)
+              : appointmentData.time.substring(0, 5),
+          date,
         })
         .then((response) => {
+          setLoading(false);
           if (response.status === 201) {
-            const [month, year] = card.expiration.split("/");
-
-            MoipCreditCard.setEncrypter(JSEncrypt, "node")
-              .setPubKey(pubKey)
-              .setCreditCard({
-                number: card.number,
-                cvc: card.cvc,
-                expirationMonth: month,
-                expirationYear: year,
-              })
-              .hash()
-              .then((hash) => {
-                api
-                  .post(
-                    `appointments/${response.data.orderID}?clientID=${clientID}&medicID=${medic_id}&userID=${medicID}`,
-                    {
-                      date,
-                      time:
-                        appointmentData.time.length > 6
-                          ? appointmentData.time.substring(0, 4)
-                          : appointmentData.time.substring(0, 5),
-                      hash,
-                      appointmentData,
-                      cpf,
-                    }
-                  )
-                  .then((res) => {
-                    if (res.status === 201) {
-                      setSuccess(true);
-                      setLoading(false);
-                    } else {
-                      setSuccess(false);
-                      setLoading(false);
-                    }
-                  })
-                  .catch(() => {
-                    setLoading(false);
-                    setError("Erro no servidor, tente mais tarde... 😪");
-                  });
-              });
+            setSuccess(true);
           }
         })
-        .catch(() => {
+        .catch((err) => {
+          if (err) {
+            setSuccess(false);
+          }
           setLoading(false);
-          setError("Erro no servidor, tente mais tarde... 😪");
         });
     } else {
-      setError("Cartão de crédito ou CPF inválido");
+      setError("Dados do cartão ou cpf inválidos!");
     }
   };
 
@@ -198,7 +177,7 @@ const FinalizePayment = ({ previousPage }) => {
               <div className="card-div">
                 <TextField
                   value={card.number}
-                  placeholder="Número"
+                  placeholder="2013013010301310"
                   label={
                     <span style={{ fontSize: "1.5rem" }}>Número do cartão</span>
                   }
@@ -240,12 +219,24 @@ const FinalizePayment = ({ previousPage }) => {
               </div>
               <div style={{ marginTop: "1rem" }} className="card-div">
                 <TextField
+                  value={card.holder_name}
+                  placeholder="João Silva..."
+                  onChange={(e) => {
+                    setCard({ ...card, holder_name: e.target.value });
+                  }}
+                  style={{ width: "49%" }}
+                  variant="outlined"
+                  label={
+                    <span style={{ fontSize: "1.5rem" }}>Nome completo</span>
+                  }
+                />
+                <TextField
                   value={cpf}
                   placeholder="123.456.789-10"
                   onChange={(e) => {
                     setCpf(mask(e.target.value, "###.###.###-##"));
                   }}
-                  fullWidth
+                  style={{ width: "49%" }}
                   variant="outlined"
                   label={<span style={{ fontSize: "1.5rem" }}>CPF</span>}
                 />

@@ -21,6 +21,7 @@ import ConfigurationsMedicSchedule from "../platform-pages/ConfigurationsMedicSc
 import Revenue from "../platform-pages/Revenue";
 import Marketing from "../platform-pages/Marketing";
 import Pacients from "../platform-pages/Pacients";
+import ConfigurationsBankAccount from "../platform-pages/ConfigurationsBankAccount";
 
 function Router() {
   return (
@@ -50,6 +51,11 @@ function Router() {
         <PrivateRoute
           path="/configuracoes/horarios/:id"
           component={ConfigurationsMedicSchedule}
+        />
+
+        <PrivateRoute
+          path="/configuracoes/conta-bancaria"
+          component={ConfigurationsBankAccount}
         />
         <PrivateRoute path="/configurar" component={ConfigureMedic} />
         <PrivateRoute path="/faturamento" component={Revenue} />

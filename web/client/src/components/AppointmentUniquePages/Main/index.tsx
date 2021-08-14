@@ -123,10 +123,11 @@ const AppointmentUniqueMain = ({ previousPage, nextPage }: any) => {
           <div className="container">
             {appointments.map(
               (appointment: AppointmentProps, index: number) => {
+                console.log(appointment);
                 async function refund() {
                   setLoading(true);
                   api
-                    .delete(`appointments/${appointment.paymentID}`)
+                    .delete(`appointments/${appointment.transactionID}`)
                     .then((response: any) => {
                       if (response.data.success) {
                         setSuccess(true);

@@ -63,14 +63,6 @@ export default function ShareClientFormProvider({
         fullName: "",
         cpf: "",
       },
-      invoiceAddress: {
-        street: "",
-        streetNumber: "",
-        district: "",
-        zipCode: "",
-        city: "",
-        state: "SP",
-      },
       schedule: [
         {
           week_day: 0,

@@ -8,7 +8,6 @@ import "./styles.css";
 export interface AppointmentProps {
   area: string;
   birth_date: string;
-  card_id: string;
   clientID: number;
   cpf: string;
   created_at: string;
@@ -27,9 +26,9 @@ export interface AppointmentProps {
   email: string;
   first_name: string;
   last_name: string;
-  paymentID: string;
   confirmed: boolean;
   rated: boolean;
+  transactionID: string;
 }
 
 const ListAppointments = () => {

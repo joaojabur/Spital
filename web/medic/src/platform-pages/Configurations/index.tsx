@@ -17,6 +17,7 @@ import api from "../../services/api";
 
 import "./styles.css";
 import { Link } from "react-router-dom";
+import { useModal } from "../../context/ModalProvider";
 
 export interface MedicSchedule {
   id: number;
@@ -32,12 +33,56 @@ export interface Consult {
   description: string;
 }
 
+interface BankAccountProps {
+  id: number;
+  bank_code: string;
+  agencia: string;
+  agencia_dv: string | null;
+  conta: string;
+  conta_dv: string;
+  type: string;
+  document_type: string;
+  document_number: string;
+  legal_name: string;
+}
+
+interface RecipientProps {
+  transfer_enable: boolean;
+  last_transfer: any;
+  transfer_interval: string;
+  transfer_day: number;
+  anticipatable_volume_percentage: number;
+  bank_account: BankAccountProps;
+  status: string;
+}
+
 const Configurations = () => {
   const history = useHistory();
+  const { spinner } = useModal();
   const { user } = useAuth();
   const [consults, setConsults] = useState<Array<Consult> | null>(null);
   const [medicSchedule, setMedicSchedule] = useState<Array<MedicSchedule>>([]);
   const [loadingConsults, setLoadingConsults] = useState<boolean>(true);
+  const [recipient, setRecipient] = useState<RecipientProps>({
+    transfer_enable: true,
+    last_transfer: null,
+    transfer_interval: "weekly",
+    transfer_day: 5,
+    anticipatable_volume_percentage: 0,
+    bank_account: {
+      id: 0,
+      bank_code: "",
+      agencia: "",
+      agencia_dv: null,
+      conta: "",
+      conta_dv: "",
+      type: "",
+      document_type: "",
+      document_number: "",
+      legal_name: "",
+    },
+    status: "",
+  });
 
   useEffect(() => {
     setLoadingConsults(true);
@@ -53,6 +98,16 @@ const Configurations = () => {
       setMedicSchedule(response.data);
     });
   }, [user.id]);
+
+  useEffect(() => {
+    spinner.open();
+    api
+      .get(`/recipient?recipientID=${user.recipientID}`)
+      .then((response: any) => {
+        setRecipient(response.data);
+        spinner.close();
+      });
+  }, []);
 
   function getWeekDay(dayNumber: number) {
     switch (dayNumber) {
@@ -110,11 +165,41 @@ const Configurations = () => {
           <h3>Dados Bancários</h3>
           <div className="data">
             <p>
-              <strong>Conta: </strong>**********
+              <strong>Nome da conta: </strong>
+              {recipient.bank_account.legal_name.toUpperCase()}
             </p>
             <p>
-              <strong>Número: </strong>**********
+              <strong>Número do banco: </strong>
+              {recipient.bank_account.bank_code}
             </p>
+            <p>
+              <strong>Agencia: </strong>
+              {recipient.bank_account.agencia}
+            </p>
+            <p>
+              <strong>Conta: </strong>
+              {recipient.bank_account.conta}
+            </p>
+            <p>
+              <strong>Número: </strong>
+              {recipient.bank_account.conta_dv}
+            </p>
+            <p>
+              <strong>Tipo de conta: </strong>
+              {recipient.bank_account.type.replace("_", " ").toUpperCase()}
+            </p>
+
+            <Link
+              to="/configuracoes/conta-bancaria"
+              className="clinic-data-edit-icon"
+            >
+              <EditIcon
+                fontSize="large"
+                style={{
+                  color: "#fff",
+                }}
+              />
+            </Link>
           </div>
         </Box>
         <Box>

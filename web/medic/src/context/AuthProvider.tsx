@@ -21,6 +21,7 @@ interface Medic {
   id: number;
   userID: number;
   rating: string;
+  recipientID: string;
   location: {
     address: string;
     lat: string;

@@ -3,11 +3,7 @@ const jwt = require("jsonwebtoken");
 const authConfig = require("../configs/authConfig.json");
 const bcrypt = require("bcrypt");
 const verifyEmail = require("../services/email/verify");
-const moip = require("moip-sdk-node").default({
-  token: "U3UJDDW9WKUUUYN4SY5URVIPFMFSBFX1",
-  key: "B0HZCGHREPSALKIP6RUKWRYJS3Z2X0IDJYXJWMIJ",
-  production: false,
-});
+require("dotenv").config({ path: "./src/.env" });
 
 module.exports = {
   async index(req, res, next) {
@@ -50,10 +46,6 @@ module.exports = {
   },
 
   async create(req, res, next) {
-    const letters = "abcdefghijklmnopqrstuvwxyz";
-    const plat_id =
-      letters.charAt(Math.floor(Math.random() * letters.length)) +
-      (Math.random() + 1).toString(36).substr(2, 9);
     try {
       const { firstName, lastName, email, password, phoneNumber, birthDate } =
         req.body;
@@ -80,19 +72,6 @@ module.exports = {
           phoneNumber: String(phoneNumber),
           userID: parseInt(userID),
         });
-
-        moip.customer
-          .create({
-            ownId: plat_id,
-            fullname: `${firstName} ${lastName}`,
-            email: email,
-            birthDate: birthDate,
-          })
-          .then(async (response) => {
-            await knex("clients")
-              .where({ userID })
-              .update({ accountID: response.body.id });
-          });
 
         await verifyEmail({
           id: userID,

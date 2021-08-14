@@ -6,8 +6,7 @@ exports.up = function (knex) {
     table.string("date").notNullable();
     table.string("time").notNullable();
     table.string("price").notNullable();
-    table.string("orderID").notNullable();
-    table.string("paymentID").notNullable();
+    table.integer("transactionID").notNullable();
     table.boolean("confirmed").defaultTo(false);
     table.boolean("rated").defaultTo(false);
 

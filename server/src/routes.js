@@ -18,6 +18,13 @@ const configureMedicController = require("./controllers/configureMedicController
 const acceptMedicController = require("./controllers/acceptMedicController");
 const pacientsController = require("./controllers/pacientsController");
 const bankaccountController = require("./controllers/bankaccountController");
+const recipientController = require("./controllers/recipientController");
+const balanceController = require("./controllers/balanceController");
+
+routes.get("/balance", balanceController.index);
+
+routes.get("/recipient", recipientController.index);
+routes.put("/recipient/:recipientID", recipientController.update);
 
 routes.get("/bankaccount", bankaccountController.index);
 
@@ -52,17 +59,12 @@ routes.post(
   multer().single("file"),
   configureMedicController.create
 );
-routes.post(
-  "/configure-medic/:moipAccountId",
-  configureMedicController.createBankAccount
-);
 
 routes.post("/appointments", AppointmentController.create);
 routes.get("/appointments", AppointmentController.index);
 routes.put("/appointments/:scheduleID", AppointmentController.update);
 routes.delete("/appointments/:id", AppointmentController.delete);
 routes.get("/appointments/:clientID", AppointmentController.list);
-routes.post("/appointments/:orderID", AppointmentController.pay);
 
 routes.post("/medic-schedule", MedicScheduleController.create);
 routes.get("/medic-schedule", MedicScheduleController.index);

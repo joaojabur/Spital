@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import HorizontalHeader from "../../components-platform/HorizontalHeader";
 import VerticalHeader from "../../components-platform/VerticalHeader";
 import { AxisOptions, Chart } from "react-charts";
 import { IoArrowUpOutline, IoPersonOutline } from "react-icons/io5";
 import { HiOutlineCash } from "react-icons/hi";
 import "./styles.css";
+import api from "../../services/api";
+import { useModal } from "../../context/ModalProvider";
+import { useAuth } from "../../context/AuthProvider";
 
 const Revenue = () => {
+  const { spinner } = useModal();
+  const { user } = useAuth();
+  useEffect(() => {
+    spinner.open();
+
+    api.get(`balance?recipientID=${user.recipientID}`).then((response: any) => {
+      console.log(response);
+      spinner.close();
+    });
+  }, []);
+
   const data = [
     {
       label: "Faturamento mensal",
@@ -148,7 +162,11 @@ const Revenue = () => {
           >
             <h3>R$ 623.120,10</h3>
             <p>
-              <IoArrowUpOutline style={{ marginTop: "2rem" }} color="#23ff01" size={30} />
+              <IoArrowUpOutline
+                style={{ marginTop: "2rem" }}
+                color="#23ff01"
+                size={30}
+              />
               <span>27%</span>
             </p>
           </div>

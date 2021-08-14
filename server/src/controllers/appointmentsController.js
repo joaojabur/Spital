@@ -1,12 +1,16 @@
 const knex = require("../database");
 const paymentConfirmation = require("../services/email/paymentConfirmation");
 const paymentConfirmationMedic = require("../services/email/paymentConfirmationMedic");
+const convertHoursToMinutes = require("../utils/convertHoursToMinutes");
 const refundConfirmation = require("../services/email/refundConfirmation");
 const refundConfirmationMedic = require("../services/email/refundConfirmationMedic");
+var ID = require("nodejs-unique-numeric-id-generator");
+require("dotenv").config({ path: "./src/.env" });
 const moip = require("moip-sdk-node").default({
-  accessToken: "7bd5812b36bd4cc89f69311f8badc7e9_v2",
+  accessToken: process.env.MOIP_ACCESS_TOKEN,
   production: false,
 });
+const pagarme = require("pagarme");
 
 module.exports = {
   async index(req, res, next) {
@@ -95,55 +99,124 @@ module.exports = {
   async create(req, res, next) {
     try {
       const { clientID, medicID } = req.query;
-      const { appointmentData } = req.body;
+      const { card, appointmentData, cpf, date } = req.body;
 
-      const [customerMoipID] = await knex("clients")
-        .where({ id: clientID })
-        .select("accountID");
+      const formatted_cpf = cpf.replace(/[-. ]/g, "");
 
-      const [medicMoipID] = await knex("medics")
-        .where({ id: medicID })
-        .select("*");
+      var random_id = ID.generate(new Date().toJSON());
 
-      const request = await moip.order.create({
-        ownId: clientID,
-        amount: {
-          currency: "BRL",
-          subtotals: {
-            shipping: 0,
-          },
-        },
-        items: [
-          {
-            product: appointmentData.type,
-            quantity: 1,
-            detail: `Consulta médica ${appointmentData.date} - ${appointmentData.time}`,
-            price: Number(appointmentData.price) * 100,
-          },
-        ],
+      let [medic] = await knex("medics")
+        .where("medics.id", "=", medicID)
+        .join("users", "users.id", "=", "medics.userID")
+        .select("recipientID", "email", "userID", "first_name", "last_name");
 
-        receivers: [
-          {
-            type: "SECONDARY",
-            feePayor: false,
-            moipAccount: {
-              id: medicMoipID.moipAccountID,
+      let [client_info] = await knex("clients")
+        .where("clients.id", "=", clientID)
+        .join("users", "users.id", "=", "clients.userID")
+        .select("users.*", "clients.*");
+
+      let [location] = await knex("addresses").where("userID", medic.userID);
+
+      const formatted_phone_number = client_info.phoneNumber.replace(
+        /[-() ]/g,
+        ""
+      );
+
+      let transaction = await pagarme.client
+        .connect({ api_key: process.env.PAGARME_API_KEY })
+        .then((client) =>
+          client.transactions.create({
+            amount: Number(appointmentData.price) * 100,
+            card_hash: card,
+            billing: {
+              name: "João Accoroni Jabur",
+              address: {
+                country: "br",
+                state: "sp",
+                city: "Ribeirão Preto",
+                neighborhood: "Villa do Golfe",
+                street: "Rua Capitão Waldemar de Figueiredo",
+                street_number: "650",
+                zipcode: "14027600",
+              },
             },
-            amount: {
-              percentual: 90,
+            customer: {
+              external_id: `#${random_id}`,
+              name: `${client_info.first_name} ${client_info.last_name}`,
+              type: "individual",
+              country: "br",
+              email: client_info.email,
+              documents: [
+                {
+                  type: "cpf",
+                  number: formatted_cpf,
+                },
+              ],
+              phone_numbers: [`+55${formatted_phone_number}`],
+              birthday: client_info.birth_date,
             },
-          },
-        ],
+            items: [
+              {
+                id: random_id,
+                title: appointmentData.type,
+                unit_price: Number(appointmentData.price) * 100,
+                quantity: 1,
+                tangible: true,
+              },
+            ],
+            split_rules: [
+              {
+                recipient_id: medic.recipientID,
+                percentage: 80,
+                liable: true,
+                charge_processing_fee: true,
+              },
+              {
+                recipient_id: "re_ckosx2xku003b0h9tdfv3bk1x",
+                percentage: 20,
+                liable: true,
+                charge_processing_fee: true,
+              },
+            ],
+          })
+        );
 
-        customer: {
-          id: customerMoipID.accountID,
-        },
-      });
+      if (transaction.card.valid) {
+        const scheduleID = await knex("schedules").returning("id").insert({
+          medicID,
+        });
+
+        await knex("appointments").insert({
+          clientID: parseInt(clientID),
+          scheduleID: parseInt(scheduleID),
+          date,
+          time: appointmentData.time,
+          price: parseInt(appointmentData.price),
+          type: appointmentData.type,
+          transactionID: transaction.id,
+        });
+
+        await paymentConfirmation({
+          name: `${medic.first_name} ${medic.last_name}`,
+          email: client_info.email,
+          medic: medic,
+          appointment: appointmentData,
+          time: appointmentData.time,
+          location: location,
+        });
+
+        await paymentConfirmationMedic({
+          email: medic.email,
+          appointment: appointmentData,
+          time: appointmentData.time,
+        });
+      } else {
+        new Error("Erro ao realizar o pagamento 😥");
+      }
 
       res.status(201).json({
-        message: "Pedido enviado com sucesso! 🎉",
+        message: "Consulta marcada com sucesso! 🎉",
         success: true,
-        orderID: request.body.id,
       });
     } catch (error) {
       next(error);
@@ -172,11 +245,17 @@ module.exports = {
       const { id } = req.params;
 
       const [appointment] = await knex("appointments")
-        .where({ paymentID: id })
+        .where({ transactionID: id })
         .join("schedules", "schedules.id", "=", "appointments.scheduleID")
         .select("appointments.*", "schedules.medicID");
 
-      await moip.payment.refunds.create(id);
+      pagarme.client
+        .connect({ api_key: process.env.PAGARME_API_KEY })
+        .then((client) =>
+          client.transactions.refund({
+            id: id,
+          })
+        );
 
       const [medic] = await knex("medics")
         .where("medics.id", "=", appointment.medicID)
@@ -187,19 +266,17 @@ module.exports = {
         .join("users", "users.id", "=", "clients.userID")
         .select("users.*", "clients.*");
 
-      await knex("appointments").where({ paymentID: id }).del();
+      await knex("appointments").where({ transactionID: id }).del();
 
       let [location] = await knex("addresses").where("userID", medic.userID);
 
       refundConfirmation({
-        name: `${client.first_name} ${client.last_name}`,
+        name: `${medic.first_name} ${medic.last_name}`,
         email: client.email,
         medic,
         appointment,
         location: location,
       });
-
-      console.log(appointment);
 
       refundConfirmationMedic({
         email: medic.email,
@@ -228,109 +305,22 @@ module.exports = {
         .join("medics", "medics.id", "=", "schedules.medicID")
         .join("users", "users.id", "=", "medics.userID")
         .join("addresses", "addresses.userID", "=", "users.id")
-        .select(["appointments.*", "schedules.medicID", "medics.*", "users.*", "addresses.*"])
+        .select([
+          "appointments.*",
+          "schedules.medicID",
+          "medics.*",
+          "users.*",
+          "addresses.*",
+        ])
         .orderBy([{ column: "appointments.created_at", order: "desc" }]);
     }
 
     const results = await query;
-    res.status(200).send(results.map((result) => ({ ...result, password: undefined})));
+    res
+      .status(200)
+      .send(results.map((result) => ({ ...result, password: undefined })));
 
     try {
-    } catch (error) {
-      next(error);
-    }
-  },
-
-  async pay(req, res, next) {
-    try {
-      const { orderID } = req.params;
-      const { medicID, clientID, userID } = req.query;
-      const { date, hash, appointmentData, cpf, time } = req.body;
-
-      const [client] = await knex("clients")
-        .where("clients.id", "=", clientID)
-        .join("users", "users.id", "=", "clients.userID")
-        .select("users.*", "clients.*");
-
-      const [ddd, phone] = client.phoneNumber.split(")");
-      const formattedDDD = ddd.replace("(", "");
-      const formattedPhoneNumber = phone.replace(/[- ]/g, "");
-
-      const payment = await moip.payment.create(orderID, {
-        installmentCount: 1,
-        statementDescriptor: "spital.com.br",
-        fundingInstrument: {
-          method: "CREDIT_CARD",
-          creditCard: {
-            hash: hash,
-            holder: {
-              fullname: `${client.first_name} ${client.last_name}`,
-              birthdate: client.birth_date,
-              taxDocument: {
-                type: "CPF",
-                number: cpf,
-              },
-              phone: {
-                countryCode: "55",
-                areaCode: formattedDDD,
-                number: formattedPhoneNumber,
-              },
-              billingAddress: {
-                city: "Ribeirão Preto",
-                district: "Bonfim Paulista",
-                street: "Capitão Waldemar de Figueiredo",
-                streetNumber: "650",
-                zipCode: "14027600",
-                state: "SP",
-                country: "BRA",
-              },
-            },
-          },
-        },
-      });
-
-      const scheduleID = await knex("schedules").returning("id").insert({
-        medicID,
-      });
-
-      await knex("appointments").insert({
-        clientID: parseInt(clientID),
-        scheduleID: parseInt(scheduleID),
-        date,
-        time: time,
-        price: parseInt(appointmentData.price),
-        paymentID: payment.body.id,
-        type: appointmentData.type,
-        orderID: orderID,
-      });
-
-      const [medic] = await knex("medics")
-        .where("medics.id", "=", medicID)
-        .join("users", "users.id", "=", "medics.userID")
-        .select("users.*", "medics.*");
-
-      let [location] = await knex("addresses").where("userID", userID);
-
-      await paymentConfirmation({
-        name: `${client.first_name} ${client.last_name}`,
-        email: client.email,
-        medic: medic,
-        appointment: appointmentData,
-        time: time,
-        location: location,
-      });
-
-      await paymentConfirmationMedic({
-        email: medic.email,
-        appointment: appointmentData,
-        time: time,
-      });
-
-      res.status(201).json({
-        success: true,
-        message: "Pagamento concluído!",
-        id: payment.body.id,
-      });
     } catch (error) {
       next(error);
     }

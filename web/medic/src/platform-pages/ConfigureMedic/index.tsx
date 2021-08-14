@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import AppointmentInfo from "../../components-platform/ConfigureMedicPages/AppointmentInfo";
 import BankData from "../../components-platform/ConfigureMedicPages/BankData";
 import ClinicAddress from "../../components-platform/ConfigureMedicPages/ClinicAddress";
-import InvoiceAddress from "../../components-platform/ConfigureMedicPages/InvoiceAddress";
 import Landing from "../../components-platform/ConfigureMedicPages/Landing";
 import Success from "../../components-platform/ConfigureMedicPages/Success";
 import MedicSchedule from "../../components-platform/ConfigureMedicPages/Schedule";
@@ -34,7 +33,6 @@ const ConfigureMedic = () => {
     <ClinicAddress previousPage={previousPage} nextPage={nextPage} />,
     <ProfileConfig previousPage={previousPage} nextPage={nextPage}/>,
     <BankData previousPage={previousPage} nextPage={nextPage} />,
-    <InvoiceAddress previousPage={previousPage} nextPage={nextPage} />,
     <Success />,
   ];
 

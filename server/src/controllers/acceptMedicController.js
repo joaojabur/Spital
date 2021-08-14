@@ -4,7 +4,6 @@ module.exports = {
   async create(req, res, next) {
     try {
       const { medicID } = req.params;
-      console.log(medicID);
 
       await knex("medics").where({ id: medicID }).update({ accepted: true });
 

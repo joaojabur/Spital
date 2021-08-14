@@ -23,8 +23,6 @@ export interface InvoiceAddressProps {
 
 const InvoiceAddress = ({ previousPage, nextPage }: PagesProps) => {
   const [error, setError] = useState("");
-  const history = useHistory();
-  const { spinner } = useModal();
 
   const estados = [
     { value: "AC", label: "Acre" },
@@ -74,71 +72,6 @@ const InvoiceAddress = ({ previousPage, nextPage }: PagesProps) => {
       setMedicID(response.data.id);
     });
   }, [userID]);
-
-  function handleConfigureProfile() {
-    spinner.open();
-    if (!errors?.appointments?.length) {
-      //@ts-ignore
-      delete errors.appointments;
-    }
-
-    if (!errors?.schedule?.length) {
-      //@ts-ignore
-      delete errors.schedule;
-    }
-
-    const loopedErrors = Object.values(errors);
-
-    if (loopedErrors.length > 0) {
-      setHasError(true);
-      spinner.close();
-    } else {
-      setHasError(false);
-      let data = new FormData();
-
-      data.append('bankData', JSON.stringify(medicDataConfigure.bankData));
-      data.append('invoiceAddress', JSON.stringify(medicDataConfigure.invoiceAddress))
-      data.append('file', medicDataConfigure.file);
-
-      api
-        .post(`configure-medic?medicID=${medicID}&userID=${userID}`, data)
-        .then((response: any) => {
-          if (response.status === 200) {
-            api
-              .post(
-                `configure-medic/${response.data.moipAccountId}?accessToken=${response.data.accessToken}&medicID=${medicID}&userID=${userID}`,
-                {
-                  bankData: medicDataConfigure.bankData,
-                  appointments: medicDataConfigure.appointments,
-                  number: medicDataConfigure.number,
-                  address: medicDataConfigure.address,
-                  lat: null,
-                  lon: null,
-                  schedule: medicDataConfigure.schedule,
-                }
-              )
-              .then((res: any) => {
-                if (res.status === 201) {
-                  window.location.reload();
-                } else {
-                  spinner.close();
-                  setError(
-                    "Erro ao realizar o cadastro, revise seus dados ou tente novamente mais tarde..."
-                  );
-                }
-              })
-              .then(() => {
-                history.replace("/configuracoes");
-              });
-          }
-          spinner.close();
-        })
-        .catch((err) => {
-          console.log(err);
-          spinner.close();
-        });
-    }
-  }
 
   return (
     <div
@@ -302,7 +235,6 @@ const InvoiceAddress = ({ previousPage, nextPage }: PagesProps) => {
           Anterior
         </button>
         <button
-          onClick={handleConfigureProfile}
           style={{ width: "100%" }}
           className="next"
         >

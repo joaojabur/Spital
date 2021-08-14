@@ -15,7 +15,6 @@ interface MedicConfigureData {
   lat: number | null;
   lon: number | null;
   bankData: BankData;
-  invoiceAddress: InvoiceAddressProps;
   schedule: Array<Schedule>;
   file: File;
 }
@@ -90,7 +89,6 @@ export default function refreshUserValidate(credentials: MedicConfigureData) {
     } else if (typeof credentials.appointments !== "string") {
       let i = 0;
       for (let appointment of credentials?.appointments) {
-        console.log(appointment);
         if (
           appointment.name.length === 0 ||
           appointment.price.length === 0 ||
@@ -218,90 +216,6 @@ export default function refreshUserValidate(credentials: MedicConfigureData) {
       } as BankData;
 
       errors.bankData.cpf = "CPF inválido";
-    }
-
-    if (!credentials?.bankData?.birthDate?.length ?? 0) {
-      errors.bankData = {
-        ...errors.bankData,
-      } as BankData;
-
-      errors.bankData.birthDate = "Campo de data de nascimento é necessário";
-    } else {
-      let year = new Date(credentials?.bankData?.birthDate).getFullYear();
-      let month = new Date(credentials?.bankData?.birthDate).getMonth() + 1;
-      let day = new Date(credentials?.bankData?.birthDate).getDate();
-      if (new Date().getFullYear() - year >= 18) {
-        if (new Date().getFullYear() - year === 18) {
-          if (new Date().getMonth() + 1 - month >= 0) {
-            if (new Date().getDate() - day <= 0) {
-              errors.bankData = {
-                ...errors.bankData,
-              } as BankData;
-              errors.bankData.birthDate = "Você precisa ser maior de 18 anos";
-            }
-          } else {
-            errors.bankData = {
-              ...errors.bankData,
-            } as BankData;
-            errors.bankData.birthDate = "Você precisa ser maior de 18 anos";
-          }
-        }
-      } else {
-        errors.bankData = {
-          ...errors.bankData,
-        } as BankData;
-        errors.bankData.birthDate = "Você precisa ser maior de 18 anos";
-      }
-    }
-
-    // Invoice Address
-
-    if (!credentials?.invoiceAddress?.street?.length ?? 0) {
-      errors.invoiceAddress = {
-        ...errors.invoiceAddress,
-      } as InvoiceAddressProps;
-
-      errors.invoiceAddress.street = "Campo de rua necessário";
-    }
-
-    if (!credentials?.invoiceAddress?.streetNumber?.length ?? 0) {
-      errors.invoiceAddress = {
-        ...errors.invoiceAddress,
-      } as InvoiceAddressProps;
-
-      errors.invoiceAddress.streetNumber = "Campo de número é necessário";
-    }
-
-    if (!credentials?.invoiceAddress?.complement?.length ?? 0) {
-      errors.invoiceAddress = {
-        ...errors.invoiceAddress,
-      } as InvoiceAddressProps;
-
-      errors.invoiceAddress.complement = "Campo de complemento é necessário";
-    }
-
-    if (!credentials?.invoiceAddress?.district?.length ?? 0) {
-      errors.invoiceAddress = {
-        ...errors.invoiceAddress,
-      } as InvoiceAddressProps;
-
-      errors.invoiceAddress.district = "Campo de bairro é necessário";
-    }
-
-    if (!credentials?.invoiceAddress?.zipCode?.length ?? 0) {
-      errors.invoiceAddress = {
-        ...errors.invoiceAddress,
-      } as InvoiceAddressProps;
-
-      errors.invoiceAddress.zipCode = "Campo de CEP é necessário";
-    }
-
-    if (!credentials?.invoiceAddress?.city?.length ?? 0) {
-      errors.invoiceAddress = {
-        ...errors.invoiceAddress,
-      } as InvoiceAddressProps;
-
-      errors.invoiceAddress.city = "Campo de cidade é necessário";
     }
   }
 

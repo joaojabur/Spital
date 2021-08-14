@@ -1,5 +1,4 @@
 import validateCPF from "./validateCpf";
-import convertHourToMinutes from "./convertHourToMinute";
 
 interface MedicError {
   firstName: string;

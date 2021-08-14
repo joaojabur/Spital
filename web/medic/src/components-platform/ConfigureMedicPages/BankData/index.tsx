@@ -6,6 +6,9 @@ import Loader from "react-loader-spinner";
 import { useShareFormMedicConfigure } from "../../../context/ShareMedicConfigureFormProvider";
 import { TextField } from "@material-ui/core";
 import mask from "../../../utils/mask";
+import { useModal } from "../../../context/ModalProvider";
+import api from "../../../services/api";
+import { useAuth } from "../../../context/AuthProvider";
 
 export interface BankData {
   bankNumber: string;
@@ -17,13 +20,63 @@ export interface BankData {
   birthDate: string;
 }
 
-const BankData = ({ previousPage, nextPage }: PagesProps) => {
+const BankData = ({ previousPage }: PagesProps) => {
+  const { userID } = useAuth();
+  const [medicID, setMedicID] = useState("");
+  const [error, setError] = useState("");
+  const [hasError, setHasError] = useState(false);
+  const { spinner } = useModal();
   const { medicDataConfigure, setMedicDataConfigure } =
     useShareFormMedicConfigure();
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(
     validateConfigureMedic(medicDataConfigure)
   );
+
+  useEffect(() => {
+    api.get(`medics?id=${userID}`).then((response: any) => {
+      setMedicID(response.data.id);
+    });
+  }, [userID]);
+
+  function handleConfigureProfile() {
+    spinner.open();
+    if (!errors?.appointments?.length) {
+      //@ts-ignore
+      delete errors.appointments;
+    }
+
+    if (!errors?.schedule?.length) {
+      //@ts-ignore
+      delete errors.schedule;
+    }
+
+    const loopedErrors = Object.values(errors);
+
+    if (loopedErrors.length > 0) {
+      setHasError(true);
+      spinner.close();
+    } else {
+      setHasError(false);
+      let data = new FormData();
+
+      data.append("file", medicDataConfigure.file);
+      data.append("medicDataConfigure", JSON.stringify(medicDataConfigure));
+
+      api
+        .post(`configure-medic?medicID=${medicID}&userID=${userID}`, data)
+        .then((response) => {
+          console.log(response.status);
+          if (response.status === 201) {
+            console.log("Configurado com sucesso!");
+            window.location.reload();
+          } else {
+            console.log("Informações bancárias incorretas...");
+          }
+          spinner.close();
+        });
+    }
+  }
 
   useEffect(() => {
     setErrors(validateConfigureMedic(medicDataConfigure));
@@ -139,7 +192,7 @@ const BankData = ({ previousPage, nextPage }: PagesProps) => {
         <div style={{ marginTop: "2rem" }} className="landing-flex">
           <TextField
             value={medicDataConfigure.bankData.cpf}
-            style={{ width: "48%" }}
+            style={{ width: "100%" }}
             label={<span style={{ fontSize: "1.5rem" }}>CPF</span>}
             variant="outlined"
             onChange={(e: any) => {
@@ -154,28 +207,17 @@ const BankData = ({ previousPage, nextPage }: PagesProps) => {
             error={errors?.bankData?.cpf ? true : false}
             helperText={errors?.bankData?.cpf}
           />
-          <TextField
-            value={medicDataConfigure.bankData.birthDate}
-            style={{ width: "48%" }}
-            label={
-              <span style={{ fontSize: "1.5rem" }}>Data de nascimento</span>
-            }
-            variant="outlined"
-            type="date"
-            onChange={(e: any) => {
-              setMedicDataConfigure({
-                ...medicDataConfigure,
-                bankData: {
-                  ...medicDataConfigure.bankData,
-                  birthDate: e.target.value,
-                } as BankData,
-              });
-            }}
-            error={errors?.bankData?.birthDate ? true : false}
-            helperText={errors?.bankData?.birthDate}
-          />
         </div>
       </div>
+
+      {hasError && (
+        <span style={{ color: "#f00", fontWeight: "bold", fontSize: "2rem" }}>
+          Existem erros no formulário
+        </span>
+      )}
+      <span style={{ color: "#f00", fontWeight: "bold", fontSize: "2rem" }}>
+        {error}
+      </span>
 
       <div style={{ width: "100%" }}>
         <button
@@ -185,11 +227,15 @@ const BankData = ({ previousPage, nextPage }: PagesProps) => {
         >
           Anterior
         </button>
-        <button onClick={nextPage} style={{ width: "100%" }} className="next">
+        <button
+          onClick={handleConfigureProfile}
+          style={{ width: "100%" }}
+          className="next"
+        >
           {loading ? (
             <Loader type="TailSpin" color="#fff" height={30} width={30} />
           ) : (
-            "Próximo"
+            "Configurar conta"
           )}
         </button>
       </div>
