@@ -16,6 +16,8 @@ class AppBarSliverPageSeachDoctors extends StatefulWidget {
     required this.image,
     required this.width,
     required this.height,
+    required this.onFilterClick,
+    required this.onTextChange
   }) : super(key: key);
 
   final String title;
@@ -23,6 +25,8 @@ class AppBarSliverPageSeachDoctors extends StatefulWidget {
   final String image;
   final double width;
   final double height;
+  final Function() onFilterClick;
+  final Function(String) onTextChange;
 
   @override
   _AppBarSliverPageSeachDoctorsState createState() =>
@@ -44,48 +48,64 @@ class _AppBarSliverPageSeachDoctorsState
                     child: SizedBox(
                       height: 45,
                       width: 300,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white,
-                              border:
-                                  Border.all(color: Colors.black26, width: 1)),
-                          child: TextField(
-                            decoration: InputDecoration(
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.transparent)),
-                              errorBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.transparent)),
-                              border: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                              ),
-                              disabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                              ),
-                              hintText: "Pesquisar",
-                              hintStyle: AppTextStyles.reviewUserTitle,
-                              icon: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 10, bottom: 0),
-                                child: Icon(
-                                  Ionicons.search,
-                                  size: 24,
-                                  color: AppColors.darkBlue,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white,
+                                  border:
+                                      Border.all(color: Colors.black26, width: 1)),
+                              child: TextField(
+                                onChanged: this.widget.onTextChange,
+                                decoration: InputDecoration(
+                                  focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent)),
+                                  errorBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent)),
+                                  border: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.transparent),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.transparent),
+                                  ),
+                                  disabledBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.transparent),
+                                  ),
+                                  hintText: "Pesquisar",
+                                  hintStyle: AppTextStyles.reviewUserTitle,
+                                  icon: Padding(
+                                    padding:
+                                        const EdgeInsets.only(left: 10, bottom: 0),
+                                    child: Icon(
+                                      Ionicons.search,
+                                      size: 24,
+                                      color: AppColors.darkBlue,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
+                          GestureDetector(
+                            onTap: this.widget.onFilterClick,
+                            child: Container(
+                              padding: EdgeInsets.all(8),
+                              margin: EdgeInsets.only(left: 8),
+                              child: Icon(
+                                Ionicons.filter,
+                                size: 24,
+                                color: AppColors.darkBlue,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ));
               },
