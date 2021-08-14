@@ -8,6 +8,7 @@ class AppointmentModel {
   final String price;
   final int? scheduleID;
   final String? createdAt;
+  final bool? rated;
 
   AppointmentModel(
     this.date,
@@ -15,7 +16,7 @@ class AppointmentModel {
     this.doctorName,
     this.type,
     this.price, 
-    { this.scheduleID, this.createdAt }
+    { this.scheduleID, this.createdAt, this.rated }
   );
 
   AppointmentModel copyWith({
@@ -24,7 +25,8 @@ class AppointmentModel {
     String? doctorName,
     String? type,
     String? price,
-    int? scheduleID
+    int? scheduleID,
+    bool? rated
   }) {
     return AppointmentModel(
       date ?? this.date,
@@ -33,7 +35,8 @@ class AppointmentModel {
       type ?? this.type,
       price ?? this.price,
       scheduleID: scheduleID ?? this.scheduleID,
-      createdAt: createdAt ?? this.createdAt
+      createdAt: createdAt ?? this.createdAt,
+      rated: rated ?? this.rated
     );
   }
 
@@ -55,7 +58,8 @@ class AppointmentModel {
       map['type'],
       map['price'],
       scheduleID: map['scheduleID'],
-      createdAt: map['created_at']
+      createdAt: map['created_at'],
+      rated: map['rated'] ?? false
     );
   }
 
@@ -65,7 +69,7 @@ class AppointmentModel {
 
   @override
   String toString() {
-    return 'AppointmentModel(date: $date, time: $time, doctorName: $doctorName, type: $type, price: $price)';
+    return 'AppointmentModel(date: $date, time: $time, doctorName: $doctorName, type: $type, price: $price, rated: ${rated ?? false})';
   }
 
   @override
