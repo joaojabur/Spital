@@ -102,7 +102,6 @@ module.exports = {
   },
 
   async createBankAccount(req, res, next) {
-    console.log("I am here!");
     const { moipAccountId } = req.params;
     const { accessToken, medicID, userID } = req.query;
 
