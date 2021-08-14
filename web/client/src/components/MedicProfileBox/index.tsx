@@ -19,7 +19,7 @@ const MedicProfileBox: React.FC<MedicProfileBoxProps> = ({
   return (
     <div className="medic-profile-box">
       <div className="medic-profile-box-name">
-        <div className="medic-profile-box-image"></div>
+        <img src={medic?.url} className="medic-profile-box-image" alt={medic?.firstName + " " + medic?.lastName}/>
         <h2>Dr. {medic?.firstName}</h2>
         <p>{area}</p>
         <div className="medic-profile-box-rating">

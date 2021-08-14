@@ -1,15 +1,10 @@
 const knex = require("../database");
 const paymentConfirmation = require("../services/email/paymentConfirmation");
 const paymentConfirmationMedic = require("../services/email/paymentConfirmationMedic");
-const convertHoursToMinutes = require("../utils/convertHoursToMinutes");
 const refundConfirmation = require("../services/email/refundConfirmation");
 const refundConfirmationMedic = require("../services/email/refundConfirmationMedic");
 var ID = require("nodejs-unique-numeric-id-generator");
 require("dotenv").config({ path: "./src/.env" });
-const moip = require("moip-sdk-node").default({
-  accessToken: process.env.MOIP_ACCESS_TOKEN,
-  production: false,
-});
 const pagarme = require("pagarme");
 
 module.exports = {
@@ -108,7 +103,7 @@ module.exports = {
       let [medic] = await knex("medics")
         .where("medics.id", "=", medicID)
         .join("users", "users.id", "=", "medics.userID")
-        .select("recipientID", "email", "userID", "first_name", "last_name");
+        .select("recipientID", "email", "userID", "first_name", "last_name", "url");
 
       let [client_info] = await knex("clients")
         .where("clients.id", "=", clientID)

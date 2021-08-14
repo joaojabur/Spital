@@ -29,6 +29,7 @@ export interface AppointmentProps {
   confirmed: boolean;
   rated: boolean;
   transactionID: string;
+  url: string;
 }
 
 const ListAppointments = () => {
@@ -48,6 +49,7 @@ const ListAppointments = () => {
   useEffect(() => {
     setLoading(true);
     api.get(`appointments/${clientID}`).then((response: any) => {
+      console.log(response.data);
       setAppointments(response.data);
       setLoading(false);
     });
@@ -144,9 +146,7 @@ const ListAppointments = () => {
                 <div className="list-appoints-unique-information">
                   <div className="list-appoints-unique-information-flex">
                     <img
-                      src={`https://avatars.dicebear.com/api/human/${
-                        appointment.first_name + appointment.last_name
-                      }.svg`}
+                      src={appointment.url}
                       alt="Avatar"
                       className="list-appoints-unique-information-image"
                     />

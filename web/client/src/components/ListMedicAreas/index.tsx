@@ -125,7 +125,7 @@ const ListMedicAreas = ({ searchTerm }: ListMedicAreasProps) => {
     {
       img: nutrologyIcon,
       label: "Nutrologo",
-      gotTo: "/nutrologo",
+      gotTo: "nutrologo",
     },
     {
       img: obstetricsIcon,

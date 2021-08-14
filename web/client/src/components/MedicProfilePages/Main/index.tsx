@@ -32,6 +32,7 @@ export interface MedicProps {
     address: string;
     number: number;
   };
+  url: string;
 }
 
 const MainProfileMedic = ({ nextPage }: NamesProps) => {

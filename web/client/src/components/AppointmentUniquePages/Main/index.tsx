@@ -123,7 +123,6 @@ const AppointmentUniqueMain = ({ previousPage, nextPage }: any) => {
           <div className="container">
             {appointments.map(
               (appointment: AppointmentProps, index: number) => {
-                console.log(appointment);
                 async function refund() {
                   setLoading(true);
                   api
@@ -158,9 +157,7 @@ const AppointmentUniqueMain = ({ previousPage, nextPage }: any) => {
                     <div className="appointment-unique-flex">
                       <div className="medic-info">
                         <img
-                          src={`https://avatars.dicebear.com/api/human/${
-                            appointment.first_name + appointment.last_name
-                          }.svg`}
+                          src={appointment.url}
                           alt="Avatar"
                         />
                         <div className="medic-info-name">

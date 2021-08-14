@@ -57,9 +57,7 @@ module.exports = async function paymentConfirmation({
           <td style="padding: 20px 20px 20px 20px; font-size: 26px">
             <img
               style="width: 50px; height: 50px; border-radius: 50%"
-              src="https://avatars.dicebear.com/api/human/${
-                medic.first_name + medic.last_name
-              }.svg"
+              src="https://avatars.dicebear.com/api/human/${medic?.url}"
             />
             <span style="font-size: 20px; position: relative; top: -15px"
               >Consulta marcada com
