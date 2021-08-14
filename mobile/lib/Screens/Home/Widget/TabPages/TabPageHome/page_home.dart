@@ -78,21 +78,12 @@ class _PageHomeState extends State<PageHome> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Padding(
+                Container(
                   padding: const EdgeInsets.only(bottom: 10, left: 20),
+                  margin: const EdgeInsets.only(top: 16),
                   child: Text(
                     "Categorias",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    "Ver mais",
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFFBCBCBC)),
                   ),
                 ),
               ],
