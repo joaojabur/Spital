@@ -9,19 +9,21 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ionicons/ionicons.dart';
 
 class AppBarSliverPageWithBottom extends StatefulWidget {
+
   const AppBarSliverPageWithBottom({
     Key? key,
     required this.title,
     required this.image,
     required this.width,
     required this.height,
+    required this.onTextChange    
   }) : super(key: key);
 
   final String title;
-
   final String image;
   final double width;
   final double height;
+  final Function(String) onTextChange;
 
   @override
   _AppBarSliverPageWithBottomState createState() =>
@@ -51,6 +53,7 @@ class _AppBarSliverPageWithBottomState
                             border:
                                 Border.all(color: Colors.black26, width: 1)),
                         child: TextField(
+                          onChanged: this.widget.onTextChange,
                           decoration: InputDecoration(
                             focusedBorder: UnderlineInputBorder(
                                 borderSide:
