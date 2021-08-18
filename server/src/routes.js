@@ -17,7 +17,6 @@ const cardController = require("./controllers/cardController");
 const configureMedicController = require("./controllers/configureMedicController");
 const acceptMedicController = require("./controllers/acceptMedicController");
 const pacientsController = require("./controllers/pacientsController");
-const bankaccountController = require("./controllers/bankaccountController");
 const recipientController = require("./controllers/recipientController");
 const balanceController = require("./controllers/balanceController");
 
@@ -25,8 +24,6 @@ routes.get("/balance", balanceController.index);
 
 routes.get("/recipient", recipientController.index);
 routes.put("/recipient/:recipientID", recipientController.update);
-
-routes.get("/bankaccount", bankaccountController.index);
 
 routes.get("/pacients", pacientsController.index);
 

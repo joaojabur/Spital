@@ -26,6 +26,7 @@
     "aos": "^2.3.4",
     "axios": "^0.21.1",
     "browserslist": "^4.16.4",
+    "dotenv": "^10.0.0",
     "ember-cli-materialize": "^0.22.0",
     "js-cookie": "^2.2.1",
     "jsencrypt": "^3.2.0",

@@ -72,7 +72,7 @@ const HomeClient = () => {
 
   useEffect(() => {
     if (!location) {
-      // Nada
+      // Nothing
     } else {
       loadMore();
     }

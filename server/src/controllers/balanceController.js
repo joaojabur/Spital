@@ -7,7 +7,7 @@ module.exports = {
 
       let balance = await pagarme.client
         .connect({ api_key: process.env.PAGARME_API_KEY })
-        .then((client) => client.balance.find(recipientID));
+        .then((client) => client.payables.all());
 
       console.log(balance);
       res.status(201).send(balance);
