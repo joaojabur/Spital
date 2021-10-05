@@ -7,9 +7,21 @@ module.exports = async function paymentConfirmation({
   medic,
   appointment,
   location,
-  time
+  time,
+  isCard,
 }) {
-  const [month, day, year] = appointment.date.split("/");
+  let month, day, year;
+
+  if (isCard) {
+    month = appointment?.data?.split("/")[0];
+    day = appointment?.data?.split("/")[1];
+    year = appointment?.data?.split("/")[2];
+  } else {
+    month = appointment.date.month;
+    day = appointment.date.day;
+    year = appointment.date.year;
+  }
+
   let to = email;
   let subject = "Consulta agendada";
   let html = `

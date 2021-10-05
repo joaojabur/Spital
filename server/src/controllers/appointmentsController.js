@@ -20,11 +20,13 @@ module.exports = {
           .join("schedules", "schedules.id", "=", "appointments.scheduleID")
           .join("medics", "medics.id", "=", "schedules.medicID")
           .join("users", "users.id", "=", "medics.userID")
+          .join("addresses", "addresses.userID", "=", "users.id")
           .select([
             "appointments.*",
             "schedules.medicID",
             "medics.*",
             "users.*",
+            "addresses.*",
           ]);
       }
       if (!scheduleID) {
@@ -94,16 +96,56 @@ module.exports = {
   async create(req, res, next) {
     try {
       const { clientID, medicID } = req.query;
-      const { card, appointmentData, cpf, date } = req.body;
+      const { card, appointmentData, cpf, date, cardData } = req.body;
+
+      let hashedCard;
+      let formattedCardNumber;
+
+      if (cardData) {
+        formattedCardNumber = cardData.number.replace(/[ ]/g, "");
+        console.log(
+          `${
+            cardData.exp_month.toString().length < 2
+              ? "0" + cardData.exp_month
+              : cardData.exp_month
+          }${cardData.exp_year}`
+        );
+
+        hashedCard = await pagarme.client
+          .connect({
+            encryption_key: "ek_test_kABVUutCQIYlU7GHmNVsjotvnTY3bc",
+          })
+          .then((client) =>
+            client.security.encrypt({
+              card_number: `${formattedCardNumber}`,
+              card_cvv: cardData.cvv,
+              card_expiration_date: `${
+                cardData.exp_month.toString().length < 2
+                  ? "0" + cardData.exp_month
+                  : cardData.exp_month
+              }${cardData.exp_year}`,
+              card_holder_name: cardData.holder_name,
+            })
+          );
+      }
 
       const formatted_cpf = cpf.replace(/[-. ]/g, "");
+
+      let transaction;
 
       var random_id = ID.generate(new Date().toJSON());
 
       let [medic] = await knex("medics")
         .where("medics.id", "=", medicID)
         .join("users", "users.id", "=", "medics.userID")
-        .select("recipientID", "email", "userID", "first_name", "last_name", "url");
+        .select(
+          "recipientID",
+          "email",
+          "userID",
+          "first_name",
+          "last_name",
+          "url"
+        );
 
       let [client_info] = await knex("clients")
         .where("clients.id", "=", clientID)
@@ -117,64 +159,125 @@ module.exports = {
         ""
       );
 
-      let transaction = await pagarme.client
-        .connect({ api_key: process.env.PAGARME_API_KEY })
-        .then((client) =>
-          client.transactions.create({
-            amount: Number(appointmentData.price) * 100,
-            card_hash: card,
-            billing: {
-              name: "João Accoroni Jabur",
-              address: {
-                country: "br",
-                state: "sp",
-                city: "Ribeirão Preto",
-                neighborhood: "Villa do Golfe",
-                street: "Rua Capitão Waldemar de Figueiredo",
-                street_number: "650",
-                zipcode: "14027600",
+      if (card) {
+        transaction = await pagarme.client
+          .connect({ api_key: process.env.PAGARME_API_KEY })
+          .then((client) =>
+            client.transactions.create({
+              amount: Number(appointmentData.price) * 100,
+              card_hash: card,
+              billing: {
+                name: "João Accoroni Jabur",
+                address: {
+                  country: "br",
+                  state: "sp",
+                  city: "Ribeirão Preto",
+                  neighborhood: "Villa do Golfe",
+                  street: "Rua Capitão Waldemar de Figueiredo",
+                  street_number: "650",
+                  zipcode: "14027600",
+                },
               },
-            },
-            customer: {
-              external_id: `#${random_id}`,
-              name: `${client_info.first_name} ${client_info.last_name}`,
-              type: "individual",
-              country: "br",
-              email: client_info.email,
-              documents: [
+              customer: {
+                external_id: `#${random_id}`,
+                name: `${client_info.first_name} ${client_info.last_name}`,
+                type: "individual",
+                country: "br",
+                email: client_info.email,
+                documents: [
+                  {
+                    type: "cpf",
+                    number: formatted_cpf,
+                  },
+                ],
+                phone_numbers: [`+55${formatted_phone_number}`],
+                birthday: "2000-02-16",
+              },
+              items: [
                 {
-                  type: "cpf",
-                  number: formatted_cpf,
+                  id: random_id,
+                  title: appointmentData.type,
+                  unit_price: Number(appointmentData.price) * 100,
+                  quantity: 1,
+                  tangible: true,
                 },
               ],
-              phone_numbers: [`+55${formatted_phone_number}`],
-              birthday: client_info.birth_date,
-            },
-            items: [
-              {
-                id: random_id,
-                title: appointmentData.type,
-                unit_price: Number(appointmentData.price) * 100,
-                quantity: 1,
-                tangible: true,
+              split_rules: [
+                {
+                  recipient_id: medic.recipientID,
+                  percentage: 80,
+                  liable: true,
+                  charge_processing_fee: true,
+                },
+                {
+                  recipient_id: "re_ckosx2xku003b0h9tdfv3bk1x",
+                  percentage: 20,
+                  liable: true,
+                  charge_processing_fee: true,
+                },
+              ],
+            })
+          );
+      } else {
+        transaction = await pagarme.client
+          .connect({ api_key: process.env.PAGARME_API_KEY })
+          .then((client) =>
+            client.transactions.create({
+              amount: Number(appointmentData.price) * 100,
+              card_hash: hashedCard,
+              billing: {
+                name: "João Accoroni Jabur",
+                address: {
+                  country: "br",
+                  state: "sp",
+                  city: "Ribeirão Preto",
+                  neighborhood: "Villa do Golfe",
+                  street: "Rua Capitão Waldemar de Figueiredo",
+                  street_number: "650",
+                  zipcode: "14027600",
+                },
               },
-            ],
-            split_rules: [
-              {
-                recipient_id: medic.recipientID,
-                percentage: 80,
-                liable: true,
-                charge_processing_fee: true,
+              customer: {
+                external_id: `#${random_id}`,
+                name: `${client_info.first_name} ${client_info.last_name}`,
+                type: "individual",
+                country: "br",
+                email: client_info.email,
+                documents: [
+                  {
+                    type: "cpf",
+                    number: formatted_cpf,
+                  },
+                ],
+                phone_numbers: [`+55${formatted_phone_number}`],
+                birthday: "2000-02-16",
               },
-              {
-                recipient_id: "re_ckosx2xku003b0h9tdfv3bk1x",
-                percentage: 20,
-                liable: true,
-                charge_processing_fee: true,
-              },
-            ],
-          })
-        );
+              items: [
+                {
+                  id: random_id,
+                  title: appointmentData.type,
+                  unit_price: Number(appointmentData.price) * 100,
+                  quantity: 1,
+                  tangible: true,
+                },
+              ],
+              split_rules: [
+                {
+                  recipient_id: medic.recipientID,
+                  percentage: 80,
+                  liable: true,
+                  charge_processing_fee: true,
+                },
+                {
+                  recipient_id: "re_ckosx2xku003b0h9tdfv3bk1x",
+                  percentage: 20,
+                  liable: true,
+                  charge_processing_fee: true,
+                },
+              ],
+            })
+          );
+      }
 
       if (transaction.card.valid) {
         const scheduleID = await knex("schedules").returning("id").insert({
@@ -191,20 +294,41 @@ module.exports = {
           transactionID: transaction.id,
         });
 
-        await paymentConfirmation({
-          name: `${medic.first_name} ${medic.last_name}`,
-          email: client_info.email,
-          medic: medic,
-          appointment: appointmentData,
-          time: appointmentData.time,
-          location: location,
-        });
+        if (card) {
+          await paymentConfirmation({
+            name: `${medic.first_name} ${medic.last_name}`,
+            email: client_info.email,
+            medic: medic,
+            appointment: appointmentData,
+            time: appointmentData.time,
+            location: location,
+            isCard: true,
+          });
 
-        await paymentConfirmationMedic({
-          email: medic.email,
-          appointment: appointmentData,
-          time: appointmentData.time,
-        });
+          await paymentConfirmationMedic({
+            email: medic.email,
+            appointment: appointmentData,
+            time: appointmentData.time,
+            isCard: true,
+          });
+        } else {
+          await paymentConfirmation({
+            name: `${medic.first_name} ${medic.last_name}`,
+            email: client_info.email,
+            medic: medic,
+            appointment: appointmentData,
+            time: appointmentData.time,
+            location: location,
+            isCard: false,
+          });
+
+          await paymentConfirmationMedic({
+            email: medic.email,
+            appointment: appointmentData,
+            time: appointmentData.time,
+            isCard: false,
+          });
+        }
       } else {
         new Error("Erro ao realizar o pagamento 😥");
       }
@@ -215,6 +339,7 @@ module.exports = {
       });
     } catch (error) {
       next(error);
+      console.log(error);
     }
   },
 
@@ -290,12 +415,13 @@ module.exports = {
 
   async list(req, res, next) {
     const { clientID } = req.params;
+    const { confirmed } = req.query;
+    console.log(confirmed);
 
     const query = knex("appointments");
 
     if (clientID) {
       query
-        .where({ clientID })
         .join("schedules", "schedules.id", "=", "appointments.scheduleID")
         .join("medics", "medics.id", "=", "schedules.medicID")
         .join("users", "users.id", "=", "medics.userID")
@@ -304,16 +430,33 @@ module.exports = {
           "appointments.*",
           "schedules.medicID",
           "medics.*",
-          "users.*",
+          "users.id",
+          "users.first_name",
+          "users.last_name",
+          "users.birth_date",
+          "users.xp",
+          "users.email",
+          "users.id",
           "addresses.*",
         ])
+        .where({ clientID })
         .orderBy([{ column: "appointments.created_at", order: "desc" }]);
     }
 
     const results = await query;
-    res
-      .status(200)
-      .send(results.map((result) => ({ ...result, password: undefined })));
+    let finalResults;
+
+    if (confirmed !== undefined) {
+      if (confirmed === "true") {
+        finalResults = results.filter((result) => result.confirmed === false);
+      } else {
+        finalResults = results.filter((result) => result.confirmed === true);
+      }
+    } else {
+      finalResults = results;
+    }
+
+    res.status(200).send(finalResults);
 
     try {
     } catch (error) {

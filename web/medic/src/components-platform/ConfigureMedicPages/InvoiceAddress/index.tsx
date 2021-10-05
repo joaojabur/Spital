@@ -8,8 +8,6 @@ import Select from "react-select";
 import api from "../../../services/api";
 import { useAuth } from "../../../context/AuthProvider";
 import mask from "../../../utils/mask";
-import { useModal } from "../../../context/ModalProvider";
-import { useHistory } from "react-router-dom";
 
 export interface InvoiceAddressProps {
   street: string;

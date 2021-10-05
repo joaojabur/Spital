@@ -236,7 +236,7 @@ const AppointmentUniqueMain = ({ previousPage, nextPage }: any) => {
                           marginTop: "2rem",
                         }}
                       >
-                        {appointment.confirmed ? (
+                        {!appointment.confirmed ? (
                           <p
                             onClick={() => {
                               areYouSure.open({

@@ -128,8 +128,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       }
 
       return response;
-    } catch (error) {
-      return error?.response?.data ?? { error: error.message };
+    } catch (error: any) {
+      return error?.response?.data ?? { error: error?.message };
     }
   }
 

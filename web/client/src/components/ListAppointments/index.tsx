@@ -49,7 +49,6 @@ const ListAppointments = () => {
   useEffect(() => {
     setLoading(true);
     api.get(`appointments/${clientID}`).then((response: any) => {
-      console.log(response.data);
       setAppointments(response.data);
       setLoading(false);
     });

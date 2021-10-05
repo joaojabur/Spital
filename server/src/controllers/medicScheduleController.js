@@ -64,7 +64,7 @@ module.exports = {
 
     const formattedFrom = convertHourToMinutes(from);
     const formattedTo = convertHourToMinutes(to);
-    
+
     try {
       await knex("medic_schedule")
         .update({

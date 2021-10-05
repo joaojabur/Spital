@@ -86,7 +86,7 @@ const MedicArea = () => {
 
   let capitalizeArea = area.charAt(0).toUpperCase() + area.slice(1);
   if (capitalizeArea === "Alergistas-e-imunologista") {
-    capitalizeArea = "Alergista-e-Imunologista";
+    capitalizeArea = "Alergista e Imunologista";
   }
 
   useEffect(() => {

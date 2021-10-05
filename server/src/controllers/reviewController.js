@@ -30,11 +30,12 @@ module.exports = {
     try {
       const { stars, description } = req.body;
       const { medicID, clientID } = req.query;
+      console.log(stars, description, medicID, clientID);
       await knex("reviews").insert({
         stars,
         description,
         medicID,
-        clientID,
+        clientID
       });
 
       await knex("appointments").where({ clientID }).update({ rated: true });

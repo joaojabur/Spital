@@ -88,7 +88,7 @@ module.exports = {
         let [location] = await knex("addresses").where("userID", id);
 
         result.rating = star;
-        
+
         result = {
           ...result,
           password: undefined,
@@ -101,7 +101,7 @@ module.exports = {
           rating: star ? star : "4.0",
           location,
         };
-        
+
         return res.status(200).json(result);
       }
     } catch (error) {

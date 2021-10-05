@@ -24,7 +24,7 @@ export default function ForgetPassword() {
       }
 
       setSuccesfull("E-mail enviado!");
-    } catch (error) {
+    } catch (error: any) {
       if (error.response.data === "Not Found") {
         setSuccesfull("");
         setError("Usuário não encontrado");

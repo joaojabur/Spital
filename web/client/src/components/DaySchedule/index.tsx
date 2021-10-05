@@ -29,8 +29,9 @@ const DaySchedule = ({
   medic_id,
 }: DayScheduleProps) => {
   const { appointmentData, setAppointmentData } = useShareAppointmentForm();
-  const [medicSchedule, setMedicSchedule] =
-    useState<MedicScheduleProps | null>(null);
+  const [medicSchedule, setMedicSchedule] = useState<MedicScheduleProps | null>(
+    null
+  );
   const [appointments, setAppointments] = useState<DateProps[]>([]);
 
   const month = getMonth();
@@ -55,6 +56,7 @@ const DaySchedule = ({
             type: "",
           });
         }
+
         setMedicSchedule(response.data[0]);
       });
   }, [

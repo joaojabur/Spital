@@ -10,7 +10,7 @@ interface DoctorListProps {
 
 export interface Medic {
   firstName: string;
-  email: number;
+  email: string;
   phoneNumber: string;
   lastName: string;
   area: string;

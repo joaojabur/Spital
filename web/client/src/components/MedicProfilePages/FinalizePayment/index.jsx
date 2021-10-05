@@ -32,7 +32,6 @@ const FinalizePayment = ({ previousPage }) => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { medicID } = useParams();
-  console.log(medicID);
 
   useEffect(() => {
     setLoading(true);

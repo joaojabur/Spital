@@ -5,10 +5,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 const baseURL =
-  process.env.NODE_ENV === "production"
-    ? "https://spital.com.br"
-    : "*"
-      
+  process.env.NODE_ENV === "production" ? "https://spital.com.br" : "*";
 
 const routes = require("./routes");
 
